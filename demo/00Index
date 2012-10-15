@@ -1,0 +1,5 @@
+a_reductions	pbdDMAT		rowSums, colSums, and the like.
+b_matprod	pbdDMAT		Matrix product.
+c_solve		pbdDMAT		Matrix inversion and solving systems of equations.
+d_svd		pbdDMAT		Singular value decomposition.
+e_cholesky	pbdDMAT		Cholesky factorization.

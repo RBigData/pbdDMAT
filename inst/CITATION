@@ -1,0 +1,28 @@
+citHeader("To cite pbdDMAT in a publication use:")
+
+citEntry(
+  entry = "Misc",
+  title = "pbdDMAT: Programming with Big Data -- Distributed Matrix Algebra Computation",
+  author = personList(as.person("Drew Schmidt"),
+                      as.person("Wei-Chen Chen"),
+                      as.person("George Ostrouchov"),
+                      as.person("Pragneshkumar Patel")),
+  year = "2012",
+  note = "R Package",
+  url = "http://cran.r-project.org/package=pbdDMAT",
+  textVersion = "Schmidt, D., Chen, W.-C., Ostrouchov, G., and Patel, P. (2012) pbdDMAT: Distributed Matrix Algebra Computation. R Package, URL http://cran.r-project.org/package=pbdDMAT"
+)
+
+citEntry(
+  entry = "Manual",
+  title = "A Quick Guide for the pbdDMAT Package",
+  author = personList(as.person("Drew Schmidt"),
+                      as.person("Wei-Chen Chen"),
+                      as.person("George Ostrouchov"),
+                      as.person("Pragneshkumar Patel")),
+  year = "2012",
+  note = "R Vignette",
+  url = "http://cran.r-project.org/package=pbdDMAT",
+  textVersion = "Schmidt, D., Chen, W.-C., Ostrouchov, G., and Patel, P. (2012) A Quick Guide for the pbdDMAT Package. R Vignette, URL http://cran.r-project.org/package=pbdDMAT"
+)
+

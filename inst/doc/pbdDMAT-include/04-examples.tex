@@ -1,0 +1,87 @@
+\section[]{An Example}\label{secex}
+\addcontentsline{toc}{section}{\thesection. An Example}
+
+Let's take a look at some example code.  Here, we will do some distributed matrix multiplication, as well as solving some systems of equations.  You probably should not use a large process grid for this problem.  Anything bigger than $8\times 8$ is \emph{massive} overkill.  A $2\times 2$, $2\times 4$, or $4\times 4$ process grid (4, 8, or 16 processes respectively) should be more than plenty --- so a humble laptop or desktop should more than suffice.  You've got to crawl before you can drag race.
+\np
+Throughout, we will preface distributed objects by a $d$, purely for pedagogical reasons.  Non-distributed objects will not have any preface.  So \code{x} is not distributed, but \code{dx} is.
+\np
+To convince you that this new stuff is really doing the same things as the old stuff, we are going to randomly generate a $500\times 500$ matrix on process 0, and then distribute that matrix across the process grid, using a $32\times 32$ blocking dimension.  If you are using more than 4 processes, you might consider backing that off to $16\times 16$, but it's not really necessary; remember, the purpose here is to learn.
+
+\begin{lstlisting}[language=rr,title=Generating Test Data]
+init.grid() 
+
+# Number of rows and columns to generate
+nrows <- 5e2
+ncols <- 5e2
+
+mn <- 10
+sdd <- 100
+
+# ScaLAPACK blocking dimension
+bldim <- c(4, 4)
+
+# Generate data on process 0, then distribute to the others
+if (comm.rank()==0) {
+   x <- matrix(rnorm(n=nrows*ncols, mean=mn, sd=sdd), nrow=nrows, ncol=ncols)
+   b <- matrix(rnorm(n=ncols*2, mean=mn, sd=sdd), nrow=ncols, ncol=2)
+} else {
+  x <- NULL  
+  b <- NULL
+}
+
+dx <- as.ddmatrix(x=x, bldim=bldim)
+db <- as.ddmatrix(x=b, bldim=bldim)
+
+# continued in the next block of code ...
+\end{lstlisting}
+
+All of this information is covered in the \pkg{pbdBASE} documentation and vignette~\citep{Schmidt2012pbdBASEvignette}, and while all of the above code is in \pkg{pbdBASE}, it is good to go over this process again:
+\begin{itemize}
+ \item \textbf{Load the package} with \code{library(pbdDMAT)}
+ \item \textbf{Use \code{init.grid()} to initialize the process grid} and MPI communicator(s).  You can optionally specify \code{nprow=} for the number of process rows here, and \code{npcol=} for the number of process columns.  Not specifying means that the function will choose the ``best'' option for you, meaning a grid that is as close to square as possible for the number of processors you have given it.
+ \item \textbf{Generate the $500\times 500$ ordinary non-distributed \proglang{R} matrix} of random normal data with mean 10 and sd 100 on process 0.  Here, we use the \pkg{pbdMPI} function \code{comm.rank()} to make sure that only process 0 generates the data.  The other processes store \code{NULL} in \code{x}.  Likewise, we do the same for the $500\times 2$ vector \code{b}/\code{db}, the ``right hand sides'' for the systems we will be solving.
+ \item \textbf{Distribute the data} from process 0 and store it as a distributed matrix named \code{dx}.  Here we specify a blocking dimension of 32, so really $32\times 32$.  ScaLAPACK and PBLAS routines usually require square blocking, so while we could block in many other ways, like $32\times 16$, this may not be a good plan.   Whenever the \code{bldim=} option is present, specifying only a single integer \code{n} will always be equivalent to specifying \code{c(n, n)}.
+\end{itemize}
+
+Before continuing, it is good to reiterate that this is not an efficient way to do business if you are using many processes.  You need to use multiple processes to either read in the matrix into pieces from disk in parallel, or you need to do random generation in parallel using multiple (perhaps all) processes.
+\np
+Now that we have our data and have dealt with the \pkg{pbdBASE} side of things, it's pure easy street from here.  Now we just forget that there is anything distributed at all going on and write our code exactly as we would with plain, vanilla \proglang{R}.
+\np
+First, we will multiply the transpose of \code{dx} and calculate the inverse of this product, storing the result in \code{dx_inv}.  Finally, we solve the system of equations with two right hand sides \code{dx_inv * solns = db}.
+
+\begin{lstlisting}[language=rr,title=Simple Matrix Operations]
+# Computations in parallel
+dx_inv <- solve( t(dx) %*% dx )
+solns <- solve(dx_inv, db)
+
+# continued in the next block of code ...
+\end{lstlisting}
+
+Notice that we're doing matrix computations just the same way you would with vanilla \proglang{R}.  And to prove that it really is the same, we can undistribute our results and ``check our work'':
+
+\begin{lstlisting}[language=rr,title=Comparing Results to \proglang{R}]
+# Undistribute solutions to process 0
+pbd_dx_inv <- as.matrix(dx_inv, proc.dest=0)
+pbd_solns <- as.matrix(solns, proc.dest=0)
+
+# Compare our solution with R's --- not in parallel
+if (comm.rank()==0) {
+  r_x_inv <- solve( t(x) %*% x )
+  r_solns <- solve(r_x_inv, b)
+  
+  print(all.equal(pbd_dx_inv, r_x_inv))
+  print(all.equal(pbd_solns, r_solns))
+}
+
+# shut down the MPI communicators
+finalize()
+\end{lstlisting}
+
+The above script is in the \pkg{pbdDMAT} directory, located at \code{inst/examples/dmat_vignette_eg.R}.  To run the code, you would make a batch execution call.  Say you have 4 processors you wish to use for this analysis.  Then you could execute the script via the command:
+
+\begin{lstlisting}
+# replace the 4 below with hoever many processors you actually want to use
+mpirun -np 4 Rscript dmat_vignette_eg.R
+\end{lstlisting}
+
+from a terminal.  If everything works correctly, then two \code{TRUE}'s will print to the terminal.

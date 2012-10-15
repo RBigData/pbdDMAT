@@ -1,0 +1,23 @@
+Package: pbdDMAT
+Title: Programming with Big Data -- Distributed Matrix Computation
+Version: 0.1-0
+Date: 2012-10-02
+Depends: R (>= 2.15.0), methods, rlecuyer, pbdMPI (>= 0.1-1), pbdSLAP,
+        Rcpp (>= 0.9.10), pbdBASE
+Authors@R: c(person("Drew", "Schmidt", role = c("aut", "cre"), email =
+        "schmidt@math.utk.edu"), person("Wei-Chen", "Chen", role =
+        "aut"), person("George", "Ostrouchov", role = "aut"),
+        person("Pragneshkumar", "Patel", role = "aut"))
+Description: pbdDMAT is a package for distributed matrix algebra
+        computations over MPI to BLACS, PBLAS, and ScaLAPACK via pbdMPI,
+        pbdSLAP, and pbdBASE.
+SystemRequirements: OpenMPI (>= 1.5.4) on Solaris, Linux and Mac,
+        MPICH2 (>= 1.4.1p1) on Windows
+License: GPL (>= 2)
+URL: http://r-pbd.org/
+Packaged: 2012-10-08 19:51:11 UTC; mschmid3
+Author: Drew Schmidt [aut, cre],
+  Wei-Chen Chen [aut],
+  George Ostrouchov [aut],
+  Pragneshkumar Patel [aut]
+Maintainer: Drew Schmidt <schmidt@math.utk.edu>

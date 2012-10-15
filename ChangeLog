@@ -1,0 +1,15 @@
+
+======================= Log Before Release =====================================
+2012-10-02:
+  * Prepare for the first submission.
+
+2012-08-21:
+  * Delete configure.ac and use RmpiSPMD:::LdFlags() and others.
+  * Rename to 'pbdDMAT'.
+
+2012-08-13:
+  * Link with RmpiSLAP.
+  * Add guide, man pages, installation, ...
+
+2012-07-xx:
+  * Add BLACS, PBLAS, ScaLAPACK.

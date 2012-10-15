@@ -1,0 +1,25 @@
+useDynLib(pbdDMAT)
+import(methods, rlecuyer, pbdMPI, pbdSLAP, Rcpp, pbdBASE)
+
+# All internal functions
+exportPattern("^dmat\\.[[:alpha:]]+")
+
+exportMethods("median", "apply")
+
+export(
+  # Arithmetic
+  "+", "-", "*", "/", "^", "%%", "%/%",
+  # Algebra
+  t, "%*%",
+  solve, La.svd, svd, lu, chol,
+  # Math
+  abs, sqrt, log, log2, log10, log1p, round, ceiling, floor,
+  # Principal Components
+  scale, prcomp, diag,
+  # Covariance
+  cov,
+  # Reductions
+  sum, mean, prod, rowSums, colSums, rowMeans, colMeans,
+  # *ply
+  apply
+)

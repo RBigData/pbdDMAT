@@ -1,0 +1,24 @@
+### Rscript
+R_SCMD = ${R_HOME}/bin${R_ARCH_BIN}/Rscript -e
+
+### Get Rcpp information.
+RCPP_CXXFLAGS = $(shell ${R_SCMD} "cat(Rcpp:::Rcpp.system.file(\"include\"))")
+RCPP_LDFLAGS = $(shell ${R_SCMD} "Rcpp:::LdFlags(TRUE)")
+
+### Setup R package flags and substitute by configure for ${MPI_...}.
+PKG_CXXFLAGS = -I"$(RCPP_CXXFLAGS)"
+PKG_LIBS = "$(RCPP_LDFLAGS)"
+
+### Setup R source code and objects.
+R_SRCS_CXX = $(wildcard *.cpp)
+R_OBJS = $(R_SRCS_CXX:.cpp=.o)
+OBJECTS = $(R_OBJS)
+
+### Start making here.
+all: $(SHLIB)
+
+$(SHLIB): $(OBJECTS)
+
+clean:
+	@rm -rf *.o *.d *.rc *.so *.dll *.dylib *.a *.lib \
+                Makedeps Makevars $(SHLIB) $(OBJECTS)

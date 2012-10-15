@@ -1,0 +1,4 @@
+\section[]{Using the \pkg{pbdDMAT} Package}
+\addcontentsline{toc}{section}{\thesection. Using the \pkg{pbdDMAT} Package}
+
+Most of the difficulty in using \pkg{pbdDMAT} --- creating and manipulating the distributed data type --- actually lies in \pkg{pbdBASE}.  Therefore we consider it crucial that the user of \pkg{pbdDMAT} read, at the least, the first few sections of the \pkg{pbdDMAT} vignette.  Once the \pkg{pbdBASE} issues are handled, generally the user can just call \code{ddmatrix} methods exactly as he/she would with ordinary \proglang{R} matrices.  So if the user wants to compute the singular value decomposition in parallel on a distributed matrix, the call is the same as if the user wants the singular value decomposition in serial of an ordinary \proglang{R} matrix.  Some functions have extra headaches over their \proglang{R} counterparts, such as \code{apply()}, but every consideration has been taken to minimize the occurrence of these.
