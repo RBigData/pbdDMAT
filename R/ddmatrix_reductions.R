@@ -101,10 +101,10 @@ setMethod("mean", signature(x="ddmatrix"),
   {
     if (na.rm) 
         x@Data <- matrix(x@Data[!is.na(x@Data)])
-    if (!is.numeric(trim) || length(trim) != 1L) {
-      comm.print("'trim' must be numeric of length one")
-      stop("")
-    }
+#    if (!is.numeric(trim) || length(trim) != 1L) {
+#      comm.print("'trim' must be numeric of length one")
+#      stop("")
+#    }
     if (!base.ownany(x@dim, x@bldim, x@CTXT))
       n <- 0
     else

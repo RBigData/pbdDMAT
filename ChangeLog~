@@ -1,5 +1,5 @@
 2012-10-24:
-  * Added wrappers for lm.fit() and qr functions.
+  * Wrappers for lm.fit() and qr functions.
 
 ======================= Log Before Release =====================================
 2012-10-02:
