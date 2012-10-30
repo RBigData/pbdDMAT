@@ -1,5 +1,6 @@
-2012-10-29:
+2012-10-30:
   * Fixed whining about qr-function generics.
+  * Added some documentation.
 
 2012-10-24:
   * Added wrappers for lm.fit() and qr functions.
