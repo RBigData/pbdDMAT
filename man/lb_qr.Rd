@@ -7,20 +7,20 @@
 \alias{qr}
 
 \alias{qr.Q-method}
-\alias{qr.Q,ddmatrix-method}
+\alias{qr.Q,ANY-method}
 \alias{qr.Q}
 
 \alias{qr.R-method}
-\alias{qr.R,ddmatrix-method}
+\alias{qr.R,ANY-method}
 \alias{qr.R}
 
 \alias{qr.qy-method}
-\alias{qr.qy,ddmatrix-method}
+\alias{qr.qy,ANY-method}
 \alias{qr.qy}
 
-\alias{qtr.qy-method}
-\alias{qtr.qy,ddmatrix-method}
-\alias{qtr.qy}
+\alias{qr.qty-method}
+\alias{qr.qty,ANY-method}
+\alias{qr.qty}
 
 \title{ QR Decomposition Methods }
 \description{
@@ -37,21 +37,42 @@
 \section{Methods}{
 \describe{
 \item{\code{signature(x = "ddmatrix")}}{}
+\item{\code{signature(x = "ANY")}}{}
 }
 }
 \usage{
   \S4method{qr}{ddmatrix}(x, tol = 1e-07)
+  \S4method{qr.Q}{ANY}(qr, complete = FALSE,  Dvec = rep.int(if (cmplx) 1 + 
+  (0+0i) else 1, if (complete) dqr[1] else min(dqr)))
+  \S4method{qr.R}{ANY}(qr, complete = FALSE)
+  \S4method{qr.qy}{ANY}(qr, y)
+  \S4method{qr.qty}{ANY}(qr, y)
 }
 \arguments{
-  \item{x, y}{numeric distributed matrices}
+  \item{x, y}{numeric distributed matrices.}
   \item{tol}{logical value, determines whether or not columns are
-  zero centered}
+  zero centered.}
+  \item{qr}{list, return from \code{qr()}.}
+  \item{complete}{logical expression of length 1.  Indicates whether
+  an arbitrary orthogonal completion of the Q or X matrices is to
+  be made, or whether the R matrix is to be completed by
+  binding zero-value rows beneath the square upper triangle.}
+  \item{Dvec}{Not implemented for objects of class \code{ddmatrix}.
+  vector (not matrix) of diagonal values.  Each column of the
+  returned Q will be multiplied by the corresponding diagonal
+  value.  Defaults to all ‘1’s.}
 }
 \details{
-  .
+  Functions for forming a QR decomposition and for using the outputs
+  of these numerical QR routines.
 }
 \value{
-  Returns a distributed matrix.
+  \code{qr()} returns a list consisting of:
+    \code{qr} - 
+    \code{rank} - calculated numerical rank,
+    \code{tau} - 
+    \code{pivot} - 
+    \code{"class"} - attribute "qr".
 }
 \seealso{
   \code{\link{lm.fit}}
