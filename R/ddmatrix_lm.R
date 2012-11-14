@@ -12,8 +12,8 @@ setMethod("qr", signature(x="ddmatrix"),
 )
 
 
-setMethod("qr.Q", signature(qr="ANY"), 
-  function(qr, complete = FALSE,  Dvec = rep.int(if (cmplx) 1 + (0+0i) else 1, if (complete) dqr[1] else min(dqr))) 
+#setMethod("qr.Q", signature(qr="qr"), 
+ANY.Q <- function(qr, complete = FALSE,  Dvec = rep.int(if (cmplx) 1 + (0+0i) else 1, if (complete) dqr[1] else min(dqr))) 
   {
     if (is.ddmatrix(qr$qr)){
       # complete/Dvec options
@@ -26,7 +26,7 @@ setMethod("qr.Q", signature(qr="ANY"),
     
     return( ret )
   }
-)
+#)
 
 
 setMethod("qr.R", signature(qr="ANY"), 

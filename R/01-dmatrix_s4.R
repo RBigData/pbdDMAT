@@ -10,25 +10,25 @@ setGeneric(name = "lm.fit", useAsDefault = lm.fit)
 
 setGeneric(name = "qr", useAsDefault = qr)
 
-setGeneric(name="qr.Q", 
-  function(qr, ...)
-    standardGeneric("qr.Q")
-)
+#setGeneric(name="qr.Q", 
+#  function(qr, ...)
+#    standardGeneric("qr.Q")
+#)
 
-setGeneric(name="qr.R", 
-  function(qr, ...)
-    standardGeneric("qr.R")
-)
+#setGeneric(name="qr.R", 
+#  function(qr, ...)
+#    standardGeneric("qr.R")
+#)
 
-setGeneric(name="qr.qy", 
-  function(qr, ...)
-    standardGeneric("qr.qy")
-)
+#setGeneric(name="qr.qy", 
+#  function(qr, ...)
+#    standardGeneric("qr.qy")
+#)
 
-setGeneric(name="qr.qty", 
-  function(qr, ...)
-    standardGeneric("qr.qty")
-)
+#setGeneric(name="qr.qty", 
+#  function(qr, ...)
+#    standardGeneric("qr.qty")
+#)
 
 # Reductions
 setGeneric(name = "diag", useAsDefault = diag)

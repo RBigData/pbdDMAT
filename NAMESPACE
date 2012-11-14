@@ -5,7 +5,7 @@ import(methods, rlecuyer, pbdMPI, pbdSLAP, Rcpp, pbdBASE)
 exportPattern("^dmat\\.[[:alpha:]]+")
 
 exportMethods("median", "apply", 
-              "qr", "qr.Q", "qr.R", "qr.qty", "qr.qy",
+              "qr",# "qr.Q", "qr.R", "qr.qty", "qr.qy",
               "lm.fit")
 
 export(
@@ -25,6 +25,6 @@ export(
   # *ply
   apply,
   # lm
-  qr, qr.Q, qr.R, qr.qty, qr.qy,
+#  qr, qr.Q, qr.R, qr.qty, qr.qy,
   lm.fit
 )

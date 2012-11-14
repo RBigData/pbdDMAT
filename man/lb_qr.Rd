@@ -60,7 +60,7 @@
   \item{Dvec}{Not implemented for objects of class \code{ddmatrix}.
   vector (not matrix) of diagonal values.  Each column of the
   returned Q will be multiplied by the corresponding diagonal
-  value.  Defaults to all ‘1’s.}
+  value.  Defaults to all 1's.}
 }
 \details{
   Functions for forming a QR decomposition and for using the outputs
