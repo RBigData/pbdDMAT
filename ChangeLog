@@ -1,3 +1,5 @@
+2012-11-21:
+  * Fixed QR methods.
 2012-10-30:
   * Fixed whining about qr-function generics.
   * Added some documentation.
