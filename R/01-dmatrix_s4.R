@@ -8,7 +8,7 @@ setGeneric(name = "sweep", useAsDefault = sweep)
 
 setGeneric(name = "lm.fit", useAsDefault = lm.fit)
 
-setGeneric(name = "qr", useAsDefault = qr)
+#setGeneric(name = "qr", useAsDefault = qr)
 
 #setGeneric(name="qr.Q", 
 #  function(qr, ...)

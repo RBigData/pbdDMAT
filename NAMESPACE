@@ -1,11 +1,12 @@
 useDynLib(pbdDMAT)
+
 import(methods, rlecuyer, pbdMPI, pbdSLAP, Rcpp, pbdBASE)
 
 # All internal functions
 exportPattern("^dmat\\.[[:alpha:]]+")
 
 exportMethods("median", "apply", 
-              "qr",# "qr.Q", "qr.R", "qr.qty", "qr.qy",
+              "qr", "qr.Q", "qr.R", "qr.qty", "qr.qy",
               "lm.fit")
 
 export(
@@ -21,10 +22,10 @@ export(
   # Covariance
   cov,
   # Reductions
-  sum, mean, prod, rowSums, colSums, rowMeans, colMeans,
+  sum, mean, prod, rowSums, colSums, rowMeans, colMeans
   # *ply
-  apply,
+#  apply,
   # lm
 #  qr, qr.Q, qr.R, qr.qty, qr.qy,
-  lm.fit
+#  lm.fit
 )

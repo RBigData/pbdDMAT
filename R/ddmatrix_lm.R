@@ -5,28 +5,29 @@
 setMethod("qr", signature(x="ddmatrix"), 
   function (x, tol = 1e-07)
   {
-    ret <- base.rpdgeqrf(x=x, tol=tol)
+    ret <- base.rpdgeqpf(x=x, tol=tol)
     
     return( ret )
   }
 )
 
 
-#setMethod("qr.Q", signature(qr="qr"), 
-ANY.Q <- function(qr, complete = FALSE,  Dvec = rep.int(if (cmplx) 1 + (0+0i) else 1, if (complete) dqr[1] else min(dqr))) 
-  {
-    if (is.ddmatrix(qr$qr)){
-      # complete/Dvec options
-      ret <- base.pdorgqr(qr=qr)
-    } else {
-      dqr <- dim(qr$qr)
-      cmplx <- mode(qr$qr) == "complex"
-      ret <- base::qr.Q(qr=qr, complete=complete, Dvec=Dvec)
-    }
-    
-    return( ret )
+setMethod("qr.Q", signature(qr="ANY"), 
+#qr.Q <- 
+  function(qr, complete = FALSE,  Dvec = rep.int(if (cmplx) 1 + (0+0i) else 1, if (complete) dqr[1] else min(dqr))) 
+    {
+      if (is.ddmatrix(qr$qr)){
+        # complete/Dvec options
+        ret <- base.pdorgqr(qr=qr)
+      } else {
+        dqr <- dim(qr$qr)
+        cmplx <- mode(qr$qr) == "complex"
+        ret <- base:::qr.Q(qr=qr, complete=complete, Dvec=Dvec)
+      }
+      
+      return( ret )
   }
-#)
+)
 
 
 setMethod("qr.R", signature(qr="ANY"), 
