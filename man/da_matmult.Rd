@@ -23,8 +23,14 @@
   \item{x, y}{numeric distributed matrices}
 }
 \details{
-  \code{x} and \code{y} must be conformable, on the same BLACS context, and 
-  blocked with the same blocking dimension.
+  \code{x} and \code{y} must be conformable, on the same BLACS context, but 
+  they need not be blocked with the same blocking dimension. The 
+  return will default to the blocking dimension of \code{x}.
+  
+  If you need to use \code{x} and \code{y} with differing 
+  blocking dimensions and you want the return to have blocking
+  different from that of \code{x}, then use the function 
+  \code{base.rpdgemm(x, y, outbldim)}
 }
 \value{
   Returns a distributed matrix.

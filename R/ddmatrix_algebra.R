@@ -6,12 +6,17 @@ setMethod("t", signature(x="ddmatrix"),
 setMethod("%*%", signature(x="ddmatrix", y="ddmatrix"),
   function(x, y)
   {
-    if (x@dim[2] != y@dim[1]){
+    if (x@dim[2L] != y@dim[1L]){
       pbdMPI::comm.print("Error : non-conformable arguments.")
       stop("")
     }
-    base.checkem(x=x, y=y, checks=2:3)
-    return( base.pdgemm(a=x, b=y) )
+    
+    base.checkem(x=x, y=y, checks=2)
+    
+    if (length(bldim)==1L)
+      bldim <- rep(bldim, 2L)
+    
+    return( base.rpdgemm(x=x, y=y, outbldim=x@bldim) )
   }
 )
 
