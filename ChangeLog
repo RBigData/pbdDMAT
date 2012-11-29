@@ -1,5 +1,8 @@
+pbdDMAT 0.1-1 (2012-11-29) ----------------------------------------------------
+
 2012-11-29:
   * Added simple var() and sd() wrappers for ddmatrix.
+  * Changed dispatch of qr.* functions to avoid WARNING in R CMD check.
 
 2012-11-21:
   * Fixed QR methods.

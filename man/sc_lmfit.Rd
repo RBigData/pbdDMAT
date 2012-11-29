@@ -85,8 +85,8 @@ init.grid()
 x <- matrix(rnorm(9), 3)
 y <- matrix(rnorm(3))
 
-x <- as.ddmatrix(x)
-y <- as.ddmatrix(y)
+dx <- as.ddmatrix(x)
+dy <- as.ddmatrix(y)
 
 fit <- lm.fit(x=dx, y=dy)
 
