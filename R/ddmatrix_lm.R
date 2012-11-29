@@ -12,10 +12,11 @@ setMethod("qr", signature(x="ddmatrix"),
 )
 
 
-setMethod("qr.Q", signature(qr="ANY"), 
-#qr.Q <- 
-  function(qr, complete = FALSE,  Dvec = rep.int(if (cmplx) 1 + (0+0i) else 1, if (complete) dqr[1] else min(dqr))) 
+setMethod("qr.Q", signature(x="ANY"), 
+  function(x, complete = FALSE,  Dvec = rep.int(if (cmplx) 1 + (0+0i) else 1, if (complete) dqr[1] else min(dqr))) 
     {
+      qr <- x
+      
       if (is.ddmatrix(qr$qr)){
         # complete/Dvec options
         ret <- base.pdorgqr(qr=qr)
@@ -30,9 +31,11 @@ setMethod("qr.Q", signature(qr="ANY"),
 )
 
 
-setMethod("qr.R", signature(qr="ANY"), 
-  function(qr, complete = FALSE) 
+setMethod("qr.R", signature(x="ANY"), 
+  function(x, complete = FALSE) 
   {
+    qr <- x
+    
     if (is.ddmatrix(qr$qr)){
       ret <- base.qr.R(qr=qr, complete=complete)
     } else {
@@ -44,9 +47,11 @@ setMethod("qr.R", signature(qr="ANY"),
 )
 
 
-setMethod("qr.qy", signature(qr="ANY"), 
-  function(qr, y)
+setMethod("qr.qy", signature(x="ANY"), 
+  function(x, y)
   {
+    qr <- x
+    
     if (is.ddmatrix(qr$qr)){
       ret <- base.pdormqr(qr=qr, y=y, side='L', trans='N')
     } else {
@@ -58,9 +63,11 @@ setMethod("qr.qy", signature(qr="ANY"),
 )
 
 
-setMethod("qr.qty", signature(qr="ANY"), 
-  function(qr, y)
+setMethod("qr.qty", signature(x="ANY"), 
+  function(x, y)
   {
+    qr <- x
+    
     if (is.ddmatrix(qr$qr)){
       ret <- base.pdormqr(qr=qr, y=y, side='L', trans='T')
     } else {
@@ -70,6 +77,7 @@ setMethod("qr.qty", signature(qr="ANY"),
     return( ret )
   }
 )
+
 
 # ---------------------------------------------------------
 # lm.fit

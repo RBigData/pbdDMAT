@@ -189,6 +189,3 @@ setMethod("median", signature(x="ddmatrix"),
   }
 )
 
-
-
-

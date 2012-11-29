@@ -5,9 +5,11 @@ import(methods, rlecuyer, pbdMPI, pbdSLAP, Rcpp, pbdBASE)
 # All internal functions
 exportPattern("^dmat\\.[[:alpha:]]+")
 
-exportMethods("median", "apply", 
-              "qr", "qr.Q", "qr.R", "qr.qty", "qr.qy",
-              "lm.fit")
+exportMethods(
+  "median", "apply",
+  "qr", "qr.Q", "qr.R", "qr.qty", "qr.qy",
+  "lm.fit"
+)
 
 export(
   # Arithmetic
@@ -20,12 +22,7 @@ export(
   # Principal Components
   scale, prcomp, diag,
   # Covariance
-  cov,
+  var, cov, sd,
   # Reductions
   sum, mean, prod, rowSums, colSums, rowMeans, colMeans
-  # *ply
-#  apply,
-  # lm
-#  qr, qr.Q, qr.R, qr.qty, qr.qy,
-#  lm.fit
 )

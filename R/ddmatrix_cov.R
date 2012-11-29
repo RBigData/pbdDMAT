@@ -74,3 +74,61 @@ function (x, y = NULL, use = "everything", method = "pearson")
   }
 )
 
+
+# Much of this wrapper taken from core R's var function
+setMethod("var", signature(x="ddmatrix"),
+function (x, y = NULL, na.rm = FALSE, use) 
+  {
+    if (missing(use)) {
+      if (na.rm) 
+        use <- "na.or.complete"
+      else 
+        use <- "everything"
+    }
+    
+    na.method <- pmatch(use, c("all.obs", "complete.obs", "pairwise.complete.obs", "everything", "na.or.complete"))
+    if (is.na(na.method)) 
+        stop("invalid 'use' argument")
+    
+    ret <- cov(x, y, na.method, FALSE)
+    
+    return( ret )
+  }
+)
+
+
+
+setMethod("sd", signature(x="ddmatrix"),
+function (x, na.rm = FALSE, reduce = FALSE, proc.dest="all") 
+  {
+    if (na.rm)
+      x <- na.exclude(x)
+    
+    sdv <- .Call("R_DDMATVAR", 
+                  x@Data, as.integer(x@dim[1]), 
+                  as.integer(x@ldim[1]), as.integer(x@ldim[2]), 
+                  as.integer(x@CTXT),
+                  PACKAGE="pbdBASE")
+    
+    sdv <- matrix(sqrt(sdv), nrow=1)
+    
+    ret <- new("ddmatrix", 
+               Data=sdv, dim=c(1, x@dim[2]), 
+               ldim=dim(sdv), bldim=x@bldim, CTXT=x@CTXT)
+    
+    if (reduce)
+      ret <- as.vector(x=ret, proc.dest=proc.dest)
+    
+    return( ret )
+  }
+)
+
+setMethod("sd", signature(x="ANY"), 
+  function(x, na.rm = FALSE) 
+    stats::sd(x=x, na.rm=na.rm)
+)
+
+
+
+
+

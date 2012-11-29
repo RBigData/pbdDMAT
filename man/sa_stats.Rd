@@ -2,6 +2,15 @@
 \alias{stats}
 \docType{methods}
 
+\alias{sd-method}
+\alias{sd,ddmatrix-method}
+\alias{sd,ANY-method}
+\alias{sd}
+
+\alias{var-method}
+\alias{var,ddmatrix-method}
+\alias{var}
+
 \alias{cov-method}
 \alias{cov,ddmatrix-method}
 \alias{cov}
@@ -29,6 +38,9 @@
 }
 }
 \usage{
+  \S4method{sd}{ddmatrix}(x, na.rm = FALSE, reduce = FALSE, proc.dest="all")
+  \S4method{sd}{ANY}(x, na.rm = FALSE) 
+  \S4method{var}{ddmatrix}(x, y = NULL, na.rm = FALSE, use)
   \S4method{cov}{ddmatrix}(x, y = NULL, use = "everything", method = 
   "pearson")
   \S4method{scale}{ddmatrix}(x, center = TRUE, scale = TRUE)
@@ -36,9 +48,19 @@
   scale. = FALSE, tol = NULL)
 }
 \arguments{
-  \item{x, y}{numeric distributed matrices}
-  \item{use}{.}
-  \item{method}{.}
+  \item{x, y}{numeric distributed matrices.}
+  \item{na.rm}{logical, determines whether or not \code{NA}'s should 
+  be dealth with.}
+  \item{reduce}{logical or string. See details}
+  \item{proc.dest}{Destination process (or 'all') if a 
+  reduction occurs}
+  \item{use}{character indicating how missing values should be treated.
+  Acceptable values are the same as \code{R}'s, namely "everything",
+  "all.obs", "complete.obs", "na.or.complete", or 
+  "pairwise.complete.obs".}
+  \item{method}{character argument indicating which method should 
+  be used to calculate covariances. Currently only "spearman" is 
+  available for \code{ddmatrix}.}
   \item{center}{logical value, determines whether or not columns are
   zero centered}
   \item{scale, scale.}{logical value, determines whether or not columns 
@@ -54,6 +76,18 @@
   which would omit essentially constant components}
 }
 \details{
+  \code{sd()} will compute the standard deviations of the columns, 
+  equivalent to calling \code{apply(x, MARGIN=2, FUN=sd)} (which 
+  will work for distributed matrices, by the way). However, this 
+  should be much faster and use less memory than \code{apply()}.
+  If \code{reduce=FALSE} then the return is a distributed matrix 
+  consisting of one (global) row; otherwise, an \code{R} vector 
+  is returned, with ownership of this vector determined by 
+  \code{proc.dest}.
+  
+  \code{var()} is a shallow wrapper for \code{cov()} in the case of 
+  a distributed matrix.
+  
   \code{cov()} forms the variance-covariance matrix. Only 
   \code{method="pearson"} is implemented at this time.
   

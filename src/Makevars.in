@@ -4,7 +4,7 @@ RCPP_LDFLAGS = @RCPP_LDFLAGS@
 
 ### Setup R package flags and substitute by configure for ${MPI_...}.
 PKG_CXXFLAGS = $(RCPP_CXXFLAGS)
-PKG_LIBS = $(RCPP_LDFLAGS) 
+PKG_LIBS = $(RCPP_LDFLAGS)
 
 ### Setup R source code and objects.
 R_OBJS = dmat_utility.o

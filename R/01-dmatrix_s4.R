@@ -1,6 +1,7 @@
 ### S4 methods.
 
 # Stats
+setGeneric(name = "var", useAsDefault = var)
 setGeneric(name = "cov", useAsDefault = cov)
 setGeneric(name = "prcomp", useAsDefault = prcomp)
 setGeneric(name = "scale", useAsDefault = scale)
@@ -10,25 +11,35 @@ setGeneric(name = "lm.fit", useAsDefault = lm.fit)
 
 #setGeneric(name = "qr", useAsDefault = qr)
 
-#setGeneric(name="qr.Q", 
-#  function(qr, ...)
-#    standardGeneric("qr.Q")
-#)
+setGeneric(name="qr", 
+  function(x, ...)
+    standardGeneric("qr"),
+  package="pbdDMAT"
+)
 
-#setGeneric(name="qr.R", 
-#  function(qr, ...)
-#    standardGeneric("qr.R")
-#)
+setGeneric(name="qr.Q", 
+  function(x, ...)
+    standardGeneric("qr.Q"),
+  package="pbdDMAT"
+)
 
-#setGeneric(name="qr.qy", 
-#  function(qr, ...)
-#    standardGeneric("qr.qy")
-#)
+setGeneric(name="qr.R", 
+  function(x, ...)
+    standardGeneric("qr.R"),
+  package="pbdDMAT"
+)
 
-#setGeneric(name="qr.qty", 
-#  function(qr, ...)
-#    standardGeneric("qr.qty")
-#)
+setGeneric(name="qr.qy", 
+  function(x, ...)
+    standardGeneric("qr.qy"),
+  package="pbdDMAT"
+)
+
+setGeneric(name="qr.qty", 
+  function(x, ...)
+    standardGeneric("qr.qty"),
+  package="pbdDMAT"
+)
 
 # Reductions
 setGeneric(name = "diag", useAsDefault = diag)
@@ -38,6 +49,12 @@ setGeneric(name = "rowSums", useAsDefault = rowSums)
 setGeneric(name = "colSums", useAsDefault = colSums)
 setGeneric(name = "rowMeans", useAsDefault = rowMeans)
 setGeneric(name = "colMeans", useAsDefault = colMeans)
+
+setGeneric(name="sd", 
+  function(x, ...)
+    standardGeneric("sd"),
+  package="pbdDMAT"
+)
 
 # Algebra
 setGeneric(name = "t", useAsDefault = t)

@@ -42,17 +42,17 @@
 }
 \usage{
   \S4method{qr}{ddmatrix}(x, tol = 1e-07)
-  \S4method{qr.Q}{ANY}(qr, complete = FALSE,  Dvec = rep.int(if (cmplx) 1 + 
+  \S4method{qr.Q}{ANY}(x, complete = FALSE,  Dvec = rep.int(if (cmplx) 1 + 
   (0+0i) else 1, if (complete) dqr[1] else min(dqr)))
-  \S4method{qr.R}{ANY}(qr, complete = FALSE)
-  \S4method{qr.qy}{ANY}(qr, y)
-  \S4method{qr.qty}{ANY}(qr, y)
+  \S4method{qr.R}{ANY}(x, complete = FALSE)
+  \S4method{qr.qy}{ANY}(x, y)
+  \S4method{qr.qty}{ANY}(x, y)
 }
 \arguments{
-  \item{x, y}{numeric distributed matrices.}
+  \item{x, y}{numeric distributed matrices for \code{qr()}. Otherwise,
+  \code{x} is a list, namely the return from \code{qr()}.}
   \item{tol}{logical value, determines whether or not columns are
   zero centered.}
-  \item{qr}{list, return from \code{qr()}.}
   \item{complete}{logical expression of length 1.  Indicates whether
   an arbitrary orthogonal completion of the Q or X matrices is to
   be made, or whether the R matrix is to be completed by
