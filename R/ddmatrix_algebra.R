@@ -1,6 +1,6 @@
 setMethod("t", signature(x="ddmatrix"),
   function(x)
-    base.pdtran(a=x)
+    base.rpdtran(x=x)
 )
 
 setMethod("%*%", signature(x="ddmatrix", y="ddmatrix"),
@@ -13,9 +13,6 @@ setMethod("%*%", signature(x="ddmatrix", y="ddmatrix"),
     
     base.checkem(x=x, y=y, checks=2)
     
-    if (length(bldim)==1L)
-      bldim <- rep(bldim, 2L)
-    
     return( base.rpdgemm(x=x, y=y, outbldim=x@bldim) )
   }
 )
@@ -24,9 +21,9 @@ setMethod("solve", signature(a="ddmatrix", b="ddmatrix"),
   function(a, b)
   {
     base.checkem(x=a, y=b, checks=2:3)
-    b@Data <- base.rpdgesv(a=a, b=b)
+    ret <- base.rpdgesv(a=a, b=b)
 
-    return(b)
+    return(ret)
   }
 )
 
@@ -56,14 +53,14 @@ setMethod("La.svd", signature(x="ddmatrix"),
     n <- nrow(x)
     p <- ncol(x)
     
-    return( base.rpdgesvd(A=x, nu=nu, nv=nv) )
+    return( base.rpdgesvd(x=x, nu=nu, nv=nv) )
   }
 )
 
 setMethod("svd", signature(x="ddmatrix"), 
   function(x, nu=min(nrow(x), ncol(x)), nv=min(nrow(x), ncol(x)))
   {
-    out <- base.rpdgesvd(A=x, nu=nu, nv=nv)
+    out <- base.rpdgesvd(x=x, nu=nu, nv=nv)
     if (is.ddmatrix(out$vt))
       out$vt <- t(out$vt)
     names(out)[3] <- "v"
@@ -80,7 +77,7 @@ setMethod("chol", signature(x="ddmatrix"),
       stop("")
     }
 
-    x@Data <- base.pdpotrf(a=x)
+    x@Data <- base.rpdpotrf(x=x)
     return( x )
   }
 )

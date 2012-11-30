@@ -56,10 +56,10 @@ function (x, y = NULL, use = "everything", method = "pearson")
     if (method == "pearson") {
         x <- scale(x, scale=FALSE)
         if (is.null(y))
-            ret <- base.rpdgemm(x=base.pdtran(x), y=x) / (nrow(x) - 1)
+            ret <- base.rpdgemm(x=base.rpdtran(x), y=x, outbldim=x@bldim) / (nrow(x) - 1)
         else {
             scale(y, scale=FALSE)
-            ret <- base.rpdgemm(x=base.pdtran(x), y=y) / (nrow(x) - 1)
+            ret <- base.rpdgemm(x=base.rpdtran(x), y=y, outbldim=x@bldim) / (nrow(x) - 1)
         }
     }
     else {

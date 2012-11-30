@@ -19,7 +19,7 @@ setMethod("qr.Q", signature(x="ANY"),
       
       if (is.ddmatrix(qr$qr)){
         # complete/Dvec options
-        ret <- base.pdorgqr(qr=qr)
+        ret <- base.rpdorgqr(qr=qr)
       } else {
         dqr <- dim(qr$qr)
         cmplx <- mode(qr$qr) == "complex"
@@ -53,7 +53,7 @@ setMethod("qr.qy", signature(x="ANY"),
     qr <- x
     
     if (is.ddmatrix(qr$qr)){
-      ret <- base.pdormqr(qr=qr, y=y, side='L', trans='N')
+      ret <- base.rpdormqr(qr=qr, y=y, side='L', trans='N')
     } else {
       ret <- base::qr.qy(qr=qr, y=y)
     }
@@ -69,7 +69,7 @@ setMethod("qr.qty", signature(x="ANY"),
     qr <- x
     
     if (is.ddmatrix(qr$qr)){
-      ret <- base.pdormqr(qr=qr, y=y, side='L', trans='T')
+      ret <- base.rpdormqr(qr=qr, y=y, side='L', trans='T')
     } else {
       ret <- base::qr.qty(qr=qr, y=y)
     }
