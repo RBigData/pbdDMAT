@@ -1,6 +1,6 @@
 Package: pbdDMAT
 Title: Programming with Big Data -- Distributed Matrix Computation
-Version: 0.1-1
+Version: 0.1-2
 Date: 2012-10-02
 Depends: R (>= 2.15.1), methods, rlecuyer, pbdMPI (>= 0.1-1), pbdSLAP,
         Rcpp (>= 0.9.10), pbdBASE (>= 0.1-1)

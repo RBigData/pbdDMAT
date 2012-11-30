@@ -59,7 +59,41 @@ setGeneric(name="sd",
 # Algebra
 setGeneric(name = "t", useAsDefault = t)
 setGeneric(name = "solve", useAsDefault = solve)
-setGeneric(name = "La.svd", useAsDefault = La.svd)
-setGeneric(name = "svd", useAsDefault = svd)
+#setGeneric(name = "La.svd", useAsDefault = La.svd)
+#setGeneric(name = "svd", useAsDefault = svd)
 setGeneric(name = "chol", useAsDefault = chol)
 setGeneric(name = "apply", useAsDefault = apply)
+
+# Games to satisfy codetools' global variable checking --- they don't
+  # always play nice with S4
+setGeneric(name="La.svd", 
+  function(x, ...)
+    standardGeneric("La.svd"),
+  package="pbdDMAT"
+)
+
+setMethod("La.svd", signature(x="ANY"), 
+  function(x, nu = min(n, p), nv = min(n, p)){
+    n <- nrow(x)
+    p <- ncol(x)
+    
+    base::La.svd(x=x, nu=nu, nv=nv)
+  }
+)
+
+setGeneric(name="svd", 
+  function(x, ...)
+    standardGeneric("svd"),
+  package="pbdDMAT"
+)
+
+setMethod("svd", signature(x="ANY"), 
+  function(x, nu = min(n, p), nv = min(n, p), LINPACK = FALSE)
+  {
+    n <- nrow(x)
+    p <- ncol(x)
+    
+    base::svd(x=x, nu=nu, nv=nv, LINPACK=LINPACK)
+  }
+)
+

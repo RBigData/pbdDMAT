@@ -58,9 +58,13 @@ setMethod("La.svd", signature(x="ddmatrix"),
 )
 
 setMethod("svd", signature(x="ddmatrix"), 
-  function(x, nu=min(nrow(x), ncol(x)), nv=min(nrow(x), ncol(x)))
+  function(x, nu=min(n, p), nv=min(n, p))
   {
+    n <- nrow(x)
+    p <- ncol(x)
+    
     out <- base.rpdgesvd(x=x, nu=nu, nv=nv)
+    
     if (is.ddmatrix(out$vt))
       out$vt <- t(out$vt)
     names(out)[3] <- "v"

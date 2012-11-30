@@ -8,9 +8,6 @@ qkmed <- function(vec)
 
 
 
-
-
-
 # Implementation of http://www.umiacs.umd.edu/research/EXPAR/papers/3494/node18.html#SECTION00051000000000000000
 # finds k'th ordered element of the distributed matrix
 # desperately needs to be rewritten in C
