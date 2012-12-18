@@ -8,7 +8,7 @@ citEntry(
                       as.person("George Ostrouchov"),
                       as.person("Pragneshkumar Patel")),
   year = "2012",
-  note = "R Package",
+  note = "{R} Package",
   url = "http://cran.r-project.org/package=pbdDMAT",
   textVersion = "Schmidt, D., Chen, W.-C., Ostrouchov, G., and Patel, P. (2012) pbdDMAT: Distributed Matrix Algebra Computation. R Package, URL http://cran.r-project.org/package=pbdDMAT"
 )
@@ -21,7 +21,7 @@ citEntry(
                       as.person("George Ostrouchov"),
                       as.person("Pragneshkumar Patel")),
   year = "2012",
-  note = "R Vignette",
+  note = "{R} Vignette",
   url = "http://cran.r-project.org/package=pbdDMAT",
   textVersion = "Schmidt, D., Chen, W.-C., Ostrouchov, G., and Patel, P. (2012) A Quick Guide for the pbdDMAT Package. R Vignette, URL http://cran.r-project.org/package=pbdDMAT"
 )
