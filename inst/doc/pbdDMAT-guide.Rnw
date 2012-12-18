@@ -127,6 +127,9 @@ Oak Ridge, TN, USA \\
 \pagenumbering{roman}
 \tableofcontents
 
+%\newpage
+\input{./pbdDMAT-include/01-copyright}
+
 %% include your article here, just as usual
 %% Note that you should use the \pkg{}, \proglang{} and \code{} commands.
 
