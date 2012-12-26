@@ -4,6 +4,7 @@ import(methods, rlecuyer, pbdMPI, pbdSLAP, Rcpp, pbdBASE)
 
 # All internal functions
 exportPattern("^dmat\\.[[:alpha:]]+")
+# exportPattern("^[\\.]")
 
 exportMethods(
   "median", "apply",
