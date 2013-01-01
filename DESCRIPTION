@@ -1,7 +1,7 @@
 Package: pbdDMAT
 Title: Programming with Big Data -- Distributed Matrix Computation
 Version: 0.1-2
-Date: 2012-10-17
+Date: 2013-01-01
 Depends: R (>= 2.15.1), methods, rlecuyer, pbdMPI (>= 0.1-3), pbdSLAP,
         Rcpp (>= 0.9.10), pbdBASE (>= 0.1-1)
 LazyLoad: yes
@@ -20,7 +20,7 @@ URL: http://r-pbd.org/
 BugReports: RBigDataProgramming on Google Group
 MailingList: Please send questions and comments regarding pbdR to
         RBigData@gmail.com
-Packaged: 2012-12-24 04:18:11 UTC; snoweye
+Packaged: 2013-01-01 17:33:15 UTC; snoweye
 Author: Drew Schmidt [aut, cre],
   Wei-Chen Chen [aut],
   George Ostrouchov [aut],
