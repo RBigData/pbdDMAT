@@ -8,6 +8,7 @@ exportPattern("^dmat\\.[[:alpha:]]+")
 exportMethods(
   "median", "apply",
   "qr", "qr.Q", "qr.R", "qr.qty", "qr.qy",
+  "rcond",
   "lm.fit"
 )
 
@@ -16,7 +17,7 @@ export(
   "+", "-", "*", "/", "^", "%%", "%/%",
   # Algebra
   t, "%*%",
-  solve, La.svd, svd, lu, chol,
+  solve, La.svd, svd, lu, chol, kappa.ddmatrix,
   # Math
   abs, sqrt, log, log2, log10, log1p, round, ceiling, floor,
   # Principal Components
