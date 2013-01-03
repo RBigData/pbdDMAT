@@ -9,7 +9,7 @@ exportMethods(
   "median", "apply",
   "qr", "qr.Q", "qr.R", "qr.qty", "qr.qy",
   "rcond",
-  "lm.fit"
+  "lm.fit", "diag"
 )
 
 export(

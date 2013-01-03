@@ -4,12 +4,9 @@
  /* Global-to-local and local-to-global coordinates */
 // ----------------------------------------------- //
 
-void
-  g2l_coord( std::vector<int> &ret,
-            int i, int j, 
-            Rcpp::IntegerVector &dim, Rcpp::IntegerVector &bldim,
-            Rcpp::IntegerVector &procs, Rcpp::IntegerVector &src
-           )
+void g2l_coord( std::vector<int> &ret, int i, int j, 
+  Rcpp::IntegerVector &dim, Rcpp::IntegerVector &bldim,
+  Rcpp::IntegerVector &procs, Rcpp::IntegerVector &src)
 {
 //  std::vector<int> ret(6);
   
@@ -26,12 +23,9 @@ void
   ret[5] = j % bldim[1] + bldim[1] * ret[1];
 }
 
-void
-  l2g_coord(std::vector<int> &ret,
-            int i, int j, 
-            Rcpp::IntegerVector &dim, Rcpp::IntegerVector &bldim,
-            Rcpp::IntegerVector &procs, int myproc
-           )
+void l2g_coord(std::vector<int> &ret, int i, int j, 
+  Rcpp::IntegerVector &dim, Rcpp::IntegerVector &bldim,
+  Rcpp::IntegerVector &procs, int myproc)
 {
 //  std::vector<int> ret(2);
   
@@ -40,8 +34,7 @@ void
   ret[1] = nprocs*bldim[1] * (j-1)/bldim[1] + (j-1)%bldim[1] + ((nprocs+myproc)%nprocs)*bldim[1] + 1;
 }
 
-/////////////////////////////////////////////////////////////////
-//#include <Rcpp.h>
+
 
   // --------------------- //
  /* sweep out array STATS */
@@ -49,10 +42,8 @@ void
 
 // sweeper wrapper
 RcppExport SEXP ddmatrix_sweep(SEXP subA_, SEXP STATS_,
-                             SEXP dim_, SEXP bldim_,
-                             SEXP procs_, SEXP myproc_, SEXP src_,
-                             SEXP MARGIN_, SEXP FUN_
-                             )
+  SEXP dim_, SEXP bldim_, SEXP procs_, SEXP myproc_, SEXP src_,
+  SEXP MARGIN_, SEXP FUN_)
 {
   Rcpp::NumericMatrix subA(subA_);
   Rcpp::NumericVector STATS(STATS_);
@@ -93,14 +84,14 @@ RcppExport SEXP ddmatrix_sweep(SEXP subA_, SEXP STATS_,
   return subA;
 }
 
+
+
   // -------------------- //
  /* grab global diagonal */
 // -------------------- //
 
-RcppExport SEXP diag_grab(SEXP subA_, 
-                             SEXP dim_, SEXP bldim_,
-                             SEXP procs_, SEXP myproc_, SEXP src_
-                             )
+RcppExport SEXP diag_grab(SEXP subA_, SEXP dim_, SEXP bldim_,
+  SEXP procs_, SEXP myproc_, SEXP src_)
 {
   Rcpp::NumericMatrix subA(subA_);
   Rcpp::IntegerVector dim(dim_);
@@ -129,5 +120,41 @@ RcppExport SEXP diag_grab(SEXP subA_,
   }
   
   return diag;
+}
+
+
+
+  // ------------------------- //
+ /* construct diagonal matrix */
+// ------------------------- //
+
+RcppExport SEXP diag_dmat(SEXP diag_, SEXP dim_, SEXP ldim_, 
+  SEXP bldim_, SEXP procs_, SEXP myproc_, SEXP src_)
+{
+  Rcpp::NumericVector diag(diag_);
+  Rcpp::IntegerVector dim(dim_);
+  Rcpp::IntegerVector ldim(ldim_);
+  Rcpp::IntegerVector bldim(bldim_);
+  Rcpp::IntegerVector procs(procs_);
+  Rcpp::IntegerVector myproc(myproc_);
+  Rcpp::IntegerVector src(src_);
+  
+  Rcpp::NumericMatrix A(ldim[0], ldim[1]); // Return
+  
+  
+  int i, j = 0;
+  int len = diag.size();
+  std::vector<int> ret(6);
+  
+  int top = (dim(0)>dim(1)) ? dim(0) : dim(1);
+  
+  for (i=0; i<top; i++){
+    g2l_coord(ret, i, i, dim, bldim, procs, src);
+    if (myproc[0]==ret[2] && myproc[1]==ret[3])
+      A(ret[4], ret[5]) = diag(j % len);
+    j++;
+  }
+  
+  return A;
 }
 

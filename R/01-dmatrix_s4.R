@@ -3,6 +3,11 @@
 # Other
 setGeneric(name = "apply", useAsDefault = apply)
 
+setGeneric(name="diag",
+  function(x, ...)
+    standardGeneric("diag"),
+  package="pbdDMAT"
+)
 
 
 # Stats
