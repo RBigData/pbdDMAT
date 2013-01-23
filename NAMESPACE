@@ -9,14 +9,14 @@ exportMethods(
   "median", "apply",
   "qr", "qr.Q", "qr.R", "qr.qty", "qr.qy",
   "rcond",
-  "lm.fit", "diag"
+  "lm.fit", "diag", "crossprod", "tcrossprod"
 )
 
 export(
   # Arithmetic
-  "+", "-", "*", "/", "^", "%%", "%/%",
+  "+", "-", "*", "/", "^", "%%", "%/%", 
   # Algebra
-  t, "%*%",
+  t, "%*%", crossprod, tcrossprod,
   solve, La.svd, svd, lu, chol, kappa.ddmatrix,
   # Math
   abs, sqrt, log, log2, log10, log1p, round, ceiling, floor,

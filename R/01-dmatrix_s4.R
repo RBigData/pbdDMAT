@@ -39,6 +39,8 @@ setGeneric(name = "colMeans", useAsDefault = colMeans)
 
 # Algebra
 setGeneric(name = "t", useAsDefault = t)
+setGeneric(name = "crossprod", useAsDefault = crossprod)
+setGeneric(name = "tcrossprod", useAsDefault = tcrossprod)
 setGeneric(name = "solve", useAsDefault = solve)
 setGeneric(name = "chol", useAsDefault = chol)
 setGeneric(name = "norm", useAsDefault = norm)

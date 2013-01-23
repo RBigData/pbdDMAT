@@ -1,3 +1,9 @@
+# ################################################
+# ------------------------------------------------
+# Arithmetic and Solving Systems
+# ------------------------------------------------
+# ################################################
+
 setMethod("t", signature(x="ddmatrix"),
   function(x)
     base.rpdtran(x=x)
@@ -14,7 +20,55 @@ setMethod("%*%", signature(x="ddmatrix", y="ddmatrix"),
     
     base.checkem(x=x, y=y, checks=2)
     
-    return( base.rpdgemm(x=x, y=y, outbldim=x@bldim) )
+    return( base.rpdgemm(transx='N', transy='N', x=x, y=y, outbldim=x@bldim) )
+  }
+)
+
+
+setMethod("crossprod", signature(x="ddmatrix", y="ANY"), 
+  function(x, y = NULL)
+  {
+    if (is.null(y)){
+      base.rpdsvrk(trans='N', x=x)
+    }
+    else if (!is.ddmatrix(y)){
+      pbdMPI::comm.print("Error : 'y' must be of class 'ddmatrix'.")
+      stop("")
+    }
+    else {
+      if (x@dim[1L] != y@dim[1L]){
+        pbdMPI::comm.print("Error : non-conformable arguments.")
+        stop("")
+      }
+      
+      base.checkem(x=x, y=y, checks=2)
+      
+      return( base.rpdgemm(transx='N', transy='T', x=x, y=y, outbldim=x@bldim) )
+    }
+  }
+)
+
+
+setMethod("tcrossprod", signature(x="ddmatrix", y="ANY"), 
+  function(x, y = NULL)
+  {
+    if (is.null(y)){
+      base.rpdsvrk(trans='T', x=x)
+    }
+    else if (!is.ddmatrix(y)){
+      pbdMPI::comm.print("Error : 'y' must be of class 'ddmatrix'.")
+      stop("")
+    }
+    else {
+      if (x@dim[1L] != y@dim[1L]){
+        pbdMPI::comm.print("Error : non-conformable arguments.")
+        stop("")
+      }
+      
+      base.checkem(x=x, y=y, checks=2)
+      
+      return( base.rpdgemm(tranx='T', transy='N', x=x, y=y, outbldim=x@bldim) )
+    }
   }
 )
 
@@ -43,6 +97,7 @@ setMethod("solve", signature(a="ddmatrix"),
     return(a)
   }
 )
+
 
 # ################################################
 # ------------------------------------------------
@@ -96,6 +151,7 @@ setMethod("lu", signature(x="ddmatrix"),
   function(x) 
     base.rpdgetrf(a=x)
 )
+
 
 # ################################################
 # ------------------------------------------------

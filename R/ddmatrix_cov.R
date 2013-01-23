@@ -12,7 +12,7 @@ function (x, y = NULL, use = "everything", method = "pearson")
           stop("")
         }
     }
-
+    
     if (use=="all.obs"){
       anyna <- FALSE
       if (any(is.na(x)))
@@ -54,22 +54,22 @@ function (x, y = NULL, use = "everything", method = "pearson")
     
     method <- match.arg(method)
     if (method == "pearson") {
-        x <- scale(x, scale=FALSE)
-        if (is.null(y))
-            ret <- base.rpdgemm(x=base.rpdtran(x), y=x, outbldim=x@bldim) / (nrow(x) - 1)
-        else {
-            scale(y, scale=FALSE)
-            ret <- base.rpdgemm(x=base.rpdtran(x), y=y, outbldim=x@bldim) / (nrow(x) - 1)
-        }
+      x <- scale(x, scale=FALSE)
+      if (is.null(y))
+        ret <- base.rpdsvrk(trans='T', x=x)
+      else {
+        scale(y, scale=FALSE)
+        ret <- base.rpdgemm(transx='N', transy='T', x=x, y=y, outbldim=x@bldim) / (nrow(x) - 1)
+      }
     }
     else {
       comm.print("Error : Other methods not yet implemented")
       stop("")
     }
-
+    
     if (x@dim[1] == 1)      
       ret[, ] <- NA
-
+    
     return( ret )
   }
 )
