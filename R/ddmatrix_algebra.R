@@ -29,7 +29,7 @@ setMethod("crossprod", signature(x="ddmatrix", y="ANY"),
   function(x, y = NULL)
   {
     if (is.null(y)){
-      base.rpdsvrk(trans='N', x=x)
+      base.crossprod('N', x)
     }
     else if (!is.ddmatrix(y)){
       pbdMPI::comm.print("Error : 'y' must be of class 'ddmatrix'.")
@@ -53,7 +53,7 @@ setMethod("tcrossprod", signature(x="ddmatrix", y="ANY"),
   function(x, y = NULL)
   {
     if (is.null(y)){
-      base.rpdsvrk(trans='T', x=x)
+      base.crossprod('T', x)
     }
     else if (!is.ddmatrix(y)){
       pbdMPI::comm.print("Error : 'y' must be of class 'ddmatrix'.")
