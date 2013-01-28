@@ -43,7 +43,7 @@ setMethod("crossprod", signature(x="ddmatrix", y="ANY"),
       
       base.checkem(x=x, y=y, checks=2)
       
-      return( base.rpdgemm(transx='N', transy='T', x=x, y=y, outbldim=x@bldim) )
+      return( t(x) %*% y )
     }
   }
 )
@@ -67,7 +67,7 @@ setMethod("tcrossprod", signature(x="ddmatrix", y="ANY"),
       
       base.checkem(x=x, y=y, checks=2)
       
-      return( base.rpdgemm(tranx='T', transy='N', x=x, y=y, outbldim=x@bldim) )
+      return( x %&% t(y) )
     }
   }
 )
