@@ -67,7 +67,7 @@ setMethod("tcrossprod", signature(x="ddmatrix", y="ANY"),
       
       base.checkem(x=x, y=y, checks=2)
       
-      return( x %&% t(y) )
+      return( x %*% t(y) )
     }
   }
 )
@@ -140,9 +140,8 @@ setMethod("chol", signature(x="ddmatrix"),
       comm.print(paste("'x' (", x@dim[1], " x ", x@dim[2], ") must be square", sep=""))
       stop("")
     }
-
-    x@Data <- base.rpdpotrf(x=x)
-    return( x )
+    
+    return( base.rpdpotrf(x=x) )
   }
 )
 

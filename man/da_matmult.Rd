@@ -7,16 +7,27 @@
 \alias{\%*\%,ddmatrix,ddmatrix-method}
 \alias{\%*\%}
 
+\alias{crossprod-method}
+\alias{crossprod-ddmatrix,any-method}
+\alias{crossprod}
+
+\alias{tcrossprod-method}
+\alias{tcrossprod-ddmatrix,any-method}
+\alias{tcrossprod}
+
 \title{ Matrix Multiplication }
 \description{
   Multiplies two distributed matrices, if they are conformable.
 }
 \usage{
   x \%*\% y
+  crossprod(x, y = NULL)
+  tcrossprod(x, y = NULL)
 }
 \section{Methods}{
 \describe{
 \item{\code{signature(x = "ddmatrix", y = "ddmatrix")}}{}
+\item{\code{signature(x = "ddmatrix", y = "ANY")}}{}
 }
 }
 \arguments{
@@ -31,6 +42,9 @@
   blocking dimensions and you want the return to have blocking
   different from that of \code{x}, then use the function 
   \code{base.rpdgemm(x, y, outbldim)}
+  
+  The \code{crossprod()} and \code{tcrossprod()} functions behave exactly as 
+  their \proglang{R} counterparts.
 }
 \value{
   Returns a distributed matrix.
