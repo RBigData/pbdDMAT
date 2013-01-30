@@ -24,12 +24,12 @@
     library.dynam("pbdBASE", "pbdBASE", libname)
   }
 
-  library.dynam("pbdDMAT", pkgname, libname)
+#  library.dynam("pbdDMAT", pkgname, libname)
   invisible()
 } # End of .onload().
 
 .onUnload <- function(libpath){
-  library.dynam.unload("pbdDMAT", libpath)
+#  library.dynam.unload("pbdDMAT", libpath)
   invisible()
 } # End of .onUnload().
 

@@ -36,7 +36,8 @@ setMethod("scale", signature(x="ddmatrix"),
       if (is.logical(center)) {
           if (center) {
               center <- as.vector(as.matrix(colMeans(x, na.rm = TRUE)))
-              x <- sweep(x, 2L, center, check.margin = FALSE)
+#              x <- sweep(x, 2L, center, check.margin = FALSE)
+              base.pdsweep(dx=x, vec=center, MARGIN=2L, FUN="-")
           }
       }
       else {
@@ -46,7 +47,8 @@ setMethod("scale", signature(x="ddmatrix"),
       if (is.logical(scale)) {
           if (scale) {
               scale <- sqrt(as.vector(as.matrix(colSums(x^2)))/max(1, nrow(x) - 1L))
-              x <- sweep(x, 2L, scale, "/", check.margin = FALSE)
+#              x <- sweep(x, 2L, scale, "/", check.margin = FALSE)
+              base.pdsweep(dx=x, vec=scale, MARGIN=2L, FUN="/")
           }
       }
       else {

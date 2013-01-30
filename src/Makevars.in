@@ -1,20 +1,20 @@
-### Configurations.
-RCPP_CXXFLAGS = @RCPP_CXXFLAGS@
-RCPP_LDFLAGS = @RCPP_LDFLAGS@
+#### Configurations.
+#RCPP_CXXFLAGS = @RCPP_CXXFLAGS@
+#RCPP_LDFLAGS = @RCPP_LDFLAGS@
 
-### Setup R package flags and substitute by configure for ${MPI_...}.
-PKG_CXXFLAGS = $(RCPP_CXXFLAGS)
-PKG_LIBS = $(RCPP_LDFLAGS)
+#### Setup R package flags and substitute by configure for ${MPI_...}.
+#PKG_CXXFLAGS = $(RCPP_CXXFLAGS)
+#PKG_LIBS = $(RCPP_LDFLAGS)
 
-### Setup R source code and objects.
-R_OBJS = dmat_utility.o
-OBJECTS = $(R_OBJS)
+#### Setup R source code and objects.
+#R_OBJS = dmat_utility.o
+#OBJECTS = $(R_OBJS)
  
-### Start making here.
-all: $(SHLIB)
+#### Start making here.
+#all: $(SHLIB)
 
-$(SHLIB): $(OBJECTS)
+#$(SHLIB): $(OBJECTS)
 
-clean:
-	@rm -rf *.o *.d *.rc *.so *.dylib *.dll *.a *.lib \
-                Makedeps Makevars $(SHLIB) $(OBJECTS)
+#clean:
+#	@rm -rf *.o *.d *.rc *.so *.dylib *.dll *.a *.lib \
+#                Makedeps Makevars $(SHLIB) $(OBJECTS)

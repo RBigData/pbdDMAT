@@ -103,24 +103,26 @@ dmat.ddiag <- function(x=1, nrow, ncol, bldim, ICTXT=0)
   if (length(bldim)==1)
     bldim <- rep(bldim, 2)
   
-  dim <- c(nrow, ncol)
-  ldim <- base.numroc(dim=dim, bldim=bldim, ICTXT=ICTXT)
+#  dim <- c(nrow, ncol)
+#  ldim <- base.numroc(dim=dim, bldim=bldim, ICTXT=ICTXT)
+#  
+#  blacs_ <- base.blacs(ICTXT=ICTXT)
+#  myP <- c(blacs_$MYROW, blacs_$MYCOL)
+#  PROCS <- c(blacs_$NPROW, blacs_$NPCOL)
+#  RSRC <- CSRC <- 0L # processes with first row/col of global A
+#  
+#  if (!is.double(x))
+#    storage.mode(x) <- "double"
+#  
+#  out <- .Call("diag_dmat", 
+#               x, as.integer(dim), as.integer(ldim), as.integer(bldim),
+#               as.integer(PROCS), as.integer(myP), as.integer(c(RSRC, CSRC)),
+#               PACKAGE = "pbdDMAT")
+#  
+#  ret <- new("ddmatrix", 
+#             Data=out, dim=dim, ldim=ldim, bldim=bldim, CTXT=ICTXT)
   
-  blacs_ <- base.blacs(ICTXT=ICTXT)
-  myP <- c(blacs_$MYROW, blacs_$MYCOL)
-  PROCS <- c(blacs_$NPROW, blacs_$NPCOL)
-  RSRC <- CSRC <- 0L # processes with first row/col of global A
-  
-  if (!is.double(x))
-    storage.mode(x) <- "double"
-  
-  out <- .Call("diag_dmat", 
-               x, as.integer(dim), as.integer(ldim), as.integer(bldim),
-               as.integer(PROCS), as.integer(myP), as.integer(c(RSRC, CSRC)),
-               PACKAGE = "pbdDMAT")
-  
-  ret <- new("ddmatrix", 
-             Data=out, dim=dim, ldim=ldim, bldim=bldim, CTXT=ICTXT)
+  ret <- base.ddiagmk(diag=x, nrow=nrow, ncol=ncol, bldim=bldim, ICTXT=ICTXT)
   
   return( ret )
 }

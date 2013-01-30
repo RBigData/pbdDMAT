@@ -56,10 +56,10 @@ function (x, y = NULL, use = "everything", method = "pearson")
     if (method == "pearson") {
       x <- scale(x, scale=FALSE)
       if (is.null(y))
-        ret <- base.rpdsvrk(trans='T', x=x)
+        ret <- crossprod(x=x) / max(1, nrow(x) - 1)
       else {
         scale(y, scale=FALSE)
-        ret <- base.rpdgemm(transx='N', transy='T', x=x, y=y, outbldim=x@bldim) / (nrow(x) - 1)
+        ret <- base.rpdgemm(transx='T', transy='N', x=x, y=y, outbldim=x@bldim) / (nrow(x) - 1)
       }
     }
     else {

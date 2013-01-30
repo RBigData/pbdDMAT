@@ -7,6 +7,7 @@ setMethod("rowSums", signature(x="ddmatrix"),
   function(x, na.rm=FALSE){
     z <- new("ddmatrix", dim=c(x@dim[1], 1), ldim=c(x@bldim[1],1), bldim=x@bldim) 
     z@Data <- matrix(base.blacs.sum('Row', x@Data, x@dim, na.rm=na.rm))
+    z@ldim <- c(length(z@Data), 1)
     return( as.vector(base.as.matrix(z)) )
   }
 )
@@ -17,6 +18,7 @@ setMethod("colSums", signature(x="ddmatrix"),
     ldim <- base.numroc(x@dim, x@bldim)
     z <- new("ddmatrix", dim=c(1, x@dim[2]), ldim=ldim, bldim=x@bldim) 
     z@Data <- matrix(base.blacs.sum('Column', x@Data, x@dim, na.rm=na.rm), nrow=1)
+    z@ldim <- c(1,length(z@Data))
     return( as.vector(base.as.matrix(z)) )
   }
 )
@@ -26,6 +28,7 @@ setMethod("rowMeans", signature(x="ddmatrix"),
   function(x, na.rm=FALSE){
     z <- new("ddmatrix", dim=c(x@dim[1], 1), ldim=c(x@bldim[1],1), bldim=x@bldim) 
     z@Data <- matrix(base.blacs.sum('Row', x@Data, x@dim, na.rm=na.rm, means=TRUE, num=x@dim[2]))
+    z@ldim <- c(length(z@Data), 1)
     return(as.vector(base.as.matrix(z)))
   }
 )
@@ -35,6 +38,7 @@ setMethod("colMeans", signature(x="ddmatrix"),
   function(x, na.rm=FALSE){
     z <- new("ddmatrix", dim=c(1, x@dim[2]), ldim=c(1,x@dim[2]), bldim=x@bldim) 
     z@Data <- matrix(base.blacs.sum('Column', x@Data, x@dim, na.rm=na.rm, means=TRUE, num=x@dim[1]), nrow=1)
+    z@ldim <- c(1,length(z@Data))
     return(as.vector(base.as.matrix(z)))
   }
 )
@@ -43,27 +47,28 @@ setMethod("colMeans", signature(x="ddmatrix"),
 setMethod("diag", signature(x="ddmatrix"),
   function(x)
   {
-    blacs_ <- base.blacs(x@CTXT)
-    myP <- c(blacs_$MYROW, blacs_$MYCOL)
-    PROCS <- c(blacs_$NPROW, blacs_$NPCOL)
-    RSRC <- CSRC <- 0 # processes with first row/col of global A
-    ISRCPROC <- 0
-    
-    dim <- x@dim
-    ldim <- x@ldim
-    bldim <- x@bldim
-    
-    out <- .Call("diag_grab", 
-           x@Data,
-           dim=as.integer(dim),
-           bldim=as.integer(bldim),
-           gP=as.integer(PROCS),
-           myP=as.integer(myP),
-           SRC=as.integer(c(RSRC, CSRC)),
-           PACKAGE="pbdDMAT"
-         )
-    
-    pbdMPI::allreduce(out, op='sum')
+#    blacs_ <- base.blacs(x@CTXT)
+#    myP <- c(blacs_$MYROW, blacs_$MYCOL)
+#    PROCS <- c(blacs_$NPROW, blacs_$NPCOL)
+#    RSRC <- CSRC <- 0 # processes with first row/col of global A
+#    ISRCPROC <- 0
+#    
+#    dim <- x@dim
+#    ldim <- x@ldim
+#    bldim <- x@bldim
+#    
+#    out <- .Call("diag_grab", 
+#           x@Data,
+#           dim=as.integer(dim),
+#           bldim=as.integer(bldim),
+#           gP=as.integer(PROCS),
+#           myP=as.integer(myP),
+#           SRC=as.integer(c(RSRC, CSRC)),
+#           PACKAGE="pbdDMAT"
+#         )
+#    
+#    pbdMPI::allreduce(out, op='sum')
+    base.ddiagtk(x)
   }
 )
 
