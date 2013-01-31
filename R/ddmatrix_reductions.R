@@ -6,7 +6,7 @@
 setMethod("rowSums", signature(x="ddmatrix"), 
   function(x, na.rm=FALSE){
     z <- new("ddmatrix", dim=c(x@dim[1], 1), ldim=c(x@bldim[1],1), bldim=x@bldim) 
-    z@Data <- matrix(base.blacs.sum('Row', x@Data, x@dim, na.rm=na.rm))
+    z@Data <- matrix(base.blacs.sum(x, 'Row', na.rm=na.rm))
     z@ldim <- c(length(z@Data), 1)
     return( as.vector(base.as.matrix(z)) )
   }
@@ -17,7 +17,7 @@ setMethod("colSums", signature(x="ddmatrix"),
   function(x, na.rm=FALSE){
     ldim <- base.numroc(x@dim, x@bldim)
     z <- new("ddmatrix", dim=c(1, x@dim[2]), ldim=ldim, bldim=x@bldim) 
-    z@Data <- matrix(base.blacs.sum('Column', x@Data, x@dim, na.rm=na.rm), nrow=1)
+    z@Data <- matrix(base.blacs.sum(x, 'Col', na.rm=na.rm), nrow=1)
     z@ldim <- c(1,length(z@Data))
     return( as.vector(base.as.matrix(z)) )
   }
@@ -27,7 +27,7 @@ setMethod("colSums", signature(x="ddmatrix"),
 setMethod("rowMeans", signature(x="ddmatrix"), 
   function(x, na.rm=FALSE){
     z <- new("ddmatrix", dim=c(x@dim[1], 1), ldim=c(x@bldim[1],1), bldim=x@bldim) 
-    z@Data <- matrix(base.blacs.sum('Row', x@Data, x@dim, na.rm=na.rm, means=TRUE, num=x@dim[2]))
+    z@Data <- matrix(base.blacs.sum(x, 'Row', na.rm=na.rm, means=TRUE, num=x@dim[2]))
     z@ldim <- c(length(z@Data), 1)
     return(as.vector(base.as.matrix(z)))
   }
@@ -37,7 +37,7 @@ setMethod("rowMeans", signature(x="ddmatrix"),
 setMethod("colMeans", signature(x="ddmatrix"), 
   function(x, na.rm=FALSE){
     z <- new("ddmatrix", dim=c(1, x@dim[2]), ldim=c(1,x@dim[2]), bldim=x@bldim) 
-    z@Data <- matrix(base.blacs.sum('Column', x@Data, x@dim, na.rm=na.rm, means=TRUE, num=x@dim[1]), nrow=1)
+    z@Data <- matrix(base.blacs.sum(x, 'Col', na.rm=na.rm, means=TRUE, num=x@dim[1]), nrow=1)
     z@ldim <- c(1,length(z@Data))
     return(as.vector(base.as.matrix(z)))
   }
