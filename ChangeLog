@@ -1,4 +1,7 @@
-2012-1-4:
+2012-02-05:
+  * Completely redid all the internals to accommodate corresponding pbdBASE changes.
+
+2012-01-04:
   * Added norm(), rcond(), and kappa() methods.
   * Added new diag() method for constructing diagonal ddmatrices.
 

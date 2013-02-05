@@ -19,7 +19,7 @@ setMethod("+", signature(e1="ddmatrix", e2="numeric"),
       if (len==1)
         e1@Data <- e1@Data+e2
       else
-        e1@Data <- base.vecops(dx=e1, vec=e2, FUN="0") # FUN=0 for "+"
+        e1@Data <- base.rl2blas(dx=e1, vec=e2, FUN=0) # FUN=0 for "+"
     }
     return(e1)
   }
@@ -56,7 +56,7 @@ setMethod("-", signature(e1="ddmatrix", e2="numeric"),
       if (len==1)
         e1@Data <- e1@Data-e2
       else
-        e1@Data <- base.vecops(dx=e1, vec=e2, FUN="1") # FUN=1 for "-"
+        e1@Data <- base.rl2blas(dx=e1, vec=e2, FUN=1) # FUN=1 for "-"
     return(e1)
   }
 )
@@ -94,7 +94,7 @@ setMethod("*", signature(e1="ddmatrix", e2="numeric"),
       if (len==1)
         e1@Data <- e1@Data*e2
       else
-        e1@Data <- base.vecops(dx=e1, vec=e2, FUN="2") # FUN=2 for "*"
+        e1@Data <- base.rl2blas(dx=e1, vec=e2, FUN=2) # FUN=2 for "*"
     return(e1)
   }
 )
@@ -129,7 +129,7 @@ setMethod("/", signature(e1="ddmatrix", e2="numeric"),
       if (len==1)
         e1@Data <- e1@Data/e2
       else
-        e1@Data <- base.vecops(dx=e1, vec=e2, FUN="3") # FUN=3 for "/"
+        e1@Data <- base.rl2blas(dx=e1, vec=e2, FUN=3) # FUN=3 for "/"
     return(e1)
   }
 )
@@ -166,7 +166,7 @@ setMethod("^", signature(e1="ddmatrix", e2="numeric"),
       if (len==1)
         e1@Data <- e1@Data^e2
       else
-        e1@Data <- base.vecops(dx=e1, vec=e2, FUN="4") # FUN=4 for "^"
+        e1@Data <- base.rl2blas(dx=e1, vec=e2, FUN=4) # FUN=4 for "^"
     return(e1)
   }
 )
@@ -211,7 +211,7 @@ setMethod("%%", signature(e1="ddmatrix", e2="numeric"),
       if (len==1)
         e1@Data <- e1@Data %% e2
       else
-        e1@Data <- base.vecops(dx=e1, vec=e2, FUN="5") # FUN=5 for "%%"
+        e1@Data <- base.rl2blas(dx=e1, vec=e2, FUN=5) # FUN=5 for "%%"
     return(e1)
   }
 )
@@ -226,7 +226,7 @@ setMethod("%%", signature(e1="numeric", e2="ddmatrix"),
       if (len==1)
         e2@Data <- e1 %% e2@Data
       else
-        e2@Data <- base.vecops(dx=e2, vec=e1, FUN="6") # FUN=6 for reverse "%%"
+        e2@Data <- base.rl2blas(dx=e2, vec=e1, FUN=6) # FUN=6 for reverse "%%"
     return(e2)
   }
 )
