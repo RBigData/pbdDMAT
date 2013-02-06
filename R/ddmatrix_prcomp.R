@@ -15,7 +15,6 @@ setMethod("prcomp", signature(x="ddmatrix"),
       if (!is.null(tol)) {
           rank <- max(sum(s$d > (s$d[1L] * tol)), 1)
           if (rank < ncol(x)) {
-#              s$v <- s$v[, 1L:rank, drop = FALSE]
               s$v <- s$v[, 1L:rank]
               s$d <- s$d[1L:rank]
           }
@@ -76,9 +75,3 @@ setMethod("scale", signature(x="ddmatrix"),
   }
 )
 
-
-## this is extremely ad hoc and not ready for the big time; only meant to be
-## used internally at the moment
-#setMethod("sweep", signature(x="ddmatrix"), 
-#  dmat.sweep
-#)

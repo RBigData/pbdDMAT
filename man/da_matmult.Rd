@@ -44,7 +44,7 @@
   \code{base.rpdgemm(x, y, outbldim)}
   
   The \code{crossprod()} and \code{tcrossprod()} functions behave exactly as 
-  their \proglang{R} counterparts.
+  their R counterparts.
 }
 \value{
   Returns a distributed matrix.
