@@ -29,6 +29,25 @@ setMethod("prcomp", signature(x="ddmatrix"),
   }
 )
 
+
+setMethod("sweep", signature(x="ddmatrix"),
+  function(x, MARGIN, STATS, FUN = "-")
+  {
+    if ( !(FUN %in% c("+", "-", "*", "/")) ){
+      comm.print("Error : invalid argument 'FUN'")
+      stop("")
+    } 
+    else if ( !is.vector(STATS) ){
+      comm.print("Error : invalid argument 'STATS'")
+      stop("")
+    }
+    else{
+      base.pdsweep(dx=x, vec=STATS, MARGIN=MARGIN, FUN=FUN)
+    }
+  }
+)
+
+
 setMethod("scale", signature(x="ddmatrix"),
   function(x, center=TRUE, scale=TRUE) 
   {
@@ -74,4 +93,5 @@ setMethod("scale", signature(x="ddmatrix"),
     return( x )
   }
 )
+
 

@@ -1,3 +1,52 @@
+dmat.clmn <- function(x, na.rm=FALSE)
+{
+  Data <- matrix(colSums(x@Data) / x@dim[1L], nrow=1)
+  ldim <- dim(Data)
+  nprows <- base.blacs(ICTXT=x@ICTXT)$NPROW
+  
+  if (!is.double(Data))
+    storage.mode(Data) <- "double"
+  
+  out <- .Call("R_dgsum2d1", as.integer(x@ICTXT), 'Col', as.integer(1L),
+#  as.integer(nprows), 
+                as.integer(x@ldim[2L]), Data, as.integer(1), PACKAGE="pbdBASE")
+  
+  return( out )
+}
+
+
+# ------------------
+# Scale
+# ------------------
+
+setMethod("scale", signature(x="ddmatrix", center="ANY", scale="ANY"),
+function(x, center=TRUE, scale=TRUE)
+  {
+    # Center
+    if (is.ddmatrix(center)){
+    
+    }
+    else if (is.matrix(center) || is.vector(center)){
+    
+    }
+    else if (is.logical(center) && center){
+      cntr <- dmat.clmn(x, na.rm=FALSE)
+      x@Data <- base::scale(x@Data, center=cntr, scale=FALSE)
+    }
+    else {
+      comm.print("ERROR : invalid argument for 'center'")
+      stop("")
+    }
+    
+    return( ret )
+  }
+)
+
+
+# ------------------
+# cov
+# ------------------
+
 setMethod("cov", signature(x="ddmatrix"),
 function (x, y = NULL, use = "everything", method = "pearson") 
   {
@@ -54,7 +103,11 @@ function (x, y = NULL, use = "everything", method = "pearson")
     
     method <- match.arg(method)
     if (method == "pearson") {
-      x <- scale(x, scale=FALSE)
+#########################################################
+      cntr <- dmat.clmn(x, na.rm=FALSE)
+      x@Data <- base::scale(x@Data, center=cntr, scale=FALSE)
+#      x <- scale(x, scale=FALSE)
+#########################################################
       if (is.null(y))
         ret <- crossprod(x=x) / max(1, nrow(x) - 1)
       else {
@@ -107,14 +160,14 @@ function (x, na.rm = FALSE, reduce = FALSE, proc.dest="all")
     sdv <- .Call("R_DDMATVAR", 
                   x@Data, as.integer(x@dim[1]), 
                   as.integer(x@ldim[1]), as.integer(x@ldim[2]), 
-                  as.integer(x@CTXT),
+                  as.integer(x@ICTXT),
                   PACKAGE="pbdBASE")
     
     sdv <- matrix(sqrt(sdv), nrow=1)
     
     ret <- new("ddmatrix", 
                Data=sdv, dim=c(1, x@dim[2]), 
-               ldim=dim(sdv), bldim=x@bldim, CTXT=x@CTXT)
+               ldim=dim(sdv), bldim=x@bldim, ICTXT=x@ICTXT)
     
     if (reduce)
       ret <- as.vector(x=ret, proc.dest=proc.dest)

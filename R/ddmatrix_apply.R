@@ -13,14 +13,14 @@ setMethod("apply", signature(X="ddmatrix"),
     else if (MARGIN != 1 && MARGIN != 2)
       stop('argument "MARGIN" must be 1 or 2 for a distributed matrix')
     
-    oldCTXT <- X@CTXT
+    oldCTXT <- X@ICTXT
     oldbldim <- X@bldim
     
     # comparing MARGIN/context, reblocking as needed
-      # agreement occurs for CTXT=1/MARGIN=2, and vice versa,
+      # agreement occurs for ICTXT=1/MARGIN=2, and vice versa,
     # Row margin
     if (MARGIN==1){
-      if (X@CTXT!=2)
+      if (X@ICTXT!=2)
         X <- base.reblock(dx=X, bldim=X@bldim/2, ICTXT=2)
 
       tmp <- apply(X@Data, MARGIN=1, FUN=FUN)
@@ -46,7 +46,7 @@ setMethod("apply", signature(X="ddmatrix"),
     }
     # Column margin
     else if (MARGIN==2){
-      if (X@CTXT!=1)
+      if (X@ICTXT!=1)
         X <- base.reblock(dx=X, bldim=X@bldim/2, ICTXT=1)
 
       tmp <- apply(X@Data, MARGIN=2, FUN=FUN)
@@ -89,7 +89,7 @@ setMethod("apply", signature(X="ddmatrix"),
     X <- as.vector(X, proc.dest=proc.dest)
 
     if (is.ddmatrix(X))
-      if (X@CTXT != oldCTXT)
+      if (X@ICTXT != oldCTXT)
         X <- base.reblock(dx=X, bldim=oldbldim, ICTXT=oldCTXT)
       
     return(X)

@@ -11,6 +11,7 @@ setGeneric(name="diag",
 
 
 # Stats
+setGeneric(name = "scale", useAsDefault = scale)
 setGeneric(name = "var", useAsDefault = var)
 setGeneric(name = "cov", useAsDefault = cov)
 setGeneric(name = "prcomp", useAsDefault = prcomp)

@@ -53,7 +53,7 @@ setMethod("abs", signature(x="ddmatrix"),
 setMethod("exp", signature(x="ddmatrix"),
   function(x)
   {
-    if (base.ownany(dim=x@dim, bldim=x@bldim, CTXT=x@CTXT))
+    if (base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT))
       x@Data <- exp(x@Data)
     return(x)
   }
@@ -62,7 +62,7 @@ setMethod("exp", signature(x="ddmatrix"),
 setMethod("log", signature(x="ddmatrix"),
   function(x, base=exp(1))
   {
-    if (base.ownany(dim=x@dim, bldim=x@bldim, CTXT=x@CTXT))
+    if (base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT))
       x@Data <- log(x@Data, base)
     return(x)
   }
@@ -71,7 +71,7 @@ setMethod("log", signature(x="ddmatrix"),
 setMethod("log2", signature(x="ddmatrix"),
   function(x)
   {
-    if (base.ownany(dim=x@dim, bldim=x@bldim, CTXT=x@CTXT))
+    if (base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT))
       x@Data <- log2(x@Data)
     return(x)
   }
@@ -80,7 +80,7 @@ setMethod("log2", signature(x="ddmatrix"),
 setMethod("log10", signature(x="ddmatrix"),
   function(x)
   {
-    if (base.ownany(dim=x@dim, bldim=x@bldim, CTXT=x@CTXT))
+    if (base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT))
       x@Data <- log10(x@Data)
     return(x)
   }
@@ -89,7 +89,7 @@ setMethod("log10", signature(x="ddmatrix"),
 setMethod("log1p", signature(x="ddmatrix"),
   function(x)
   {
-    if (base.ownany(dim=x@dim, bldim=x@bldim, CTXT=x@CTXT))
+    if (base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT))
       x@Data <- log1p(x@Data)
     return(x)
   }
