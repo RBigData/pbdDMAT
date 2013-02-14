@@ -41,24 +41,6 @@ dmat.dgsum2d <- function(ICTXT, SCOPE, m, n, x, lda, RDEST, CDEST)
 
 
 # Max value
-dmat.dgamx2d <- function(ICTXT, SCOPE, m, n, x, lda, RDEST, CDEST)
-{
-  if (!is.matrix(x) && !is.vector(x)){
-    comm.print("ERROR : object 'x' must be of class matrix or vector.")
-    stop("")
-  }
-  
-  if (!is.double(x))
-    storage.mode(x) <- "double"
-  
-  out <- .Call("R_dgamx2d1", as.integer(ICTXT), as.character(SCOPE), 
-                as.integer(m), as.integer(n), x, as.integer(lda), 
-                as.integer(RDEST), as.integer(CDEST), 
-                PACKAGE="pbdBASE")
-  
-  return( out )
-}
-
 dmat.igamx2d <- function(ICTXT, SCOPE, m, n, x, lda, RDEST, CDEST)
 {
   if (!is.matrix(x) && !is.vector(x)){
@@ -70,6 +52,24 @@ dmat.igamx2d <- function(ICTXT, SCOPE, m, n, x, lda, RDEST, CDEST)
     storage.mode(x) <- "integer"
   
   out <- .Call("R_igamx2d1", as.integer(ICTXT), as.character(SCOPE), 
+                as.integer(m), as.integer(n), x, as.integer(lda), 
+                as.integer(RDEST), as.integer(CDEST), 
+                PACKAGE="pbdBASE")
+  
+  return( out )
+}
+
+dmat.dgamx2d <- function(ICTXT, SCOPE, m, n, x, lda, RDEST, CDEST)
+{
+  if (!is.matrix(x) && !is.vector(x)){
+    comm.print("ERROR : object 'x' must be of class matrix or vector.")
+    stop("")
+  }
+  
+  if (!is.double(x))
+    storage.mode(x) <- "double"
+  
+  out <- .Call("R_dgamx2d1", as.integer(ICTXT), as.character(SCOPE), 
                 as.integer(m), as.integer(n), x, as.integer(lda), 
                 as.integer(RDEST), as.integer(CDEST), 
                 PACKAGE="pbdBASE")
