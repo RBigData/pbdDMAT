@@ -79,6 +79,14 @@ setMethod("-", signature(e1="ddmatrix", e2="ddmatrix"),
   }
 )
 
+# missing - ddmatrix
+setMethod("-", signature(e1="ddmatrix", e2="missing"), 
+  function(e1){
+    e1@Data <- -e1@Data
+    return(e1)
+  }
+)
+
 # ----------------
 # *
 # ----------------

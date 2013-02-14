@@ -6,7 +6,7 @@ import(methods, rlecuyer, pbdMPI, pbdSLAP, pbdBASE)
 exportPattern("^dmat\\.[[:alpha:]]+")
 
 exportMethods(
-  "median", "apply",
+  "median", "apply", "scale",
   "qr", "qr.Q", "qr.R", "qr.qty", "qr.qy",
   "rcond",
   "lm.fit", "diag", "crossprod", "tcrossprod"
@@ -23,7 +23,7 @@ export(
   # Principal Components
   scale, prcomp, diag,
   # Covariance
-  var, cov, sd,
+  var, cov, sd, scale,
   # Reductions
   sum, mean, prod, rowSums, colSums, rowMeans, colMeans
 )

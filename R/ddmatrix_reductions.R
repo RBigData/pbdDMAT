@@ -1,6 +1,223 @@
 # -------------------
-# Reductions
+# MPI-like BLACS reductions
 # -------------------
+
+# Sums
+dmat.igsum2d <- function(ICTXT, SCOPE, m, n, x, lda, RDEST, CDEST)
+{
+  if (!is.matrix(x) && !is.vector(x)){
+    comm.print("ERROR : object 'x' must be of class matrix or vector.")
+    stop("")
+  }
+  
+  if (!is.integer(x))
+    storage.mode(x) <- "integer"
+  
+  out <- .Call("R_igsum2d1", as.integer(ICTXT), as.character(SCOPE), 
+                as.integer(m), as.integer(n), x, as.integer(lda), 
+                as.integer(RDEST), as.integer(CDEST), 
+                PACKAGE="pbdBASE")
+  
+  return( out )
+}
+
+dmat.dgsum2d <- function(ICTXT, SCOPE, m, n, x, lda, RDEST, CDEST)
+{
+  if (!is.matrix(x) && !is.vector(x)){
+    comm.print("ERROR : object 'x' must be of class matrix or vector.")
+    stop("")
+  }
+  
+  if (!is.double(x))
+    storage.mode(x) <- "double"
+  
+  out <- .Call("R_dgsum2d1", as.integer(ICTXT), as.character(SCOPE), 
+                as.integer(m), as.integer(n), x, as.integer(lda), 
+                as.integer(RDEST), as.integer(CDEST), 
+                PACKAGE="pbdBASE")
+  
+  return( out )
+}
+
+
+# Max value
+dmat.dgamx2d <- function(ICTXT, SCOPE, m, n, x, lda, RDEST, CDEST)
+{
+  if (!is.matrix(x) && !is.vector(x)){
+    comm.print("ERROR : object 'x' must be of class matrix or vector.")
+    stop("")
+  }
+  
+  if (!is.double(x))
+    storage.mode(x) <- "double"
+  
+  out <- .Call("R_dgamx2d1", as.integer(ICTXT), as.character(SCOPE), 
+                as.integer(m), as.integer(n), x, as.integer(lda), 
+                as.integer(RDEST), as.integer(CDEST), 
+                PACKAGE="pbdBASE")
+  
+  return( out )
+}
+
+dmat.igamx2d <- function(ICTXT, SCOPE, m, n, x, lda, RDEST, CDEST)
+{
+  if (!is.matrix(x) && !is.vector(x)){
+    comm.print("ERROR : object 'x' must be of class matrix or vector.")
+    stop("")
+  }
+  
+  if (!is.integer(x))
+    storage.mode(x) <- "integer"
+  
+  out <- .Call("R_igamx2d1", as.integer(ICTXT), as.character(SCOPE), 
+                as.integer(m), as.integer(n), x, as.integer(lda), 
+                as.integer(RDEST), as.integer(CDEST), 
+                PACKAGE="pbdBASE")
+  
+  return( out )
+}
+
+
+# Min value
+dmat.igamn2d <- function(ICTXT, SCOPE, m, n, x, lda, RDEST, CDEST)
+{
+  if (!is.matrix(x) && !is.vector(x)){
+    comm.print("ERROR : object 'x' must be of class matrix or vector.")
+    stop("")
+  }
+  
+  if (!is.integer(x))
+    storage.mode(x) <- "integer"
+  
+  out <- .Call("R_igamn2d1", as.integer(ICTXT), as.character(SCOPE), 
+                as.integer(m), as.integer(n), x, as.integer(lda), 
+                as.integer(RDEST), as.integer(CDEST), 
+                PACKAGE="pbdBASE")
+  
+  return( out )
+}
+
+dmat.dgamn2d <- function(ICTXT, SCOPE, m, n, x, lda, RDEST, CDEST)
+{
+  if (!is.matrix(x) && !is.vector(x)){
+    comm.print("ERROR : object 'x' must be of class matrix or vector.")
+    stop("")
+  }
+  
+  if (!is.double(x))
+    storage.mode(x) <- "double"
+  
+  out <- .Call("R_dgamn2d1", as.integer(ICTXT), as.character(SCOPE), 
+                as.integer(m), as.integer(n), x, as.integer(lda), 
+                as.integer(RDEST), as.integer(CDEST), 
+                PACKAGE="pbdBASE")
+  
+  return( out )
+}
+
+
+# Higher level reduction interface
+dmat.blacsallreduce <- function(x, SCOPE, op, ICTXT, proc.dest=-1)
+{
+  if (!is.character(SCOPE)){
+    if (SCOPE==1)
+      SCOPE <- 'Row'
+    else if (SCOPE==2)
+      SCOPE <- 'Col'
+    else {
+      comm.print("ERROR : invalid argument 'scope'")
+      stop("")
+    }
+  }
+  else if (SCOPE != 'Row' && SCOPE != 'Col'){
+    comm.print("ERROR : invalid argument 'scope'")
+    stop("")
+  }
+  
+  if (is.matrix(x)){
+    m <- dim(x)[1L]
+    n <- dim(x)[2L]
+  }
+  else if (is.vector(x)){
+    m <- length(x)[1L]
+    n <- 1L
+  }
+  else {
+    comm.print("ERROR : object 'x' must be of class matrix or vector.")
+    stop("")
+  }
+  
+  if (length(proc.dest==1)){
+    if (proc.dest==-1){
+      rdest <- cdest <- -1
+    } else {
+      proc.dest <- base.pcoord(ICTXT=ICTXT, PNUM=proc.dest)
+      rdest <- proc.dest[[1L]]
+      cdest <- proc.dest[[2L]]
+    }
+  }
+  else {
+    rdest <- proc.dest[1L]
+    cdest <- proc.dest[2L]
+  }
+  
+  if (op == 'sum'){
+    if (is.integer(x))
+      out <- dmat.igsum2d(ICTXT=ICTXT, SCOPE=SCOPE, m=m, n=n, x=x, lda=1L, RDEST=rdest, CDEST=cdest)
+    else
+      out <- dmat.dgsum2d(ICTXT=ICTXT, SCOPE=SCOPE, m=m, n=n, x=x, lda=1L, RDEST=rdest, CDEST=cdest)
+  }
+  else if (op == 'max'){
+    if (is.integer(x))
+      out <- dmat.igamx2d(ICTXT=ICTXT, SCOPE=SCOPE, m=m, n=n, x=x, lda=1L, RDEST=rdest, CDEST=cdest)
+    else
+      out <- dmat.dgamx2d(ICTXT=ICTXT, SCOPE=SCOPE, m=m, n=n, x=x, lda=1L, RDEST=rdest, CDEST=cdest)
+  }
+  else if (op == 'min'){
+    out <- dmat.dgamn2d(ICTXT=ICTXT, SCOPE=SCOPE, m=m, n=n, x=x, lda=1L, RDEST=rdest, CDEST=cdest)
+  }
+  else {
+    comm.print("ERROR : invalid argument 'op'")
+    stop("")
+  }
+  
+  return( out )
+}
+
+
+
+dmat.allcolreduce <- function(x, op='sum', ICTXT=0)
+{
+  dmat.blacsallreduce(x=x, SCOPE='Col', op=op, ICTXT=ICTXT, proc.dest=-1)
+}
+
+allcolreduce <- dmat.allcolreduce
+
+
+dmat.allrowreduce <- function(x, op='sum', ICTXT=0)
+{
+  dmat.blacsallreduce(x=x, SCOPE='Row', op=op, ICTXT=ICTXT, proc.dest=-1)
+}
+
+allrowreduce <- dmat.allrowreduce
+
+
+dmat.colreduce <- function(x, op='sum', proc.dest=0, ICTXT=0)
+{
+  dmat.blacsallreduce(x=x, SCOPE='Col', op=op, ICTXT=ICTXT, proc.dest=proc.dest)
+}
+
+colreduce <- dmat.colreduce
+
+
+dmat.rowreduce <- function(x, op='sum', proc.dest=0, ICTXT=0)
+{
+  dmat.blacsallreduce(x=x, SCOPE='Row', op=op, ICTXT=ICTXT, proc.dest=proc.dest)
+}
+
+rowreduce <- dmat.rowreduce
+
+
 
 dmat.rcsum <- function(x, na.rm=FALSE, SCOPE, MEAN=FALSE)
 {
@@ -26,9 +243,7 @@ dmat.rcsum <- function(x, na.rm=FALSE, SCOPE, MEAN=FALSE)
     
     n <- ncol(Data)
   }
-    
-#    if (SCOPE=='Row' && MEAN) comm.print(Data, all.rank=T)
-    
+  
   
   nprows <- base.blacs(ICTXT=x@ICTXT)$NPROW
   
@@ -36,16 +251,21 @@ dmat.rcsum <- function(x, na.rm=FALSE, SCOPE, MEAN=FALSE)
     storage.mode(Data) <- "double"
   
   out <- .Call("R_dgsum2d1", as.integer(x@ICTXT), as.character(SCOPE), as.integer(1L),
-                as.integer(n), Data, as.integer(1), PACKAGE="pbdBASE")
+                as.integer(n), Data, as.integer(1), as.integer(-1), as.integer(-1), 
+                PACKAGE="pbdBASE")
   
   return( out )
 }
+
+# -------------------
+# Reductions
+# -------------------
 
 # rowSums
 setMethod("rowSums", signature(x="ddmatrix"), 
   function(x, na.rm=FALSE){
     z <- new("ddmatrix", dim=c(x@dim[1L], 1L), ldim=c(length(x@Data), 1L), bldim=x@bldim) 
-    z@Data <- dmat.rcsum(x, na.rm=na.rm, SCOPE='Row', MEAN=FALSE)
+    z@Data <- matrix(dmat.rcsum(x, na.rm=na.rm, SCOPE='Row', MEAN=FALSE), ncol=1)
     return( z )
   }
 )
@@ -63,7 +283,7 @@ setMethod("colSums", signature(x="ddmatrix"),
 setMethod("rowMeans", signature(x="ddmatrix"), 
   function(x, na.rm=FALSE){
     z <- new("ddmatrix", dim=c(x@dim[1], 1), ldim=c(length(x@Data), 1), bldim=x@bldim) 
-    z@Data <- dmat.rcsum(x, na.rm=na.rm, SCOPE='Row', MEAN=TRUE)
+    z@Data <- matrix(dmat.rcsum(x, na.rm=na.rm, SCOPE='Row', MEAN=TRUE), ncol=1)
     return( z )
   }
 )
