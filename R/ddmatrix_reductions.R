@@ -116,8 +116,46 @@ dmat.dgamn2d <- function(ICTXT, SCOPE, m, n, x, lda, RDEST, CDEST)
 }
 
 
+# point to point communication
+dmat.dgesd2d <- function(ICTXT, SCOPE, m, n, x, lda, RDEST, CDEST)
+{
+  if (!is.matrix(x) && !is.vector(x)){
+    comm.print("ERROR : object 'x' must be of class matrix or vector.")
+    stop("")
+  }
+  
+  if (!is.double(x))
+    storage.mode(x) <- "double"
+  
+  out <- .Call("R_dgesd2d1", as.integer(ICTXT), as.integer(m), as.integer(n), 
+                x, as.integer(lda), as.integer(RDEST), as.integer(CDEST), 
+                PACKAGE="pbdBASE")
+  
+  return( out )
+}
+
+dmat.dgerv2d <- function(ICTXT, SCOPE, m, n, x, lda, RDEST, CDEST)
+{
+  if (!is.matrix(x) && !is.vector(x)){
+    comm.print("ERROR : object 'x' must be of class matrix or vector.")
+    stop("")
+  }
+  
+  if (!is.double(x))
+    storage.mode(x) <- "double"
+  
+  out <- .Call("R_dgerv2d1", as.integer(ICTXT), as.integer(m), as.integer(n), 
+                x, as.integer(lda), as.integer(RDEST), as.integer(CDEST), 
+                PACKAGE="pbdBASE")
+  
+  return( out )
+}
+
+
+
+
 # Higher level reduction interface
-dmat.blacsallreduce <- function(x, SCOPE, op, ICTXT, proc.dest=-1)
+dmat.blacsreduction <- function(x, SCOPE, op, ICTXT, proc.dest=-1)
 {
   if (!is.character(SCOPE)){
     if (SCOPE==1)
@@ -188,7 +226,7 @@ dmat.blacsallreduce <- function(x, SCOPE, op, ICTXT, proc.dest=-1)
 
 dmat.allcolreduce <- function(x, op='sum', ICTXT=0)
 {
-  dmat.blacsallreduce(x=x, SCOPE='Col', op=op, ICTXT=ICTXT, proc.dest=-1)
+  dmat.blacsreduction(x=x, SCOPE='Col', op=op, ICTXT=ICTXT, proc.dest=-1)
 }
 
 allcolreduce <- dmat.allcolreduce
@@ -196,7 +234,7 @@ allcolreduce <- dmat.allcolreduce
 
 dmat.allrowreduce <- function(x, op='sum', ICTXT=0)
 {
-  dmat.blacsallreduce(x=x, SCOPE='Row', op=op, ICTXT=ICTXT, proc.dest=-1)
+  dmat.blacsreduction(x=x, SCOPE='Row', op=op, ICTXT=ICTXT, proc.dest=-1)
 }
 
 allrowreduce <- dmat.allrowreduce
@@ -204,7 +242,7 @@ allrowreduce <- dmat.allrowreduce
 
 dmat.colreduce <- function(x, op='sum', proc.dest=0, ICTXT=0)
 {
-  dmat.blacsallreduce(x=x, SCOPE='Col', op=op, ICTXT=ICTXT, proc.dest=proc.dest)
+  dmat.blacsreduction(x=x, SCOPE='Col', op=op, ICTXT=ICTXT, proc.dest=proc.dest)
 }
 
 colreduce <- dmat.colreduce
@@ -212,7 +250,7 @@ colreduce <- dmat.colreduce
 
 dmat.rowreduce <- function(x, op='sum', proc.dest=0, ICTXT=0)
 {
-  dmat.blacsallreduce(x=x, SCOPE='Row', op=op, ICTXT=ICTXT, proc.dest=proc.dest)
+  dmat.blacsreduction(x=x, SCOPE='Row', op=op, ICTXT=ICTXT, proc.dest=proc.dest)
 }
 
 rowreduce <- dmat.rowreduce

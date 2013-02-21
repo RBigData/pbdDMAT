@@ -26,39 +26,55 @@ setMethod("sweep", signature(x="ddmatrix", STATS="vector"),
 )
 
 
-setMethod("sweep", signature(x="ddmatrix", STATS="ddmatrix"),
-  function(x, MARGIN, STATS, FUN = "-")
-  {
-    # checks
-    if ( !(FUN %in% c("+", "-", "*", "/")) ){
-      comm.print("Error : invalid argument 'FUN'")
-      stop("")
-    } 
-    
-    if (MARGIN != 1 && MARGIN != 2){
-      comm.print("Error : argument 'MARGIN' must be 1 or 2")
-      stop("")
-    }
-    
-    # work in place if possible, otherwise cast as global vector to preserve R-like BLAS
-    if (all(x@dim==STATS@dim)){
-      if (MARGIN==1)
-        return( x - STATS )
-#        else
-#          
-    }
-    else if (x@dim[MARGIN] != 1){
-      STATS <- as.vector(STATS)
-    }
-    else {
-      comm.print(STATS@Data)
-      x@Data <- base::sweep(x@Data, STATS@Data, MARGIN=MARGIN, FUN=FUN)
-      return( x )
-    }
-    
-    return( base.pdsweep(dx=x, vec=STATS, MARGIN=MARGIN, FUN=FUN) )
-  }
-)
+#setMethod("sweep", signature(x="ddmatrix", STATS="ddmatrix"),
+#  function(x, MARGIN, STATS, FUN = "-")
+#  {
+#    # checks
+#    if ( !(FUN %in% c("+", "-", "*", "/")) ){
+#      comm.print("Error : invalid argument 'FUN'")
+#      stop("")
+#    } 
+#    
+#    if (MARGIN != 1 && MARGIN != 2){
+#      comm.print("Error : argument 'MARGIN' must be 1 or 2")
+#      stop("")
+#    }
+#    
+#    if (any(x@bldim != STATS@bldim)){
+#      comm.print("Error : blocking dimensions of 'x' and 'STATS' must be identical")
+#      stop("")
+#    }
+#    
+#    if (x@ICTXT != STATS@ICTXT){
+#      comm.print("Error : ICTXT of 'x' and 'STATS' must be the same")
+#      stop("")
+#    }
+#    
+#    # work in place if possible, otherwise cast as global vector to preserve R-like BLAS
+#    if (all(x@dim==STATS@dim)){
+#      if (MARGIN==1)
+#        ret <- x - STATS
+##        else
+##          
+#    }
+#    else if (x@dim[MARGIN] != 1){
+#      if (x@dim[2/MARGIN]) == 1){
+#        STATS <- t(STATS)
+#        x@Data <- base::sweep(x@Data, STATS@Data, MARGIN=MARGIN, FUN=FUN)
+#        return( x )
+#      }
+#      else
+#        STATS <- as.vector(STATS)
+#        x@Data <- base::sweep(x@Data, STATS@Data, MARGIN=MARGIN, FUN=FUN)
+#    }
+#    else {
+#      x@Data <- base::sweep(x@Data, STATS@Data, MARGIN=MARGIN, FUN=FUN)
+#      return( x )
+#    }
+#    
+#    return( ret )
+#  }
+#)
 
 
 

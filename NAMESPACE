@@ -9,7 +9,15 @@ exportMethods(
   "median", "apply", "scale", "sweep",
   "qr", "qr.Q", "qr.R", "qr.qty", "qr.qy",
   "rcond",
-  "lm.fit", "diag", "crossprod", "tcrossprod"
+  "lm.fit", "diag", "crossprod", "tcrossprod",
+  "as.matrix", "as.vector", "as.ddmatrix",
+  "submatrix", "submatrix<-",
+  "[", "[<-", "na.exclude",
+  "nrow", "ncol", "dim", "ldim", "bldim", "ictxt", "submatrix",
+  "any", "all",
+  "summary",
+  "rbind", "cbind",
+  "print"
 )
 
 export(
@@ -25,5 +33,14 @@ export(
   # Covariance
   var, cov, sd, scale, sweep,
   # Reductions
-  sum, mean, prod, rowSums, colSums, rowMeans, colMeans
+  sum, mean, prod, rowSums, colSums, rowMeans, colMeans,
+  # Misc
+  ddmatrix, is.ddmatrix, 
+  is.na, is.nan, is.infinite, is.numeric,
+  head.ddmatrix, tail.ddmatrix,
+  "[", "[<-",
+  distribute, redistribute
 )
+
+
+
