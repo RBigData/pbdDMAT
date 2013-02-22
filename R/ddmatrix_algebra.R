@@ -162,9 +162,15 @@ setMethod("solve", signature(a="ddmatrix"),
       comm.print(paste("'a' (", a@dim[1], " x ", a@dim[2], ") must be square", sep=""))
       stop("")
     }
-
-    a@Data <- base.rpdgetri(a=a)
-
+    
+    desca <- base.descinit(dim=a@dim, bldim=a@bldim, ldim=a@ldim, ICTXT=a@ICTXT)
+    
+    n <- desca[4L]
+    
+    out <- base.rpdgetri(n=n, a=a@Data, desca=desca)
+    
+    a@Data <- out
+    
     return(a)
   }
 )
@@ -180,9 +186,19 @@ setMethod("solve", signature(a="ddmatrix", b="ddmatrix"),
   function(a, b)
   {
     base.checkem(x=a, y=b, checks=2:3)
-    ret <- base.rpdgesv(a=a, b=b)
     
-    return(ret)
+    # Matrix descriptors
+    desca <- base.descinit(dim=a@dim, bldim=a@bldim, ldim=a@ldim, ICTXT=a@ICTXT)
+    descb <- base.descinit(dim=b@dim, bldim=b@bldim, ldim=b@ldim, ICTXT=b@ICTXT)
+    
+    n <- desca[4L]
+    nrhs <- descb[4L]
+    
+    ret <- base.rpdgesv(n=n, nrhs=nrhs, a=a@Data, desca=desca, b=b@Data, descb=descb)
+    
+    b@Data <- ret
+    
+    return( b )
   }
 )
 
@@ -193,13 +209,79 @@ setMethod("solve", signature(a="ddmatrix", b="ddmatrix"),
 # ------------------------------------------------
 # ################################################
 
+dmat.svd <- function(x, nu, nv)
+{
+  ICTXT <- x@ICTXT
+  
+  # Matrix descriptors
+  m <- x@dim[1L]
+  n <- x@dim[2L]
+  size <- min(m, n)
+  bldim <- x@bldim
+  
+  desca <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=ICTXT)
+  
+  # U
+  if (nu==0){
+    jobu <- 'N'
+    udim <- c(1L, 1L)
+  }
+  else {
+    jobu <- 'V'
+    udim <- c(m, size)
+  }
+  
+  uldim <- base.numroc(dim=udim, bldim=bldim, ICTXT=ICTXT)
+  descu <- base.descinit(dim=udim, bldim=bldim, ldim=uldim, ICTXT=ICTXT)
+  
+  
+  # V^T
+  if (nv==0){
+    jobvt <- 'N'
+    vtdim <- c(1L, 1L)
+  }
+  else {
+    jobvt <- 'V'
+    vtdim <- c(size, n)
+  }
+  
+  vtldim <- base.numroc(dim=vtdim, bldim=bldim, ICTXT=ICTXT)
+  descvt <- base.descinit(dim=vtdim, bldim=bldim, ldim=vtldim, ICTXT=ICTXT)
+  
+  # Compute 
+  out <- base.rpdgesvd(jobu=jobu, jobvt=jobvt, m=m, n=n, a=x@Data, desca=desca, descu=descu, descvt=descvt)
+  
+  if (nu==0)
+    u <- NULL
+  else {
+    u <- new("ddmatrix", Data=out$u, dim=udim, ldim=uldim, bldim=bldim, ICTXT=ICTXT)
+    if (nu < u@dim[2L])
+      u <- u[, 1L:nu]
+  }
+  
+  if (nv==0)
+    vt <- NULL
+  else {
+    vt <- new("ddmatrix", Data=out$vt, dim=vtdim, ldim=vtldim, bldim=bldim, ICTXT=ICTXT)
+    if (nv < vt@dim[1L])
+      vt <- vt[1L:nv, ]
+  }
+  
+  ret <- list( d=out$d, u=u, vt=vt )
+  
+  return( ret )
+}
+
+
 setMethod("La.svd", signature(x="ddmatrix"), 
   function(x, nu=min(n, p), nv=min(n, p))
   {
     n <- nrow(x)
     p <- ncol(x)
     
-    return( base.rpdgesvd(x=x, nu=nu, nv=nv) )
+    ret <- dmat.svd(x=x, nu=nu, nv=nv)
+    
+    return( ret )
   }
 )
 
@@ -210,13 +292,13 @@ setMethod("svd", signature(x="ddmatrix"),
     n <- nrow(x)
     p <- ncol(x)
     
-    out <- base.rpdgesvd(x=x, nu=nu, nv=nv)
+    ret <- dmat.svd(x=x, nu=nu, nv=nv)
     
-    if (is.ddmatrix(out$vt))
-      out$vt <- t(out$vt)
-    names(out)[3] <- "v"
+    if (is.ddmatrix(ret$vt))
+      ret$vt <- t(ret$vt)
+    names(ret)[3] <- "v"
     
-    return(out)
+    return( ret )
   }
 )
 
@@ -225,18 +307,40 @@ setMethod("chol", signature(x="ddmatrix"),
   function(x)
   {
     if (diff(x@dim)!=0){
-      comm.print(paste("'x' (", x@dim[1], " x ", x@dim[2], ") must be square", sep=""))
+      comm.print(paste("'x' (", x@dim[1L], " x ", x@dim[2L], ") must be square", sep=""))
       stop("")
     }
     
-    return( base.rpdpotrf(x=x) )
+    desca <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
+    
+    n <- desca[4L]
+    
+    uplo <- "U"
+    
+    out <- base.rpdpotrf(uplo=uplo, n=n, a=x@Data, desca=desca)
+    
+    ret <- new("ddmatrix", Data=out$A, dim=x@dim, ldim=x@ldim, bldim=x@bldim, ICTXT=x@ICTXT)
+    ret <- base.tri2zero(dx=ret, uplo='L', diag='N')
+    
+    return( ret )
   }
 )
 
 
 setMethod("lu", signature(x="ddmatrix"), 
-  function(x) 
-    base.rpdgetrf(a=x)
+  function(x)
+  {
+    m <- x@dim[1L]
+    n <- x@dim[2L]
+    
+    desca <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
+    
+    out <- base.rpdgetrf(m=m, n=n, a=x@Data, desca=desca)
+    
+    x@Data <- out
+    
+    return( x )
+  }
 )
 
 # ---------------------------------------------------------
@@ -418,9 +522,17 @@ setMethod("norm", signature(x="ddmatrix"),
   function (x, type = c("O", "I", "F", "M", "2")) 
   {
     if (identical("2", type))
-      svd(x, nu = 0L, nv = 0L)$d[1L]
-    else
-      base.rpdlange(x=x, type=type)
+      ret <- svd(x, nu = 0L, nv = 0L)$d[1L]
+    else {
+      m <- x@dim[1L]
+      n <- x@dim[2L]
+      
+      desca <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
+      
+      ret <- base.rpdlange(norm=type, m=m, n=n, a=x@Data, desca=desca)
+    }
+    
+    return( ret )
   }
 )
 

@@ -1,34 +1,33 @@
 ### S4 methods
 
 # Misc
-setGeneric(name="sweep", useAsDefault=sweep)
-setGeneric(name="print", useAsDefault=print)
-setGeneric(name="nrow", useAsDefault=nrow)
-setGeneric(name="ncol", useAsDefault=ncol)
-setGeneric(name="as.matrix", useAsDefault=as.matrix)
-setGeneric(name="na.exclude", useAsDefault=na.exclude)
-setGeneric(name="all.equal", useAsDefault=all.equal)
-setGeneric(name="summary", useAsDefault=summary)
+setGeneric(name = "print", useAsDefault = base::print, package="pbdDMAT")
+setGeneric(name = "nrow", useAsDefault = base::nrow, package="pbdDMAT")
+setGeneric(name = "ncol", useAsDefault = base::ncol, package="pbdDMAT")
+setGeneric(name = "as.matrix", useAsDefault = base::as.matrix, package="pbdDMAT")
+setGeneric(name = "na.exclude", useAsDefault = stats::na.exclude, package="pbdDMAT")
+setGeneric(name = "all.equal", useAsDefault = base::all.equal, package="pbdDMAT")
+setGeneric(name = "summary", useAsDefault = base::summary, package="pbdDMAT")
 
 setGeneric(name="as.vector", 
   function(x, ...)
     standardGeneric("as.vector"),
-  package="pbdBASE"
+  package="pbdDMAT"
 )
 
 setGeneric(name="rbind", 
   function(..., ICTXT=0, deparse.level=1)
     standardGeneric("rbind"),
-  package="pbdBASE"
+  package="pbdDMAT"
 )
 
 setGeneric(name="cbind", 
   function(..., ICTXT=0, deparse.level=1)
     standardGeneric("cbind"),
-  package="pbdBASE"
+  package="pbdDMAT"
 )
 
-setGeneric(name = "apply", useAsDefault = apply)
+setGeneric(name = "apply", useAsDefault = base::apply, package="pbdDMAT")
 
 setGeneric(name="diag",
   function(x, ...)
@@ -38,13 +37,13 @@ setGeneric(name="diag",
 
 
 # Stats
-setGeneric(name = "scale", useAsDefault = scale)
-setGeneric(name = "var", useAsDefault = var)
-setGeneric(name = "cov", useAsDefault = cov)
-setGeneric(name = "prcomp", useAsDefault = prcomp)
-setGeneric(name = "scale", useAsDefault = scale)
-setGeneric(name = "sweep", useAsDefault = sweep)
-setGeneric(name = "lm.fit", useAsDefault = lm.fit)
+setGeneric(name = "scale", useAsDefault = base::scale, package="pbdDMAT")
+setGeneric(name = "var", useAsDefault = stats::var, package="pbdDMAT")
+setGeneric(name = "cov", useAsDefault = stats::cov, package="pbdDMAT")
+setGeneric(name = "prcomp", useAsDefault = stats::prcomp, package="pbdDMAT")
+setGeneric(name = "scale", useAsDefault = base::scale, package="pbdDMAT")
+setGeneric(name = "sweep", useAsDefault = base::sweep, package="pbdDMAT")
+setGeneric(name = "lm.fit", useAsDefault = stats::lm.fit, package="pbdDMAT")
 
 setGeneric(name="sd", 
   function(x, ...)
@@ -55,32 +54,30 @@ setGeneric(name="sd",
 
 
 # Reductions
-setGeneric(name = "diag", useAsDefault = diag)
-setGeneric(name = "mean", useAsDefault = mean)
-setGeneric(name = "median", useAsDefault = median)
-setGeneric(name = "rowSums", useAsDefault = rowSums)
-setGeneric(name = "colSums", useAsDefault = colSums)
-setGeneric(name = "rowMeans", useAsDefault = rowMeans)
-setGeneric(name = "colMeans", useAsDefault = colMeans)
+#setGeneric(name = "diag", useAsDefault = base::diag, package="pbdDMAT")
+setGeneric(name = "mean", useAsDefault = base::mean, package="pbdDMAT")
+setGeneric(name = "median", useAsDefault = stats::median, package="pbdDMAT")
+setGeneric(name = "rowSums", useAsDefault = base::rowSums, package="pbdDMAT")
+setGeneric(name = "colSums", useAsDefault = base::colSums, package="pbdDMAT")
+setGeneric(name = "rowMeans", useAsDefault = base::rowMeans, package="pbdDMAT")
+setGeneric(name = "colMeans", useAsDefault = base::colMeans, package="pbdDMAT")
 
 
 
 # Algebra
-setGeneric(name = "t", useAsDefault = t)
-setGeneric(name = "crossprod", useAsDefault = crossprod)
-setGeneric(name = "tcrossprod", useAsDefault = tcrossprod)
-setGeneric(name = "solve", useAsDefault = solve)
-setGeneric(name = "chol", useAsDefault = chol)
-setGeneric(name = "norm", useAsDefault = norm)
-setGeneric(name = "rcond", useAsDefault = rcond)
+setGeneric(name = "t", useAsDefault = base::t, package="pbdDMAT")
+setGeneric(name = "crossprod", useAsDefault = base::crossprod, package="pbdDMAT")
+setGeneric(name = "tcrossprod", useAsDefault = base::tcrossprod, package="pbdDMAT")
+setGeneric(name = "solve", useAsDefault = base::solve, package="pbdDMAT")
+setGeneric(name = "chol", useAsDefault = base::chol, package="pbdDMAT")
+setGeneric(name = "lu", useAsDefault = Matrix::lu, package="pbdDMAT")
 
-setGeneric("lu", 
-  def=function(x, ...) standardGeneric("lu"), 
-  package="pbdDMAT"
-)
+setGeneric(name = "norm", useAsDefault = base::norm, package="pbdDMAT")
+setGeneric(name = "rcond", useAsDefault = base::rcond, package="pbdDMAT")
 
-# Games to satisfy codetools' global variable checking --- they don't
-  # always play nice with S4
+
+
+# Games to satisfy codetools' global variable checking --- they don't always play nice with S4
 setGeneric(name="La.svd", 
   function(x, ...)
     standardGeneric("La.svd"),
@@ -151,36 +148,36 @@ setGeneric(name="qr.qty",
 setGeneric(name="as.ddmatrix", 
   function(x, ...) 
     standardGeneric("as.ddmatrix"), 
-  package="pbdBASE"
+  package="pbdDMAT"
 )
 
 setGeneric(name="submatrix", 
   function(x, ...) 
     standardGeneric("submatrix"), 
-  package="pbdBASE"
+  package="pbdDMAT"
 )
 
 setGeneric("submatrix<-", 
   function(x, value)
     standardGeneric("submatrix<-"),
-  package="pbdBASE"
+  package="pbdDMAT"
 )
 
 setGeneric(name="ldim", 
   function(x, ...) 
     standardGeneric("ldim"), 
-  package="pbdBASE"
+  package="pbdDMAT"
 )
 
 setGeneric(name="bldim", 
   function(x, ...) 
     standardGeneric("bldim"), 
-  package="pbdBASE"
+  package="pbdDMAT"
 )
 
 setGeneric(name="ictxt", 
   function(x, ...) 
     standardGeneric("ictxt"), 
-  package="pbdBASE"
+  package="pbdDMAT"
 )
 

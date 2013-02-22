@@ -8,8 +8,8 @@ exportPattern("^dmat\\.[[:alpha:]]+")
 exportMethods(
   "median", "apply", "scale", "sweep",
   "qr", "qr.Q", "qr.R", "qr.qty", "qr.qy",
-  "rcond",
-  "lm.fit", "diag", "crossprod", "tcrossprod",
+  "rcond", "norm",
+  "lm.fit", "diag", "crossprod", "tcrossprod", "lu",
   "as.matrix", "as.vector", "as.ddmatrix",
   "submatrix", "submatrix<-",
   "[", "[<-", "na.exclude",

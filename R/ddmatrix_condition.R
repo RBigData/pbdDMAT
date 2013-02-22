@@ -13,8 +13,12 @@
         stop("triangular matrix should be square")
     if (is.null(norm)) 
         norm <- "1"
-    else 
-        1/base.rpdtrcon(x=z, type=norm, uplo="U")
+    else {
+      desca <- base.descinit(dim=z@dim, bldim=z@bldim, ldim=z@ldim, ICTXT=z@ICTXT)
+      n <- z@dim[2L]
+      
+      1/base.rpdtrcon(norm=norm, uplo='U', diag='N', n=n, a=z@Data, desca=desca)
+    }
   }
 }
 
@@ -58,10 +62,20 @@ setMethod("rcond", signature(x="ddmatrix"),
       x <- qr.R(qr(if (d[1L] < d[2L]) t(x) else x))
       triangular <- TRUE
     }
-    if (triangular) 
-      ret <- base.rpdtrcon(x=x, type=norm, uplo="U")
-    else 
-      ret <- base.rpdgecon(x=x, type=norm)
+    if (triangular) {
+      desca <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
+      n <- x@dim[2L]
+      
+      ret <- base.rpdtrcon(norm=norm, uplo='U', diag='N', n=n, a=x@Data, desca=desca)
+    }
+    else {
+      desca <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
+      
+      m <- x@dim[1L]
+      n <- x@dim[2L]
+      
+      ret <- base.rpdgecon(norm=norm, m=m, n=n, a=x@Data, desca=desca)
+    }
     
     return( ret )
   }
