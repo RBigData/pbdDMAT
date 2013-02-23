@@ -21,10 +21,7 @@ is.ddmatrix <- base.is.ddmatrix
 
 
 # Distribute dense, in-core matrices
-    #   SEE http://www.netlib.org/utk/papers/factor/node3.html
-    #   and http://www.netlib.org/scalapack/slug/node75.html
-    #   and http://acts.nersc.gov/scalapack/hands-on/datadist.html
-base.as.ddmatrix <- function(x, bldim=.BLDIM, ICTXT=0)
+dmat.as.ddmatrix <- function(x, bldim=.BLDIM, ICTXT=0)
 {
 #  ICTXT <- base.blacs(ICTXT=ICTXT)$ICTXT
   nprocs <- pbdMPI::comm.size()

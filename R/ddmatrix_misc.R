@@ -42,7 +42,9 @@ ddmatrix <-  function(data, nrow, ncol, bldim=.BLDIM, ICTXT=0)
     Data <- matrix(0, ldim[1L], ldim[2L])
     dx <- new("ddmatrix", Data=Data, dim=dim, ldim=ldim, bldim=bldim, ICTXT=ICTXT)
     
-    dx <- base.pdsweep(dx, data, MARGIN=1, FUN="+")
+    descx <- base.descinit(dim=dx@dim, bldim=dx@bldim, ldim=dx@ldim, ICTXT=dx@ICTXT)
+    ret <- base.pdsweep(x=dx@Data, descx=descx, vec=data, MARGIN=1L, FUN="+")
+    dx@Data <- ret
   } 
   else {
     if (!base.ownany(dim=dim, bldim=bldim, ICTXT=ICTXT))
@@ -93,16 +95,16 @@ setMethod("as.vector", signature(x="ANY"),
 )
 
 setMethod("as.ddmatrix", signature(x="matrix"), 
-  base.as.ddmatrix
+  dmat.as.ddmatrix
 )
 
 setMethod("as.ddmatrix", signature(x="NULL"), 
-  base.as.ddmatrix
+  dmat.as.ddmatrix
 )
 
 setMethod("as.ddmatrix", signature(x="vector"), 
   function(x, bldim=.BLDIM, ICTXT=0)
-    base.as.ddmatrix(matrix(x), bldim=bldim, ICTXT=ICTXT)
+    dmat.as.ddmatrix(matrix(x), bldim=bldim, ICTXT=ICTXT)
 )
 
 # -------------------
@@ -383,9 +385,13 @@ setMethod("<", signature(e1="ddmatrix", e2="numeric"),
     if (base.ownany(dim=dim, bldim=e1@bldim, ICTXT=e1@ICTXT)){
       if (len==1)
         e1@Data <- e1@Data<e2
-      else
-        e1@Data <- matrix(as.logical(base.rl2blas(dx=e1, vec=e2, FUN=7)), e1@ldim[1], e1@ldim[2])
+      else {
+        descx <- base.descinit(dim=e1@dim, bldim=e1@bldim, ldim=e1@ldim, ICTXT=e1@ICTXT)
+        out <- base.rl2blas(x=e1@Data, descx=descx, vec=e2, FUN=7)
+        e1@Data <- matrix(as.logical(out), e1@ldim[1L], e1@ldim[2L])
+      }
     }
+    
     return(e1)
   }
 )
@@ -404,8 +410,11 @@ setMethod(">", signature(e1="ddmatrix", e2="numeric"),
     if (base.ownany(dim=dim, bldim=e1@bldim, ICTXT=e1@ICTXT)){
       if (len==1)
         e1@Data <- e1@Data>e2
-      else
-        e1@Data <- matrix(as.logical(base.rl2blas(dx=e1, vec=e2, FUN=8)), e1@ldim[1], e1@ldim[2])
+      else {
+        descx <- base.descinit(dim=e1@dim, bldim=e1@bldim, ldim=e1@ldim, ICTXT=e1@ICTXT)
+        out <- base.rl2blas(x=e1@Data, descx=descx, vec=e2, FUN=8)
+        e1@Data <- matrix(as.logical(out), e1@ldim[1L], e1@ldim[2L])
+      }
     }
     return(e1)
   }
@@ -425,8 +434,11 @@ setMethod("<=", signature(e1="ddmatrix", e2="numeric"),
     if (base.ownany(dim=dim, bldim=e1@bldim, ICTXT=e1@ICTXT)){
       if (len==1)
         e1@Data <- e1@Data<=e2
-      else
-        e1@Data <- matrix(as.logical(base.rl2blas(dx=e1, vec=e2, FUN=9)), e1@ldim[1], e1@ldim[2])
+      else {
+        descx <- base.descinit(dim=e1@dim, bldim=e1@bldim, ldim=e1@ldim, ICTXT=e1@ICTXT)
+        out <- base.rl2blas(x=e1@Data, descx=descx, vec=e2, FUN=9)
+        e1@Data <- matrix(as.logical(out), e1@ldim[1L], e1@ldim[2L])
+      }
     }
     return(e1)
   }
@@ -446,8 +458,11 @@ setMethod(">=", signature(e1="ddmatrix", e2="numeric"),
     if (base.ownany(dim=dim, bldim=e1@bldim, ICTXT=e1@ICTXT)){
       if (len==1)
         e1@Data <- e1@Data>=e2
-      else
-        e1@Data <- matrix(as.logical(base.rl2blas(dx=e1, vec=e2, FUN=10)), e1@ldim[1], e1@ldim[2])
+      else {
+        descx <- base.descinit(dim=e1@dim, bldim=e1@bldim, ldim=e1@ldim, ICTXT=e1@ICTXT)
+        out <- base.rl2blas(x=e1@Data, descx=descx, vec=e2, FUN=10)
+        e1@Data <- matrix(as.logical(out), e1@ldim[1L], e1@ldim[2L])
+      }
     }
     return(e1)
   }
@@ -467,8 +482,11 @@ setMethod("==", signature(e1="ddmatrix", e2="numeric"),
     if (base.ownany(dim=dim, bldim=e1@bldim, ICTXT=e1@ICTXT)){
       if (len==1)
         e1@Data <- e1@Data==e2
-      else
-        e1@Data <- matrix(as.logical(base.rl2blas(dx=e1, vec=e2, FUN=11)), e1@ldim[1], e1@ldim[2])
+      else {
+        descx <- base.descinit(dim=e1@dim, bldim=e1@bldim, ldim=e1@ldim, ICTXT=e1@ICTXT)
+        out <- base.rl2blas(x=e1@Data, descx=descx, vec=e2, FUN=11)
+        e1@Data <- matrix(as.logical(out), e1@ldim[1L], e1@ldim[2L])
+      }
     }
     return(e1)
   }
@@ -598,11 +616,21 @@ setMethod("is.infinite", signature(x="ddmatrix"),
 # Print
 # -------------------
 
+dmat.print <- function(dx)
+{
+  m <- dx@dim[1L]
+  n <- dx@dim[2L]
+  
+  desca <- base.descinit(dim=dx@dim, bldim=dx@bldim, ldim=dx@ldim, ICTXT=dx@ICTXT)
+  
+  base.rpdlaprnt(m=m, n=n, a=dx@Data, desca=desca)
+}
+
 setMethod("print", signature(x="ddmatrix"),
   function(x, ..., all=FALSE, name = "x"){
     if (all){
       assign(name, x)
-      eval(parse(text = paste("base.rpdlaprnt(", name, ")", sep = "") ))
+      eval(parse(text = paste("dmat.print(", name, ")", sep = "") ))
     } else {
       ff <- paste(paste(format(base.firstfew(x, atmost=4), scientific=TRUE, digits=3), collapse=", "), ", ...", sep="")
       if (comm.rank()==0){

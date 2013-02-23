@@ -19,9 +19,13 @@ setMethod("sweep", signature(x="ddmatrix", STATS="vector"),
     if ( is.matrix(STATS) )
       STATS <- as.vector(STATS)
     
-    ret <- base.pdsweep(dx=x, vec=STATS, MARGIN=MARGIN, FUN=FUN)
+    descx <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
     
-    return( ret )
+    ret <- base.pdsweep(x=x@Data, descx=descx, vec=STATS, MARGIN=MARGIN, FUN=FUN)
+    
+    x@Data <- ret
+    
+    return( x )
   }
 )
 
@@ -177,7 +181,9 @@ function(x, center=TRUE, scale=TRUE)
     # global matrix/vector
     else if (is.matrix(center) || (is.vector(center) && !is.logical(center))){
       center <- as.vector(center)
-      x <- base.pdsweep(dx=x, vec=center, MARGIN=2, FUN="-")
+      descx <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
+      ret <- base.pdsweep(x=x@Data, descx=descx, vec=center, MARGIN=2, FUN="-")
+      x@Data <- ret
       attr(x@Data, "scaled:center") <- center
     }
     # center ourselves
@@ -244,7 +250,9 @@ function(x, center=TRUE, scale=TRUE)
     # global matrix/vector
     else if (is.matrix(scale) || (is.vector(center) && !is.logical(center))){
       scale <- as.vector(scale)
-      x <- base.pdsweep(dx=x, vec=scale, MARGIN=2, FUN="-")
+      descx <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
+      ret <- base.pdsweep(x=x@Data, descx=descx, vec=scale, MARGIN=2L, FUN="-")
+      x@Data <- ret
       attr(x@Data, "scaled:scale") <- scale
     }
     # scale ourselves

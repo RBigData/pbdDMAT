@@ -18,12 +18,16 @@ setMethod("+", signature(e1="ddmatrix", e2="numeric"),
     if (base.ownany(dim=dim, bldim=e1@bldim, ICTXT=e1@ICTXT)){
       if (len==1)
         e1@Data <- e1@Data+e2
-      else
-        e1@Data <- base.rl2blas(dx=e1, vec=e2, FUN=0) # FUN=0 for "+"
+      else {
+        descx <- base.descinit(dim=e1@dim, bldim=e1@bldim, ldim=e1@ldim, ICTXT=e1@ICTXT)
+        e1@Data <- base.rl2blas(x=e1@Data, descx=descx, vec=e2, FUN=0) # FUN=0 for "+"
+      }
     }
+    
     return(e1)
   }
 )
+
 
 # Vector + ddmatrix
 setMethod("+", signature(e1="numeric", e2="ddmatrix"), 
@@ -31,15 +35,18 @@ setMethod("+", signature(e1="numeric", e2="ddmatrix"),
     e2+e1
 )
 
+
 # ddmatrix + ddmatrix
 setMethod("+", signature(e1="ddmatrix", e2="ddmatrix"), 
   function(e1, e2){
     base.checkem(x=e1, y=e2, checks=1:3)
     if (base.ownany(dim=e1@dim, bldim=e1@bldim, ICTXT=e1@ICTXT))
       e1@Data <- e1@Data + e2@Data
+    
     return(e1)
   }
 )
+
 
 # ----------------
 # -
@@ -55,8 +62,11 @@ setMethod("-", signature(e1="ddmatrix", e2="numeric"),
     if (base.ownany(dim=dim, bldim=e1@bldim, ICTXT=e1@ICTXT))
       if (len==1)
         e1@Data <- e1@Data-e2
-      else
-        e1@Data <- base.rl2blas(dx=e1, vec=e2, FUN=1) # FUN=1 for "-"
+      else {
+        descx <- base.descinit(dim=e1@dim, bldim=e1@bldim, ldim=e1@ldim, ICTXT=e1@ICTXT)
+        e1@Data <- base.rl2blas(x=e1@Data, descx=descx, vec=e2, FUN=1) # FUN=1 for "-"
+      }
+    
     return(e1)
   }
 )
@@ -65,6 +75,7 @@ setMethod("-", signature(e1="ddmatrix", e2="numeric"),
 setMethod("-", signature(e1="numeric", e2="ddmatrix"), 
   function(e1, e2){
     e2@Data <- -e2@Data
+    
     return(e2+e1)
   }
 )
@@ -75,6 +86,7 @@ setMethod("-", signature(e1="ddmatrix", e2="ddmatrix"),
     base.checkem(x=e1, y=e2, checks=1:3)
     if (base.ownany(dim=e1@dim, bldim=e1@bldim, ICTXT=e1@ICTXT))
       e1@Data <- e1@Data - e2@Data
+    
     return(e1)
   }
 )
@@ -83,6 +95,7 @@ setMethod("-", signature(e1="ddmatrix", e2="ddmatrix"),
 setMethod("-", signature(e1="ddmatrix", e2="missing"), 
   function(e1){
     e1@Data <- -e1@Data
+    
     return(e1)
   }
 )
@@ -101,8 +114,11 @@ setMethod("*", signature(e1="ddmatrix", e2="numeric"),
     if (base.ownany(dim=dim, bldim=e1@bldim, ICTXT=e1@ICTXT))
       if (len==1)
         e1@Data <- e1@Data*e2
-      else
-        e1@Data <- base.rl2blas(dx=e1, vec=e2, FUN=2) # FUN=2 for "*"
+      else {
+        descx <- base.descinit(dim=e1@dim, bldim=e1@bldim, ldim=e1@ldim, ICTXT=e1@ICTXT)
+        e1@Data <- base.rl2blas(x=e1@Data, descx=descx, vec=e2, FUN=2) # FUN=2 for "*"
+      }
+    
     return(e1)
   }
 )
@@ -119,6 +135,7 @@ setMethod("*", signature(e1="ddmatrix", e2="ddmatrix"),
     base.checkem(x=e1, y=e2, checks=1:3)
     if (base.ownany(dim=e1@dim, bldim=e1@bldim, ICTXT=e1@ICTXT))
       e1@Data <- e1@Data * e2@Data
+    
     return(e1)
   }
 )
@@ -136,8 +153,11 @@ setMethod("/", signature(e1="ddmatrix", e2="numeric"),
     if (base.ownany(dim=dim, bldim=e1@bldim, ICTXT=e1@ICTXT))
       if (len==1)
         e1@Data <- e1@Data/e2
-      else
-        e1@Data <- base.rl2blas(dx=e1, vec=e2, FUN=3) # FUN=3 for "/"
+      else {
+        descx <- base.descinit(dim=e1@dim, bldim=e1@bldim, ldim=e1@ldim, ICTXT=e1@ICTXT)
+        e1@Data <- base.rl2blas(x=e1@Data, descx=descx, vec=e2, FUN=3) # FUN=3 for "/"
+      }
+      
     return(e1)
   }
 )
@@ -146,6 +166,7 @@ setMethod("/", signature(e1="numeric", e2="ddmatrix"),
   function(e1, e2){
     if (base.ownany(dim=e2@dim, bldim=e2@bldim, ICTXT=e2@ICTXT))
       e2@Data <- 1 / e2@Data
+    
     return(e2*e1)
   }
 )
@@ -156,6 +177,7 @@ setMethod("/", signature(e1="ddmatrix", e2="ddmatrix"),
     base.checkem(x=e1, y=e2, checks=1:3)
     if (base.ownany(dim=e1@dim, bldim=e1@bldim, ICTXT=e1@ICTXT))
       e1@Data <- e1@Data / e2@Data
+    
     return(e1)
   }
 )
@@ -173,8 +195,11 @@ setMethod("^", signature(e1="ddmatrix", e2="numeric"),
     if (base.ownany(dim=dim, bldim=e1@bldim, ICTXT=e1@ICTXT))
       if (len==1)
         e1@Data <- e1@Data^e2
-      else
-        e1@Data <- base.rl2blas(dx=e1, vec=e2, FUN=4) # FUN=4 for "^"
+      else {
+        descx <- base.descinit(dim=e1@dim, bldim=e1@bldim, ldim=e1@ldim, ICTXT=e1@ICTXT)
+        e1@Data <- base.rl2blas(x=e1@Data, descx=descx, vec=e2, FUN=4) # FUN=4 for "^"
+      }
+    
     return(e1)
   }
 )
@@ -192,6 +217,7 @@ setMethod("^", signature(e1="ddmatrix", e2="ddmatrix"),
     base.checkem(x=e1, y=e2, checks=1:3)
     if (base.ownany(dim=e1@dim, bldim=e1@bldim, ICTXT=e1@ICTXT))
       e1@Data <- e1@Data ^ e2@Data
+    
     return(e1)
   }
 )
@@ -205,6 +231,7 @@ setMethod("%%", signature(e1="ddmatrix", e2="ddmatrix"),
     base.checkem(x=e1, y=e2, checks=1:3)
     if (base.ownany(dim=e1@dim, bldim=e1@bldim, ICTXT=e1@ICTXT))
       e1@Data <- e1@Data %% e2@Data
+    
     return(e1)
   }
 )
@@ -218,8 +245,11 @@ setMethod("%%", signature(e1="ddmatrix", e2="numeric"),
     if (base.ownany(dim=dim, bldim=e1@bldim, ICTXT=e1@ICTXT))
       if (len==1)
         e1@Data <- e1@Data %% e2
-      else
-        e1@Data <- base.rl2blas(dx=e1, vec=e2, FUN=5) # FUN=5 for "%%"
+      else {
+        descx <- base.descinit(dim=e1@dim, bldim=e1@bldim, ldim=e1@ldim, ICTXT=e1@ICTXT)
+        e1@Data <- base.rl2blas(x=e1@Data, descx=descx, vec=e2, FUN=5) # FUN=5 for "%%"
+      }
+      
     return(e1)
   }
 )
@@ -233,8 +263,11 @@ setMethod("%%", signature(e1="numeric", e2="ddmatrix"),
     if (base.ownany(dim=dim, bldim=e2@bldim, ICTXT=e2@ICTXT))
       if (len==1)
         e2@Data <- e1 %% e2@Data
-      else
-        e2@Data <- base.rl2blas(dx=e2, vec=e1, FUN=6) # FUN=6 for reverse "%%"
+      else {
+        descx <- base.descinit(dim=e2@dim, bldim=e2@bldim, ldim=e2@ldim, ICTXT=e2@ICTXT)
+        e2@Data <- base.rl2blas(x=e2@Data, descx=descx, vec=e1, FUN=6) # FUN=0 for reverse "%%"
+      }
+    
     return(e2)
   }
 )

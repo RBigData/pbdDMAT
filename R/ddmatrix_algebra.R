@@ -320,7 +320,8 @@ setMethod("chol", signature(x="ddmatrix"),
     out <- base.rpdpotrf(uplo=uplo, n=n, a=x@Data, desca=desca)
     
     ret <- new("ddmatrix", Data=out$A, dim=x@dim, ldim=x@ldim, bldim=x@bldim, ICTXT=x@ICTXT)
-    ret <- base.tri2zero(dx=ret, uplo='L', diag='N')
+    
+    ret@Data <- base.tri2zero(x=ret@Data, descx=desca, uplo='L', diag='N')
     
     return( ret )
   }
@@ -419,8 +420,9 @@ dmat.qr.R <- function(qr, complete=FALSE)
       ret <- ret[1:min(ret@dim), ]
   }
   
-  ret <- base.tri2zero(dx=ret, 'L', 'N')
-#  ret@Data <- base.low2zero(A=ret@Data, dim=ret@dim, ldim=ret@ldim, bldim=ret@bldim, ICTXT=ret@ICTXT)
+  desca <- base.descinit(dim=ret@dim, bldim=ret@bldim, ldim=ret@ldim, ICTXT=ret@ICTXT)
+  
+  ret@Data <- base.tri2zero(x=ret@Data, descx=desca, uplo='L', diag='N')
   
   # not particularly efficient, but I don't expect this to get any real use...
   rank <- qr$rank
