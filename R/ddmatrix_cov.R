@@ -60,13 +60,14 @@ function (x, y = NULL, use = "everything", method = "pearson")
     if (method == "pearson") {
 #########################################################
       cntr <- dmat.clmn(x, na.rm=FALSE)
-      x@Data <- base::scale(x@Data, center=cntr, scale=FALSE)
+      if (base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT))
+        x@Data <- base::scale(x@Data, center=cntr, scale=FALSE)
 #      x <- scale(x, scale=FALSE)
 #########################################################
       if (is.null(y))
         ret <- crossprod(x=x) / max(1, nrow(x) - 1)
       else {
-        scale(y, scale=FALSE)
+        scale(x=y, center=TRUE, scale=FALSE)
         ret <- base.rpdgemm(transx='T', transy='N', x=x, y=y, outbldim=x@bldim) / (nrow(x) - 1)
       }
     }
@@ -105,6 +106,9 @@ function (x, y = NULL, na.rm = FALSE, use)
 )
 
 
+# ------------------
+# sd
+# ------------------
 
 setMethod("sd", signature(x="ddmatrix"),
 function (x, na.rm = FALSE, reduce = FALSE, proc.dest="all") 
@@ -135,6 +139,36 @@ setMethod("sd", signature(x="ANY"),
   function(x, na.rm = FALSE) 
     stats::sd(x=x, na.rm=na.rm)
 )
+
+# ------------------
+# cor
+# ------------------
+
+setMethod("cor", signature(x="ddmatrix"),
+function (x, y = NULL, use = "everything", method = "pearson") 
+  {
+    if (method != "pearson")
+      stop("Not yet implemented")
+    
+    xscaled <- scale(x=x, center=TRUE, scale=TRUE)
+    
+    if (!is.null(y)){
+      yscaled <- scale(x=y, center=TRUE, scale=TRUE)
+      ret <- base.rpdgemm(transx='T', transy='N', x=x, y=y, outbldim=x@bldim) / (nrow(x) - 1)
+    }
+    else {
+      ret <- crossprod(x=x) / max(1, nrow(x) - 1)
+    }
+    
+    return( ret )
+  }
+)
+
+
+
+
+
+
 
 
 

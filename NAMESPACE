@@ -17,7 +17,8 @@ exportMethods(
   "any", "all",
   "summary",
   "rbind", "cbind",
-  "print"
+  "print",
+  "cov", "cor"
 )
 
 export(
@@ -31,7 +32,8 @@ export(
   # Principal Components
   scale, prcomp, diag,
   # Covariance
-  var, cov, sd, scale, sweep,
+  var, cov, sd, cor,
+  scale, sweep,
   # Reductions
   sum, mean, prod, rowSums, colSums, rowMeans, colMeans,
   # Misc

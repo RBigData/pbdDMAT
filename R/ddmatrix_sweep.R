@@ -112,8 +112,10 @@ dmat.clscl <- function(x, na.rm=TRUE)
   if (x@dim[1L]==1)
     return(abs(x@Data))
   
-  len <- integer(x@ldim[2L])
-  Data <- matrix(0.0, nrow=1L, ncol=x@ldim[2L])
+  n <- x@ldim[2L]
+  
+  len <- integer(n)
+  Data <- matrix(0.0, nrow=1L, ncol=n)
   for (i in 1L:x@ldim[2L]){
     v <- x@Data[, i]
     v <- v[!is.na(v)]
@@ -122,13 +124,15 @@ dmat.clscl <- function(x, na.rm=TRUE)
   }
   
   # local dimension correction for reduction
-  ldim <- dim(Data)
-  ldim[2L] <- dmat.allcolreduce(ldim[2L], op='max', ICTXT=x@ICTXT)
+  maxn <- dmat.allcolreduce(n, op='max', ICTXT=x@ICTXT)
   
-  if (dim(Data)[2L] != ldim[2L])
-    Data <- matrix(0.0, ldim[1L], ldim[2L])
+  if (dim(Data)[2L] != maxn)
+    Data <- matrix(0.0, 1L, maxn)
   
+  if (!base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT))
+    len <- integer(maxn)
   len <- dmat.allcolreduce(len, op='sum', ICTXT=x@ICTXT)
+  
   len <- sapply(len, function(i) max(i-1L, 1L))
   
   Data <- base::sweep(Data, len, FUN="/", MARGIN=2)
@@ -190,13 +194,15 @@ function(x, center=TRUE, scale=TRUE)
     else if (is.logical(center)){
       if (center){
         cntr <- dmat.clmn(x, na.rm=FALSE)
-        if (base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT))
+        iown <- base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT)
+        
+        if (iown)
           x@Data <- base::scale(x@Data, center=cntr, scale=FALSE)
         
         # attributes
         dim <- c(1, x@dim[2L])
         ldim <- base.numroc(dim=dim, bldim=x@bldim, ICTXT=x@ICTXT)
-        if (base.ownany(dim=dim, bldim=x@bldim, ICTXT=x@ICTXT))
+        if (iown)
           Data <- matrix(cntr, nrow=1)
         else
           Data <- matrix(0, 1, 1)
@@ -259,13 +265,17 @@ function(x, center=TRUE, scale=TRUE)
     else if (is.logical(scale)){
       if (scale){
         scl <- dmat.clscl(x, na.rm=FALSE)
-        if (base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT))
+        
+        iown <- base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT)
+        
+        if (iown)
           x@Data <- base::scale(x@Data, center=FALSE, scale=scl)
+        else {}
         
         # attributes
         dim <- c(1, x@dim[2L])
         ldim <- base.numroc(dim=dim, bldim=x@bldim, ICTXT=x@ICTXT)
-        if (base.ownany(dim=dim, bldim=x@bldim, ICTXT=x@ICTXT))
+        if (iown)
           Data <- matrix(scl, nrow=1)
         else
           Data <- matrix(0, 1, 1)

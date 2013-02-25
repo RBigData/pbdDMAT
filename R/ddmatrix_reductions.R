@@ -201,18 +201,18 @@ dmat.blacsreduction <- function(x, SCOPE, op, ICTXT, proc.dest=-1)
   
   if (op == 'sum'){
     if (is.integer(x))
-      out <- dmat.igsum2d(ICTXT=ICTXT, SCOPE=SCOPE, m=m, n=n, x=x, lda=1L, RDEST=rdest, CDEST=cdest)
+      out <- dmat.igsum2d(ICTXT=ICTXT, SCOPE=SCOPE, m=m, n=n, x=x, lda=m, RDEST=rdest, CDEST=cdest)
     else
-      out <- dmat.dgsum2d(ICTXT=ICTXT, SCOPE=SCOPE, m=m, n=n, x=x, lda=1L, RDEST=rdest, CDEST=cdest)
+      out <- dmat.dgsum2d(ICTXT=ICTXT, SCOPE=SCOPE, m=m, n=n, x=x, lda=m, RDEST=rdest, CDEST=cdest)
   }
   else if (op == 'max'){
     if (is.integer(x))
-      out <- dmat.igamx2d(ICTXT=ICTXT, SCOPE=SCOPE, m=m, n=n, x=x, lda=1L, RDEST=rdest, CDEST=cdest)
+      out <- dmat.igamx2d(ICTXT=ICTXT, SCOPE=SCOPE, m=m, n=n, x=x, lda=m, RDEST=rdest, CDEST=cdest)
     else
-      out <- dmat.dgamx2d(ICTXT=ICTXT, SCOPE=SCOPE, m=m, n=n, x=x, lda=1L, RDEST=rdest, CDEST=cdest)
+      out <- dmat.dgamx2d(ICTXT=ICTXT, SCOPE=SCOPE, m=m, n=n, x=x, lda=m, RDEST=rdest, CDEST=cdest)
   }
   else if (op == 'min'){
-    out <- dmat.dgamn2d(ICTXT=ICTXT, SCOPE=SCOPE, m=m, n=n, x=x, lda=1L, RDEST=rdest, CDEST=cdest)
+    out <- dmat.dgamn2d(ICTXT=ICTXT, SCOPE=SCOPE, m=m, n=n, x=x, lda=m, RDEST=rdest, CDEST=cdest)
   }
   else {
     comm.print("ERROR : invalid argument 'op'")
