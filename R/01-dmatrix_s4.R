@@ -4,6 +4,8 @@
 setGeneric(name = "print", useAsDefault = base::print, package="pbdDMAT")
 setGeneric(name = "nrow", useAsDefault = base::nrow, package="pbdDMAT")
 setGeneric(name = "ncol", useAsDefault = base::ncol, package="pbdDMAT")
+setGeneric(name = "NROW", useAsDefault = base::NROW, package="pbdDMAT")
+setGeneric(name = "NCOL", useAsDefault = base::NCOL, package="pbdDMAT")
 setGeneric(name = "as.matrix", useAsDefault = base::as.matrix, package="pbdDMAT")
 setGeneric(name = "na.exclude", useAsDefault = stats::na.exclude, package="pbdDMAT")
 setGeneric(name = "all.equal", useAsDefault = base::all.equal, package="pbdDMAT")
@@ -73,6 +75,7 @@ setGeneric(name = "tcrossprod", useAsDefault = base::tcrossprod, package="pbdDMA
 setGeneric(name = "solve", useAsDefault = base::solve, package="pbdDMAT")
 setGeneric(name = "chol", useAsDefault = base::chol, package="pbdDMAT")
 setGeneric(name = "lu", useAsDefault = Matrix::lu, package="pbdDMAT")
+setGeneric(name = "chol2inv", useAsDefault = base::chol2inv, package="pbdDMAT")
 
 setGeneric(name = "norm", useAsDefault = base::norm, package="pbdDMAT")
 setGeneric(name = "rcond", useAsDefault = base::rcond, package="pbdDMAT")

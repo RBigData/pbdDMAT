@@ -154,6 +154,7 @@ setMethod("tcrossprod", signature(x="ddmatrix", y="ANY"),
   }
 )
 
+
 # inversion
 setMethod("solve", signature(a="ddmatrix"), 
   function(a)
@@ -172,6 +173,32 @@ setMethod("solve", signature(a="ddmatrix"),
     a@Data <- out
     
     return(a)
+  }
+)
+
+# inversion via a qr
+setMethod("chol2inv", signature(x="ANY"), 
+  function(x, size = if(class(x=='qr')) NCOL(x$qr) else NCOL(x))
+  {
+    if (class(x) == "qr"){
+      if (is.ddmatrix(x$qr)){
+        r <- qr.R(x)
+        descx <- base.descinit(dim=r@dim, bldim=r@bldim, ldim=r@ldim, ICTXT=r@ICTXT)
+        
+        cdim <- rep(r@dim[2L], 2)
+        cldim <- base.numroc(dim=cdim, bldim=r@bldim, ICTXT=r@ICTXT)
+        descc <- base.descinit(dim=cdim, bldim=r@bldim, cldim, ICTXT=r@ICTXT)
+        
+        out <- base.pdchtri(x=r@Data, descx=descx, descc=descc)
+        
+        c <- new("ddmatrix", Data=out, dim=cdim, ldim=cldim, bldim=x$qr@bldim, ICTXT=x$qr@ICTXT)
+        
+        return( c )
+      }
+    }
+    else {
+      base::chol2inv(x=x, size=size)
+    }
   }
 )
 

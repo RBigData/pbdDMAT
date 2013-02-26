@@ -395,7 +395,17 @@ setMethod("nrow", signature(x="ddmatrix"),
     return(x@dim[1L])
 )
 
+setMethod("NROW", signature(x="ddmatrix"),
+  function(x)
+    return(x@dim[1L])
+)
+
 setMethod("ncol", signature(x="ddmatrix"),
+  function(x)
+    return(x@dim[2L])
+)
+
+setMethod("NCOL", signature(x="ddmatrix"),
   function(x)
     return(x@dim[2L])
 )
