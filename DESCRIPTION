@@ -2,17 +2,19 @@ Package: pbdDMAT
 Title: Programming with Big Data -- Distributed Matrix Computation
 Version: 0.2-0
 Date: 2012-10-17
-Depends: R (>= 2.15.1), methods, rlecuyer, pbdMPI (>= 0.1-3), pbdSLAP,
-        pbdBASE (>= 0.1-1)
+Depends: R (>= 2.14.0), methods, rlecuyer, pbdMPI (>= 0.1-4), 
+        pbdSLAP (>= 0.1-4), pbdBASE (>= 0.2-0)
 LazyLoad: yes
 LazyData: yes
 Authors@R: c(person("Drew", "Schmidt", role = c("aut", "cre"), email =
         "schmidt@math.utk.edu"), person("Wei-Chen", "Chen", role =
         "aut"), person("George", "Ostrouchov", role = "aut"),
         person("Pragneshkumar", "Patel", role = "aut"))
-Description: pbdDMAT is a package for distributed matrix algebra
-        computations over MPI to BLACS, PBLAS, and ScaLAPACK via pbdMPI,
-        pbdSLAP, and pbdBASE.
+Description: pbdDMAT contains high level S3 and S4 methods for creating,
+        modifying, and performing computations with distributed matcies.
+        This includes a new class, 'ddmatrix', for storing all of the 
+        distributed data details.  Computation is handled mostly by
+        functions from the pbdBASE package.
 SystemRequirements: OpenMPI (>= 1.5.4) on Solaris, Linux and Mac,
         MPICH2 (>= 1.4.1p1) on Windows
 License: GPL (>= 2)

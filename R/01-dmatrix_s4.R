@@ -40,6 +40,8 @@ setGeneric(name="diag",
 setGeneric(name = "scale", useAsDefault = base::scale, package="pbdDMAT")
 setGeneric(name = "var", useAsDefault = stats::var, package="pbdDMAT")
 setGeneric(name = "cov", useAsDefault = stats::cov, package="pbdDMAT")
+setGeneric(name = "cor", useAsDefault = stats::cor, package="pbdDMAT")
+setGeneric(name = "cov2cor", useAsDefault = stats::cov2cor, package="pbdDMAT")
 setGeneric(name = "prcomp", useAsDefault = stats::prcomp, package="pbdDMAT")
 setGeneric(name = "scale", useAsDefault = base::scale, package="pbdDMAT")
 setGeneric(name = "sweep", useAsDefault = base::sweep, package="pbdDMAT")
@@ -145,6 +147,12 @@ setGeneric(name="qr.qty",
 
 
 ### S4 methods for new things
+setGeneric(name="ddmatrix", 
+  function(data, ...) 
+    standardGeneric("ddmatrix"), 
+  package="pbdDMAT"
+)
+
 setGeneric(name="as.ddmatrix", 
   function(x, ...) 
     standardGeneric("as.ddmatrix"), 

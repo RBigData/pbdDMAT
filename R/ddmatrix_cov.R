@@ -6,7 +6,7 @@ setMethod("cov", signature(x="ddmatrix"),
 function (x, y = NULL, use = "everything", method = "pearson") 
   {
     yexists <- !is.null(y)
-
+    
     if (yexists){
       if (!is.ddmatrix(y)){
         comm.print("Error : 'y' must be a distributed matrix")
@@ -144,10 +144,15 @@ setMethod("sd", signature(x="ANY"),
 # cor
 # ------------------
 
+### FIXME
+# experimental
 setMethod("cor", signature(x="ddmatrix"),
 function (x, y = NULL, use = "everything", method = "pearson") 
   {
     if (method != "pearson")
+      stop("Not yet implemented")
+    
+    if (use != "everything")
       stop("Not yet implemented")
     
     xscaled <- scale(x=x, center=TRUE, scale=TRUE)
@@ -166,11 +171,22 @@ function (x, y = NULL, use = "everything", method = "pearson")
 
 
 
-
-
-
-
-
+setMethod("cov2cor", signature(V="ddmatrix"),
+function(V)
+  {
+    d <- sqrt(1/diag(V))
+    
+    r <- V@Data
+    descv <- base.descinit(dim=V@dim, bldim=V@bldim, ldim=V@ldim, ICTXT=V@ICTXT)
+    
+    r <- base.pdsweep(x=r, descx=descv, vec=d, MARGIN=1L, FUN="*")
+    r <- base.pdsweep(x=r, descx=descv, vec=d, MARGIN=2L, FUN="*")
+    
+    V@Data <- r
+    
+    return( V )
+  }
+)
 
 
 

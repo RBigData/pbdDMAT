@@ -10,7 +10,7 @@ exportMethods(
   "qr", "qr.Q", "qr.R", "qr.qty", "qr.qy",
   "rcond", "norm",
   "lm.fit", "diag", "crossprod", "tcrossprod", "lu",
-  "as.matrix", "as.vector", "as.ddmatrix",
+  "as.matrix", "as.vector", "as.ddmatrix", "ddmatrix",
   "submatrix", "submatrix<-",
   "[", "[<-", "na.exclude",
   "nrow", "ncol", "dim", "ldim", "bldim", "ictxt", "submatrix",
@@ -18,7 +18,7 @@ exportMethods(
   "summary",
   "rbind", "cbind",
   "print",
-  "cov", "cor"
+  "cov", "cor", "cov2cor"
 )
 
 export(
@@ -32,7 +32,7 @@ export(
   # Principal Components
   scale, prcomp, diag,
   # Covariance
-  var, cov, sd, cor,
+  var, cov, sd, cor, cov2cor,
   scale, sweep,
   # Reductions
   sum, mean, prod, rowSums, colSums, rowMeans, colMeans,

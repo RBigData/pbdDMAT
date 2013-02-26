@@ -341,7 +341,9 @@ setMethod("colMeans", signature(x="ddmatrix"),
 setMethod("diag", signature(x="ddmatrix"),
   function(x)
   {
-    base.ddiagtk(x)
+    ret <- base.ddiagtk(x)
+    
+    return( ret )
   }
 )
 

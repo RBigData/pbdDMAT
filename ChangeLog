@@ -1,4 +1,8 @@
-2012-02-05:
+2012-02-26:
+  * Added method for 'cor' (pearson only).
+  * Significantly expanded method "ddmatrix".
+
+2012-02-15:
   * Completely redid all the internals to accommodate corresponding pbdBASE changes.
 
 2012-01-04:
@@ -6,7 +10,7 @@
   * Added new diag() method for constructing diagonal ddmatrices.
 
 2012-12-17:
-  * Add copyright to vignette.
+  * Added copyright to vignette.
 
 pbdDMAT 0.1-1 (2012-12-1) ----------------------------------------------------
 
