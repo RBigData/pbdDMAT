@@ -176,7 +176,7 @@ setMethod("solve", signature(a="ddmatrix"),
   }
 )
 
-# inversion via a qr
+# inversion via a cholesky, or inversion of crossprod(x) via qr
 setMethod("chol2inv", signature(x="ddmatrix"), 
   function(x, size = NCOL(x))
   {
@@ -185,8 +185,10 @@ setMethod("chol2inv", signature(x="ddmatrix"),
     if (is.na(size) || size <= 0L || size > nr || size > nc) 
       stop("invalid 'size' argument in 'chol2inv'")
     
-    if (size < nr || size < nc)
-      x <- x[1:size, 1:size]
+    if (size < nr || size < nc){
+      vec <- 1L:size
+      x <- x[vec, vec]
+    }
     
     descx <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
     
@@ -443,8 +445,8 @@ dmat.qr.R <- function(qr, complete=FALSE)
   ret <- qr$qr
   
   if (!complete){
-    if (min(ret@dim)!=ret@dim[1])
-      ret <- ret[1:min(ret@dim), ]
+    if (min(ret@dim)!=ret@dim[1L])
+      ret <- ret[1L:min(ret@dim), ]
   }
   
   desca <- base.descinit(dim=ret@dim, bldim=ret@bldim, ldim=ret@ldim, ICTXT=ret@ICTXT)
@@ -453,12 +455,12 @@ dmat.qr.R <- function(qr, complete=FALSE)
   
   # not particularly efficient, but I don't expect this to get any real use...
   rank <- qr$rank
-  n <- ret@dim[1]
-  p <- ret@dim[2]
+  n <- ret@dim[1L]
+  p <- ret@dim[2L]
   mn <- min(ret@dim)
   if (rank < p){
     if (n>p)
-      for (i in (rank+1):mn)
+      for (i in (rank+1L):mn)
         ret[i,i] <- 0
   }
   
