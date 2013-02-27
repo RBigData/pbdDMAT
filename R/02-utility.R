@@ -132,7 +132,7 @@ base.distribute <- function(x, bldim=.BLDIM, xCTXT=0, ICTXT=0)
   ldim <- dim(x)
 
   if (!is.double(x))
-    x <- matrix(as.double(x), ldim[1L], ldim[2L])
+    storage.mode(x) <- "double"
 
   blacs_ <- blacs(xCTXT)
   if (blacs_$NPROW > 1)

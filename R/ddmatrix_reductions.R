@@ -261,25 +261,33 @@ dmat.rcsum <- function(x, na.rm=FALSE, SCOPE, MEAN=FALSE)
 {
   if (SCOPE == 'Row'){
     if (MEAN)
-      Data <- matrix(rowSums(x@Data / as.double(x@dim[2L]), na.rm=na.rm), ncol=1L)
+      Data <- rowSums(x@Data / as.double(x@dim[2L]), na.rm=na.rm)
+#      Data <- matrix(rowSums(x@Data / as.double(x@dim[2L]), na.rm=na.rm), ncol=1L)
     else
-      Data <- matrix(rowSums(x@Data, na.rm=na.rm), ncol=1L)
+      Data <- rowSums(x@Data, na.rm=na.rm)
+#      Data <- matrix(rowSums(x@Data, na.rm=na.rm), ncol=1L)
+    
+    dim(Data) <- c(base::length(Data), 1L)
     
     if (x@dim[2L]==1)
       return( Data )
-    
-    n <- nrow(Data)
+    else
+      n <- nrow(Data)
   }
   else {
     if (MEAN)
-      Data <- matrix(colSums(x@Data / as.double(x@dim[1L]), na.rm=na.rm), nrow=1L)
+      Data <- colSums(x@Data / as.double(x@dim[1L]), na.rm=na.rm)
+#      Data <- matrix(colSums(x@Data / as.double(x@dim[1L]), na.rm=na.rm), nrow=1L)
     else
-      Data <- matrix(colSums(x@Data, na.rm=na.rm), nrow=1L)
+      Data <- colSums(x@Data, na.rm=na.rm)
+#      Data <- matrix(colSums(x@Data, na.rm=na.rm), nrow=1L)
+    
+    dim(Data) <- c(1L, base::length(Data))
     
     if (x@dim[1L]==1)
       return( Data )
-    
-    n <- ncol(Data)
+    else
+      n <- ncol(Data)
   }
   
   
@@ -302,8 +310,11 @@ dmat.rcsum <- function(x, na.rm=FALSE, SCOPE, MEAN=FALSE)
 # rowSums
 setMethod("rowSums", signature(x="ddmatrix"), 
   function(x, na.rm=FALSE){
-    z <- new("ddmatrix", dim=c(x@dim[1L], 1L), ldim=c(length(x@Data), 1L), bldim=x@bldim) 
-    z@Data <- matrix(dmat.rcsum(x, na.rm=na.rm, SCOPE='Row', MEAN=FALSE), ncol=1)
+    Data <- dmat.rcsum(x, na.rm=na.rm, SCOPE='Row', MEAN=FALSE)
+#    dim(Data) <- c(base::length(Data), 1L)
+    
+    z <- new("ddmatrix", Data=Data, dim=c(x@dim[1L], 1L), ldim=c(length(x@Data), 1L), bldim=x@bldim) 
+    
     return( z )
   }
 )
@@ -311,8 +322,10 @@ setMethod("rowSums", signature(x="ddmatrix"),
 # colSums
 setMethod("colSums", signature(x="ddmatrix"), 
   function(x, na.rm=FALSE){
-    z <- new("ddmatrix", dim=c(1L, x@dim[2L]), ldim=c(1L,length(x@Data)), bldim=x@bldim) 
-    z@Data <- dmat.rcsum(x, na.rm=na.rm, SCOPE='Col', MEAN=FALSE)
+    Data <- dmat.rcsum(x, na.rm=na.rm, SCOPE='Col', MEAN=FALSE)
+    
+    z <- new("ddmatrix", Data=Data, dim=c(1L, x@dim[2L]), ldim=c(1L,length(x@Data)), bldim=x@bldim) 
+    
     return( z )
   }
 )
@@ -320,8 +333,11 @@ setMethod("colSums", signature(x="ddmatrix"),
 # rowMeans
 setMethod("rowMeans", signature(x="ddmatrix"), 
   function(x, na.rm=FALSE){
-    z <- new("ddmatrix", dim=c(x@dim[1], 1), ldim=c(length(x@Data), 1), bldim=x@bldim) 
-    z@Data <- matrix(dmat.rcsum(x, na.rm=na.rm, SCOPE='Row', MEAN=TRUE), ncol=1)
+    Data <- dmat.rcsum(x, na.rm=na.rm, SCOPE='Row', MEAN=TRUE)
+#    dim(Data) <- c(base::length(Data), 1L)
+    
+    z <- new("ddmatrix", Data=Data, dim=c(x@dim[1L], 1L), ldim=c(length(x@Data), 1L), bldim=x@bldim) 
+    
     return( z )
   }
 )
@@ -329,8 +345,10 @@ setMethod("rowMeans", signature(x="ddmatrix"),
 # colMeans
 setMethod("colMeans", signature(x="ddmatrix"), 
   function(x, na.rm=FALSE){
-    z <- new("ddmatrix", dim=c(1, x@dim[2]), ldim=c(1,length(x@Data)), bldim=x@bldim) 
-    z@Data <- dmat.rcsum(x, na.rm=na.rm, SCOPE='Col', MEAN=TRUE)
+    Data <- dmat.rcsum(x, na.rm=na.rm, SCOPE='Col', MEAN=TRUE)
+    
+    z <- new("ddmatrix", Data=Data, dim=c(1, x@dim[2]), ldim=c(1,length(x@Data)), bldim=x@bldim) 
+    
     return( z )
   }
 )
@@ -341,7 +359,9 @@ setMethod("colMeans", signature(x="ddmatrix"),
 setMethod("diag", signature(x="ddmatrix"),
   function(x)
   {
-    ret <- base.ddiagtk(x)
+    descx <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
+    
+    ret <- base.ddiagtk(x=x@Data, descx=descx)
     
     return( ret )
   }

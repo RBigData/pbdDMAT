@@ -91,7 +91,12 @@ setMethod("<", signature(e1="ddmatrix", e2="numeric"),
       else {
         descx <- base.descinit(dim=e1@dim, bldim=e1@bldim, ldim=e1@ldim, ICTXT=e1@ICTXT)
         out <- base.rl2blas(x=e1@Data, descx=descx, vec=e2, FUN=7)
-        e1@Data <- matrix(as.logical(out), e1@ldim[1L], e1@ldim[2L])
+        
+        dim(out) <- e1@ldim
+        if (!is.logical(out))
+          storage.mode(out) <- "logical"
+        
+        e1@Data <- out
       }
     }
     
@@ -116,7 +121,12 @@ setMethod(">", signature(e1="ddmatrix", e2="numeric"),
       else {
         descx <- base.descinit(dim=e1@dim, bldim=e1@bldim, ldim=e1@ldim, ICTXT=e1@ICTXT)
         out <- base.rl2blas(x=e1@Data, descx=descx, vec=e2, FUN=8)
-        e1@Data <- matrix(as.logical(out), e1@ldim[1L], e1@ldim[2L])
+        
+        dim(out) <- e1@ldim
+        if (!is.logical(out))
+          storage.mode(out) <- "logical"
+        
+        e1@Data <- out
       }
     }
     return(e1)
@@ -140,7 +150,12 @@ setMethod("<=", signature(e1="ddmatrix", e2="numeric"),
       else {
         descx <- base.descinit(dim=e1@dim, bldim=e1@bldim, ldim=e1@ldim, ICTXT=e1@ICTXT)
         out <- base.rl2blas(x=e1@Data, descx=descx, vec=e2, FUN=9)
-        e1@Data <- matrix(as.logical(out), e1@ldim[1L], e1@ldim[2L])
+        
+        dim(out) <- e1@ldim
+        if (!is.logical(out))
+          storage.mode(out) <- "logical"
+        
+        e1@Data <- out
       }
     }
     return(e1)
@@ -164,7 +179,12 @@ setMethod(">=", signature(e1="ddmatrix", e2="numeric"),
       else {
         descx <- base.descinit(dim=e1@dim, bldim=e1@bldim, ldim=e1@ldim, ICTXT=e1@ICTXT)
         out <- base.rl2blas(x=e1@Data, descx=descx, vec=e2, FUN=10)
-        e1@Data <- matrix(as.logical(out), e1@ldim[1L], e1@ldim[2L])
+        
+        dim(out) <- e1@ldim
+        if (!is.logical(out))
+          storage.mode(out) <- "logical"
+        
+        e1@Data <- out
       }
     }
     return(e1)
@@ -188,7 +208,12 @@ setMethod("==", signature(e1="ddmatrix", e2="numeric"),
       else {
         descx <- base.descinit(dim=e1@dim, bldim=e1@bldim, ldim=e1@ldim, ICTXT=e1@ICTXT)
         out <- base.rl2blas(x=e1@Data, descx=descx, vec=e2, FUN=11)
-        e1@Data <- matrix(as.logical(out), e1@ldim[1L], e1@ldim[2L])
+        
+        dim(out) <- e1@ldim
+        if (!is.logical(out))
+          storage.mode(out) <- "logical"
+        
+        e1@Data <- out
       }
     }
     return(e1)
@@ -264,7 +289,7 @@ setMethod("na.exclude", signature(object="ddmatrix"),
       if (lnarows < newObj@dim[1])
         new <- newObj@Data[-narows, , drop=FALSE] 
       else
-        new <- matrix(0, nrow=0, ncol=newObj@dim[2])
+        new <- matrix(0.0, nrow=0, ncol=newObj@dim[2])
 #        if (!is.matrix(new))
 #          new <- matrix(new, nrow=1)
       newObj@Data <- new
@@ -276,7 +301,7 @@ setMethod("na.exclude", signature(object="ddmatrix"),
 
     # correction for 0xn ldims
     if (newObj@ldim[1]==0){
-      newObj@Data <- matrix(0)
+      newObj@Data <- matrix(0.0)
       newObj@dim[1] <- 0
       newObj@ldim <- c(1,1)
       newObj@ICTXT <- oldCTXT

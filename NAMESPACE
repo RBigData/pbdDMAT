@@ -37,7 +37,7 @@ export(
   # Reductions
   sum, mean, prod, rowSums, colSums, rowMeans, colMeans,
   # Misc
-  as.matrix,
+  as.matrix, ownany,
   ddmatrix, as.ddmatrix, is.ddmatrix, 
   is.na, is.nan, is.infinite, is.numeric,
   head.ddmatrix, tail.ddmatrix,

@@ -51,7 +51,8 @@ setMethod("lm.fit", signature(x="ddmatrix", y="ddmatrix"),
     
     # convert IPIV to global vector if it isn't already
     if (base.blacs(ICTXT=x@ICTXT)$NPCOL > 1L){
-      c <- new("ddmatrix", Data=matrix(out$IPIV, nrow=1L),
+      dim(out$IPIV) <- c(1L, length(out$IPIV))
+      c <- new("ddmatrix", Data=out$IPIV,
                 dim=c(1L, y@dim[1L]), ldim=c(1L, y@ldim[1L]), 
                 bldim=y@bldim, ICTXT=oldctxt)
       pivot <- as.vector(c)

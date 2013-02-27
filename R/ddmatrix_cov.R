@@ -122,7 +122,9 @@ function (x, na.rm = FALSE, reduce = FALSE, proc.dest="all")
                   as.integer(x@ICTXT),
                   PACKAGE="pbdBASE")
     
-    sdv <- matrix(sqrt(sdv), nrow=1)
+    sdv <- sqrt(sdv)
+    dim(sdv) <- c(1L, base::length(sdv))
+#    sdv <- matrix(sqrt(sdv), nrow=1)
     
     ret <- new("ddmatrix", 
                Data=sdv, dim=c(1, x@dim[2]), 

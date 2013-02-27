@@ -15,10 +15,10 @@ setClass(
                          ICTXT="numeric"
           ),
           prototype(
-                         Data=matrix(0),
-                         dim=c(1,1),
-                         ldim=c(1,1),
-                         bldim=c(1,1),
+                         Data=matrix(0.0),
+                         dim=c(1L, 1L),
+                         ldim=c(1L, 1L),
+                         bldim=c(1L, 1L),
                          ICTXT=0
           )
 )

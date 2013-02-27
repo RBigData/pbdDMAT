@@ -196,7 +196,7 @@ setMethod("chol2inv", signature(x="ddmatrix"),
     cldim <- base.numroc(dim=cdim, bldim=x@bldim, ICTXT=x@ICTXT)
     descc <- base.descinit(dim=cdim, bldim=x@bldim, cldim, ICTXT=x@ICTXT)
     
-    out <- base.pdchtri(x=x@Data, descx=descx, descc=descc)
+    out <- base.pdchtri(uplo='U', x=x@Data, descx=descx, descc=descc)
     
     c <- new("ddmatrix", Data=out, dim=cdim, ldim=cldim, bldim=x@bldim, ICTXT=x@ICTXT)
     

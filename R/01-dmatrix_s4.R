@@ -192,3 +192,9 @@ setGeneric(name="ictxt",
   package="pbdDMAT"
 )
 
+setGeneric(name="ownany", 
+  function(x, ...) 
+    standardGeneric("ownany"), 
+  package="pbdDMAT"
+)
+

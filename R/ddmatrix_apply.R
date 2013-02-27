@@ -37,12 +37,13 @@ setMethod("apply", signature(X="ddmatrix"),
       }
       
       else if (!is.matrix(tmp))
-        tmp <- matrix(tmp, ncol=1)
+        dim(tmp) <- c(base::length(tmp), 1L)
+#        tmp <- matrix(tmp, ncol=1)
         
       X@Data <- tmp
 
       X@ldim <- dim(X@Data)
-      X@dim[2] <- X@ldim[2]
+      X@dim[2L] <- X@ldim[2L]
     }
     # Column margin
     else if (MARGIN==2){
@@ -62,12 +63,13 @@ setMethod("apply", signature(X="ddmatrix"),
           return( gather(tmp, proc.dest=proc.dest) )
       }      
       else if (!is.matrix(tmp))
-        tmp <- matrix(tmp, nrow=1)
+        dim(tmp) <- c(1L, base::length(tmp))
+#        tmp <- matrix(tmp, nrow=1)
         
       X@Data <- tmp
 
       X@ldim <- dim(X@Data)
-      X@dim[1] <- X@ldim[1]
+      X@dim[1L] <- X@ldim[1L]
     }
 
   if (reduce==TRUE){

@@ -17,7 +17,7 @@ setMethod("sweep", signature(x="ddmatrix", STATS="vector"),
     }
     
     if ( is.matrix(STATS) )
-      STATS <- as.vector(STATS)
+      dim(STATS) <- NULL
     
     descx <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
     
@@ -86,20 +86,24 @@ setMethod("sweep", signature(x="ddmatrix", STATS="vector"),
 # Scale
 # ------------------
 
+# this is a complete travesty, but I'm not sure how to make it simpler, really
+# hope you like spaghetti
 
+### Utility functions for scale
 dmat.clmn <- function(x, na.rm=TRUE)
 {
   if (x@dim[1L]==1)
     return(x@Data)
   
-  Data <- matrix(colSums(x@Data, na.rm=na.rm) / x@dim[1L], nrow=1)
+  Data <- colSums(x@Data, na.rm=na.rm) / as.double(x@dim[1L])
+  dim(Data) <- c(1L, base::length(Data))
   
   # local dimension correction for reduction
   ldim <- dim(Data)
   ldim[2L] <- dmat.allcolreduce(ldim[2L], op='max', ICTXT=x@ICTXT)
   
   if (dim(Data)[2L] != ldim[2L])
-    Data <- matrix(0, ldim[1L], ldim[2L])
+    Data <- matrix(0.0, ldim[1L], ldim[2L])
   
   out <- dmat.allcolreduce(Data, op='sum', ICTXT=x@ICTXT)
   
@@ -142,74 +146,180 @@ dmat.clscl <- function(x, na.rm=TRUE)
 }
 
 
-# abandon hope all ye who enter in
+### logical
+dmat.scale.center.logical <- function(x)
+{
+  cntr <- dmat.clmn(x, na.rm=FALSE)
+  iown <- base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT)
+  
+  if (iown)
+    x@Data <- base::scale(x@Data, center=cntr, scale=FALSE)
+  
+  # attributes
+  dim <- c(1, x@dim[2L])
+  ldim <- base.numroc(dim=dim, bldim=x@bldim, ICTXT=x@ICTXT)
+  if (iown){
+    Data <- cntr
+    dim(Data) <- c(1L, base::length(cntr))
+  }
+  else
+    Data <- matrix(0.0, 1, 1)
+  
+  center <- new("ddmatrix", Data=Data, dim=dim, ldim=ldim, bldim=x@bldim, ICTXT=x@ICTXT)
+  attr(x@Data, "scaled:center") <- center
+  
+  return( x )
+}
+
+dmat.scale.scale.logical <- function(x)
+{
+  scl <- dmat.clscl(x, na.rm=FALSE)
+  
+  iown <- base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT)
+  
+  if (iown)
+    x@Data <- base::scale(x@Data, center=FALSE, scale=scl)
+  else {}
+  
+  # attributes
+  dim <- c(1, x@dim[2L])
+  ldim <- base.numroc(dim=dim, bldim=x@bldim, ICTXT=x@ICTXT)
+  if (iown){
+    Data <- scl
+    dim(Data) <- c(1L, base::length(Data))
+  }
+  else
+    Data <- matrix(0.0, 1, 1)
+  
+  scale <- new("ddmatrix", Data=Data, dim=dim, ldim=ldim, bldim=x@bldim, ICTXT=x@ICTXT)
+  attr(x@Data, "scaled:scale") <- scale
+  
+  return( x )
+}
+
+### matrix/vector
+dmat.scale.center.atomic <- function(x, center)
+{
+  if (is.matrix(center))
+    dim(center) <- NULL
+  
+  descx <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
+  ret <- base.pdsweep(x=x@Data, descx=descx, vec=center, MARGIN=2, FUN="-")
+  x@Data <- ret
+  attr(x@Data, "scaled:center") <- center
+  
+  return( x )
+}
+
+dmat.scale.scale.atomic <- function(x, scale)
+{
+  if (is.matrix(vector))
+    dim(scale) <- NULL
+  
+  descx <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
+  ret <- base.pdsweep(x=x@Data, descx=descx, vec=scale, MARGIN=2L, FUN="-")
+  x@Data <- ret
+  attr(x@Data, "scaled:scale") <- scale
+  
+  return( x )
+}
+
+
+### ddmatrix
+dmat.scale.center.ddmatrix <- function(x, center)
+{
+  if (prod(center@dim) != x@dim[2L]){
+    comm.print("length of 'center' must equal the number of columns of 'x'")
+    stop("")
+  }
+  else if (any(center@bldim != x@bldim)){
+    comm.print("distributed matrices 'x' and 'center' must have the same blocking dimension")
+    stop("")
+  }
+  else if (center@ICTXT != x@ICTXT){
+    comm.print("distributed matrices 'x' and 'center' must belong to the same ICTXT")
+    stop("")
+  }
+  else if (center@dim[1L] != 1 && center@dim[2L] != 1){
+    comm.print("can't do this yet") #FIXME
+    stop("")
+  }
+  
+  if (center@dim[2L] == 1)
+    center <- t(center)
+  
+  ldim <- center@ldim
+  ldim <- dmat.allcolreduce(ldim, op='max', ICTXT=center@ICTXT)
+  
+  if (ownany(dim=center@dim, bldim=center@bldim, ICTXT=center@ICTXT))
+    cntr <- center@Data
+  else
+    cntr <- matrix(0.0, ldim[1L], ldim[2L])
+  
+  cntr <- dmat.allcolreduce(cntr, op='sum', ICTXT=x@ICTXT)
+  
+  x@Data <- base::scale(x@Data, center=cntr, scale=FALSE)
+  attr(x@Data, "scaled:center") <- center
+  
+  return( x )
+}
+
+dmat.scale.scale.ddmatrix <- function(x, scale)
+{
+  if (prod(scale@dim) != x@dim[2L]){
+    comm.print("length of 'scale' must equal the number of columns of 'x'")
+    stop("")
+  }
+  else if (any(scale@bldim != x@bldim)){
+    comm.print("distributed matrices 'x' and 'scale' must have the same blocking dimension")
+    stop("")
+  }
+  else if (scale@ICTXT != x@ICTXT){
+    comm.print("distributed matrices 'x' and 'scale' must belong to the same BLACS context")
+    stop("")
+  }
+  else if (scale@dim[1L] != 1 && scale@dim[2L] != 1){
+    comm.print("can't do this yet") #FIXME
+    stop("")
+  }
+  
+  if (scale@dim[2L] == 1)
+    scale <- t(scale)
+  
+  ldim <- scale@ldim
+  ldim <- dmat.allcolreduce(ldim, op='max', ICTXT=scale@ICTXT)
+  
+  if (ownany(dim=scale@dim, bldim=scale@bldim, ICTXT=scale@ICTXT))
+    scl <- scale@Data
+  else
+    scl <- matrix(0.0, ldim[1L], ldim[2L])
+  
+  scl <- dmat.allcolreduce(scl, op='sum', ICTXT=x@ICTXT)
+  
+  x@Data <- base::scale(x@Data, center=FALSE, scale=scl)
+  attr(x@Data, "scaled:scale") <- scale
+  
+  return( x )
+}
+
+
+
+# Abandan hope all ye who enter in
 setMethod("scale", signature(x="ddmatrix", center="ANY", scale="ANY"),
-function(x, center=TRUE, scale=TRUE)
+  function(x, center=TRUE, scale=TRUE)
   {
     ### Center
     # ddmatrix
-    if (is.ddmatrix(center)){
-      if (prod(center@dim) != x@dim[2L]){
-        comm.print("length of 'center' must equal the number of columns of 'x'")
-        stop("")
-      }
-      else if (any(center@bldim != x@bldim)){
-        comm.print("distributed matrices 'x' and 'center' must have the same blocking dimension")
-        stop("")
-      }
-      else if (center@ICTXT != x@ICTXT){
-        comm.print("distributed matrices 'x' and 'center' must belong to the same BLACS context")
-        stop("")
-      }
-      else if (center@dim[1L] != 1 && center@dim[2L] != 1){
-        comm.print("can't do this yet") #FIXME
-        stop("")
-      }
-      
-      if (center@dim[2L] == 1)
-        center <- t(center)
-      
-      ldim <- center@ldim
-      ldim <- dmat.allcolreduce(ldim, op='max', ICTXT=center@ICTXT)
-      
-      if (ownany(dim=center@dim, bldim=center@bldim, ICTXT=center@ICTXT))
-        cntr <- center@Data
-      else
-        cntr <- matrix(0, ldim[1L], ldim[2L])
-      
-      cntr <- dmat.allcolreduce(cntr, op='sum', ICTXT=x@ICTXT)
-      
-      x@Data <- base::scale(x@Data, center=cntr, scale=FALSE)
-      attr(x@Data, "scaled:center") <- center
+    if (is.ddmatrix(center))
+      x <- dmat.scale.center.ddmatrix(x=x, center=center)
+    # logical
+    else if (is.logical(center)){
+      if (center)
+        x <- dmat.scale.center.logical(x=x)
     }
     # global matrix/vector
-    else if (is.matrix(center) || (is.vector(center) && !is.logical(center))){
-      center <- as.vector(center)
-      descx <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
-      ret <- base.pdsweep(x=x@Data, descx=descx, vec=center, MARGIN=2, FUN="-")
-      x@Data <- ret
-      attr(x@Data, "scaled:center") <- center
-    }
-    # center ourselves
-    else if (is.logical(center)){
-      if (center){
-        cntr <- dmat.clmn(x, na.rm=FALSE)
-        iown <- base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT)
-        
-        if (iown)
-          x@Data <- base::scale(x@Data, center=cntr, scale=FALSE)
-        
-        # attributes
-        dim <- c(1, x@dim[2L])
-        ldim <- base.numroc(dim=dim, bldim=x@bldim, ICTXT=x@ICTXT)
-        if (iown)
-          Data <- matrix(cntr, nrow=1)
-        else
-          Data <- matrix(0, 1, 1)
-        
-        center <- new("ddmatrix", Data=Data, dim=dim, ldim=ldim, bldim=x@bldim, ICTXT=x@ICTXT)
-        attr(x@Data, "scaled:center") <- center
-      }
+    else if (is.matrix(center) || (is.vector(center))){
+      x <- dmat.scale.center.atomic(x=x, center=center)
     }
     # error
     else {
@@ -219,80 +329,25 @@ function(x, center=TRUE, scale=TRUE)
     
     ### Scale
     # ddmatrix
-    if (is.ddmatrix(scale)){
-      if (prod(scale@dim) != x@dim[2L]){
-        comm.print("length of 'scale' must equal the number of columns of 'x'")
-        stop("")
-      }
-      else if (any(scale@bldim != x@bldim)){
-        comm.print("distributed matrices 'x' and 'scale' must have the same blocking dimension")
-        stop("")
-      }
-      else if (scale@ICTXT != x@ICTXT){
-        comm.print("distributed matrices 'x' and 'scale' must belong to the same BLACS context")
-        stop("")
-      }
-      else if (scale@dim[1L] != 1 && scale@dim[2L] != 1){
-        comm.print("can't do this yet") #FIXME
-        stop("")
-      }
-      
-      if (scale@dim[2L] == 1)
-        scale <- t(scale)
-      
-      ldim <- scale@ldim
-      ldim <- dmat.allcolreduce(ldim, op='max', ICTXT=scale@ICTXT)
-      
-      if (ownany(dim=scale@dim, bldim=scale@bldim, ICTXT=scale@ICTXT))
-        scl <- scale@Data
-      else
-        scl <- matrix(0, ldim[1L], ldim[2L])
-      
-      scl <- dmat.allcolreduce(scl, op='sum', ICTXT=x@ICTXT)
-      
-      x@Data <- base::scale(x@Data, center=FALSE, scale=scl)
-      attr(x@Data, "scaled:scale") <- scale
+    if (is.ddmatrix(scale))
+      x <- dmat.scale.center.ddmatrix(x=x, scale=scale)
+    # logical
+    else if (is.logical(scale)){
+      if (scale)
+        x <- dmat.scale.scale.logical(x=x)
     }
     # global matrix/vector
-    else if (is.matrix(scale) || (is.vector(center) && !is.logical(center))){
-      scale <- as.vector(scale)
-      descx <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
-      ret <- base.pdsweep(x=x@Data, descx=descx, vec=scale, MARGIN=2L, FUN="-")
-      x@Data <- ret
-      attr(x@Data, "scaled:scale") <- scale
-    }
-    # scale ourselves
-    else if (is.logical(scale)){
-      if (scale){
-        scl <- dmat.clscl(x, na.rm=FALSE)
-        
-        iown <- base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT)
-        
-        if (iown)
-          x@Data <- base::scale(x@Data, center=FALSE, scale=scl)
-        else {}
-        
-        # attributes
-        dim <- c(1, x@dim[2L])
-        ldim <- base.numroc(dim=dim, bldim=x@bldim, ICTXT=x@ICTXT)
-        if (iown)
-          Data <- matrix(scl, nrow=1)
-        else
-          Data <- matrix(0, 1, 1)
-        
-        scale <- new("ddmatrix", Data=Data, dim=dim, ldim=ldim, bldim=x@bldim, ICTXT=x@ICTXT)
-        attr(x@Data, "scaled:scale") <- scale
-      }
-    }
+    else if (is.matrix(scale) || (is.vector(scale) ))
+      x <- dmat.scale.scale.atomic(x=x, center=center)
     # error
     else {
       comm.print("ERROR : invalid argument for 'scale'")
       stop("")
     }
     
-    
     return( x )
   }
 )
+
 
 

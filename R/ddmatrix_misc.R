@@ -5,6 +5,32 @@
 # ##################################################
 
 # -------------------
+# Check for local ownership
+# -------------------
+
+setMethod("ownany", signature(x="ddmatrix"), 
+  function(x, ...)
+  {
+    iown <- base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT)
+    
+    return( iown )
+  }
+)
+
+setMethod("ownany", signature(x="NULL"), 
+  function(dim, bldim=.BLDIM, ICTXT, x)
+  {
+    if (length(bldim)==1)
+      bldim <- rep(bldim, 2L)
+    
+    iown <- base.ownany(dim=dim, bldim=bldim, ICTXT=ICTXT)
+    
+    return( iown )
+  }
+)
+
+
+# -------------------
 # Creation
 # -------------------
 
@@ -114,6 +140,29 @@ setMethod("ddmatrix", signature(data="character"),
     
     return( dx )
   }
+)
+
+
+# Create a diagonal distributed matrix
+setMethod("diag", signature(x="vector"), 
+  function(x, nrow, ncol, type="matrix", ..., bldim=.BLDIM, ICTXT=0){
+    type <- match.arg(type, c("matrix", "ddmatrix"))
+    
+    if (length(bldim)==1)
+      bldim <- rep(bldim, 2)
+    
+    if (type=="ddmatrix")
+      ret <- base.ddiagmk(x=x, nrow=nrow, ncol=ncol, bldim=bldim, ICTXT=ICTXT)
+    else
+      ret <- base::diag(x=x, nrow=nrow, ncol=ncol)
+    
+    return( ret )
+  }
+)
+
+setMethod("diag", signature(x="matrix"), 
+  function(x, nrow, ncol)
+    base::diag(x=x)
 )
 
 # -------------------
@@ -277,11 +326,14 @@ setReplaceMethod("[", signature(x ="ddmatrix", value="ANY"),
       j <- 1L:x@dim[2L]
     
     if (any(i > x@dim[1L]) || any(j > x@dim[2L])){
-      print("Error : subscript out of bounds")
+      comm.print("Error : subscript out of bounds")
       stop("")
     }
     
-    x <- base.rl2insert(dx=x, vec=value, i=i, j=j)
+    descx <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
+    out <- base.rl2insert(x=x@Data, descx=descx, vec=value, i=i, j=j)
+    
+    x@Data <- out
     
     return(x)
   }
@@ -523,8 +575,4 @@ setMethod("summary", signature(object="ddmatrix"),
       return( invisible(NULL) )
   }
 )
-
-
-
-
 
