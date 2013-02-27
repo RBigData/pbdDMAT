@@ -177,28 +177,28 @@ setMethod("solve", signature(a="ddmatrix"),
 )
 
 # inversion via a qr
-setMethod("chol2inv", signature(x="ANY"), 
-  function(x, size = if(class(x=='qr')) NCOL(x$qr) else NCOL(x))
+setMethod("chol2inv", signature(x="ddmatrix"), 
+  function(x, size = NCOL(x))
   {
-    if (class(x) == "qr"){
-      if (is.ddmatrix(x$qr)){
-        r <- qr.R(x)
-        descx <- base.descinit(dim=r@dim, bldim=r@bldim, ldim=r@ldim, ICTXT=r@ICTXT)
-        
-        cdim <- rep(r@dim[2L], 2)
-        cldim <- base.numroc(dim=cdim, bldim=r@bldim, ICTXT=r@ICTXT)
-        descc <- base.descinit(dim=cdim, bldim=r@bldim, cldim, ICTXT=r@ICTXT)
-        
-        out <- base.pdchtri(x=r@Data, descx=descx, descc=descc)
-        
-        c <- new("ddmatrix", Data=out, dim=cdim, ldim=cldim, bldim=x$qr@bldim, ICTXT=x$qr@ICTXT)
-        
-        return( c )
-      }
-    }
-    else {
-      base::chol2inv(x=x, size=size)
-    }
+    nr <- x@dim[1L]
+    nc <- x@dim[2L]
+    if (is.na(size) || size <= 0L || size > nr || size > nc) 
+      stop("invalid 'size' argument in 'chol2inv'")
+    
+    if (size < nr || size < nc)
+      x <- x[1:size, 1:size]
+    
+    descx <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
+    
+    cdim <- rep(size, 2)
+    cldim <- base.numroc(dim=cdim, bldim=x@bldim, ICTXT=x@ICTXT)
+    descc <- base.descinit(dim=cdim, bldim=x@bldim, cldim, ICTXT=x@ICTXT)
+    
+    out <- base.pdchtri(x=x@Data, descx=descx, descc=descc)
+    
+    c <- new("ddmatrix", Data=out, dim=cdim, ldim=cldim, bldim=x@bldim, ICTXT=x@ICTXT)
+    
+    return( c )
   }
 )
 
