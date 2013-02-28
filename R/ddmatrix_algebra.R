@@ -90,7 +90,7 @@ dmat.crossprod <- function(trans, x)
   descx <- base.descinit(dim=x@dim, bldim=bldim, ldim=x@ldim, ICTXT=ICTXT)
   descc <- base.descinit(dim=cdim, bldim=bldim, ldim=cldim, ICTXT=ICTXT)
   
-  out <- base.crossprod(trans=trans, x=x@Data, descx=descx, descc=descc)
+  out <- base.crossprod(uplo='U', trans=trans, x=x@Data, descx=descx, descc=descc)
   
   c <- new("ddmatrix", Data=out, dim=cdim, ldim=cldim, bldim=bldim, ICTXT=ICTXT)
   

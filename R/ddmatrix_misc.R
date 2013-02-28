@@ -17,7 +17,7 @@ setMethod("ownany", signature(x="ddmatrix"),
   }
 )
 
-setMethod("ownany", signature(x="NULL"), 
+setMethod("ownany", signature(x="missing"), 
   function(dim, bldim=.BLDIM, ICTXT, x)
   {
     if (length(bldim)==1)

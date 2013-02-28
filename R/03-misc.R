@@ -82,41 +82,7 @@ base.checkem <- function(x, y, checks=1:3)
 checkem <- base.checkem
 
 
-# Compute maximum dimension across all nodes
-base.maxdim <- function(dim)
-{
-  mdim <- numeric(2)
-  mdim[1] <- pbdMPI::allreduce(dim[1], op='max')
-  mdim[2] <- pbdMPI::allreduce(dim[2], op='max')
-  
-  return(mdim)
-}
-
-# Compute dimensions on process MYROW=MYCOL=0
-base.dim0 <- function(dim, ICTXT=0)
-{
-  blacs_ <- base.blacs(ICTXT=ICTXT)
-  MYROW <- blacs_$MYROW
-  MYCOL <- blacs_$MYCOL
-  
-  if (MYROW == 0 && MYCOL == 0){
-    mx01 <- dim[1]
-    mx02 <- dim[2]
-  }
-  
-  mx01 <- pbdMPI::bcast(mx01)
-  mx02 <- pbdMPI::bcast(mx02)
-  
-#  pbdMPI::barrier()
-  
-  if (MYROW==0 && MYCOL==0)
-    return( dim )
-  else
-    return( c(mx01, mx02) )
-}
-
-
-# Reverse of submat above.  Same restrictions apply.
+# create a global matrix from a ddmatrix
 base.gmat <- function(dx, proc.dest="all")
 {
   xattrs <- attributes(dx@Data)
