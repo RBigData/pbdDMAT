@@ -7,10 +7,8 @@ setMethod("lm.fit", signature(x="ddmatrix", y="ddmatrix"),
   {
     # checks
     base.checkem(x=x, y=y, checks=2:3)
-    if (x@dim[1] != y@dim[1]){
-      pbdMPI::comm.print("Error : incompatible dimensions")
-      stop("")
-    }
+    if (x@dim[1] != y@dim[1])
+      comm.stop("Error : incompatible dimensions")
     
     oldctxt <- y@ICTXT
     
@@ -26,7 +24,7 @@ setMethod("lm.fit", signature(x="ddmatrix", y="ddmatrix"),
     out <- base.rpdgels(tol=tol, m=m, n=n, nrhs=nrhs, a=x@Data, desca=desca, b=y@Data, descb=descb)
     
     if (!singular.ok && out$RANK < x@dim[2L]) 
-      stop("singular fit encountered")
+      comm.stop("singular fit encountered")
     
     x@Data <- out$A
     y@Data <- out$B

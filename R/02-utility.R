@@ -9,7 +9,7 @@ base.is.ddmatrix <- function(x)
   if (class(x)=="ddmatrix"){
     ldim <- base.numroc(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT)
     if (any(ldim != x@ldim))
-      warning("distributed matrix has bad slot 'ldim'")
+      comm.warning("distributed matrix has bad slot 'ldim'")
     
     return(TRUE) 
   }
@@ -42,10 +42,8 @@ dmat.as.ddmatrix <- function(x, bldim=.BLDIM, ICTXT=0)
     return( base.mat.to.ddmat(x, bldim=bldim, ICTXT=ICTXT) )
   }
   # neither of these two cases
-  else {
-    comm.print("Matrix 'x' is defined on some, but not all processes. Consider using the redistribute() function.")
-    stop("")
-   }
+  else 
+    comm.stop("Matrix 'x' is defined on some, but not all processes. Consider using the redistribute() function.")
 }
 
 # Undistribute a distributed matrix --- ONLY to be used in testing
@@ -61,16 +59,14 @@ base.as.matrix <- function(x, proc.dest="all")
       else
         proc.dest <- c(0, 0)
       proc.dest <- pbdMPI::allreduce(proc.dest, op='max')
-    } else if (base::length(proc.dest)>2) {
-      comm.print("Invalid destination process 'proc.dest'")
-      stop("")
-    }
+    } 
+    else if (base::length(proc.dest)>2)
+      comm.stop("Invalid destination process 'proc.dest'")
     
     return( base.gmat(dx=x, proc.dest=proc.dest) )
   }
   
-  comm.print("Invalid destinaction process 'proc.dest'")
-  stop("")
+  comm.stop("Invalid destinaction process 'proc.dest'")
 }
 
 # Head and tail

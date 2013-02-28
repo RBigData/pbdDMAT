@@ -6,15 +6,11 @@ setMethod("sweep", signature(x="ddmatrix", STATS="vector"),
   function(x, MARGIN, STATS, FUN = "-")
   {
     # checks
-    if ( !(FUN %in% c("+", "-", "*", "/")) ){
-      comm.print("Error : invalid argument 'FUN'")
-      stop("")
-    } 
+    if ( !(FUN %in% c("+", "-", "*", "/")) )
+      comm.stop("Error : invalid argument 'FUN'")
     
-    if (MARGIN != 1 && MARGIN != 2){
-      comm.print("Error : argument 'MARGIN' must be 1 or 2")
-      stop("")
-    }
+    if (MARGIN != 1 && MARGIN != 2)
+      comm.stop("Error : argument 'MARGIN' must be 1 or 2")
     
     if ( is.matrix(STATS) )
       dim(STATS) <- NULL
@@ -34,25 +30,17 @@ setMethod("sweep", signature(x="ddmatrix", STATS="vector"),
 #  function(x, MARGIN, STATS, FUN = "-")
 #  {
 #    # checks
-#    if ( !(FUN %in% c("+", "-", "*", "/")) ){
-#      comm.print("Error : invalid argument 'FUN'")
-#      stop("")
-#    } 
+#    if ( !(FUN %in% c("+", "-", "*", "/")) )
+#      comm.stop("Error : invalid argument 'FUN'")
 #    
-#    if (MARGIN != 1 && MARGIN != 2){
-#      comm.print("Error : argument 'MARGIN' must be 1 or 2")
-#      stop("")
-#    }
+#    if (MARGIN != 1 && MARGIN != 2)
+#      comm.stop("Error : argument 'MARGIN' must be 1 or 2")
 #    
-#    if (any(x@bldim != STATS@bldim)){
-#      comm.print("Error : blocking dimensions of 'x' and 'STATS' must be identical")
-#      stop("")
-#    }
+#    if (any(x@bldim != STATS@bldim))
+#      comm.stop("Error : blocking dimensions of 'x' and 'STATS' must be identical")
 #    
-#    if (x@ICTXT != STATS@ICTXT){
-#      comm.print("Error : ICTXT of 'x' and 'STATS' must be the same")
-#      stop("")
-#    }
+#    if (x@ICTXT != STATS@ICTXT)
+#      comm.stop("Error : ICTXT of 'x' and 'STATS' must be the same")
 #    
 #    # work in place if possible, otherwise cast as global vector to preserve R-like BLAS
 #    if (all(x@dim==STATS@dim)){
@@ -228,22 +216,14 @@ dmat.scale.scale.atomic <- function(x, scale)
 ### ddmatrix
 dmat.scale.center.ddmatrix <- function(x, center)
 {
-  if (prod(center@dim) != x@dim[2L]){
-    comm.print("length of 'center' must equal the number of columns of 'x'")
-    stop("")
-  }
-  else if (any(center@bldim != x@bldim)){
-    comm.print("distributed matrices 'x' and 'center' must have the same blocking dimension")
-    stop("")
-  }
-  else if (center@ICTXT != x@ICTXT){
-    comm.print("distributed matrices 'x' and 'center' must belong to the same ICTXT")
-    stop("")
-  }
-  else if (center@dim[1L] != 1 && center@dim[2L] != 1){
-    comm.print("can't do this yet") #FIXME
-    stop("")
-  }
+  if (prod(center@dim) != x@dim[2L])
+    comm.stop("length of 'center' must equal the number of columns of 'x'")
+  else if (any(center@bldim != x@bldim))
+    comm.stop("distributed matrices 'x' and 'center' must have the same blocking dimension")
+  else if (center@ICTXT != x@ICTXT)
+    comm.stop("distributed matrices 'x' and 'center' must belong to the same ICTXT")
+  else if (center@dim[1L] != 1 && center@dim[2L] != 1)
+    comm.stop("can't do this yet") #FIXME
   
   if (center@dim[2L] == 1)
     center <- t(center)
@@ -266,22 +246,14 @@ dmat.scale.center.ddmatrix <- function(x, center)
 
 dmat.scale.scale.ddmatrix <- function(x, scale)
 {
-  if (prod(scale@dim) != x@dim[2L]){
-    comm.print("length of 'scale' must equal the number of columns of 'x'")
-    stop("")
-  }
-  else if (any(scale@bldim != x@bldim)){
-    comm.print("distributed matrices 'x' and 'scale' must have the same blocking dimension")
-    stop("")
-  }
-  else if (scale@ICTXT != x@ICTXT){
-    comm.print("distributed matrices 'x' and 'scale' must belong to the same BLACS context")
-    stop("")
-  }
-  else if (scale@dim[1L] != 1 && scale@dim[2L] != 1){
-    comm.print("can't do this yet") #FIXME
-    stop("")
-  }
+  if (prod(scale@dim) != x@dim[2L])
+    comm.stop("length of 'scale' must equal the number of columns of 'x'")
+  else if (any(scale@bldim != x@bldim))
+    comm.stop("distributed matrices 'x' and 'scale' must have the same blocking dimension")
+  else if (scale@ICTXT != x@ICTXT)
+    comm.stop("distributed matrices 'x' and 'scale' must belong to the same BLACS context")
+  else if (scale@dim[1L] != 1 && scale@dim[2L] != 1)
+    comm.stop("can't do this yet") #FIXME
   
   if (scale@dim[2L] == 1)
     scale <- t(scale)
@@ -322,10 +294,8 @@ setMethod("scale", signature(x="ddmatrix", center="ANY", scale="ANY"),
       x <- dmat.scale.center.atomic(x=x, center=center)
     }
     # error
-    else {
-      comm.print("ERROR : invalid argument for 'center'")
-      stop("")
-    }
+    else 
+      comm.stop("ERROR : invalid argument for 'center'")
     
     ### Scale
     # ddmatrix
@@ -340,10 +310,8 @@ setMethod("scale", signature(x="ddmatrix", center="ANY", scale="ANY"),
     else if (is.matrix(scale) || (is.vector(scale) ))
       x <- dmat.scale.scale.atomic(x=x, center=center)
     # error
-    else {
-      comm.print("ERROR : invalid argument for 'scale'")
-      stop("")
-    }
+    else 
+      comm.stop("ERROR : invalid argument for 'scale'")
     
     return( x )
   }

@@ -32,11 +32,9 @@ setMethod("t", signature(x="ddmatrix"),
 dmat.ddmatmult <- function(x, y, outbldim=x@bldim)
 {
   if (!is.ddmatrix(x) || !is.ddmatrix(y))
-    stop("'x' and 'y' must be of class 'ddmatrix'")
-  else if (x@dim[2L] != y@dim[1L]){
-    pbdMPI::comm.print("Error : non-conformable arguments.")
-    stop("")
-  }
+    comm.stop("'x' and 'y' must be of class 'ddmatrix'")
+  else if (x@dim[2L] != y@dim[1L])
+    comm.stop("Error : non-conformable arguments.")
   
   base.checkem(x=x, y=y, checks=2)
   
@@ -107,15 +105,11 @@ setMethod("crossprod", signature(x="ddmatrix", y="ANY"),
       
       return( ret )
     }
-    else if (!is.ddmatrix(y)){
-      pbdMPI::comm.print("Error : 'y' must be of class 'ddmatrix'.")
-      stop("")
-    }
+    else if (!is.ddmatrix(y))
+      comm.stop("Error : 'y' must be of class 'ddmatrix'.")
     else {
-      if (x@dim[1L] != y@dim[1L]){
-        pbdMPI::comm.print("Error : non-conformable arguments.")
-        stop("")
-      }
+      if (x@dim[1L] != y@dim[1L])
+        comm.stop("Error : non-conformable arguments.")
       
       base.checkem(x=x, y=y, checks=2)
       
@@ -135,15 +129,11 @@ setMethod("tcrossprod", signature(x="ddmatrix", y="ANY"),
       
       return( ret )
     }
-    else if (!is.ddmatrix(y)){
-      pbdMPI::comm.print("Error : 'y' must be of class 'ddmatrix'.")
-      stop("")
-    }
+    else if (!is.ddmatrix(y))
+      comm.stop("Error : 'y' must be of class 'ddmatrix'.")
     else {
-      if (x@dim[1L] != y@dim[1L]){
-        pbdMPI::comm.print("Error : non-conformable arguments.")
-        stop("")
-      }
+      if (x@dim[1L] != y@dim[1L])
+        comm.stop("Error : non-conformable arguments.")
       
       base.checkem(x=x, y=y, checks=2)
       
@@ -159,10 +149,8 @@ setMethod("tcrossprod", signature(x="ddmatrix", y="ANY"),
 setMethod("solve", signature(a="ddmatrix"), 
   function(a)
   {
-    if (diff(a@dim)!=0){
-      comm.print(paste("'a' (", a@dim[1], " x ", a@dim[2], ") must be square", sep=""))
-      stop("")
-    }
+    if (diff(a@dim)!=0)
+      comm.stop(paste("'a' (", a@dim[1], " x ", a@dim[2], ") must be square", sep=""))
     
     desca <- base.descinit(dim=a@dim, bldim=a@bldim, ldim=a@ldim, ICTXT=a@ICTXT)
     
@@ -183,7 +171,7 @@ setMethod("chol2inv", signature(x="ddmatrix"),
     nr <- x@dim[1L]
     nc <- x@dim[2L]
     if (is.na(size) || size <= 0L || size > nr || size > nc) 
-      stop("invalid 'size' argument in 'chol2inv'")
+      comm.stop("invalid 'size' argument in 'chol2inv'")
     
     if (size < nr || size < nc){
       vec <- 1L:size
@@ -335,10 +323,8 @@ setMethod("svd", signature(x="ddmatrix"),
 setMethod("chol", signature(x="ddmatrix"), 
   function(x)
   {
-    if (diff(x@dim)!=0){
-      comm.print(paste("'x' (", x@dim[1L], " x ", x@dim[2L], ") must be square", sep=""))
-      stop("")
-    }
+    if (diff(x@dim)!=0)
+      comm.stop(paste("'x' (", x@dim[1L], " x ", x@dim[2L], ") must be square", sep=""))
     
     desca <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
     

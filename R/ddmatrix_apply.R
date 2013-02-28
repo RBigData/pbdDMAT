@@ -9,9 +9,9 @@ setMethod("apply", signature(X="ddmatrix"),
   {
     # idiot proofing
     if (missing(MARGIN))
-      stop('argument "MARGIN" is missing, with no default')
+      comm.stop('argument "MARGIN" is missing, with no default')
     else if (MARGIN != 1 && MARGIN != 2)
-      stop('argument "MARGIN" must be 1 or 2 for a distributed matrix')
+      comm.stop('argument "MARGIN" must be 1 or 2 for a distributed matrix')
     
     oldCTXT <- X@ICTXT
     oldbldim <- X@bldim
@@ -22,14 +22,12 @@ setMethod("apply", signature(X="ddmatrix"),
     if (MARGIN==1){
       if (X@ICTXT!=2)
         X <- base.reblock(dx=X, bldim=X@bldim/2, ICTXT=2)
-
+      
       tmp <- apply(X@Data, MARGIN=1, FUN=FUN)
       
       if (is.list(tmp)){
-        if (!all(sapply(tmp, is.numeric))){
-          comm.print("Error : list object contains non-numeric data")
-          stop("")
-        }
+        if (!all(sapply(tmp, is.numeric)))
+          comm.stop("Error : list object contains non-numeric data")
         if (proc.dest=='all')
           return( allgather(tmp) )
         else
@@ -41,7 +39,7 @@ setMethod("apply", signature(X="ddmatrix"),
 #        tmp <- matrix(tmp, ncol=1)
         
       X@Data <- tmp
-
+      
       X@ldim <- dim(X@Data)
       X@dim[2L] <- X@ldim[2L]
     }
@@ -49,14 +47,12 @@ setMethod("apply", signature(X="ddmatrix"),
     else if (MARGIN==2){
       if (X@ICTXT!=1)
         X <- base.reblock(dx=X, bldim=X@bldim/2, ICTXT=1)
-
+      
       tmp <- apply(X@Data, MARGIN=2, FUN=FUN)
       
       if (is.list(tmp)){
-        if (!all(sapply(tmp, is.numeric))){
-          comm.print("Error : list object contains non-numeric data")
-          stop("")
-        }
+        if (!all(sapply(tmp, is.numeric)))
+          comm.stop("Error : list object contains non-numeric data")
         if (proc.dest=='all')
           return( allgather(tmp) )
         else
@@ -67,11 +63,11 @@ setMethod("apply", signature(X="ddmatrix"),
 #        tmp <- matrix(tmp, nrow=1)
         
       X@Data <- tmp
-
+      
       X@ldim <- dim(X@Data)
       X@dim[1L] <- X@ldim[1L]
     }
-
+  
   if (reduce==TRUE){
     if (MARGIN==1)
       if (X@dim[2]==1)
@@ -89,7 +85,7 @@ setMethod("apply", signature(X="ddmatrix"),
     X <- as.matrix(X, proc.dest=proc.dest)
   else if (reduce=="vector")
     X <- as.vector(X, proc.dest=proc.dest)
-
+    
     if (is.ddmatrix(X))
       if (X@ICTXT != oldCTXT)
         X <- base.reblock(dx=X, bldim=oldbldim, ICTXT=oldCTXT)

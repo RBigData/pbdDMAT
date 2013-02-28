@@ -67,22 +67,16 @@ base.checkem <- function(x, y, checks=1:3)
 {
   # All dimension equal
   if (1 %in% checks)
-    if (any(x@dim!=y@dim)){
-      pbdMPI::comm.print("Error: non-conformable distributed arrays")
-      stop("")
-    }
+    if (any(x@dim!=y@dim))
+      comm.stop("Error: non-conformable distributed arrays")
   # Same BLACS context
   if (2 %in% checks)
-    if (x@ICTXT != y@ICTXT){
-      pbdMPI::comm.print("Error: Distributed matrices 'x' and 'y' must belong to the same BLACS context")
-      stop("")
-    }
+    if (x@ICTXT != y@ICTXT)
+      comm.stop("Error: Distributed matrices 'x' and 'y' must belong to the same BLACS context")
   # Same blocking dimension
   if (3 %in% checks)
-    if (any(x@bldim != y@bldim)){
-      pbdMPI::comm.print("Distributed matrices 'x' and 'y' must have the same block dimension.")
-      stop("")
-    }
+    if (any(x@bldim != y@bldim))
+      comm.stop("Distributed matrices 'x' and 'y' must have the same block dimension.")
 }
 
 checkem <- base.checkem
@@ -346,14 +340,12 @@ l2g_coord <- base.l2g_coord
 
 base.mat.to.ddmat <- function(x, bldim=.BLDIM, ICTXT=0)
 {
-  if (!is.matrix(x)) {
-    comm.print("input 'x' must be a matrix") 
-    stop("")
-  }
+  if (!is.matrix(x))
+    comm.stop("input 'x' must be a matrix") 
   else if (length(bldim) == 1) 
     bldim <- rep(bldim, 2) 
   else if (diff(bldim) != 0)
-    warning("Most ScaLAPACK routines do not allow for non-square blocking.  This is highly non-advised.")
+    comm.warning("Most ScaLAPACK routines do not allow for non-square blocking.  This is highly non-advised.")
   
   dim <- dim(x)
   ldim <- base.numroc(dim=dim, bldim=bldim, ICTXT=ICTXT, fixme=TRUE)

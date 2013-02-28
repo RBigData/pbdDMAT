@@ -14,7 +14,7 @@ setMethod("+", signature(e1="ddmatrix", e2="numeric"),
     dim <- e1@dim
     len <- length(e2)
     if ( (prod(dim)%%len > 0 && len%%prod(dim) > 0) && len > 1)
-      warning("longer object length is not a multiple of shorter object length")
+      comm.warning("longer object length is not a multiple of shorter object length")
     if (base.ownany(dim=dim, bldim=e1@bldim, ICTXT=e1@ICTXT)){
       if (len==1)
         e1@Data <- e1@Data+e2
@@ -58,7 +58,7 @@ setMethod("-", signature(e1="ddmatrix", e2="numeric"),
     dim <- e1@dim
     len <- length(e2)
     if ( (dim[1]%%len > 0 && len%%dim[1] > 0) && len > 1 )
-      warning("longer object length is not a multiple of shorter object length")
+      comm.warning("longer object length is not a multiple of shorter object length")
     if (base.ownany(dim=dim, bldim=e1@bldim, ICTXT=e1@ICTXT))
       if (len==1)
         e1@Data <- e1@Data-e2
@@ -110,7 +110,7 @@ setMethod("*", signature(e1="ddmatrix", e2="numeric"),
     dim <- e1@dim
     len <- length(e2)
     if ( (dim[1]%%len > 0 && len%%dim[1] > 0) && len > 1)
-      warning("longer object length is not a multiple of shorter object length")
+      comm.warning("longer object length is not a multiple of shorter object length")
     if (base.ownany(dim=dim, bldim=e1@bldim, ICTXT=e1@ICTXT))
       if (len==1)
         e1@Data <- e1@Data*e2
@@ -149,7 +149,7 @@ setMethod("/", signature(e1="ddmatrix", e2="numeric"),
     dim <- e1@dim
     len <- length(e2)
     if ( (dim[1]%%len > 0 && len%%dim[1] > 0) && len > 1)
-      warning("longer object length is not a multiple of shorter object length")
+      comm.warning("longer object length is not a multiple of shorter object length")
     if (base.ownany(dim=dim, bldim=e1@bldim, ICTXT=e1@ICTXT))
       if (len==1)
         e1@Data <- e1@Data/e2
@@ -191,7 +191,7 @@ setMethod("^", signature(e1="ddmatrix", e2="numeric"),
     dim <- e1@dim
     len <- length(e2)
     if ( (dim[1]%%len > 0 && len%%dim[1] > 0) && len > 1)
-      warning("longer object length is not a multiple of shorter object length")
+      comm.warning("longer object length is not a multiple of shorter object length")
     if (base.ownany(dim=dim, bldim=e1@bldim, ICTXT=e1@ICTXT))
       if (len==1)
         e1@Data <- e1@Data^e2
@@ -241,7 +241,7 @@ setMethod("%%", signature(e1="ddmatrix", e2="numeric"),
     dim <- e1@dim
     len <- length(e2)
     if ( (dim[1]%%len > 0 && len%%dim[1] > 0) && len > 1)
-      warning("longer object length is not a multiple of shorter object length")
+      comm.warning("longer object length is not a multiple of shorter object length")
     if (base.ownany(dim=dim, bldim=e1@bldim, ICTXT=e1@ICTXT))
       if (len==1)
         e1@Data <- e1@Data %% e2
@@ -259,7 +259,7 @@ setMethod("%%", signature(e1="numeric", e2="ddmatrix"),
     dim <- e2@dim
     len <- length(e1)
     if ( (dim[1]%%len > 0 && len%%dim[1] > 0) && len > 1)
-      warning("longer object length is not a multiple of shorter object length")
+      comm.warning("longer object length is not a multiple of shorter object length")
     if (base.ownany(dim=dim, bldim=e2@bldim, ICTXT=e2@ICTXT))
       if (len==1)
         e2@Data <- e1 %% e2@Data

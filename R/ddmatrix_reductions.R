@@ -5,10 +5,8 @@
 # Sums
 dmat.igsum2d <- function(ICTXT, SCOPE, m, n, x, lda, RDEST, CDEST)
 {
-  if (!is.matrix(x) && !is.vector(x)){
-    comm.print("ERROR : object 'x' must be of class matrix or vector.")
-    stop("")
-  }
+  if (!is.matrix(x) && !is.vector(x))
+    comm.stop("ERROR : object 'x' must be of class matrix or vector.")
   
   if (!is.integer(x))
     storage.mode(x) <- "integer"
@@ -23,10 +21,8 @@ dmat.igsum2d <- function(ICTXT, SCOPE, m, n, x, lda, RDEST, CDEST)
 
 dmat.dgsum2d <- function(ICTXT, SCOPE, m, n, x, lda, RDEST, CDEST)
 {
-  if (!is.matrix(x) && !is.vector(x)){
-    comm.print("ERROR : object 'x' must be of class matrix or vector.")
-    stop("")
-  }
+  if (!is.matrix(x) && !is.vector(x))
+    comm.stop("ERROR : object 'x' must be of class matrix or vector.")
   
   if (!is.double(x))
     storage.mode(x) <- "double"
@@ -43,10 +39,8 @@ dmat.dgsum2d <- function(ICTXT, SCOPE, m, n, x, lda, RDEST, CDEST)
 # Max value
 dmat.igamx2d <- function(ICTXT, SCOPE, m, n, x, lda, RDEST, CDEST)
 {
-  if (!is.matrix(x) && !is.vector(x)){
-    comm.print("ERROR : object 'x' must be of class matrix or vector.")
-    stop("")
-  }
+  if (!is.matrix(x) && !is.vector(x))
+    comm.stop("ERROR : object 'x' must be of class matrix or vector.")
   
   if (!is.integer(x))
     storage.mode(x) <- "integer"
@@ -61,10 +55,8 @@ dmat.igamx2d <- function(ICTXT, SCOPE, m, n, x, lda, RDEST, CDEST)
 
 dmat.dgamx2d <- function(ICTXT, SCOPE, m, n, x, lda, RDEST, CDEST)
 {
-  if (!is.matrix(x) && !is.vector(x)){
-    comm.print("ERROR : object 'x' must be of class matrix or vector.")
-    stop("")
-  }
+  if (!is.matrix(x) && !is.vector(x))
+    comm.stop("ERROR : object 'x' must be of class matrix or vector.")
   
   if (!is.double(x))
     storage.mode(x) <- "double"
@@ -81,10 +73,8 @@ dmat.dgamx2d <- function(ICTXT, SCOPE, m, n, x, lda, RDEST, CDEST)
 # Min value
 dmat.igamn2d <- function(ICTXT, SCOPE, m, n, x, lda, RDEST, CDEST)
 {
-  if (!is.matrix(x) && !is.vector(x)){
-    comm.print("ERROR : object 'x' must be of class matrix or vector.")
-    stop("")
-  }
+  if (!is.matrix(x) && !is.vector(x))
+    comm.stop("ERROR : object 'x' must be of class matrix or vector.")
   
   if (!is.integer(x))
     storage.mode(x) <- "integer"
@@ -99,10 +89,8 @@ dmat.igamn2d <- function(ICTXT, SCOPE, m, n, x, lda, RDEST, CDEST)
 
 dmat.dgamn2d <- function(ICTXT, SCOPE, m, n, x, lda, RDEST, CDEST)
 {
-  if (!is.matrix(x) && !is.vector(x)){
-    comm.print("ERROR : object 'x' must be of class matrix or vector.")
-    stop("")
-  }
+  if (!is.matrix(x) && !is.vector(x))
+    comm.stop("ERROR : object 'x' must be of class matrix or vector.")
   
   if (!is.double(x))
     storage.mode(x) <- "double"
@@ -119,10 +107,8 @@ dmat.dgamn2d <- function(ICTXT, SCOPE, m, n, x, lda, RDEST, CDEST)
 # point to point communication
 dmat.dgesd2d <- function(ICTXT, SCOPE, m, n, x, lda, RDEST, CDEST)
 {
-  if (!is.matrix(x) && !is.vector(x)){
-    comm.print("ERROR : object 'x' must be of class matrix or vector.")
-    stop("")
-  }
+  if (!is.matrix(x) && !is.vector(x))
+    comm.stop("ERROR : object 'x' must be of class matrix or vector.")
   
   if (!is.double(x))
     storage.mode(x) <- "double"
@@ -136,10 +122,8 @@ dmat.dgesd2d <- function(ICTXT, SCOPE, m, n, x, lda, RDEST, CDEST)
 
 dmat.dgerv2d <- function(ICTXT, SCOPE, m, n, x, lda, RDEST, CDEST)
 {
-  if (!is.matrix(x) && !is.vector(x)){
-    comm.print("ERROR : object 'x' must be of class matrix or vector.")
-    stop("")
-  }
+  if (!is.matrix(x) && !is.vector(x))
+    comm.stop("ERROR : object 'x' must be of class matrix or vector.")
   
   if (!is.double(x))
     storage.mode(x) <- "double"
@@ -162,15 +146,11 @@ dmat.blacsreduction <- function(x, SCOPE, op, ICTXT, proc.dest=-1)
       SCOPE <- 'Row'
     else if (SCOPE==2)
       SCOPE <- 'Col'
-    else {
-      comm.print("ERROR : invalid argument 'scope'")
-      stop("")
-    }
+    else 
+      comm.stop("ERROR : invalid argument 'scope'")
   }
-  else if (SCOPE != 'Row' && SCOPE != 'Col'){
-    comm.print("ERROR : invalid argument 'scope'")
-    stop("")
-  }
+  else if (SCOPE != 'Row' && SCOPE != 'Col')
+    comm.stop("ERROR : invalid argument 'scope'")
   
   if (is.matrix(x)){
     m <- dim(x)[1L]
@@ -180,10 +160,8 @@ dmat.blacsreduction <- function(x, SCOPE, op, ICTXT, proc.dest=-1)
     m <- length(x)[1L]
     n <- 1L
   }
-  else {
-    comm.print("ERROR : object 'x' must be of class matrix or vector.")
-    stop("")
-  }
+  else 
+    comm.stop("ERROR : object 'x' must be of class matrix or vector.")
   
   if (length(proc.dest==1)){
     if (proc.dest==-1){
@@ -214,10 +192,8 @@ dmat.blacsreduction <- function(x, SCOPE, op, ICTXT, proc.dest=-1)
   else if (op == 'min'){
     out <- dmat.dgamn2d(ICTXT=ICTXT, SCOPE=SCOPE, m=m, n=n, x=x, lda=m, RDEST=rdest, CDEST=cdest)
   }
-  else {
-    comm.print("ERROR : invalid argument 'op'")
-    stop("")
-  }
+  else 
+    comm.stop("ERROR : invalid argument 'op'")
   
   return( out )
 }
@@ -401,20 +377,16 @@ setMethod("mean", signature(x="ddmatrix"),
   {
     if (na.rm) 
         x@Data <- matrix(x@Data[!is.na(x@Data)])
-#    if (!is.numeric(trim) || length(trim) != 1L) {
-#      comm.print("'trim' must be numeric of length one")
-#      stop("")
-#    }
+#    if (!is.numeric(trim) || length(trim) != 1L) 
+#      comm.stop("'trim' must be numeric of length one")
     if (!base.ownany(x@dim, x@bldim, x@ICTXT))
       n <- 0
     else
     n <- length(x@Data)
     n <- pbdMPI::allreduce(n, op='sum')
 #    if (trim > 0 && n) {
-#        if (is.complex(x)) {
-#            comm.print("trimmed means are not defined for complex data")
-#            stop("")
-#          }
+#        if (is.complex(x)) 
+#            comm.stop("trimmed means are not defined for complex data")
 #        if (any(is.na(x))) 
 #            return(NA_real_)
 #        if (trim >= 0.5) 

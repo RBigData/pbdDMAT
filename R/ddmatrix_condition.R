@@ -8,9 +8,9 @@
   } else {
     p <- as.integer(nrow(z))
     if (is.na(p)) 
-        stop("invalid nrow(x)")
+        comm.stop("invalid nrow(x)")
     if (p != ncol(z)) 
-        stop("triangular matrix should be square")
+        comm.stop("triangular matrix should be square")
     if (is.null(norm)) 
         norm <- "1"
     else {
@@ -40,7 +40,7 @@ kappa.ddmatrix <- function (z, exact = FALSE, norm = NULL, method = c("qr", "dir
     max(s)/min(s[s > 0])
   } else {
     if (exact) 
-      warning(gettextf("norm '%s' currently always uses exact = FALSE", norm))
+      comm.warning(gettextf("norm '%s' currently always uses exact = FALSE", norm))
     if (norm=="2")
       norm <- "O"
     d <- dim(z)
