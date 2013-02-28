@@ -22,13 +22,15 @@
 }
 \usage{
   \S4method{as.vector}{ddmatrix}(x, mode = 'any', proc.dest = 'all')
-  \S4method{as.matrix}{ddmatrix}(x, proc.dest = 'all') 
+  \S4method{as.matrix}{ddmatrix}(x, proc.dest = 'all', attributes = TRUE) 
 }
 \arguments{
   \item{x}{numeric distributed matrix}
-  \item{proc.dest}{destination process for storing the matrix}
   \item{mode}{A character string giving an atomic mode or "list", 
   or (except for 'vector') "any".}
+  \item{proc.dest}{destination process for storing the matrix}
+  \item{attributes}{logical, specifies whether or not the current
+  attributes should be preserved.}
 }
 \details{
   Converts a distributed matrix into a non-distributed vector or matrix.
@@ -48,7 +50,7 @@
 # Save code in a file "demo.r" and run with 2 processors by
 # > mpiexec -np 2 Rscript demo.r
 
-library(pbdBASE, quiet = TRUE)
+library(pbdDMAT, quiet = TRUE)
 init.grid()
 
 # don't do this in production code

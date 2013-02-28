@@ -60,7 +60,7 @@ function (x, y = NULL, use = "everything", method = "pearson")
         ret <- crossprod(x=x) / max(1, nrow(x) - 1)
       else {
         scale(x=y, center=TRUE, scale=FALSE)
-        ret <- base.rpdgemm(transx='T', transy='N', x=x, y=y, outbldim=x@bldim) / (nrow(x) - 1)
+        ret <- t(x) %*% y / (nrow(x) - 1)
       }
     }
     else 
@@ -106,19 +106,14 @@ function (x, na.rm = FALSE, reduce = FALSE, proc.dest="all")
     if (na.rm)
       x <- na.exclude(x)
     
-    sdv <- .Call("R_DDMATVAR", 
-                  x@Data, as.integer(x@dim[1]), 
-                  as.integer(x@ldim[1]), as.integer(x@ldim[2]), 
-                  as.integer(x@ICTXT),
-                  PACKAGE="pbdBASE")
+    descx <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
+    sdv <- base.pdclvar(x=x@Data, descx=descx)
     
     sdv <- sqrt(sdv)
     dim(sdv) <- c(1L, base::length(sdv))
 #    sdv <- matrix(sqrt(sdv), nrow=1)
     
-    ret <- new("ddmatrix", 
-               Data=sdv, dim=c(1, x@dim[2]), 
-               ldim=dim(sdv), bldim=x@bldim, ICTXT=x@ICTXT)
+    ret <- new("ddmatrix", Data=sdv, dim=c(1, x@dim[2]), ldim=dim(sdv), bldim=x@bldim, ICTXT=x@ICTXT)
     
     if (reduce)
       ret <- as.vector(x=ret, proc.dest=proc.dest)
@@ -151,7 +146,7 @@ function (x, y = NULL, use = "everything", method = "pearson")
     
     if (!is.null(y)){
       yscaled <- scale(x=y, center=TRUE, scale=TRUE)
-      ret <- base.rpdgemm(transx='T', transy='N', x=x, y=y, outbldim=x@bldim) / (nrow(x) - 1)
+      ret <- t(x) %*% y / (nrow(x) - 1)
     }
     else {
       ret <- crossprod(x=x) / max(1, nrow(x) - 1)

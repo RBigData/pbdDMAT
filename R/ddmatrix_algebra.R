@@ -18,7 +18,7 @@ setMethod("t", signature(x="ddmatrix"),
     
     descc <- base.descinit(cdim, x@bldim, cldim, ICTXT=ICTXT)
     
-    out <- base.rpdtran(m=m, n=n, a=x@Data, desca=desca, descc=descc)
+    out <- base.rpdtran(a=x@Data, desca=desca, descc=descc)
     
     c <- new("ddmatrix", Data=out, dim=cdim, ldim=cldim, bldim=x@bldim, ICTXT=ICTXT)
     
@@ -40,10 +40,6 @@ dmat.ddmatmult <- function(x, y, outbldim=x@bldim)
   
   ICTXT <- x@ICTXT
   
-  m <- x@dim[1L]
-  n <- y@dim[2L]
-  k <- y@dim[1L]
-  
   bldimx <- x@bldim
   bldimy <- y@bldim
   
@@ -54,7 +50,7 @@ dmat.ddmatmult <- function(x, y, outbldim=x@bldim)
   descy <- base.descinit(dim=y@dim, bldim=bldimy, ldim=y@ldim, ICTXT=ICTXT)
   descc <- base.descinit(dim=cdim, bldim=outbldim, ldim=cldim, ICTXT=ICTXT)
   
-  out <- base.rpdgemm(transx='N', transy='N', m=m, n=n, k=k, x=x@Data, descx=descx, y=y@Data, descy=descy, descc=descc)
+  out <- base.rpdgemm(transx='N', transy='N', x=x@Data, descx=descx, y=y@Data, descy=descy, descc=descc)
   
   c <- new("ddmatrix", Data=out, dim=cdim, ldim=cldim, bldim=outbldim, ICTXT=ICTXT)
   

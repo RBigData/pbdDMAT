@@ -31,9 +31,9 @@
 \alias{bldim,ddmatrix-method}
 \alias{bldim}
 
-\alias{ctxt-method}
-\alias{ctxt,ddmatrix-method}
-\alias{ctxt}
+\alias{ictxt-method}
+\alias{ictxt,ddmatrix-method}
+\alias{ictxt}
 
 \title{ Accessor Functions for Distributed Matrix Slots }
 \description{
@@ -53,7 +53,7 @@
   \S4method{submatrix}{ddmatrix}(x)
   \S4method{ldim}{ddmatrix}(x)
   \S4method{bldim}{ddmatrix}(x)
-  \S4method{ctxt}{ddmatrix}(x)
+  \S4method{ictxt}{ddmatrix}(x)
 }
 \arguments{
   \item{x}{numeric distributed matrix}
@@ -77,15 +77,15 @@
   \code{submatrix()} will give the local storage for the requested 
   object.
   
-  \code{ctxt()} will give the current BLACS context for the 
-  requested object.
+  \code{ictxt()} will give the current BLACS context (slot ICTXT) for 
+  the requested object.
 }
 \value{
   Each of \code{dim()}, \code{ldim()}, \code{bldim()} return a length
   2 vector.
   
   Each of \code{nrow()}, \code{ncol()}, and \code{length()} return
-  a length 1 vector. Likewise, so does \code{ctxt()}.
+  a length 1 vector. Likewise, so does \code{ictxt()}.
   
   \code{submatrix()} returns a matrix; namely, \code{submatrix(x)}
   returns a matrix of dimensions \code{ldim(x)}.
@@ -95,7 +95,7 @@
 # Save code in a file "demo.r" and run with 2 processors by
 # > mpiexec -np 2 Rscript demo.r
 
-library(pbdBASE, quiet = TRUE)
+library(pbdDMAT, quiet = TRUE)
 init.grid()
 
 # don't do this in production code

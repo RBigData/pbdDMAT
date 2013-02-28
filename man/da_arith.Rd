@@ -10,6 +10,7 @@
 
 \alias{--method}
 \alias{-,ddmatrix,ddmatrix-method}
+\alias{-,ddmatrix,missing-method}
 \alias{-,ddmatrix,numeric-method}
 \alias{-,numeric,ddmatrix-method}
 \alias{-}
@@ -59,6 +60,7 @@
 \usage{
   x + y
   x - y
+  -y
   x * y
   x / y
   x ^ y

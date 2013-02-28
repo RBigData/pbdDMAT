@@ -300,7 +300,7 @@ setMethod("scale", signature(x="ddmatrix", center="ANY", scale="ANY"),
     ### Scale
     # ddmatrix
     if (is.ddmatrix(scale))
-      x <- dmat.scale.center.ddmatrix(x=x, scale=scale)
+      x <- dmat.scale.scale.ddmatrix(x=x, scale=scale)
     # logical
     else if (is.logical(scale)){
       if (scale)
@@ -308,7 +308,7 @@ setMethod("scale", signature(x="ddmatrix", center="ANY", scale="ANY"),
     }
     # global matrix/vector
     else if (is.matrix(scale) || (is.vector(scale) ))
-      x <- dmat.scale.scale.atomic(x=x, center=center)
+      x <- dmat.scale.scale.atomic(x=x, scale=scale)
     # error
     else 
       comm.stop("ERROR : invalid argument for 'scale'")

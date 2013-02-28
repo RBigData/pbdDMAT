@@ -6,7 +6,7 @@
 \description{ Distributed matrix class. }
 \section{Creating Objects}{
   \code{ new('ddmatrix', Data = ..., dim = ..., ldim = ..., 
-  bldim = ..., CTXT = ...)}
+  bldim = ..., ICTXT = ...)}
 }
 \section{Slots}{
 \describe{
@@ -14,16 +14,16 @@
 \item{\code{dim}:}{GLOBAL: Object of class \code{numeric}}
 \item{\code{ldim}:}{LOCAL: Object of class \code{numeric}}
 \item{\code{bldim}:}{GLOBAL: Object of class \code{numeric}}
-\item{\code{CTXT}:}{GLOBAL: Object of class \code{numeric}}
+\item{\code{ICTXT}:}{GLOBAL: Object of class \code{numeric}}
 }
 }
 \section{Prototype}{
 \describe{
-\item{matrix Data}{matrix(0)}
+\item{matrix Data}{matrix(0.0)}
 \item{numeric dim}{c(1,1)}
 \item{numeric ldim}{c(1,1)}
 \item{numeric bldim}{c(1,1)}
-\item{numeric CTXT}{0}
+\item{numeric ICTXT}{0}
 }
 }
 \section{Details}{
@@ -57,13 +57,13 @@
   The \code{bldim} slot is global, i.e. each process 
   stores the same information in this slot.
   
-  The \code{CTXT} slot contains the BLACS context onto which the 
+  The \code{ICTXT} slot contains the BLACS context onto which the 
   matrix information is stored. This is mostly for internal 
   bookkeeping, though advanced users might be able to effectively
   leverage differing BLACS contexts for performance improvements. 
   For details, see \code{\link{InitGrid}}. Accessible via
-  \code{\link[=SlotAccessors]{ctxt()}}. 
-  The \code{CTXT} slot is global, i.e. each process 
+  \code{\link[=SlotAccessors]{ictxt()}}. 
+  The \code{ICTXT} slot is global, i.e. each process 
   stores the same information in this slot.
   
   A very important piece of information is that every process must 

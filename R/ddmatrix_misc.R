@@ -386,9 +386,11 @@ setMethod("rbind", "ANY",
     args <- list(...)
     
     if (is.ddmatrix(args[[1]]))
-      return( base.rbind2(args=args, ICTXT=ICTXT) )
+      ret <- base.rbind2(args=args, ICTXT=ICTXT)
     else
-      return( base::rbind(...=..., deparse.level=deparse.level) )
+      ret <- base::rbind(...=..., deparse.level=deparse.level)
+    
+    return( ret )
   }
 )
 
@@ -398,9 +400,11 @@ setMethod("cbind", "ANY",
     args <- list(...)
     
     if (is.ddmatrix(args[[1]]))
-      return( base.cbind(...=..., ICTXT=ICTXT) )
+      ret <- base.cbind(...=..., ICTXT=ICTXT)
     else
-      return( base::cbind(...=..., deparse.level=deparse.level) )
+      ret <- base::cbind(...=..., deparse.level=deparse.level)
+    
+    return( ret )
   }
 )
 
@@ -472,7 +476,7 @@ setMethod("length", signature(x="ddmatrix"),
     return(prod(x@dim))
 )
 
-base.ldim <- function(x)
+dmat.ldim <- function(x)
 {
   if (!is.ddmatrix(x)) {
     comm.print("Not a distributed matrix")
@@ -482,10 +486,10 @@ base.ldim <- function(x)
 }
 
 setMethod("ldim", signature(x="ddmatrix"),
-  base.ldim
+  dmat.ldim
 )
 
-base.bldim <- function(x)
+dmat.bldim <- function(x)
 {
   if (!is.ddmatrix(x)) {
     comm.print("Not a distributed matrix")
@@ -496,10 +500,10 @@ base.bldim <- function(x)
 }
 
 setMethod("bldim", signature(x="ddmatrix"),
-  base.bldim
+  dmat.bldim
 )
 
-base.submatrix <- function(x)
+dmat.submatrix <- function(x)
 {
   if (!is.ddmatrix(x)) {
     comm.print("Not a distributed matrix")
@@ -510,10 +514,10 @@ base.submatrix <- function(x)
 }
 
 setMethod("submatrix", signature(x="ddmatrix"),
-    base.submatrix
+    dmat.submatrix
 )
 
-base.ictxt <- function(x)
+dmat.ictxt <- function(x)
 {
   if (!is.ddmatrix(x)) {
     comm.print("Not a distributed matrix")
@@ -524,7 +528,7 @@ base.ictxt <- function(x)
 }
 
 setMethod("ictxt", signature(x="ddmatrix"),
-  base.ictxt
+  dmat.ictxt
 )
 
 # -------------------

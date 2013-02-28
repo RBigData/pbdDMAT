@@ -1,3 +1,7 @@
+#---------------------------------------------
+# redistribution tools
+#---------------------------------------------
+
 # dropper function, used in subsetting
 base.dropper <- function(x, oldbldim, iorj, ij, ICTXT)
 {
@@ -61,268 +65,80 @@ dropper <- base.dropper
 
 
 
-# checking compatibility between distributed matrices for use with
-# scalapack/pblas. For internal use only.
-base.checkem <- function(x, y, checks=1:3)
-{
-  # All dimension equal
-  if (1 %in% checks)
-    if (any(x@dim!=y@dim))
-      comm.stop("Error: non-conformable distributed arrays")
-  # Same BLACS context
-  if (2 %in% checks)
-    if (x@ICTXT != y@ICTXT)
-      comm.stop("Error: Distributed matrices 'x' and 'y' must belong to the same BLACS context")
-  # Same blocking dimension
-  if (3 %in% checks)
-    if (any(x@bldim != y@bldim))
-      comm.stop("Distributed matrices 'x' and 'y' must have the same block dimension.")
-}
-
-checkem <- base.checkem
-
-
-# create a global matrix from a ddmatrix
-base.gmat <- function(dx, proc.dest="all")
-{
-  xattrs <- attributes(dx@Data)
-  names <- xattrs$dimnames
-  
-  ICTXT <- dx@ICTXT
-  
-  dim <- dx@dim
-  ldim <- dx@ldim
-  bldim <- dx@bldim
-  
-  descx <- base.descinit(dim=dim, bldim=bldim, ldim=ldim, ICTXT=ICTXT)
-  
-  if (any(dim==0)){
-    if (proc.dest[1L] == "all" || proc.dest==comm.rank())
-      out <- matrix(nrow=dim[1], ncol=dim[2])
-    else
-      out <- NULL
-    return(out)
-  }
-  
-  if (proc.dest[1]=='all')
-    rsrc <- csrc <- -1
-  else {
-    dest <- base.pcoord(ICTXT=ICTXT, PNUM=proc.dest)
-    rsrc <- dest[[1]]
-    csrc <- dest[[2]]
-  }
-  
-  out <- base.mkgblmat(dx@Data, descx=descx, rsrc=rsrc, csrc=csrc)
-  
-  if (is.null(out))
-    return(out)
-  else {
-#    out <- matrix(out, nrow=dim[1], ncol=dim[2])
-    if (length(xattrs)>1){
-      if (length(names)>0)
-        xattrs$dimnames <- NULL
-      
-      oattrs <- union(attributes(out), xattrs[-1])
-      names(oattrs) <- names(xattrs)
-      attributes(out) <- oattrs
-    }
-    return( out )
-  }
-}
-
-
-# print first few entries of the global matrix
-base.firstfew <- function(dx, atmost=5)
-{
-  blacs_ <- base.blacs(dx@ICTXT)
-  MYROW <- blacs_$MYROW
-  MYCOL <- blacs_$MYCOL
-  NPROW <- blacs_$NPROW
-  NPCOL <- blacs_$NPCOL
-
-  MB <- dx@bldim[1]
-  NB <- dx@bldim[2]
-
-  if (prod(dx@dim) < atmost)
-    atmost <- prod(dx@dim)
-
-  dim <- c( min(dx@dim[1], atmost), min(dx@dim[2], atmost) )
-
-  out <- numeric(atmost)
-  ct <- 1
-  for (j in 1:dim[2]-1){
-    for (i in 1:dim[1]-1){
-      l <- floor(i / (NPROW * MB))
-      m <- floor(j / (NPCOL * NB))
-      
-      pr <- (0 + floor(i/MB)) %% NPROW
-      pc <- (0 + floor(j/NB)) %% NPCOL
-      
-      if (MYROW==pr && MYCOL==pc){
-        x <- 1 + i %% MB;
-        y <- 1 + j %% NB;
-        out[ct] <- dx@Data[x+MB*l,y+NB*m]
-
-        ct <- ct+1
-      }
-      ct <- pbdMPI::allreduce(ct, op='max')
-      if (ct == atmost+1)
-         break
-      barrier()
-    }
-    if (ct == atmost+1)
-      break
-  }
-  barrier()
-  out <- pbdMPI::allreduce(out, op='sum')
-  return(out)
-}
-
-
+# redistribute data from one BC type to another
 base.reblock <- function(dx, bldim=dx@bldim, ICTXT)
 {
   if (length(bldim)==1)
     bldim <- rep(bldim, 2)
-
-#  blacs_ <- base.blacs(ICTXT=ICTXT)
-#  ICTXT <- blacs_$ICTXT + 0
   
   dim <- dx@dim
   m <- dim[1]
   n <- dim[2]
   xattrs <- attributes(dx@Data)
-
+  
   ldimB <- base.numroc(dim=dim, bldim=bldim, ICTXT=ICTXT)
   TldimB <- ldimB # true ldimB
-
+  
   # lda's of 1 infuriate pdgemr2d
   mxx <- pbdMPI::allreduce(max(dx@ldim), op='max')
   mxb <- pbdMPI::allreduce(max(ldimB), op='max')
-
+  
   if (all(dx@ldim==1))
     dx@ldim[1] <- mxx
   if (all(ldimB==1))
     ldimB[1] <- mxb
-
+  
   if (pbdMPI::allreduce(dx@ldim[1], op='max')==1 && dx@dim[1]>1)
     dx@ldim[1] <- mxx
   if (pbdMPI::allreduce(ldimB[1], op='max')==1)
     ldimB[1] <- mxb
-
+  
   descx <- base.descinit(dim=dim, bldim=dx@bldim, ldim=dx@ldim, ICTXT=dx@ICTXT)
-  descb <- base.descinit(dim=dim, bldim=bldim, ldim=ldimB, ICTXT=ICTXT)
-
-  dB <- new("ddmatrix", Data=matrix(0.0, 1, 1), 
-           dim=dim, ldim=TldimB, bldim=bldim, ICTXT=ICTXT)
-
+  descy <- base.descinit(dim=dim, bldim=bldim, ldim=ldimB, ICTXT=ICTXT)
+  
+  dy <- new("ddmatrix", Data=matrix(0.0, 1, 1), dim=dim, ldim=TldimB, bldim=bldim, ICTXT=ICTXT)
+  
   xblacs_ <- base.blacs(dx@ICTXT)
   if (xblacs_$MYROW==-1 || xblacs_$MYCOL==-1){
-#    descx <- rep(0, 9)
     descx[2] <- -1
   }
-
+  
   blacs_ <- base.blacs(ICTXT=ICTXT)
   if (blacs_$MYROW==-1 || blacs_$MYCOL==-1){
-#    descb <- rep(0, 9)
-    descb[2] <- -1
+    descy[2] <- -1
   }
   
   if (!is.double(dx@Data))
     storage.mode(dx@Data) <- "double"
   
-  ret <- .Call("R_PDGEMR2D",
-               as.integer(m), as.integer(n),
-               dx@Data, as.integer(descx),
-               as.integer(TldimB), as.integer(descb),
-               as.integer(0), # context 0 is always passed since pdgemr2d 
-               # requires the grids to have at least 1 processor in common
-               as.integer(dx@ldim[1]), as.integer(dx@ldim[2]),
-               PACKAGE="pbdBASE"
-            )
-    
-#    ret <- ret + 0
-    dB@Data <- ret
-    
+  
+  ret <- base.rpdgemr2d(x=dx@Data, descx=descx, descy=descy)
+  
+  dy@Data <- ret
+  
+  
   if (length(xattrs) > 1){
-    battrs <- union(attributes(dB@Data), xattrs[-1])
+    battrs <- union(attributes(dy@Data), xattrs[-1])
     names(battrs) <- names(xattrs)
-    attributes(dB@Data) <- battrs
+    attributes(dy@Data) <- battrs
   }
-
-  return(dB)
+  
+  return( dy )
 }
 
 reblock <- base.reblock
 
 
-# l2g and g2l
-base.g2l_coord <- function(ind, dim, bldim, ICTXT=0)
+base.redistribute <- function(dx, bldim=dx@bldim, ICTXT=0)
 {
-  blacs_ <- base.blacs(ICTXT=ICTXT)
-  procs <- c(blacs_$NPROW, blacs_$NPCOL)
-  src <- c(0,0)
+  if (dx@ICTXT != ICTXT)
+    dx <- base.reblock(dx=dx, bldim=bldim, ICTXT=ICTXT)
   
-  out <- .Call("g2l_coords", 
-                ind=as.integer(ind), dim=as.integer(dim), bldim=as.integer(bldim),
-                procs=as.integer(procs), src=as.integer(src),
-                PACKAGE="pbdBASE"
-               )
-  
-#  out[5:6] <- out[5:6] + 1
-  
-  if (out[3]!=blacs_$MYROW || out[4]!=blacs_$MYCOL)
-    out <- rep(NA, 6)
-  
-  # out is a 'triple of pairs' stored as a length-6 vector, consisting of:
-    # block position
-    # process grid block
-    # local coordinates
-  # out will be a length 6 vector of NA when that global coord is not
-  # relevant to the local storage
-  
-  return(out)
+  return( dx )
 }
 
-g2l_coord <- base.g2l_coord
+redistribute <- base.redistribute
 
-
-base.l2g_coord <- function(ind, dim, bldim, ICTXT=0)
-{
-  blacs_ <- base.blacs(ICTXT=ICTXT)
-  procs <- c(blacs_$NPROW, blacs_$NPCOL)
-  myproc <- c(blacs_$MYROW, blacs_$MYCOL)
-  
-  out <- .Call("l2g_coords", 
-                ind=as.integer(ind), dim=as.integer(dim), bldim=as.integer(bldim),
-                procs=as.integer(procs), src=as.integer(myproc),
-                PACKAGE="pbdBASE"
-               )
-  
-  return(out)
-}
-
-l2g_coord <- base.l2g_coord
-
-
-base.mat.to.ddmat <- function(x, bldim=.BLDIM, ICTXT=0)
-{
-  if (!is.matrix(x))
-    comm.stop("input 'x' must be a matrix") 
-  else if (length(bldim) == 1) 
-    bldim <- rep(bldim, 2) 
-  else if (diff(bldim) != 0)
-    comm.warning("Most ScaLAPACK routines do not allow for non-square blocking.  This is highly non-advised.")
-  
-  dim <- dim(x)
-  ldim <- base.numroc(dim=dim, bldim=bldim, ICTXT=ICTXT, fixme=TRUE)
-  descx <- base.descinit(dim=dim, bldim=bldim, ldim=ldim, ICTXT=ICTXT)
-  
-  out <- base.mksubmat(x=x, descx=descx)
-  
-  dx <- new("ddmatrix", Data=out, dim=dim, ldim=dim(out), bldim=bldim, ICTXT=ICTXT)
-  
-  return(dx)
-}
 
 #---------------------------------------------
 # *bind functions
@@ -435,4 +251,79 @@ dmat.rank_k <- function(vec, k, shouldsort=FALSE)
 }
 
 rank_k <- dmat.rank_k
+
+
+
+#---------------------------------------------
+# other
+#---------------------------------------------
+
+# checking compatibility between distributed matrices for use with
+# scalapack/pblas. For internal use only.
+base.checkem <- function(x, y, checks=1:3)
+{
+  # All dimension equal
+  if (1 %in% checks)
+    if (any(x@dim!=y@dim))
+      comm.stop("Error: non-conformable distributed arrays")
+  # Same BLACS context
+  if (2 %in% checks)
+    if (x@ICTXT != y@ICTXT)
+      comm.stop("Error: Distributed matrices 'x' and 'y' must belong to the same BLACS context")
+  # Same blocking dimension
+  if (3 %in% checks)
+    if (any(x@bldim != y@bldim))
+      comm.stop("Distributed matrices 'x' and 'y' must have the same block dimension.")
+}
+
+checkem <- base.checkem
+
+
+# print first few entries of the global matrix
+base.firstfew <- function(dx, atmost=5)
+{
+  blacs_ <- base.blacs(dx@ICTXT)
+  MYROW <- blacs_$MYROW
+  MYCOL <- blacs_$MYCOL
+  NPROW <- blacs_$NPROW
+  NPCOL <- blacs_$NPCOL
+
+  MB <- dx@bldim[1]
+  NB <- dx@bldim[2]
+
+  if (prod(dx@dim) < atmost)
+    atmost <- prod(dx@dim)
+
+  dim <- c( min(dx@dim[1], atmost), min(dx@dim[2], atmost) )
+
+  out <- numeric(atmost)
+  ct <- 1
+  for (j in 1:dim[2]-1){
+    for (i in 1:dim[1]-1){
+      l <- floor(i / (NPROW * MB))
+      m <- floor(j / (NPCOL * NB))
+      
+      pr <- (0 + floor(i/MB)) %% NPROW
+      pc <- (0 + floor(j/NB)) %% NPCOL
+      
+      if (MYROW==pr && MYCOL==pc){
+        x <- 1 + i %% MB;
+        y <- 1 + j %% NB;
+        out[ct] <- dx@Data[x+MB*l,y+NB*m]
+
+        ct <- ct+1
+      }
+      ct <- pbdMPI::allreduce(ct, op='max')
+      if (ct == atmost+1)
+         break
+      barrier()
+    }
+    if (ct == atmost+1)
+      break
+  }
+  barrier()
+  out <- pbdMPI::allreduce(out, op='sum')
+  return(out)
+}
+
 

@@ -51,7 +51,7 @@
 # Save code in a file "demo.r" and run with 2 processors by
 # > mpiexec -np 2 Rscript demo.r
 
-library(pbdBASE, quiet = TRUE)
+library(pbdDMAT, quiet = TRUE)
 init.grid()
 
 if (comm.rank()==0){

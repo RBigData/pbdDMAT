@@ -33,7 +33,7 @@
   If \code{reduce==TRUE} then a global matrix or vector (whichever 
   is more appropriate) will be returned. The argument
   \code{proc.dest=} behaves exactly as in the \code{as.vector()} and
-  \code{as.matrix()} functions of \pkg{pbdBASE}. If \code{reduce=FALSE}
+  \code{as.matrix()} functions of \pkg{pbdDMAT}. If \code{reduce=FALSE}
   then a distributed matrix is returned. Other acceptable arguments 
   are \code{reduce="matrix"} and \code{reduce="vector"} which demand
   global matrix or vector return, respectively. This should generally
