@@ -156,6 +156,12 @@ setGeneric(name="ddmatrix",
   package="pbdDMAT"
 )
 
+setGeneric(name="ddmatrix.local", 
+  function(data, ...) 
+    standardGeneric("ddmatrix.local"), 
+  package="pbdDMAT"
+)
+
 setGeneric(name="as.ddmatrix", 
   function(x, ...) 
     standardGeneric("as.ddmatrix"), 
