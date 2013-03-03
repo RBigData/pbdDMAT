@@ -10,7 +10,7 @@ exportMethods(
   "qr", "qr.Q", "qr.R", "qr.qty", "qr.qy", "chol2inv",
   "rcond", "norm",
   "lm.fit", "diag", "crossprod", "tcrossprod", "lu",
-  "as.matrix", "as.vector", "as.ddmatrix", "ddmatrix",
+  "as.matrix", "as.vector", "as.ddmatrix", "ddmatrix", "ddmatrix.local",
   "submatrix", "submatrix<-",
   "[", "[<-", "na.exclude",
   "nrow", "ncol", "dim", "ldim", "bldim", "ictxt", "submatrix",
@@ -38,7 +38,7 @@ export(
   sum, mean, prod, rowSums, colSums, rowMeans, colMeans,
   # Misc
   as.matrix, ownany,
-  ddmatrix, as.ddmatrix, is.ddmatrix, 
+  ddmatrix, ddmatrix.local, as.ddmatrix, is.ddmatrix, 
   is.na, is.nan, is.infinite, is.numeric,
   head.ddmatrix, tail.ddmatrix,
   "[", "[<-",
