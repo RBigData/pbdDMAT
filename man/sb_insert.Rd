@@ -3,7 +3,8 @@
 \docType{methods}
 
 \alias{[<--method}
-\alias{[<-,ddmatrix-method}
+\alias{[<-,ddmatrix,ANY,ANY,ANY-method}
+\alias{[<-,ddmatrix,ANY,ANY,ddmatrix-method}
 \alias{[<-}
 
 \alias{submatrix<--method}
@@ -27,7 +28,7 @@
 \arguments{
   \item{x}{numeric distributed matrix.}
   \item{i, j}{global integer indices.}
-  \item{value}{replacement value. Must be numeric or NA.}
+  \item{value}{replacement value. Can be a global vector or a \code{ddmatrix}.}
 }
 \details{
   \code{[<-} allows the user to insert values into a distributed matrix 
@@ -36,15 +37,15 @@
   \code{(i, j)}'th element of the "full", global matrix, and not
   necessarily the \code{(i, j)}'th element of the local submatrix.
 
-  On the other hand, \code{submatrix<-} is not the same functionality
-  with a different name. Instead, it is basically syntactic sugar for:
+  On the other hand, \code{submatrix<-} is different. It is basically 
+  syntactic sugar for:
   
   \code{x@Data <- newMatrix}
   
   It does not alter the distributed matrix \code{x}'s \code{dim}
   or \code{bldim}. It \emph{does} adjust the \code{ldim} automatically.
-  It is merely provided to give consistent behavior with the 
-  \code{submatrix()} function. 
+  However, using this can be dangerous. It is merely provided to give 
+  consistent behavior with the \code{submatrix()} function.
 }
 \value{
   Returns a distributed matrix.

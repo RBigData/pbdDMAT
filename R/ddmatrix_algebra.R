@@ -8,8 +8,8 @@ setMethod("t", signature(x="ddmatrix"),
   function(x){
     ICTXT <- x@ICTXT
     
-    m <- x@dim[2]
-    n <- x@dim[1]
+    m <- x@dim[2L]
+    n <- x@dim[1L]
     
     desca <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=ICTXT)
     
@@ -342,12 +342,9 @@ setMethod("chol", signature(x="ddmatrix"),
 setMethod("lu", signature(x="ddmatrix"), 
   function(x)
   {
-    m <- x@dim[1L]
-    n <- x@dim[2L]
-    
     desca <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
     
-    out <- base.rpdgetrf(m=m, n=n, a=x@Data, desca=desca)
+    out <- base.rpdgetrf(a=x@Data, desca=desca)
     
     x@Data <- out
     
@@ -365,8 +362,8 @@ setMethod("qr", signature(x="ddmatrix"),
     # Matrix descriptors
     descx <- base.descinit(x@dim, x@bldim, x@ldim, ICTXT=x@ICTXT)
     
-    m <- descx[3]
-    n <- descx[4]
+    m <- descx[3L]
+    n <- descx[4L]
     
     # qr
     ret <- base.rpdgeqpf(tol=tol, m=m, n=n, x=x@Data, descx=descx)
@@ -477,8 +474,8 @@ setMethod("qr.qy", signature(x="ANY"),
       descqr <- base.descinit(qr@dim, qr@bldim, qr@ldim, ICTXT=qr@ICTXT)
       descc <- base.descinit(y@dim, y@bldim, y@ldim, ICTXT=y@ICTXT)
       
-      m <- descqr[3]
-      n <- y@dim[2]
+      m <- descqr[3L]
+      n <- y@dim[2L]
       k <- x$rank
       
       out <- base.rpdormqr(side='L', trans='N', m=m, n=n, k=k, qr=qr@Data, descqr=descqr, tau=x$tau, c=y@Data, descc=descc)
@@ -507,8 +504,8 @@ setMethod("qr.qty", signature(x="ANY"),
       descqr <- base.descinit(qr@dim, qr@bldim, qr@ldim, ICTXT=qr@ICTXT)
       descc <- base.descinit(y@dim, y@bldim, y@ldim, ICTXT=y@ICTXT)
       
-      m <- descqr[3]
-      n <- y@dim[2]
+      m <- descqr[3L]
+      n <- y@dim[2L]
       k <- x$rank
       
       out <- base.rpdormqr(side='L', trans='T', m=m, n=n, k=k, qr=qr@Data, descqr=descqr, tau=x$tau, c=y@Data, descc=descc)

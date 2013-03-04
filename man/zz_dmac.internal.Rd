@@ -30,6 +30,17 @@
 \alias{dmat.scale.scale.logical}
 \alias{dmat.svd}
 
+\alias{dmat.bldim}
+\alias{dmat.gmat}
+\alias{dmat.ictxt}
+
+\alias{dmat.ldim}
+\alias{dmat.reblock}
+\alias{dmat.redistribute}
+\alias{dmat.submatrix}
+
+
+
 
 
 \alias{svd,ANY-method}

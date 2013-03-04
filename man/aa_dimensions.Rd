@@ -98,8 +98,7 @@
 library(pbdDMAT, quiet = TRUE)
 init.grid()
 
-# don't do this in production code
-x <- matrix(1:9, 3)
+x <- ddmatrix(1:9, 3, 3)
 x <- as.ddmatrix(x)
 
 y <- list(dim=dim(x), ldim=ldim(x), bldim=bldim(x))

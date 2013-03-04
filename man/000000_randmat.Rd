@@ -10,12 +10,12 @@
   Routines for generating random distributed matrices.
 }
 \usage{
-  Hconst(dim, bldim, const=0, ICTXT=0)
-  Hunif(dim, bldim, min=0, max=1, ICTXT=0)
-  Hnorm(dim, bldim, mean=0, sd=1, ICTXT=0)
-  Hconst.local(ldim, bldim, const=0, ICTXT=0)
-  Hunif.local(ldim, bldim, min=0, max=1, ICTXT=0)
-  Hnorm.local(ldim, bldim, mean=0, sd=1, ICTXT=0)
+  Hconst(dim, bldim, const=0, ICTXT=.ICTXT)
+  Hunif(dim, bldim, min=0, max=1, ICTXT=.ICTXT)
+  Hnorm(dim, bldim, mean=0, sd=1, ICTXT=.ICTXT)
+  Hconst.local(ldim, bldim, const=0, ICTXT=.ICTXT)
+  Hunif.local(ldim, bldim, min=0, max=1, ICTXT=.ICTXT)
+  Hnorm.local(ldim, bldim, mean=0, sd=1, ICTXT=.ICTXT)
 }
 \arguments{
   \item{dim}{global dimension.}

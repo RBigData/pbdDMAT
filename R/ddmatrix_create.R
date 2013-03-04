@@ -47,10 +47,23 @@ setMethod("ddmatrix", signature(data="vector"),
     if (missing(ncol))
       ncol <- 1
     
-    dim <- c(nrow, ncol)
-    ldim <- base.numroc(dim=dim, bldim=bldim, ICTXT=ICTXT)
+    ldata <- base::length(data)
     
-    if (length(data) > 1){
+    if (ldata > 1){
+      if (nrow==1){
+        if (ncol==1)
+          nrow <- ldata
+        else {
+          nrow <- ceiling(ldata / ncol)
+        }
+      }
+      else if (ncol==1){
+        ncol <- ceiling(ldata / nrow)
+      }
+      
+      dim <- c(nrow, ncol)
+      ldim <- base.numroc(dim=dim, bldim=bldim, ICTXT=ICTXT)
+      
       Data <- matrix(0.0, ldim[1L], ldim[2L])
       
       descx <- base.descinit(dim=dim, bldim=bldim, ldim=ldim, ICTXT=ICTXT)
@@ -60,6 +73,9 @@ setMethod("ddmatrix", signature(data="vector"),
       Data <- base.pdsweep(x=Data, descx=descx, vec=data, MARGIN=MARGIN, FUN="+")
     } 
     else {
+      dim <- c(nrow, ncol)
+      ldim <- base.numroc(dim=dim, bldim=bldim, ICTXT=ICTXT)
+      
       if (!base.ownany(dim=dim, bldim=bldim, ICTXT=ICTXT))
         Data <- matrix(0.0, 1, 1)
       else

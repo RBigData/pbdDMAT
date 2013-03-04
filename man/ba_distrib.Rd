@@ -9,8 +9,8 @@
   new BLACS context, using a (possibly) new blocking dimension.
 }
 \usage{
-  distribute(x, bldim = .BLDIM, xCTXT = 0, ICTXT = 0)
-  redistribute(dx, bldim = dx@bldim, ICTXT = 0)
+  distribute(x, bldim = .BLDIM, xCTXT = 0, ICTXT = .ICTXT)
+  redistribute(dx, bldim = dx@bldim, ICTXT = .ICTXT)
 }
 \arguments{
   \item{x}{a numeric matrix}

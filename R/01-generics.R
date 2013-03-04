@@ -58,7 +58,6 @@ setGeneric(name="sd",
 
 
 # Reductions
-#setGeneric(name = "diag", useAsDefault = base::diag, package="pbdDMAT")
 setGeneric(name = "mean", useAsDefault = base::mean, package="pbdDMAT")
 setGeneric(name = "median", useAsDefault = stats::median, package="pbdDMAT")
 setGeneric(name = "rowSums", useAsDefault = base::rowSums, package="pbdDMAT")
@@ -74,12 +73,11 @@ setGeneric(name = "crossprod", useAsDefault = base::crossprod, package="pbdDMAT"
 setGeneric(name = "tcrossprod", useAsDefault = base::tcrossprod, package="pbdDMAT")
 setGeneric(name = "solve", useAsDefault = base::solve, package="pbdDMAT")
 setGeneric(name = "chol", useAsDefault = base::chol, package="pbdDMAT")
-setGeneric(name = "lu", useAsDefault = Matrix::lu, package="pbdDMAT")
 setGeneric(name = "chol2inv", useAsDefault = base::chol2inv, package="pbdDMAT")
-
 setGeneric(name = "norm", useAsDefault = base::norm, package="pbdDMAT")
 setGeneric(name = "rcond", useAsDefault = base::rcond, package="pbdDMAT")
-
+#setGeneric(name = "lu", useAsDefault = Matrix::lu, package="pbdDMAT")
+setGeneric(name="lu", function(x, ...) standardGeneric("lu"), package="pbdDMAT")
 
 
 # Games to satisfy codetools' global variable checking --- they don't always play nice with S4

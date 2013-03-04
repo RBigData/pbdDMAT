@@ -21,8 +21,8 @@
 }
 }
 \usage{
-  \S4method{rbind}{...}(..., ICTXT = 0, deparse.level = 1)
-  \S4method{cbind}{...}(..., ICTXT = 0, deparse.level = 1)
+  \S4method{rbind}{...}(..., ICTXT = .ICTXT, deparse.level = 1)
+  \S4method{cbind}{...}(..., ICTXT = .ICTXT, deparse.level = 1)
 }
 \arguments{
 \item{...}{vectors, matrices, or distributed matrices.}

@@ -1,9 +1,28 @@
-#useDynLib(pbdDMAT)
-
 import(methods, rlecuyer, pbdMPI, pbdSLAP, pbdBASE)
 
-# All internal functions
 exportPattern("^dmat\\.[[:alpha:]]+")
+
+exportClasses("ddmatrix")
+
+export(
+  # Arithmetic
+  "+", "-", "*", "/", "^", "%%", "%/%", 
+  # Algebra
+  t, "%*%", crossprod, tcrossprod, chol2inv, solve, La.svd, svd, lu, 
+  chol, kappa.ddmatrix,
+  # Math
+  abs, sqrt, log, log2, log10, log1p, round, ceiling, floor,
+  # Principal Components
+  scale, prcomp, diag,
+  # Covariance
+  var, cov, sd, cor, cov2cor, scale, sweep,
+  # Reductions
+  sum, mean, prod, rowSums, colSums, rowMeans, colMeans,
+  # Misc
+  as.matrix, ownany, ddmatrix, ddmatrix.local, as.ddmatrix, is.ddmatrix, 
+  is.na, is.nan, is.infinite, is.numeric, head.ddmatrix, tail.ddmatrix,
+  "[", "[<-", distribute, redistribute
+)
 
 exportMethods(
   "median", "apply", "scale", "sweep",
@@ -20,30 +39,4 @@ exportMethods(
   "print",
   "cov", "cor", "cov2cor"
 )
-
-export(
-  # Arithmetic
-  "+", "-", "*", "/", "^", "%%", "%/%", 
-  # Algebra
-  t, "%*%", crossprod, tcrossprod, chol2inv,
-  solve, La.svd, svd, lu, chol, kappa.ddmatrix,
-  # Math
-  abs, sqrt, log, log2, log10, log1p, round, ceiling, floor,
-  # Principal Components
-  scale, prcomp, diag,
-  # Covariance
-  var, cov, sd, cor, cov2cor,
-  scale, sweep,
-  # Reductions
-  sum, mean, prod, rowSums, colSums, rowMeans, colMeans,
-  # Misc
-  as.matrix, ownany,
-  ddmatrix, ddmatrix.local, as.ddmatrix, is.ddmatrix, 
-  is.na, is.nan, is.infinite, is.numeric,
-  head.ddmatrix, tail.ddmatrix,
-  "[", "[<-",
-  distribute, redistribute
-)
-
-
 

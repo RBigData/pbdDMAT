@@ -30,18 +30,6 @@
 }
 \arguments{
   \item{x}{numeric distributed matrix.}
-  \item{na.rm}{logical, determines whether or not \code{NA}'s should 
-  be dealth with.}
-  \item{reduce}{logical or string. See details}
-  \item{proc.dest}{Destination process (or 'all') if a 
-  reduction occurs}
-  \item{use}{character indicating how missing values should be treated.
-  Acceptable values are the same as \code{R}'s, namely "everything",
-  "all.obs", "complete.obs", "na.or.complete", or 
-  "pairwise.complete.obs".}
-  \item{method}{character argument indicating which method should 
-  be used to calculate covariances. Currently only "spearman" is 
-  available for \code{ddmatrix}.}
   \item{center}{logical value, determines whether or not columns are
   zero centered}
   \item{scale, scale.}{logical value, determines whether or not columns 
