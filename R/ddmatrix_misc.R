@@ -154,27 +154,34 @@ setReplaceMethod("[", signature(x ="ddmatrix", value="ANY"),
   }
 )
 
-
+#
 setReplaceMethod("[", signature(x ="ddmatrix", value="ddmatrix"),
   function(x, i, j, ..., value) 
   {
-    if (missing(i) && missing(j)){
-      comm.print("ERROR : incorrect number of subscripts")
+#    if (missing(i) && missing(j))
+#      comm.stop("incorrect number of subscripts")
+    if (missing(i)){
+      lv <- as.integer(value@dim[2L])
+      if (length(j) %% lv != 0)
+        comm.stop("number of items to replace is not a multiple of replacement length")
+      else if (any(j > x@dim[2L]))
+        comm.stop("subscript out of bounds")
+      else
+        ret <- base.rcolcpy2(dx=x, dy=value, xcol=j, ycol=1L:lv)
     }
-    else if (missing(i))
-      i <- 1L:x@dim[1L]
-    else if (missing(j))
-      j <- 1L:x@dim[2L]
+    else if (missing(j)){
+      lv <- as.integer(value@dim[1L])
+      if (length(i) %% lv != 0)
+        comm.stop("number of items to replace is not a multiple of replacement length")
+      else if (any(i > x@dim[1L]))
+        comm.stop("subscript out of bounds")
+      else
+        ret <- base.rrowcpy2(dx=x, dy=value, xrow=i, yrow=1L:lv)
+    }
+    else
+      comm.stop("can't do this yet")
     
-    if (any(i > x@dim[1L]) || any(j > x@dim[2L]))
-      comm.stop("Error : subscript out of bounds")
-    
-##    if ()
-    
-#    dmat.dgesd2d(ICTXT, SCOPE, m, n, x, lda, RDEST, CDEST)
-    
-    
-    return(x)
+    return( ret )
   }
 )
 
