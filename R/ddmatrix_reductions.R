@@ -65,7 +65,7 @@ dmat.blacsreduction <- function(x, SCOPE, op, ICTXT, proc.dest=-1)
 
 
 
-dmat.allcolreduce <- function(x, op='sum', ICTXT=0)
+dmat.allcolreduce <- function(x, op='sum', ICTXT=.ICTXT)
 {
   dmat.blacsreduction(x=x, SCOPE='Col', op=op, ICTXT=ICTXT, proc.dest=-1)
 }
@@ -73,7 +73,7 @@ dmat.allcolreduce <- function(x, op='sum', ICTXT=0)
 allcolreduce <- dmat.allcolreduce
 
 
-dmat.allrowreduce <- function(x, op='sum', ICTXT=0)
+dmat.allrowreduce <- function(x, op='sum', ICTXT=.ICTXT)
 {
   dmat.blacsreduction(x=x, SCOPE='Row', op=op, ICTXT=ICTXT, proc.dest=-1)
 }
@@ -81,7 +81,7 @@ dmat.allrowreduce <- function(x, op='sum', ICTXT=0)
 allrowreduce <- dmat.allrowreduce
 
 
-dmat.colreduce <- function(x, op='sum', proc.dest=0, ICTXT=0)
+dmat.colreduce <- function(x, op='sum', proc.dest=0, ICTXT=.ICTXT)
 {
   dmat.blacsreduction(x=x, SCOPE='Col', op=op, ICTXT=ICTXT, proc.dest=proc.dest)
 }
@@ -89,7 +89,7 @@ dmat.colreduce <- function(x, op='sum', proc.dest=0, ICTXT=0)
 colreduce <- dmat.colreduce
 
 
-dmat.rowreduce <- function(x, op='sum', proc.dest=0, ICTXT=0)
+dmat.rowreduce <- function(x, op='sum', proc.dest=0, ICTXT=.ICTXT)
 {
   dmat.blacsreduction(x=x, SCOPE='Row', op=op, ICTXT=ICTXT, proc.dest=proc.dest)
 }

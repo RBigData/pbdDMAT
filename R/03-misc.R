@@ -17,7 +17,7 @@ base.dropper <- function(x, oldbldim, iorj, ij, ICTXT)
 #    if (ICTXT==2)
 #      bldim <- c(ceiling(bldim[1] / blacs_$NPROW), dim(x)[2])
   
-    newObj <- base.reblock(dx=x, bldim=bldim, ICTXT)
+    newObj <- dmat.reblock(dx=x, bldim=bldim, ICTXT)
   }
   
   if (iorj=='i'){ # rows
@@ -66,7 +66,7 @@ dropper <- base.dropper
 
 
 # redistribute data from one BC type to another
-base.reblock <- function(dx, bldim=dx@bldim, ICTXT)
+dmat.reblock <- function(dx, bldim=dx@bldim, ICTXT=.ICTXT)
 {
   if (length(bldim)==1)
     bldim <- rep(bldim, 2)
@@ -126,39 +126,39 @@ base.reblock <- function(dx, bldim=dx@bldim, ICTXT)
   return( dy )
 }
 
-reblock <- base.reblock
+reblock <- dmat.reblock
 
 
-base.redistribute <- function(dx, bldim=dx@bldim, ICTXT=0)
+dmat.redistribute <- function(dx, bldim=dx@bldim, ICTXT=.ICTXT)
 {
   if (dx@ICTXT != ICTXT)
-    dx <- base.reblock(dx=dx, bldim=bldim, ICTXT=ICTXT)
+    dx <- dmat.reblock(dx=dx, bldim=bldim, ICTXT=ICTXT)
   
   return( dx )
 }
 
-redistribute <- base.redistribute
+redistribute <- dmat.redistribute
 
 
 #---------------------------------------------
 # *bind functions
 #---------------------------------------------
 
-base.rbind <- function(..., ICTXT=0)
+base.rbind <- function(..., ICTXT=.ICTXT)
 {
   args <- list(...)
   
   return( base.rbind2(args=args, ICTXT=ICTXT) )
 }
 
-base.rbind2 <- function(args, ICTXT=0)
+base.rbind2 <- function(args, ICTXT=.ICTXT)
 { 
 #  args <- list(...)
   
   oldctxt <- args[[1]]@ICTXT
   
   args <- lapply(args, 
-    FUN=function(dx) base.redistribute(dx=dx, bldim=dx@bldim, ICTXT=1)
+    FUN=function(dx) dmat.redistribute(dx=dx, bldim=dx@bldim, ICTXT=1)
   )
   
   dim <- c(sum(sapply(args, function(x) dim(x)[1])), args[[1]]@dim[2])
@@ -170,19 +170,19 @@ base.rbind2 <- function(args, ICTXT=0)
   ret <- new("ddmatrix", Data=Reduce(base::rbind, Data), dim=dim, ldim=ldim, bldim=bldim, ICTXT=1)
   
   if (ICTXT!=1)
-    ret <- base.redistribute(dx=ret, bldim=ret@bldim, ICTXT=ICTXT)
+    ret <- dmat.redistribute(dx=ret, bldim=ret@bldim, ICTXT=ICTXT)
   
   return( ret )
 }
 
-base.cbind <- function(..., ICTXT=0)
+base.cbind <- function(..., ICTXT=.ICTXT)
 {
   args <- list(...)
   
   oldctxt <- args[[1]]@ICTXT
   
   args <- lapply(args, 
-    FUN=function(dx) base.redistribute(dx=dx, bldim=dx@bldim, ICTXT=2)
+    FUN=function(dx) dmat.redistribute(dx=dx, bldim=dx@bldim, ICTXT=2)
   )
   
   dim <- c(args[[1]]@dim[1], sum(sapply(args, function(x) dim(x)[2])))
@@ -194,7 +194,7 @@ base.cbind <- function(..., ICTXT=0)
   ret <- new("ddmatrix", Data=Reduce(base::cbind, Data), dim=dim, ldim=ldim, bldim=bldim, ICTXT=2)
   
   if (ICTXT!=2)
-    ret <- base.redistribute(dx=ret, bldim=ret@bldim, ICTXT=ICTXT)
+    ret <- dmat.redistribute(dx=ret, bldim=ret@bldim, ICTXT=ICTXT)
   
   return( ret )
 }

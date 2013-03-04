@@ -3,7 +3,7 @@
 #---------------------------------------------
 
 
-base.mat.to.ddmat <- function(x, bldim=.BLDIM, ICTXT=0)
+base.mat.to.ddmat <- function(x, bldim=.BLDIM, ICTXT=.ICTXT)
 {
   if (!is.matrix(x))
     comm.stop("input 'x' must be a matrix") 
@@ -74,7 +74,7 @@ dmat.gmat <- function(dx, proc.dest="all")
 
 
 # Distribute dense, in-core matrices
-dmat.as.ddmatrix <- function(x, bldim=.BLDIM, ICTXT=0)
+dmat.as.ddmatrix <- function(x, bldim=.BLDIM, ICTXT=.ICTXT)
 {
 #  ICTXT <- base.blacs(ICTXT=ICTXT)$ICTXT
   nprocs <- pbdMPI::comm.size()
@@ -101,7 +101,7 @@ dmat.as.ddmatrix <- function(x, bldim=.BLDIM, ICTXT=0)
 
 
 # distribute a matrix from process (0,0) to the full ICTXT grid
-base.distribute <- function(x, bldim=.BLDIM, xCTXT=0, ICTXT=0)
+base.distribute <- function(x, bldim=.BLDIM, xCTXT=0, ICTXT=.ICTXT)
 {
   if (length(bldim)==1)
     bldim <- rep(bldim, 2L)
@@ -138,9 +138,9 @@ base.distribute <- function(x, bldim=.BLDIM, xCTXT=0, ICTXT=0)
   dx <- new("ddmatrix", Data=x, dim=dim, ldim=ldim, bldim=dim, ICTXT=xCTXT)
   
   if (xCTXT != ICTXT)
-    dx <- base.reblock(dx=dx, bldim=bldim, ICTXT=ICTXT)
+    dx <- dmat.reblock(dx=dx, bldim=bldim, ICTXT=ICTXT)
   else if (any(dx@bldim != bldim))
-    dx <- base.reblock(dx=dx, bldim=bldim, ICTXT=dx@ICTXT)
+    dx <- dmat.reblock(dx=dx, bldim=bldim, ICTXT=dx@ICTXT)
   
   return( dx )
 }

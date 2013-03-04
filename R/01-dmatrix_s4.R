@@ -18,13 +18,13 @@ setGeneric(name="as.vector",
 )
 
 setGeneric(name="rbind", 
-  function(..., ICTXT=0, deparse.level=1)
+  function(..., ICTXT=.ICTXT, deparse.level=1)
     standardGeneric("rbind"),
   package="pbdDMAT"
 )
 
 setGeneric(name="cbind", 
-  function(..., ICTXT=0, deparse.level=1)
+  function(..., ICTXT=.ICTXT, deparse.level=1)
     standardGeneric("cbind"),
   package="pbdDMAT"
 )

@@ -127,7 +127,7 @@ setMethod("[", signature(x="ddmatrix"),
     
     # bring everything back to full process grid
     if (newObj@ICTXT != oldCTXT)
-      newObj <- base.reblock(dx=newObj, bldim=oldbldim, ICTXT=oldCTXT)
+      newObj <- dmat.reblock(dx=newObj, bldim=oldbldim, ICTXT=oldCTXT)
     
     return(newObj)
   }
@@ -194,7 +194,7 @@ setReplaceMethod("submatrix", signature(x="ddmatrix"),
 #)
 
 setMethod("rbind", "ANY", 
-  function(..., ICTXT=0, deparse.level=1)
+  function(..., ICTXT=.ICTXT, deparse.level=1)
   {
     args <- list(...)
     
@@ -208,7 +208,7 @@ setMethod("rbind", "ANY",
 )
 
 setMethod("cbind", "ANY", 
-  function(..., ICTXT=0, deparse.level=1)
+  function(..., ICTXT=.ICTXT, deparse.level=1)
   {
     args <- list(...)
     
@@ -346,7 +346,7 @@ setMethod("summary", signature(object="ddmatrix"),
   {
     if (object@ICTXT != 1){
       newbldim <- c(object@dim[1], ceiling(object@bldim[2] / object@dim[2]))
-      object <- base.redistribute(object, bldim=newbldim, ICTXT=1)
+      object <- dmat.redistribute(object, bldim=newbldim, ICTXT=1)
     }
     
     if (ownany(object)){

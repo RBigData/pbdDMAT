@@ -21,7 +21,7 @@ setMethod("apply", signature(X="ddmatrix"),
     # Row margin
     if (MARGIN==1){
       if (X@ICTXT!=2)
-        X <- base.reblock(dx=X, bldim=X@bldim/2, ICTXT=2)
+        X <- dmat.reblock(dx=X, bldim=X@bldim/2, ICTXT=2)
       
       tmp <- apply(X@Data, MARGIN=1, FUN=FUN)
       
@@ -36,7 +36,6 @@ setMethod("apply", signature(X="ddmatrix"),
       
       else if (!is.matrix(tmp))
         dim(tmp) <- c(base::length(tmp), 1L)
-#        tmp <- matrix(tmp, ncol=1)
         
       X@Data <- tmp
       
@@ -46,7 +45,7 @@ setMethod("apply", signature(X="ddmatrix"),
     # Column margin
     else if (MARGIN==2){
       if (X@ICTXT!=1)
-        X <- base.reblock(dx=X, bldim=X@bldim/2, ICTXT=1)
+        X <- dmat.reblock(dx=X, bldim=X@bldim/2, ICTXT=1)
       
       tmp <- apply(X@Data, MARGIN=2, FUN=FUN)
       
@@ -60,7 +59,6 @@ setMethod("apply", signature(X="ddmatrix"),
       }      
       else if (!is.matrix(tmp))
         dim(tmp) <- c(1L, base::length(tmp))
-#        tmp <- matrix(tmp, nrow=1)
         
       X@Data <- tmp
       
@@ -88,7 +86,7 @@ setMethod("apply", signature(X="ddmatrix"),
     
     if (is.ddmatrix(X))
       if (X@ICTXT != oldCTXT)
-        X <- base.reblock(dx=X, bldim=oldbldim, ICTXT=oldCTXT)
+        X <- dmat.reblock(dx=X, bldim=oldbldim, ICTXT=oldCTXT)
       
     return(X)
   }

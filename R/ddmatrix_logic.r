@@ -251,7 +251,7 @@ setMethod("na.exclude", signature(object="ddmatrix"),
         if (!missing(ICTXT))
           object@ICTXT <- ICTXT
       } else if (object@ICTXT != ICTXT)
-        object <- base.reblock(dx=object, bldim=object@bldim, ICTXT=ICTXT)
+        object <- dmat.reblock(dx=object, bldim=object@bldim, ICTXT=ICTXT)
       
       return(object)
     }
@@ -267,7 +267,7 @@ setMethod("na.exclude", signature(object="ddmatrix"),
     bldim <- c(dim(object)[1], ceiling(oldbldim[2] / blacs_$NPCOL))
 
     if (object@ICTXT != 1)
-      newObj <- base.reblock(dx=object, bldim=bldim, ICTXT=1)
+      newObj <- dmat.reblock(dx=object, bldim=bldim, ICTXT=1)
 
     iown <- ownany(dim=newObj@dim, bldim=newObj@bldim, ICTXT=1)
 
@@ -313,7 +313,7 @@ setMethod("na.exclude", signature(object="ddmatrix"),
     }
 
     if (newObj@ICTXT != oldCTXT)
-      newObj <- base.reblock(dx=newObj, bldim=oldbldim, ICTXT=oldCTXT)
+      newObj <- dmat.reblock(dx=newObj, bldim=oldbldim, ICTXT=oldCTXT)
 
     return(newObj)
   }

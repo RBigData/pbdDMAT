@@ -68,13 +68,13 @@ setMethod("lm.fit", signature(x="ddmatrix", y="ddmatrix"),
       }
       if (any(pivot - temp != 0L)){
         perm <- sapply(temp, function(i) temp[which(i==pivot)])
-        y <- base.redistribute(dx=y, bldim=y@bldim, ICTXT=2L)
+        y <- dmat.redistribute(dx=y, bldim=y@bldim, ICTXT=2L)
         y <- y[perm, , ICTXT=oldctxt]
       } else {
-        y <- base.redistribute(dx=y, bldim=y@bldim, ICTXT=oldctxt)
+        y <- dmat.redistribute(dx=y, bldim=y@bldim, ICTXT=oldctxt)
       }
     } else {
-      y <- base.redistribute(dx=y, bldim=y@bldim, ICTXT=oldctxt)
+      y <- dmat.redistribute(dx=y, bldim=y@bldim, ICTXT=oldctxt)
     }
     
     # rownames

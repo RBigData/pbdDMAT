@@ -3,7 +3,7 @@
 # -------------------
 
 setMethod("ddmatrix", signature(data="ddmatrix"), 
-  function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=.BLDIM, ICTXT=0)
+  function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=.BLDIM, ICTXT=.ICTXT)
   {
     if (length(bldim)==1)
       bldim <- rep(bldim, 2)
@@ -20,7 +20,7 @@ setMethod("ddmatrix", signature(data="ddmatrix"),
 
 
 setMethod("ddmatrix", signature(data="missing"), 
-  function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=.BLDIM, ICTXT=0)
+  function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=.BLDIM, ICTXT=.ICTXT)
   {
     data <- NA
     ret <- ddmatrix(data=data, nrow=nrow, ncol=ncol, byrow=byrow, bldim=bldim, ICTXT=ICTXT)
@@ -32,8 +32,13 @@ setMethod("ddmatrix", signature(data="missing"),
 
 
 setMethod("ddmatrix", signature(data="vector"), 
-  function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=.BLDIM, ICTXT=0)
+  function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=.BLDIM, ICTXT=.ICTXT)
   {
+    if (nrow < 1)
+      comm.stop("invalid 'nrow'")
+    if (ncol < 1)
+      comm.stop("invalid 'ncol'")
+    
     if (length(bldim)==1)
       bldim <- rep(bldim, 2)
     
@@ -46,7 +51,7 @@ setMethod("ddmatrix", signature(data="vector"),
     ldim <- base.numroc(dim=dim, bldim=bldim, ICTXT=ICTXT)
     
     if (length(data) > 1){
-      Data <- matrix(0, ldim[1L], ldim[2L])
+      Data <- matrix(0.0, ldim[1L], ldim[2L])
       
       descx <- base.descinit(dim=dim, bldim=bldim, ldim=ldim, ICTXT=ICTXT)
       
@@ -56,7 +61,7 @@ setMethod("ddmatrix", signature(data="vector"),
     } 
     else {
       if (!base.ownany(dim=dim, bldim=bldim, ICTXT=ICTXT))
-        Data <- matrix(0, 1, 1)
+        Data <- matrix(0.0, 1, 1)
       else
         Data <- matrix(data, ldim[1L], ldim[2L])
     }
@@ -71,7 +76,7 @@ setMethod("ddmatrix", signature(data="vector"),
 
 
 setMethod("ddmatrix", signature(data="matrix"), 
-  function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=.BLDIM, ICTXT=0)
+  function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=.BLDIM, ICTXT=.ICTXT)
   {
     dim(data) <- NULL
     ret <- ddmatrix(data=data, nrow=nrow, ncol=ncol, byrow=byrow, bldim=bldim, ICTXT=ICTXT)
@@ -83,7 +88,7 @@ setMethod("ddmatrix", signature(data="matrix"),
 
 
 setMethod("ddmatrix", signature(data="character"), 
-  function(data, nrow=1, ncol=1, byrow=FALSE, ..., min=0, max=1, mean=0, sd=1, rate=1, shape, scale=1, bldim=.BLDIM, ICTXT=0)
+  function(data, nrow=1, ncol=1, byrow=FALSE, ..., min=0, max=1, mean=0, sd=1, rate=1, shape, scale=1, bldim=.BLDIM, ICTXT=.ICTXT)
   {
     data <- match.arg(data, c("runif", "uniform", "rnorm", "normal", "rexp", "exponential", "rweibull", "weibull"))
     
@@ -94,7 +99,7 @@ setMethod("ddmatrix", signature(data="character"),
     ldim <- base.numroc(dim=dim, bldim=bldim, ICTXT=ICTXT)
     
     if (!base.ownany(dim=dim, bldim=bldim, ICTXT=ICTXT))
-      Data <- matrix(0, 1, 1)
+      Data <- matrix(0.0, 1, 1)
     else {
       if (data=="runif" || data=="uniform")
         Data <- matrix(runif(prod(ldim), min=min, max=max), ldim[1L], ldim[2L])
@@ -116,7 +121,7 @@ setMethod("ddmatrix", signature(data="character"),
 
 # Create a diagonal distributed matrix
 setMethod("diag", signature(x="vector"), 
-  function(x, nrow, ncol, type="matrix", ..., bldim=.BLDIM, ICTXT=0){
+  function(x, nrow, ncol, type="matrix", ..., bldim=.BLDIM, ICTXT=.ICTXT){
     type <- match.arg(type, c("matrix", "ddmatrix"))
     
     if (length(bldim)==1)
@@ -141,13 +146,10 @@ setMethod("diag", signature(x="matrix"),
 
 
 
-
-
-
-
+# local versions; not sure how useful this is to anyone, but why not?
 
 setMethod("ddmatrix.local", signature(data="missing"), 
-  function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=.BLDIM, ICTXT=0)
+  function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=.BLDIM, ICTXT=.ICTXT)
   {
     data <- NA
     ret <- ddmatrix.local(data=data, nrow=nrow, ncol=ncol, byrow=byrow, bldim=bldim, ICTXT=ICTXT)
@@ -159,21 +161,35 @@ setMethod("ddmatrix.local", signature(data="missing"),
 
 
 setMethod("ddmatrix.local", signature(data="vector"), 
-  function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=.BLDIM, ICTXT=0)
+  function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=.BLDIM, ICTXT=.ICTXT)
   {
+    if (nrow < 1)
+      comm.stop("invalid 'nrow'")
+    if (ncol < 1)
+      comm.stop("invalid 'ncol'")
+    
     if (length(bldim)==1)
       bldim <- rep(bldim, 2)
     
-    if (missing(nrow))
-      nrow <- 1
-    if (missing(ncol))
-      ncol <- 1
+    ldim <- c(nrow, ncol)
     
-    dim <- c(nrow, ncol)
-    ldim <- base.numroc(dim=dim, bldim=bldim, ICTXT=ICTXT)
+    blacs_ <- base.blacs(ICTXT=ICTXT)
+    nprows <- blacs_$NPROW
+    npcols <- blacs_$NPCOL
+    
+    dim <- c(nprows*ldim[1L], npcols*ldim[2L])
+    
+    # bldim
+    if (any( (dim %% bldim) != 0 )){
+      comm.warning("at least one margin of 'bldim' does not divide the global dimension.\n")
+      
+      bldim[1L] <- base.nbd(ldim[1L], bldim[1L])
+      bldim[2L] <- base.nbd(ldim[2L], bldim[2L])
+      comm.cat(paste("Using bldim of ", bldim[1L], "x", bldim[2L], "\n\n", sep=""), quiet=T)
+    }
     
     if (length(data) > 1){
-      Data <- matrix(0, ldim[1L], ldim[2L])
+      Data <- matrix(0.0, ldim[1L], ldim[2L])
       
       descx <- base.descinit(dim=dim, bldim=bldim, ldim=ldim, ICTXT=ICTXT)
       
@@ -183,7 +199,7 @@ setMethod("ddmatrix.local", signature(data="vector"),
     } 
     else {
       if (!base.ownany(dim=dim, bldim=bldim, ICTXT=ICTXT))
-        Data <- matrix(0, 1, 1)
+        Data <- matrix(0.0, 1, 1)
       else
         Data <- matrix(data, ldim[1L], ldim[2L])
     }
@@ -198,7 +214,7 @@ setMethod("ddmatrix.local", signature(data="vector"),
 
 
 setMethod("ddmatrix.local", signature(data="matrix"), 
-  function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=.BLDIM, ICTXT=0)
+  function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=.BLDIM, ICTXT=.ICTXT)
   {
     dim(data) <- NULL
     ret <- ddmatrix.local(data=data, nrow=nrow, ncol=ncol, byrow=byrow, bldim=bldim, ICTXT=ICTXT)
@@ -210,15 +226,17 @@ setMethod("ddmatrix.local", signature(data="matrix"),
 
 
 setMethod("ddmatrix.local", signature(data="character"), 
-  function(data, nrow=1, ncol=1, byrow=FALSE, ..., min=0, max=1, mean=0, sd=1, rate=1, shape, scale=1, bldim=.BLDIM, ICTXT=0)
+  function(data, nrow=1, ncol=1, byrow=FALSE, ..., min=0, max=1, mean=0, sd=1, rate=1, shape, scale=1, bldim=.BLDIM, ICTXT=.ICTXT)
   {
-    data <- match.arg(data, c("runif", "uniform", "rnorm", "normal", "rexp", "exponential", "rweibull", "weibull"))
-    
-    if (nrow < 1 || ncol < 1)
-      comm.stop("bad 'nrow' or 'ncol'")
+    if (nrow < 1)
+      comm.stop("invalid 'nrow'")
+    if (ncol < 1)
+      comm.stop("invalid 'ncol'")
     
     if (length(bldim)==1)
       bldim <- rep(bldim, 2)
+    
+    data <- match.arg(data, c("runif", "uniform", "rnorm", "normal", "rexp", "exponential", "rweibull", "weibull"))
     
     ldim <- c(nrow, ncol)
     
@@ -303,7 +321,7 @@ setMethod("as.ddmatrix", signature(x="NULL"),
 )
 
 setMethod("as.ddmatrix", signature(x="vector"), 
-  function(x, bldim=.BLDIM, ICTXT=0)
+  function(x, bldim=.BLDIM, ICTXT=.ICTXT)
     dmat.as.ddmatrix(matrix(x), bldim=bldim, ICTXT=ICTXT)
 )
 
