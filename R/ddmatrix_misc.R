@@ -48,25 +48,40 @@ setMethod("[", signature(x="ddmatrix"),
       newObj <- x
     
     imiss <- missing(i)
-    if (!imiss)
+    if (!imiss){
+      if (is.ddmatrix(i)){
+        if (comm.any(is.logical(i@Data))){
+          i <- as.vector(i)
+          storage.mode(i) <- "logical"
+        }
+        else
+          i <- as.vector(i)
+      }
+      if (is.logical(i))
+        i <- which(as.vector(i > 0))
+      
       ilng <- length(i)
+    }
     else
       ilng <- x@dim[1L]
     
     jmiss <- missing(j)
-    if (!jmiss)
-      jlng <- length(j)
-    else
-      jlng <- x@dim[2L]
-    
-    if (!imiss){
-      if (is.logical(i))
-        i <- which(as.vector(i > 0))
-    }
     if (!jmiss){
+      if (is.ddmatrix(j)){
+        if (comm.any(is.logical(j@Data))){
+          j <- as.vector(j)
+          storage.mode(j) <- "logical"
+        }
+        else
+          j <- as.vector(j)
+      }
       if (is.logical(j))
         j <- which(as.vector(j > 0))
+      
+      jlng <- length(j)
     }
+    else
+      jlng <- x@dim[2L]
     
     # special cases 
     if (!imiss && !jmiss){
