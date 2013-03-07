@@ -142,7 +142,7 @@ function (x, y = NULL, use = "everything", method = "pearson")
     if (use != "everything")
       comm.stop("Not yet implemented")
     
-    xscaled <- scale(x=x, center=TRUE, scale=TRUE)
+    x <- scale(x=x, center=TRUE, scale=TRUE)
     
     if (!is.null(y)){
       yscaled <- scale(x=y, center=TRUE, scale=TRUE)

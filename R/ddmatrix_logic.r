@@ -102,6 +102,7 @@ setMethod("&", signature(e1="ddmatrix", e2="ddmatrix"),
   }
 ) 
 
+
 # -------------------
 # ddmatrix-vector Comparators
 # -------------------
