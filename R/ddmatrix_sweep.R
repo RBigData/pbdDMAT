@@ -26,6 +26,7 @@ setMethod("sweep", signature(x="ddmatrix", STATS="vector"),
 )
 
 
+# trapped in bad code factory, send help
 setMethod("sweep", signature(x="ddmatrix", STATS="ddmatrix"),
   function(x, MARGIN, STATS, FUN = "-")
   {
