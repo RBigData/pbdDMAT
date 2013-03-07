@@ -84,6 +84,24 @@ setMethod(">=", signature(e1="ddmatrix", e2="ddmatrix"),
   }
 ) 
 
+setMethod("|", signature(e1="ddmatrix", e2="ddmatrix"),
+  function(e1, e2)
+  {
+    base.checkem(x=e1, y=e2, checks=1:3)
+    e1@Data <- e1@Data | e2@Data
+    return( e1 )
+  }
+) 
+
+setMethod("&", signature(e1="ddmatrix", e2="ddmatrix"),
+  function(e1, e2)
+  {
+    base.checkem(x=e1, y=e2, checks=1:3)
+    e1@Data <- e1@Data & e2@Data
+    return( e1 )
+  }
+) 
+
 # -------------------
 # ddmatrix-vector Comparators
 # -------------------
@@ -263,6 +281,64 @@ setMethod("!=", signature(e1="ddmatrix", e2="numeric"),
 setMethod("!=", signature(e1="numeric", e2="ddmatrix"), 
   function(e1, e2)
     e2!=e1
+)
+
+setMethod("|", signature(e1="ddmatrix", e2="numeric"), 
+  function(e1, e2){
+    dim <- e1@dim
+    len <- base::length(e2)
+    if ( (prod(dim)%%len > 0 && len%%prod(dim) > 0) && len > 1)
+      comm.warning("longer object length is not a multiple of shorter object length")
+    if (base.ownany(dim=dim, bldim=e1@bldim, ICTXT=e1@ICTXT)){
+      if (len==1)
+        e1@Data <- e1@Data | e2
+      else {
+        descx <- base.descinit(dim=e1@dim, bldim=e1@bldim, ldim=e1@ldim, ICTXT=e1@ICTXT)
+        out <- base.rl2blas(x=e1@Data, descx=descx, vec=e2, FUN=0)
+        
+        dim(out) <- e1@ldim
+        if (!is.logical(out))
+          storage.mode(out) <- "logical"
+        
+        e1@Data <- out
+      }
+    }
+    return(e1)
+  }
+)
+
+setMethod("|", signature(e1="numeric", e2="ddmatrix"), 
+  function(e1, e2)
+    e2 | e1
+)
+
+setMethod("&", signature(e1="ddmatrix", e2="numeric"), 
+  function(e1, e2){
+    dim <- e1@dim
+    len <- base::length(e2)
+    if ( (prod(dim)%%len > 0 && len%%prod(dim) > 0) && len > 1)
+      comm.warning("longer object length is not a multiple of shorter object length")
+    if (base.ownany(dim=dim, bldim=e1@bldim, ICTXT=e1@ICTXT)){
+      if (len==1)
+        e1@Data <- e1@Data & e2
+      else {
+        descx <- base.descinit(dim=e1@dim, bldim=e1@bldim, ldim=e1@ldim, ICTXT=e1@ICTXT)
+        out <- base.rl2blas(x=e1@Data, descx=descx, vec=e2, FUN=2)
+        
+        dim(out) <- e1@ldim
+        if (!is.logical(out))
+          storage.mode(out) <- "logical"
+        
+        e1@Data <- out
+      }
+    }
+    return(e1)
+  }
+)
+
+setMethod("&", signature(e1="numeric", e2="ddmatrix"), 
+  function(e1, e2)
+    e2 & e1
 )
 
 # -------------------

@@ -314,13 +314,23 @@ setMethod("as.matrix", signature(x="ddmatrix"),
     }
     
     ret <- base.as.matrix(x=x, proc.dest=proc.dest)
+    
+    if (is.logical(x@Data))
+      storage.mode(ret) <- "logical"
+    
     return( ret )
   }
 )
 
 setMethod("as.vector", signature(x="ddmatrix"), 
-  function(x, mode="any", proc.dest="all") 
-    as.vector(base.as.matrix(x, proc.dest=proc.dest), mode=mode)
+  function(x, mode="any", proc.dest="all"){
+    ret <- as.vector(base.as.matrix(x, proc.dest=proc.dest), mode=mode)
+    
+    if (is.logical(x@Data))
+      storage.mode(ret) <- "logical"
+    
+    return( ret )
+  }
 )
 
 setMethod("as.vector", signature(x="ANY"), 

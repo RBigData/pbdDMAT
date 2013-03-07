@@ -181,8 +181,14 @@ setReplaceMethod("[", signature(x ="ddmatrix", value="ddmatrix"),
         comm.stop("number of items to replace is not a multiple of replacement length")
       else if (any(j > x@dim[2L]))
         comm.stop("subscript out of bounds")
-      else
-        ret <- base.rcolcpy2(dx=x, dy=value, xcol=j, ycol=1L:lv)
+      else {
+        descx <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
+        descy <- base.descinit(dim=value@dim, bldim=value@bldim, ldim=value@ldim, ICTXT=value@ICTXT)
+        
+        out <- base.rcolcpy2(x=x@Data, descx=descx, y=value@Data, descy=descy, xcol=j, ycol=1L:lv)
+        ret <- x
+        ret@Data <- out
+      }
     }
     else if (missing(j)){
       lv <- as.integer(value@dim[1L])
@@ -190,8 +196,14 @@ setReplaceMethod("[", signature(x ="ddmatrix", value="ddmatrix"),
         comm.stop("number of items to replace is not a multiple of replacement length")
       else if (any(i > x@dim[1L]))
         comm.stop("subscript out of bounds")
-      else
-        ret <- base.rrowcpy2(dx=x, dy=value, xrow=i, yrow=1L:lv)
+      else {
+        descx <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
+        descy <- base.descinit(dim=value@dim, bldim=value@bldim, ldim=value@ldim, ICTXT=value@ICTXT)
+        
+        out <- base.rrowcpy2(x=x@Data, descx=descx, y=value@Data, descy=descy, xrow=i, yrow=1L:lv)
+        ret <- x
+        ret@Data <- out
+      }
     }
     else
       comm.stop("can't do this yet")
