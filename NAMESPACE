@@ -37,6 +37,7 @@ exportMethods(
   "summary",
   "rbind", "cbind",
   "print",
-  "cov", "cor", "cov2cor"
+  "cov", "cor", "cov2cor", 
+  "|", "&"
 )
 

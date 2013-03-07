@@ -326,4 +326,3 @@ base.firstfew <- function(dx, atmost=5)
   return(out)
 }
 
-
