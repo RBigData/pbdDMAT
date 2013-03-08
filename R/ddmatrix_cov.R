@@ -131,7 +131,6 @@ setMethod("sd", signature(x="ANY"),
 # cor
 # ------------------
 
-### FIXME
 # experimental
 setMethod("cor", signature(x="ddmatrix"),
 function (x, y = NULL, use = "everything", method = "pearson") 
