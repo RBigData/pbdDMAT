@@ -18,7 +18,7 @@ setMethod("ownany", signature(x="ddmatrix"),
 )
 
 setMethod("ownany", signature(x="missing"), 
-  function(dim, bldim=.BLDIM, ICTXT, x)
+  function(dim, bldim=.BLDIM, ICTXT=.ICTXT, x)
   {
     if (length(bldim)==1)
       bldim <- rep(bldim, 2L)
@@ -367,7 +367,7 @@ dmat.ictxt <- function(x)
     return(x@ICTXT)
 }
 
-setMethod("ictxt", signature(x="ddmatrix"),
+setMethod("ICTXT", signature(x="ddmatrix"),
   dmat.ictxt
 )
 

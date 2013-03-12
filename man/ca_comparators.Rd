@@ -32,6 +32,21 @@
 \alias{==,numeric,ddmatrix-method}
 \alias{==}
 
+\alias{!=,ddmatrix,ddmatrix-method}
+\alias{!=,ddmatrix,numeric-method}
+\alias{!=,numeric,ddmatrix-method}
+\alias{!=}
+
+\alias{&,ddmatrix,ddmatrix-method}
+\alias{&,ddmatrix,numeric-method}
+\alias{&,numeric,ddmatrix-method}
+\alias{&}
+
+\alias{|,ddmatrix,ddmatrix-method}
+\alias{|,ddmatrix,numeric-method}
+\alias{|,numeric,ddmatrix-method}
+\alias{|}
+
 \alias{any-method}
 \alias{any,ddmatrix-method}
 \alias{any}
@@ -55,6 +70,9 @@
   x > y
   x >= y
   x <= y
+  x != y
+  x & y
+  x | y
   \S4method{any}{ddmatrix}(x, na.rm=FALSE)
   \S4method{all}{ddmatrix}(x, na.rm=FALSE)
   

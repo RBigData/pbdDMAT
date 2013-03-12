@@ -2,10 +2,6 @@
 \alias{PCA}
 \docType{methods}
 
-\alias{scale-method}
-\alias{scale,ddmatrix-method}
-\alias{scale}
-
 \alias{prcomp-method}
 \alias{prcomp,ddmatrix-method}
 \alias{prcomp}
@@ -13,10 +9,7 @@
 
 \title{ Principal Components Analysis }
 \description{
-  \code{scale()} centers and/or scales the columns of a distributed
-  matrix.
-  
-  \code{prcomp()} performs the principal components analysis.
+  Performs the principal components analysis.
 }
 \section{Methods}{
 \describe{
@@ -24,7 +17,6 @@
 }
 }
 \usage{
-  \S4method{scale}{ddmatrix}(x, center = TRUE, scale = TRUE)
   \S4method{prcomp}{ddmatrix}(x, retx = TRUE, center = TRUE, 
   scale. = FALSE, tol = NULL)
 }
@@ -32,7 +24,7 @@
   \item{x}{numeric distributed matrix.}
   \item{center}{logical value, determines whether or not columns are
   zero centered}
-  \item{scale, scale.}{logical value, determines whether or not columns 
+  \item{scale.}{logical value, determines whether or not columns 
   are rescaled to unit variance}
   \item{retx}{logical, indicates whether the rotated variables
   should be returned}
@@ -45,9 +37,6 @@
   which would omit essentially constant components}
 }
 \details{
-  \code{scale()} centers and/or scales the columns of a distributed
-  matrix.
-  
   \code{prcomp()} performs the principal components analysis on 
   the data matrix by taking the SVD. Sometimes core R and 
   pbdDMAT will disagree slightly in what the rotated variables are
@@ -56,14 +45,11 @@
   more details.
 }
 \value{
-  Returns a distributed matrix.
+  Returns a list.
 }
 \author{
   R Core Team, Drew Schmidt \email{schmidt AT math.utk.edu}, 
   Wei-Chen Chen, George Ostrouchov, and Pragneshkumar Patel.
-}
-\seealso{
-  \code{\link{prcomp}}
 }
 \examples{
 \dontrun{
@@ -73,12 +59,12 @@
 library(pbdDMAT, quiet = TRUE)
 init.grid()
 
-# don't do this in production code
-x <- matrix(1:9, 3)
-x <- as.ddmatrix(x)
+comm.set.seed(diff=T)
 
-y <- head(x[, -1], 2)
-print(y)
+x <- ddmatrix("rnorm", 10, 10)
+
+y <- prcomp(x)
+comm.print(y)
 
 finalize()
 }

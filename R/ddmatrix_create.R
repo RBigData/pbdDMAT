@@ -2,20 +2,20 @@
 # Creation
 # -------------------
 
-setMethod("ddmatrix", signature(data="ddmatrix"), 
-  function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=.BLDIM, ICTXT=.ICTXT)
-  {
-    if (length(bldim)==1)
-      bldim <- rep(bldim, 2)
-    
-    if (nrow==data@dim[1L] && ncol==data@dim[2L])
-      return( data )
-    else {
-      comm.stop("can't do this yet") #FIXME
-    }
-    
-  }
-)
+#setMethod("ddmatrix", signature(data="ddmatrix"), 
+#  function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=.BLDIM, ICTXT=.ICTXT)
+#  {
+#    if (length(bldim)==1)
+#      bldim <- rep(bldim, 2)
+#    
+#    if (nrow==data@dim[1L] && ncol==data@dim[2L])
+#      return( data )
+#    else {
+#      comm.stop("can't do this yet") #FIXME
+#    }
+#    
+#  }
+#)
 
 
 
@@ -118,13 +118,15 @@ setMethod("ddmatrix", signature(data="character"),
       Data <- matrix(0.0, 1, 1)
     else {
       if (data=="runif" || data=="uniform")
-        Data <- matrix(runif(prod(ldim), min=min, max=max), ldim[1L], ldim[2L])
+        Data <- runif(n=prod(ldim), min=min, max=max)
       else if (data=="rnorm" || data=="normal")
-        Data <- matrix(rnorm(prod(ldim), mean=mean, sd=sd), ldim[1L], ldim[2L])
+        Data <- rnorm(n=prod(ldim), mean=mean, sd=sd)
       else if (data=="rexp" || data=="exponential")
-        Data <- matrix(rexp(prod(ldim), rate=rate), ldim[1L], ldim[2L])
+        Data <- rexp(n=prod(ldim), rate=rate)
       else if (data=="rweibull" || data=="weibull")
-        Data <- matrix(rnorm(prod(ldim), min=min, max=max), ldim[1L], ldim[2L])
+        Data <- rweibull(n=prod(ldim), shape=shape, scale=scale)
+      
+      dim(Data) <- ldim
     }
     
     dx <- new("ddmatrix", Data=Data, dim=dim, ldim=ldim, bldim=bldim, ICTXT=ICTXT)
@@ -137,14 +139,15 @@ setMethod("ddmatrix", signature(data="character"),
 
 # Create a diagonal distributed matrix
 setMethod("diag", signature(x="vector"), 
-  function(x, nrow, ncol, type="matrix", ..., bldim=.BLDIM, ICTXT=.ICTXT){
+  function(x, nrow, ncol, type="matrix", ..., bldim=.BLDIM, ICTXT=.ICTXT)
+  {
     type <- match.arg(type, c("matrix", "ddmatrix"))
     
     if (length(bldim)==1)
       bldim <- rep(bldim, 2)
     
     if (type=="ddmatrix")
-      ret <- base.ddiagmk(x=x, nrow=nrow, ncol=ncol, bldim=bldim, ICTXT=ICTXT)
+      ret <- base.ddiagmk(diag=x, nrow=nrow, ncol=ncol, bldim=bldim, ICTXT=ICTXT)
     else
       ret <- base::diag(x=x, nrow=nrow, ncol=ncol)
     
@@ -152,8 +155,57 @@ setMethod("diag", signature(x="vector"),
   }
 )
 
+setMethod("diag", signature(x="character"), 
+  function(x, nrow, ncol, type="matrix", ..., min=0, max=1, mean=0, sd=1, rate=1, shape, scale=1, bldim=.BLDIM, ICTXT=.ICTXT)
+  {
+    type <- match.arg(type, c("matrix", "ddmatrix"))
+    data <- match.arg(x, c("runif", "uniform", "rnorm", "normal", "rexp", "exponential", "rweibull", "weibull"))
+    
+    dim <- c(nrow, ncol)
+    
+    if (type=="ddmatrix"){
+      if (length(bldim)==1)
+        bldim <- rep(bldim, 2)
+      
+      ldim <- base.numroc(dim=dim, bldim=bldim, ICTXT=ICTXT)
+      
+      if (!base.ownany(dim=dim, bldim=bldim, ICTXT=ICTXT))
+        Data <- matrix(0.0, 1, 1)
+      else {
+        if (data=="runif" || data=="uniform")
+          Data <- runif(n=max(ldim), min=min, max=max)
+        else if (data=="rnorm" || data=="normal")
+          Data <- rnorm(n=max(ldim), mean=mean, sd=sd)
+        else if (data=="rexp" || data=="exponential")
+          Data <- rexp(n=max(ldim), rate=rate)
+        else if (data=="rweibull" || data=="weibull")
+          Data <- rweibull(n=max(ldim), shape=shape, scale=scale)
+        
+#        dim(Data) <- ldim
+      }
+      ret <- base.ddiagmk(diag=Data, nrow=nrow, ncol=ncol, bldim=bldim, ICTXT=ICTXT)
+    }
+    else {
+      if (data=="runif" || data=="uniform")
+        Data <- runif(prod(dim), min=min, max=max)
+      else if (data=="rnorm" || data=="normal")
+        Data <- rnorm(prod(dim), mean=mean, sd=sd)
+      else if (data=="rexp" || data=="exponential")
+        Data <- rexp(prod(dim), rate=rate)
+      else if (data=="rweibull" || data=="weibull")
+        Data <- rnorm(prod(dim), min=min, max=max)
+      
+#      dim(Data) <- c(nrow, ncol)
+      
+      ret <- base::diag(x=Data, nrow=nrow, ncol=ncol)
+    }
+    
+    return( ret )
+  }
+)
 
 
+# dealing with R being annoying
 setMethod("diag", signature(x="matrix"), 
   function(x, nrow, ncol)
     base::diag(x=x)
@@ -276,13 +328,13 @@ setMethod("ddmatrix.local", signature(data="character"),
       Data <- matrix(0.0, 1, 1)
     else {
       if (data=="runif" || data=="uniform")
-        Data <- matrix(runif(prod(ldim), min=min, max=max), ldim[1L], ldim[2L])
+        Data <- matrix(n=runif(prod(ldim), min=min, max=max), ldim[1L], ldim[2L])
       else if (data=="rnorm" || data=="normal")
-        Data <- matrix(rnorm(prod(ldim), mean=mean, sd=sd), ldim[1L], ldim[2L])
+        Data <- matrix(n=rnorm(prod(ldim), mean=mean, sd=sd), ldim[1L], ldim[2L])
       else if (data=="rexp" || data=="exponential")
-        Data <- matrix(rexp(prod(ldim), rate=rate), ldim[1L], ldim[2L])
+        Data <- matrix(n=rexp(prod(ldim), rate=rate), ldim[1L], ldim[2L])
       else if (data=="rweibull" || data=="weibull")
-        Data <- matrix(rnorm(prod(ldim), min=min, max=max), ldim[1L], ldim[2L])
+        Data <- matrix(rweibull(n=prod(ldim), shape=shape, scale=scale), ldim[1L], ldim[2L])
     }
     
     dx <- new("ddmatrix", Data=Data, dim=dim, ldim=ldim, bldim=bldim, ICTXT=ICTXT)
