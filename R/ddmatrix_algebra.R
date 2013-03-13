@@ -222,7 +222,7 @@ setMethod("solve", signature(a="ddmatrix", b="ddmatrix"),
 # ------------------------------------------------
 # ################################################
 
-dmat.svd <- function(x, nu, nv)
+dmat.svd <- function(x, nu, nv, inplace=FALSE)
 {
   ICTXT <- x@ICTXT
   
@@ -262,7 +262,7 @@ dmat.svd <- function(x, nu, nv)
   descvt <- base.descinit(dim=vtdim, bldim=bldim, ldim=vtldim, ICTXT=ICTXT)
   
   # Compute 
-  out <- base.rpdgesvd(jobu=jobu, jobvt=jobvt, m=m, n=n, a=x@Data, desca=desca, descu=descu, descvt=descvt)
+  out <- base.rpdgesvd(jobu=jobu, jobvt=jobvt, m=m, n=n, a=x@Data, desca=desca, descu=descu, descvt=descvt, inplace=inplace)
   
   if (nu==0)
     u <- NULL
@@ -287,12 +287,12 @@ dmat.svd <- function(x, nu, nv)
 
 
 setMethod("La.svd", signature(x="ddmatrix"), 
-  function(x, nu=min(n, p), nv=min(n, p))
+  function(x, nu=min(n, p), nv=min(n, p), ..., inplace=FALSE)
   {
     n <- nrow(x)
     p <- ncol(x)
     
-    ret <- dmat.svd(x=x, nu=nu, nv=nv)
+    ret <- dmat.svd(x=x, nu=nu, nv=nv, inplace=inplace)
     
     return( ret )
   }
@@ -300,12 +300,12 @@ setMethod("La.svd", signature(x="ddmatrix"),
 
 
 setMethod("svd", signature(x="ddmatrix"), 
-  function(x, nu=min(n, p), nv=min(n, p))
+  function(x, nu=min(n, p), nv=min(n, p), ..., inplace=FALSE)
   {
     n <- nrow(x)
     p <- ncol(x)
     
-    ret <- dmat.svd(x=x, nu=nu, nv=nv)
+    ret <- dmat.svd(x=x, nu=nu, nv=nv, inplace=inplace)
     
     if (is.ddmatrix(ret$vt))
       ret$vt <- t(ret$vt)
