@@ -190,9 +190,9 @@ setGeneric(name="bldim",
   package="pbdDMAT"
 )
 
-setGeneric(name="ictxt", 
+setGeneric(name="ICTXT", 
   function(x, ...) 
-    standardGeneric("ictxt"), 
+    standardGeneric("ICTXT"), 
   package="pbdDMAT"
 )
 

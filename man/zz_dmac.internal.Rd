@@ -40,7 +40,7 @@
 \alias{dmat.submatrix}
 
 
-
+\alias{diag,matrix-method}
 
 
 \alias{svd,ANY-method}

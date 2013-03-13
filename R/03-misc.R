@@ -131,10 +131,10 @@ reblock <- dmat.reblock
 
 dmat.redistribute <- function(dx, bldim=dx@bldim, ICTXT=.ICTXT)
 {
-  if (dx@ICTXT != ICTXT)
-    dx <- dmat.reblock(dx=dx, bldim=bldim, ICTXT=ICTXT)
+#  if (dx@ICTXT != ICTXT)
+  ret <- dmat.reblock(dx=dx, bldim=bldim, ICTXT=ICTXT)
   
-  return( dx )
+  return( ret )
 }
 
 redistribute <- dmat.redistribute

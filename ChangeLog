@@ -1,3 +1,6 @@
+2013-3-12:
+  * Final touches for CRAN.
+
 2012-02-26:
   * Added method for 'cor' (pearson only).
   * Significantly expanded method "ddmatrix".

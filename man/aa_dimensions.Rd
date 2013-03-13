@@ -11,6 +11,14 @@
 \alias{ncol,ddmatrix-method}
 \alias{ncol}
 
+\alias{NROW-method}
+\alias{NROW,ddmatrix-method}
+\alias{NROW}
+
+\alias{NCOL-method}
+\alias{NCOL,ddmatrix-method}
+\alias{NCOL}
+
 \alias{length-method}
 \alias{length,ddmatrix-method}
 \alias{length}
@@ -31,9 +39,14 @@
 \alias{bldim,ddmatrix-method}
 \alias{bldim}
 
-\alias{ictxt-method}
-\alias{ictxt,ddmatrix-method}
-\alias{ictxt}
+\alias{ICTXT-method}
+\alias{ICTXT,ddmatrix-method}
+\alias{ICTXT}
+
+\alias{ownany-method}
+\alias{ownany,missing-method}
+\alias{ownany,ddmatrix-method}
+\alias{ownany}
 
 \title{ Accessor Functions for Distributed Matrix Slots }
 \description{
@@ -48,15 +61,24 @@
 \usage{
   \S4method{nrow}{ddmatrix}(x)
   \S4method{ncol}{ddmatrix}(x)
+  \S4method{NROW}{ddmatrix}(x)
+  \S4method{NCOL}{ddmatrix}(x)
   \S4method{length}{ddmatrix}(x)
   \S4method{dim}{ddmatrix}(x)
   \S4method{submatrix}{ddmatrix}(x)
   \S4method{ldim}{ddmatrix}(x)
   \S4method{bldim}{ddmatrix}(x)
-  \S4method{ictxt}{ddmatrix}(x)
+  \S4method{ICTXT}{ddmatrix}(x)
+  \S4method{ownany}{ddmatrix}(x, ...)
+  \S4method{ownany}{missing}(dim, bldim=.BLDIM, ICTXT=.ICTXT, x)
 }
 \arguments{
   \item{x}{numeric distributed matrix}
+  \item{dim}{global dimension.}
+  \item{bldim}{blocking dimension.}
+  \item{ICTXT}{BLACS context.}
+  \item{...}{Extra arguments.}
+  
 }
 \details{
   The functions \code{nrow()}, \code{ncol()}, \code{length()} and 
@@ -77,15 +99,19 @@
   \code{submatrix()} will give the local storage for the requested 
   object.
   
-  \code{ictxt()} will give the current BLACS context (slot ICTXT) for 
+  \code{ICTXT()} will give the current BLACS context (slot ICTXT) for 
   the requested object.
+  
+  \code{ownany()} is intended mostly for developers.  It answers the
+  question "do I own any of the data?".  The user can either pass
+  a distributed matrix object or the dim, bldim, and ICTXT of one.
 }
 \value{
   Each of \code{dim()}, \code{ldim()}, \code{bldim()} return a length
   2 vector.
   
   Each of \code{nrow()}, \code{ncol()}, and \code{length()} return
-  a length 1 vector. Likewise, so does \code{ictxt()}.
+  a length 1 vector. Likewise, so does \code{ICTXT()}.
   
   \code{submatrix()} returns a matrix; namely, \code{submatrix(x)}
   returns a matrix of dimensions \code{ldim(x)}.
