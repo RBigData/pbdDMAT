@@ -1,0 +1,45 @@
+\section[]{Information for Developers}
+\label{sec:devs}
+\addcontentsline{toc}{section}{\thesection. Information for Developers}
+
+In this section, we will discuss some issues that are not really important for anyone except those who need to develop new methods which rely on \pkg{pbdBASE}.  For the remainder, we will make mention and use of \proglang{R}'s S4 method of object oriented programming, and we will assume that the reader has at least a working familiarity with S4.  There are several fine introductions to S4 methods available, including those from~\citep{s4chambers} and~\citep{s4notsoshort}.  It probably goes without saying that before beginning this section, the reader should be familiar with all sections prior.
+
+\subsection[]{Class \code{ddmatrix}}
+\label{sec:ictxt}
+\addcontentsline{toc}{subsection}{\thesubsection. Class \code{ddmatrix}}
+
+Every local submatrix must be a matrix containing at least one value, even if it technically should not have anything.  You will unleash unspeakable misery on yourself if you use \code{matrix(nrow=0, ncol=0)} for the submatrix, in particular when passing down to ScaLAPACK routines (the motivating example for the existence of \pkg{pbdBASE}).  Instead, you should use the routine \code{ownany()}, a simple wrapper on \code{numroc()}, to determine if the process actually owns any data from the global matrix.  If you consider this an extravagant waste of memory, then I have some very interesting things to tell you about \proglang{R}.
+\np
+Likewise, the slot \code{@ldim} is the dimension of the local storage, and not, necessarily, the ``actual'' local dimension (which could effectively be NULL).  So for example, if you imagine all data for a distributed matrix living on process 0, then all the other processes should store \code{matrix(0)} in the \code{@Data} slot, and \code{c(1,1)} in the \code{@ldim} slot.
+\np
+Let's take a look at an example.  Suppose we want to develop a way of taking logs of the entries of our distributed matrix in a way that is a natural extension to that of \proglang{R} (this is actually already done in \pkg{pbdDMAT}, but is a good illustration).  A quick call to \code{isGeneric(f="log")} shows that the function \code{log()} in \proglang{R} is already S4 generic, so we can easily enough define a new method for it.
+\np
+For some problems, some processors will own \code{matrix(0)} under the \code{@Data} slot when really, technically, they store nothing.  We don't want to take the log of these zeros, since there is no real point.  Worse, failure to exclude these values across several methods can accumulate in incorrect answers (think of taking the log on all submatrices and then running a \code{sum()} method on a distributed matrix).  Using \code{ownany()}, this is trivial.
+
+\begin{lstlisting}[language=rr,title=Generating in Parallel]
+mylog <- function(x, base=exp(1))
+{
+  if (ownany(dim=x@dim, bldim=x@bldim, CTXT=x@CTXT))
+    x@Data <- log(x=x@Data, base=base)
+  return(x)
+}
+\end{lstlisting}
+
+Now we just need to set the method:
+
+\begin{lstlisting}[language=rr,title=Generating in Parallel]
+setMethod("log", signature(x="ddmatrix"),
+  mylog
+)
+
+\end{lstlisting}
+
+This is more or less how things are done in \pkg{pbdDMAT}.
+
+\subsection[]{BLACS}
+\label{sec:ictxt}
+\addcontentsline{toc}{subsection}{\thesubsection. BLACS}
+
+The most critical piece of information to impart is that no matter what, ``block-cyclicality'' can not be destroyed.  Most of the routines for distributed matrices (and almost all of the really complicated ones) assume this structure.  This is why 3 BLACS contexts are created by default when initializing the process grid; namely, context 0 is the optimal (unless otherwise specified) rectangular process grid, context 1 is the $PQ\times 1$ process grid (assuming $P$ process rows and $Q$ process columns), and context 2 is the $1\times PQ$ process grid.  As defined above, context 0 is optimal for many linear algebra routines, and not really any worse (aside from being cumbersome) for most other computations.  The other contexts are important because they are more natural for adding/removing columns and rows (respectively).
+\np
+Redistributing the data from a $P\times Q$ process grid to a $1\times PQ$ process grid can be very useful, despite the communication overhead involved.  When a matrix is distributed across this context, while it is not trivial to ``drop'' rows (certainly not as easy as it is in context 1), doing so, whichever rows we do indeed drop, results in a block-cyclically distributed matrix.  In general, the same cannot be said for other contexts.  The \code{ddmatrix} methods \code{[} and \code{na.exclude()} rely on such a redistribution (two redistributions in the case of the former).

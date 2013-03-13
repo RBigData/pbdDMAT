@@ -1,8 +1,8 @@
 ### SHELL> mpiexec -np 2 Rscript --vanilla [...].r
 
 # Initialize process grid
-suppressPackageStartupMessages(library(pbdDMAT))
-init.grid(1, 2)
+library(pbdDMAT, quiet=T)
+init.grid()
 
 # Setup for the remainder
 set.seed(25)

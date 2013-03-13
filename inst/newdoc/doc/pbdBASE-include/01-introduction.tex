@@ -1,0 +1,81 @@
+\section[]{Introduction}
+\label{sec:introduction}
+\addcontentsline{toc}{section}{\thesection. Introduction}
+
+The Programming with Big Data:  BASE system, the \proglang{R}~\citep{Rcore} package \pkg{pbdBASE}~\citep{Schmidt2012pbdBASEpackage}, is a (mostly) implicitly parallel foundational infrastructure to support higher level pbd packages, such as \pkg{pbdDMAT}~\citep{Schmidt2012pbdDMATpackage}.  Much of what it does is meant to live behind the scenes of packages further up the chain of the pbd ecosystem, and is largely targeted at developers.  However, it does offer some essential functionality for all users.
+\np
+In many ways, the \pkg{pbdBASE} package serves the pbd project in much the same way as \proglang{R}'s \pkg{base} package serves it.  The principal goal of the \pkg{pbdBASE} package is to provide distributed classes (presently, a distributed dense matrix class), and many low-level functions for interacting with these classes.  Many of these functions are wrappers of and for the distributed matrix algebra libraries BLACS, PBLAS, and ScaLAPACK.~\citep{slug}  A set of S4 methods for \proglang{R}'s linear algebra functions using these wrappers is provided by a separate package, \pkg{pbdDMAT}.
+\np
+Updates and bug releases for this and other \pkg{pbd} projects may, especially while in infancy, be much more frequent than \href{http://cran.r-project.org/}{CRAN} releases.  So for up to date packages, as well as evolving information about the \pkg{pbd} project,  see the website ``Programming with Big Data in R'' at \href{http://r-pbd.org/}{http://r-pbd.org/}.
+
+\subsection[]{Achievements}
+\addcontentsline{toc}{subsection}{\thesubsection. Achievements}
+The \pkg{pbdBASE} package, together with its sister packages in the \pkg{pbd} chain, offer the \proglang{R} user several new advancements.  First, by making use of ScaLAPACK ``under the hood'', we offer (near) ScaLAPACK speeds and scaling to many cores, but with \proglang{R} syntax.  Second, by distributing the objects across processors, we are able to largely overcome \proglang{R}'s memory barrier.  
+\np
+At present\footnote{Though this is expected to change by summer 2013}, it is impossible to index native \proglang{R} objects with a 32-bit integer.  Since a matrix in \proglang{R} is really just an array, this means that the largest square matrix it is possible to store in \proglang{R} is roughly a $46,000 \times 46,000$ matrix.  This imposes two restrictions on the \pkg{pbd} system.  First, the global dimension of any matrix used at this time with the \pkg{pbd} toolchain must have dimensions indexable by a 32-bit integer.  Namely, no single dimension of the ``full'', global matrix may have more than 
+\begin{align*}
+\left(2^{32-1}-1\right)^2 &\approx 4.612 \times 10^{18} \label{pbdsize}
+\end{align*}
+because each dimension must be an integer, and in \proglang{R} terms, that means a 32-bit integer.
+\np
+By comparison, the largest matrix which a single \proglang{R} process can hold has
+\begin{align*}
+2^{32-1}-1 &= 2,147,483,647 \\
+&\approx 2\times 10^9 \tag{\arabic{mytag}} %\label{pbdsize}
+\end{align*}
+numeric elements.  However, we note that getting near the theoretical upper bound in (\arabic{mytag}) with the \pkg{pbd} system is effectively impossible, because each local \proglang{R} process will store at most roughly $10^9$ elements.  So even with 100,000 cores, you are still solidly within this boundary.  Indeed, a user with $N$ processors is able to store a square distributed matrix up to size
+\begin{align*}
+N\times \left(2^{32-1}-1\right)
+\end{align*}
+So at this time, a user would need 1024 cores to comfortably be able to analyze a terabyte of data, and over 100,000 cores to approach petabyte scale.
+
+\subsection[]{Installation}
+\label{sec:installation}
+\addcontentsline{toc}{subsection}{\thesubsection. Installation}
+
+The \pkg{pbdBASE} package is available from the CRAN at
+\url{http://cran.r-project.org}, and can be installed via a simple 
+\begin{lstlisting}[language=rr,title=Installing pbdBASE]
+install.packages("pbdBASE")
+\end{lstlisting}
+This assumes only that you have MPI installed and properly configured on your system.  If the user can successfully install the package's two principal dependencies, \pkg{pbdMPI}~\citep{Chen2012pbdMPIpackage} and \pkg{pbdSLAP}~\citep{Chen2012pbdSLAPpackage} (each available from the CRAN), then the installation for \pkg{pbdBASE} should go smoothly.  If you experience difficulty installing either these packages, you should see their documentation.
+
+\subsection[]{Package Examples}
+\label{sec:more_examples}
+\addcontentsline{toc}{subsection}{\thesubsection. Package Examples}
+
+One can quickly get started with \pkg{pbdBASE} by learning from the following three examples:
+\begin{lstlisting}
+### Under command mode, run the demo with 2 processors by
+### (Use Rscript.exe for windows system)
+mpiexec -np 2 Rscript -e "demo(example1,'pbdBASE',ask=F,echo=F)"
+mpiexec -np 2 Rscript -e "demo(example2,'pbdBASE',ask=F,echo=F)"
+mpiexec -np 2 Rscript -e "demo(example3,'pbdBASE',ask=F,echo=F)"
+\end{lstlisting}
+% 
+% The package source files provide several examples based on \pkg{pbdBASE},
+% such as \\
+% \begin{center}
+% \vspace{0.2cm}
+% \begin{tabular}{ll} \hline\hline
+% Directory & Examples \\ \hline
+% \code{pbdMPI/inst/examples/test_spmd/}      & main SPMD functions      \\
+% \code{pbdMPI/inst/examples/test_rmpi/}      & analog to \pkg{Rmpi}      \\
+% \code{pbdMPI/inst/examples/test_parallel/}  & analog to \pkg{parallel}  \\
+% \code{pbdMPI/inst/examples/test_s4/}        & S4 extension              \\
+% \hline\hline
+% \end{tabular}
+% \end{center}
+
+\subsection[]{Terminology}
+% \label{sec:installation}
+Before beginning, we will make frequent use of concepts from the Single Program/Multiple Data (SPMD) paradigm.  If you are entirely unfamiliar with this approach to parallelism, or if you are unfamiliar with the \pkg{pbdMPI} package, then you are strongly encouraged to read the vignette~\citep{Chen2012pbdMPIvignette} contained in the \pkg{pbdMPI} package, as well as examine and digest its many examples in order to better understand what follows.
+\np
+A concise explanation of SPMD is that it is an approach to parallel, distributed programming in which one program is written, and each processor runs that same program, though that program locally will often be interacting with different data.  This, in contrast to the manager/worker paradigm where one processor, the manager, is in charge of its workers, each of whom swear fealty to the manager.  So in SPMD, each processor believes itself to be the manager, the one in charge.  As a colleague, Dr. Russell Zaretzki put it, ``it's like academia.''
+\np
+Throughout the remainder, we will be discussing distributed data objects such as matrices, and wish to do so with some standardized terminology.  A matrix is of course a rectangular collection of numbers.  A \emph{distributed matrix} then is just a matrix which has been decomposed in some fashion so that each processor only owns a piece of the ``whole'' matrix.  The ``whole'' matrix (which need not ever actually exist, except theoretically, at any time), rather than pieces of it distributed among the processors, will be referred to as a/the \emph{global} matrix.  Loosely speaking, the global matrix is what we are really thinking of when we deal with the distributed matrix.  
+\np
+In the SPMD paradigm, each processor, though only owning a piece of the whole (henceforth referred to as the \emph{local matrix} or \emph{submatrix}, relative to that processor), will call functions on that matrix exactly as one would with an ordinary, non-distributed matrix on a single processor.  The difference for the user is minimal; all the ``heavy lifting'' which explicitly handles the distributed nature of the object is performed in the background.
+\np
+Matrices, distributed or otherwise, have dimensions --- that is, lengths of the number of rows and the number of columns in the rectangle.  The global matrix has a \emph{global dimension}, and this is a global value, i.e., this value does not vary from processor to processor.  Every processor agrees as to the size of the ``full'' matrix, otherwise we would have anarchy.  However, the local matrices, in practice, will differ from processor to processor, and so too should their \emph{local dimensions}.  A local dimension, as the name implies, is the dimension of the submatrix, relative to a particular processor.
+

@@ -1,0 +1,62 @@
+\section[]{Advanced Example}\label{sec:eg2}
+\addcontentsline{toc}{section}{\thesection. Advanced Example}
+
+In this section, we will look at an example of how to create and utilize additional BLACS contexts, and make a pretend parallel reader.
+\np
+Let's take a look at an example using the ideas discussed in Section~\ref{sec:advanced}.  We will again be using 4 processors in the form of a $2\times 2$ grid.  However, this time, we are going to randomly generate a matrix on 2 processors and then distribute that data onto the full $2\times 2$ grid.  We will achieve this by creating a new BLACS context with 2 processor rows and 1 processor column.  Processors not in this grid will have the BLACS communicator grid locatiosn of $(-1, -1)$. 
+\np
+For clarity, because this can be a confusing and deeply frustrating concept at first.  Every processor is part of the BLACS context; \emph{all of them}.  The context is just a collection of information that makes it possible to perform local operations with global communications.  Think of it like an \proglang{R} list; it's just a place to put things.  Each processor stores its own copy of this ``list'', with some pieces common to all processors and some differing from process to process.  The objects within that list are the BLACS context number (just an identifying name more so than actual information), the number of global processor rows/columns, and that processor's position in that grid.  Whenever a function relying on BLACS (like all PBLAS and ScaLAPACK functions) is called, a context is required.  The local processor's grid location value of $(-1, -1)$ when that processor is not \emph{really} part of the grid is the BLACS equivalent of \code{NULL}.  It's just a placeholder that lets the local 
+processor know that it isn't part of the party.  But that processor is still aware of the BLACS context, which is a global number, and the total number of processor rows/columns (also global).  So it is the location in the processor grid that is $(-1, -1)$, not the context.  The context is just a ``name'', which happens to be a global integer common to all processors.
+\np
+The choice of 1 processor column is not random.  Doing so demands that contiguous rows are stored on the processes, and the cyclic distribution is occurring between rows.  This is a very convenient way to do business if you must read in data from files (rather than randomly generate it in memory).  Here, we can think of each processor ``reading in'' the parts of the (imaginary) file, and then distributing that data out to BLACS grid 0 for analytics.  Other, ``non-vector'' BLACS grids are certainly possible as well.
+\np
+A word of caution; the seeds here on the different processors are not guaranteed to be independent.  This is just for the sake of demonstration.  Refer back to the comments in Section~\ref{sec:eg1}.
+
+\begin{lstlisting}[language=rr,title=Generating in Parallel]
+library(pbdBASE, quiet=TRUE)
+
+init.grid(nprow=2, npcol=2)
+
+# find the minimum value possible for a new BLACS context
+# the value should be 3
+newctxt <- minctxt()
+comm.print(newctxt)
+
+# create new grid
+init.grid(nprow=2, npcol=1, ICTXT=newctxt)
+
+# store new grid information
+grid <- blacs(ICTXT=newctxt)
+
+# "read in" the data and distribute
+if (grid$MYROW == -1 || grid$MYCOL == -1){
+  x <- matrix(0)
+} else {
+  x <- matrix(rnorm(50), ncol=10)
+}
+
+dx <- new("ddmatrix", 
+           Data=x, 
+           dim=c(10,10), ldim=dim(x), bldim=c(5,10), CTXT=newctxt)
+
+dx <- redistribute(dx, bldim=2, ICTXT=0)
+
+print(dx)
+
+# close grid
+gridexit(newctxt)
+
+blacsexit()
+
+comm.print("MPI still works")
+
+finalize()
+\end{lstlisting}
+
+A few comments.  First, we do not technically need to call \code{gridexit()}, since the following \code{blacsexit()} call will shut down \emph{all} BLACS grids.  However, inbetween those two calls, we could make more calls to routines using BLACS grids 0, 1, and 2.  Second, if we explicitly call \code{blacsexit()} as we do here, then all BLACS grids are shut down without shutting down the MPI communicator.  However, \code{finalize()} will do this for us if we forget, because a failure to do so can cause memory leaks.  So you do not have to explicitly call \code{blacsexit()} unless you are done with BLACS, have yet more MPI work to do, and want to free up the resources.
+\np
+Additionally, notice that here we get friendly with the \code{new} constructor.  This call is part of \proglang{R}'s S4 methods, and instantiates a --- as the name implies --- new object of specified class with specified slots.  Notice that the blocking dimension is the dimension of the local matrix.  This is so because we are imagining reading in large, contiguous blocks for each processor (here with just 1 cycle).  This is fairly ad hoc, but is useful for demonstration purposes.  A more advanced example, which generates only what is needed on each processor by making use of the function \code{pbdBASE::numroc()} can be found in the vignette for \pkg{pbdDMAT}.
+\np
+Finally, you may be wondering why we would even bother with this approach with contexts rather than simply explicitly choosing a subset of processors from context 0.  We could do this as well, but this isn't quite as simple as you might think, especially with the tools already built (meaning you may have to work much, much harder for this).  You are encouraged to simply construct a new BLACS context as in the example, because for this very low-level data wrangling, it can make your life much simpler.
+\np
+Finally, this script is available in the \pkg{pbdBASE} directory, under \code{inst/examples/base_eg.R} and is meant to be run with 4 processors.

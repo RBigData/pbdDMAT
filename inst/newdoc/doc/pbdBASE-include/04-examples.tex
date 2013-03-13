@@ -1,0 +1,88 @@
+\section[]{Basic Example}\label{sec:eg1}
+\addcontentsline{toc}{section}{\thesection. Basic Example}
+
+Now that you've come to this section directly from the abstract, skipping the other sections, let's take a look at an example.  Since the \pkg{pbdBASE} package is mostly about providing functionality to packages farther up the pbd chain, it won't be particularly exciting.  But you have to crawl before you can drag race.
+\np
+First we will generate some data on process 0, or (0,0) using the grid notation.  We will do this using a simple \code{if()} together with the \pkg{pbdMPI} function \code{comm.rank()}, which returns the MPI communicator number for the calling process.  Any process not initially storing any data should store \code{NULL} for the object.  This probably isn't the way you will want to run your production code, especially if you are randomly generating data; in that case, it would be much more efficient to just generate what is needed on each processor.  Although doing this requires that you have access to good seeds for parallel random number generation; for more information, see the documentation on setting seeds via \code{comm.set.seed()} in the \pkg{pbdMPI} package, or for more control, see the \pkg{rlecuyer} or \pkg{rsprng} packages.  
+\np
+There is merit, however, in operating in this way.  This is somewhat like the process necessary for reading in data onto a subset of processors (just 1 if you do not have access to a parallel file system) and then distributing that out to the larger grid, so it is a useful skill.  For more information about this procedure, see Section~\ref{sec:eg2}.
+
+\begin{lstlisting}[language=rr,title=Generating Test Data]
+library(pbdBASE, quiet=TRUE)
+
+init.grid()
+
+nrows <- ncols <- 10 # generate a 10x10 matrix
+BL <- 2 # the blocking factor for distribution
+
+# Generate data on process 0, then distribute to the others
+{
+if (comm.rank()==0)
+   x <- matrix(rnorm(n=nrows*ncols, mean=10, sd=100), nrow=nrows, ncol=ncols)
+else
+  x <- NULL
+}
+  
+dx <- as.ddmatrix(x=x, bldim=BL)
+
+# continued in the next block of code ...
+\end{lstlisting}
+
+To convince ourselves that the data is distributed, we can inspect the new object in several ways:
+
+\begin{lstlisting}[language=rr,title=Printing the Object]
+print(dx)
+
+comm.print(submatrix(dx))
+
+comm.print(dx)
+ 
+# continued in the next block of code ...
+\end{lstlisting}
+
+Here, \code{print()} is a special method that shows you the slots of your distributed matrix.  The \code{submatrix()} function will show the local submatrix (syntactic sugar for printing \code{dx@Data}).  Use of \pkg{pbdMPI}'s \code{comm.print()} ensures that only process 0 will print the result.  Finally, just using \proglang{R}'s print method on the object in \code{comm.print(dx)} will produce an uglier version of \code{print(dx)} and \code{comm.print(submatrix(dx))}.
+\np
+We can also do insertions and extractions:
+
+\begin{lstlisting}[language=rr,title=Insertion and Extraction]
+dx[1,1] <- NA # insertion indices are global
+comm.print(submatrix(dx)[1,1], all.rank=T) # see?
+
+comm.print(dim(dx))
+dx <- dx[, -2]
+comm.print(dim(dx))
+
+nona <- na.exclude(dx)
+
+# continued in the next block of code ...
+\end{lstlisting}
+
+Finally, we can convert the distributed matrix back into an ordinary \proglang{R} matrix on processor 0.  You probably will not need to do this very often in production code, because in practice, you could be dealing with matrices with so many elements that they will not fit into a single R process.  For testing however, this process can be very useful.  It could also conceivably have utility for dealing with $n\times 1$ matrices.
+
+\begin{lstlisting}[language=rr,title=Insertion and Extraction]
+# convert back
+nona <- as.matrix(nona, proc.dest=0)
+
+# compare our results with R --- notice the syntax is essentially identical
+if (comm.rank()==0){
+  x[1,1] <- NA
+  x <- x[, -2]
+  r_nona <- na.exclude(x)
+  
+  all.equal(r_nona, nona)
+}
+
+finalize()
+\end{lstlisting}
+
+
+In the above script, there is one addition over the previous pieces.  Namely, we include several calls to \code{comm.cat()}.  All this does is demand line breaks (via the regular expression \code{\textbackslash n}) for more human-readable printing.
+\np
+The script file is available in the \pkg{pbdBASE} directory, under \code{inst/examples/base_eg.R}, and you can run this script from the command line with the following command:
+
+\begin{lstlisting}
+# replace the 4 below with your number of processors
+mpirun -np 4 Rscript pbdbase_example.R
+\end{lstlisting}
+
+If you want to ramp up the size of the problem and the number of cores, you may want to change the \code{nrows}, \code{ncols}, and \code{BL} definitions (these are good to experiment with regardless). 
