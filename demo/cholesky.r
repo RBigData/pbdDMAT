@@ -1,18 +1,17 @@
 ### SHELL> mpiexec -np 2 Rscript --vanilla [...].r
 
 # Initialize process grid
-suppressPackageStartupMessages(library(pbdDMAT))
-init.grid(1, 2)
+library(pbdDMAT, quiet=T)
+init.grid()
 
 # Setup for the remainder
 set.seed(25)
-M <- N <- 16
-O <- 4
+M <- 16
+N <- 4
 BL <- 2 # blocking --- passing single value BL assumes BLxBL blocking
-A <- matrix(rnorm(N * O, mean = 100, sd = 10), nrow = N, ncol = O)
+dA <- ddmatrix("rnorm", M, N, mean=100, sd=10)
 
-# Distributing matrices
-dA <- as.ddmatrix(A, BL)
+A <- as.matrix(dA)
 
 # Cholesky
 ch1 <- chol(t(A) %*% A)

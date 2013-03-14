@@ -18,7 +18,7 @@ setClass(
                          Data=matrix(0.0),
                          dim=c(1L, 1L),
                          ldim=c(1L, 1L),
-                         bldim=c(1L, 1L),
-                         ICTXT=0
+                         bldim=.BLDIM,
+                         ICTXT=.ICTXT
           )
 )

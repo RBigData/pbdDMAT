@@ -76,7 +76,6 @@ dmat.gmat <- function(dx, proc.dest="all")
 # Distribute dense, in-core matrices
 dmat.as.ddmatrix <- function(x, bldim=.BLDIM, ICTXT=.ICTXT)
 {
-#  ICTXT <- base.blacs(ICTXT=ICTXT)$ICTXT
   nprocs <- pbdMPI::comm.size()
   owns <- pbdMPI::allreduce(is.matrix(x), op='sum')
   

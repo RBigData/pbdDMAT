@@ -1,0 +1,4 @@
+\addcontentsline{toc}{section}{Abstract \vspace{-0.3cm}}
+\begin{abstract}
+With the size of data ever growing, the use of multiple processors in a single analysis becomes more and more a necessity.  The Programming Big Data (pbd) project attempts to address the \proglang{R} language's current shortcomings in parallel distributed computations. The \pkg{pbdBASE} package for \proglang{R} provides a distributed matrix datatype and low-level methods for this data type, including extraction via \code{[}, as well as \code{NA} removal.  Further, the package contains a set of BLACS, PBLAS, and ScaLAPACK wrappers.  In addition to performance improvements through parallelism, use of this system with more than one processor allows the user to break \proglang{R}'s local memory barrier, namely the requirement that a vector be indexed by a 32-bit integer, by only storing subsets of the vector on each processor.
+\end{abstract}

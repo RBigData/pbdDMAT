@@ -1,9 +1,8 @@
 ### SHELL> mpiexec -np 2 Rscript --vanilla [...].r
 
 # Initialize process grid
-suppressPackageStartupMessages(library(pbdDMAT))
-invisible(capture.output(library(pbdDMAT)))
-init.grid(1, 2)
+library(pbdDMAT, quiet=T)
+init.grid()
 
 # Generate a random matrix common to all processes and distribute it.
 # This approach should only be used while learning the pbdDMAT package.

@@ -1,0 +1,161 @@
+\section[]{Information for Advanced Users}
+\label{sec:advanced}
+\addcontentsline{toc}{section}{\thesection. Using Information for Advanced Users}
+
+In this section, we will discuss the block-cyclic distribution of data across a 2-dimensional processor grid in lengthy detail.  It probably goes without saying that before beginning this section, the reader should be familiar with all sections prior.
+ 
+\subsection[]{Blocking Factor}
+\addcontentsline{toc}{subsection}{\thesubsection. Blocking Factor}
+
+The motivation for the development of \pkg{pbdBASE} was to be able to use ScaLAPACK routines for distributed linear algebra.  The S4 methods which use these routines are in the package \pkg{pbdDMAT}, but all the same, using block-cyclically distributed data is absolutely essential for \pkg{pbdBASE}, since it is essential for ScaLAPACK.  
+\np
+Most of the difficulty in using this type of distributed data has been abstracted away for the user of \pkg{pbdBASE}.  However, you may still find it useful to experiment with a block cyclic data distributor provided by~\citep{web:datadist} to gain some intuition and understanding of how the package is powered underneath, and why a simple \code{read.table()} call will not suffice.
+\np
+The idea is fairly simple, even if the execution can sometimes be cumbersome.  We want to try to evenly balance the data distribution for ``large'' matrices across the process grid, but in a way that is congruent with the natural blocking of matrices when performing LAPACK operations on them.  As the name implies, we imagine taking a large global matrix and chopping it into blocks, and assigning those blocks to the processors in the grid.  The way this is done is far from arbitrary, however.  
+\np
+For simplicity, let us explicitly assume for the moment that we are going to distribute a $9\times 9$ matrix across a $2\times 3$ process grid, using a $2\times 2$ blocking factor.  The above link may be extremely useful to your understanding the following.  For those who flatly refuse to click the link, we can visualize the process as follows.  We can imagine our global matrix (even if we never actually have a globally stored matrix, this is the way we would imagine it in our heads) as looking like:
+\begin{align*}
+x &= \left[
+      \begin{array}{lllllllll}
+      x_{11} & x_{12} & x_{13} & x_{14} & x_{15} & x_{16} & x_{17} & x	_{18} & x_{19}\\
+      x_{21} & x_{22} & x_{23} & x_{24} & x_{25} & x_{26} & x_{27} & x	_{28} & x_{29}\\
+      x_{31} & x_{32} & x_{33} & x_{34} & x_{35} & x_{36} & x_{37} & x	_{38} & x_{39}\\
+      x_{41} & x_{42} & x_{43} & x_{44} & x_{45} & x_{46} & x_{47} & x	_{48} & x_{49}\\
+      x_{51} & x_{52} & x_{53} & x_{54} & x_{55} & x_{56} & x_{57} & x	_{58} & x_{59}\\
+      x_{61} & x_{62} & x_{63} & x_{64} & x_{65} & x_{66} & x_{67} & x	_{68} & x_{69}\\
+      x_{71} & x_{72} & x_{73} & x_{74} & x_{75} & x_{76} & x_{77} & x	_{78} & x_{79}\\
+      x_{81} & x_{82} & x_{83} & x_{84} & x_{85} & x_{86} & x_{87} & x	_{88} & x_{89}\\
+      x_{91} & x_{92} & x_{93} & x_{94} & x_{95} & x_{96} & x_{97} & x	_{98} & x_{99}
+      \end{array}
+\right]_{9\times 9}
+\end{align*}
+and our process grid looks like:
+\begin{align*}
+\left|
+      \begin{array}{lll}
+      \color{g11}0 & \color{g12}1 & \color{g13}2\\
+      \color{g21}3 & \color{g22}4 & \color{g23}5
+      \end{array}
+\right| &= 
+\left|
+      \begin{tabular}{lll}
+      \color{g11}(0,0) & \color{g12}(0,1) & \color{g13}(0,2)\\
+      \color{g21}(1,0) & \color{g22}(1,1) & \color{g23}(1,2)
+      \end{tabular}
+\right|
+\end{align*}
+with the usual MPI processor rank on the left, and the corresponding BLACS processor grid position on the right.
+\np
+To distribute this data across our 6 processors in the form of a $2\times 3$ process grid in $2\times 2$ blocks, we go in a ``round robin'' fashion, assigning $2\times 2$ submatrices of the original matrix to the appropriate processor, starting with processor $(0, 0)$.  Then, if possible, we move on to the next $2\times 2$ block of $x$ and give it to processor $(0, 1)$.  We continue in this fashion with $(0,2)$ if necessary, and if there is yet more of $x$ in that row still without ownership, we cycle back to processor $(0,0)$ and start over, continuing in this fashion until there is nothing left to distribute in that row.
+\np
+After all the data in the first two rows of $x$ has been chopped into 2-column blocks and given to the appropriate process in process-column 1, we then move onto the next 2 rows, proceeding in the same way but now using the second process row from our process grid.  For the next 2 rows, we cycle back to process row 1.  And so on and so forth.
+\np
+Two visual representations of this 
+\begin{figure}[h]
+\begin{align*}
+x &= \left[
+      \begin{array}{ll|ll|ll|ll|l}
+      \color{g11}x_{11} & \color{g11}x_{12} & \color{g12}x_{13} & \color{g12}x_{14} & \color{g13}x_{15} & \color{g13}x_{16} & \color{g11}x_{17} & \color{g11}x_{18} & \color{g12}x_{19}\\
+      \color{g11}x_{21} & \color{g11}x_{22} & \color{g12}x_{23} & \color{g12}x_{24} & \color{g13}x_{25} & \color{g13}x_{26} & \color{g11}x_{27} & \color{g11}x_{28} & \color{g12}x_{29}\\\hline
+      \color{g21}x_{31} & \color{g21}x_{32} & \color{g22}x_{33} & \color{g22}x_{34} & \color{g23}x_{35} & \color{g23}x_{36} & \color{g21}x_{37} & \color{g21}x_{38} & \color{g22}x_{39}\\
+      \color{g21}x_{41} & \color{g21}x_{42} & \color{g22}x_{43} & \color{g22}x_{44} & \color{g23}x_{45} & \color{g23}x_{46} & \color{g21}x_{47} & \color{g21}x_{48} & \color{g22}x_{49}\\\hline
+      \color{g11}x_{51} & \color{g11}x_{52} & \color{g12}x_{53} & \color{g12}x_{54} & \color{g13}x_{55} & \color{g13}x_{56} & \color{g11}x_{57} & \color{g11}x_{58} & \color{g12}x_{59}\\
+      \color{g11}x_{61} & \color{g11}x_{62} & \color{g12}x_{63} & \color{g12}x_{64} & \color{g13}x_{65} & \color{g13}x_{66} & \color{g11}x_{67} & \color{g11}x_{68} & \color{g12}x_{69}\\\hline
+      \color{g21}x_{71} & \color{g21}x_{72} & \color{g22}x_{73} & \color{g22}x_{74} & \color{g23}x_{75} & \color{g23}x_{76} & \color{g21}x_{77} & \color{g21}x_{78} & \color{g22}x_{79}\\
+      \color{g21}x_{81} & \color{g21}x_{82} & \color{g22}x_{83} & \color{g22}x_{84} & \color{g23}x_{85} & \color{g23}x_{86} & \color{g21}x_{87} & \color{g21}x_{88} & \color{g22}x_{89}\\\hline
+      \color{g11}x_{91} & \color{g11}x_{92} & \color{g12}x_{93} & \color{g12}x_{94} & \color{g13}x_{95} & \color{g13}x_{96} & \color{g11}x_{97} & \color{g11}x_{98} & \color{g12}x_{99}\\
+      \end{array}
+\right]_{9\times 9}
+\end{align*}
+\caption{Block Cyclic Data Decomposition Example}\label{fig:blockcyclic}
+\end{figure}
+block cyclic data decomposition can be seen in Figure~\ref{fig:blockcyclic} and 
+\begin{figure}[h]
+\begin{align*}
+\left[
+      \begin{array}{ll|ll}
+      \color{g11}x_{11} & \color{g11}x_{12} & \color{g11}x_{17} & \color{g11}x_{18}\\
+      \color{g11}x_{21} & \color{g11}x_{22} & \color{g11}x_{27} & \color{g11}x_{28}\\\hline
+      \color{g11}x_{51} & \color{g11}x_{52} & \color{g11}x_{57} & \color{g11}x_{58}\\
+      \color{g11}x_{61} & \color{g11}x_{62} & \color{g11}x_{67} & \color{g11}x_{68}\\\hline
+      \color{g11}x_{91} & \color{g11}x_{92} & \color{g11}x_{97} & \color{g11}x_{98}\\
+      \end{array}
+\right]_{5\times 4}
+\left[
+      \begin{array}{ll|l}
+      \color{g12}x_{13} & \color{g12}x_{14} & \color{g12}x_{19}\\
+      \color{g12}x_{23} & \color{g12}x_{24} & \color{g12}x_{29}\\\hline
+      \color{g12}x_{53} & \color{g12}x_{54} & \color{g12}x_{59}\\
+      \color{g12}x_{63} & \color{g12}x_{64} & \color{g12}x_{69}\\\hline
+      \color{g12}x_{93} & \color{g12}x_{94} & \color{g12}x_{99}\\
+      \end{array}
+\right]_{5\times 3}
+\left[
+      \begin{array}{ll}
+      \color{g13}x_{15} & \color{g13}x_{16}\\
+      \color{g13}x_{25} & \color{g13}x_{26}\\\hline
+      \color{g13}x_{55} & \color{g13}x_{56}\\
+      \color{g13}x_{65} & \color{g13}x_{66}\\\hline
+      \color{g13}x_{95} & \color{g13}x_{96}\\
+      \end{array}
+\right]_{5\times 2}
+\\
+\left[
+      \begin{array}{ll|ll}
+      \color{g21}x_{31} & \color{g21}x_{32} & \color{g21}x_{37} & \color{g21}x_{38}\\
+      \color{g21}x_{41} & \color{g21}x_{42} & \color{g21}x_{47} & \color{g21}x_{48}\\\hline
+      \color{g21}x_{71} & \color{g21}x_{72} & \color{g21}x_{77} & \color{g21}x_{78}\\
+      \color{g21}x_{81} & \color{g21}x_{82} & \color{g21}x_{87} & \color{g21}x_{88}\\
+      \end{array}
+\right]_{4\times 4}
+\left[
+      \begin{array}{ll|l}
+      \color{g22}x_{33} & \color{g22}x_{34} & \color{g22}x_{39}\\
+      \color{g22}x_{43} & \color{g22}x_{44} & \color{g22}x_{49}\\\hline
+      \color{g22}x_{73} & \color{g22}x_{74} & \color{g22}x_{79}\\
+      \color{g22}x_{83} & \color{g22}x_{84} & \color{g22}x_{89}\\
+      \end{array}
+\right]_{4\times 3}
+\left[
+      \begin{array}{ll}
+      \color{g23}x_{35} & \color{g23}x_{36} \\
+      \color{g23}x_{45} & \color{g23}x_{46} \\\hline
+      \color{g23}x_{75} & \color{g23}x_{76} \\
+      \color{g23}x_{85} & \color{g23}x_{86} \\
+      \end{array}
+\right]_{4\times 2}
+\end{align*}
+\caption{Local Processor Storage View of the Block Cyclic Data Decomposition}\label{fig:blockcyclic2}
+\end{figure}
+Figure~\ref{fig:blockcyclic2}~.   As you can see ``all animals are equal, but some animals are more equal than others.''  Meaning that we don't inherently penalize any processor or go out of our way to imbalance the data load, but that it is possible to do so with poor choice of blocking factor, and that generally process $(0, 0)$ in the BLACS grid will receive the most data.  Additionally, notice that matrices that are closer to being square will distribute better than will vectors.  In this case, a vector (here, a $9\times 1$ matrix) would only distribute across the processes in the first process column, namely $(0,0)$ and $(1,0)$.  This isn't necessarily the great imbalance problem you might instinctively think it is.  These matrices are generally fairly small, so it's not really that big of a deal that they do not distribute well.  On the other hand, things close to square are really quite large, and so we should go out of our way to make sure that they distribute ``well'', whatever that really means.
+\np
+Now, the user should never need to develop an algorithm to perform this kind of block-cyclic decomposition of the data; it may be necessary, especially for a developer who wishes to use this system, to have to deal with this data distribution business in a very up-front way, but many helper functions are provided by the package to that end.  We bring up this issue to illustrate a critical point:  the choice of blocking can make a large difference in performance, and generally should be tailored to the process grid.  
+\np
+\textbf{If the blocking factor (in the above, $2\times 2$) is too ``big'' (relative to the process grid), then the data distribution will be very uneven.  This has the net effect of reducing communication times between processes, but also limiting the amount of parallelism possible.  On the other hand, if the blocking factor is too ``small'', then the data distribution is ``too fair'', gaining much parallelism but massively inflating communication costs.}  At the extreme ends of this are, for the former, using a blocking factor that would encompass the entirety of the matrix (so that the data is distributed to only one process --- no communnication, no parallelism), and for the latter, using a blocking factor of $(1,1)$, so that there is effectively nothing \emph{but} communication and parallelism.
+\np
+Very loosely speaking, parallelism is good and communication is bad, but in practice, we can't really have one without the other.
+
+\subsection[]{Different BLACS Contexts}
+\label{sec:ictxt}
+\addcontentsline{toc}{subsection}{\thesubsection. Different BLACS Contexts}
+
+A very advanced user, perhaps someone already familiar with ScaLAPACK, may wish to be able to use a variety of BLACS contexts.  Herein, we shall discuss in depth the BLACS system and \pkg{pbdBASE}'s relationship with it.
+\np
+Suppose you have $np$ processors.  When a call to \code{init.grid()} is first made, contexts 0, 1, and 2 are created.  These are, respectively, the $P\times Q$ processor grid, where $P=nprows$ and $Q=npcols$ (with an optimal choice made for each of $P$ and $Q$ if the \code{nprows=} and \code{npcols=} arguments are missing), 1 is the $1\times np$ process grid, and 2 is the $np\times 1$ process grid.  For this reason, \textbf{contexts 0, 1, and 2 are reserved}.  Additional contexts can be created via \code{init.grid()} by passing integer values of 3 or greater to the \code{ICTXT=} argument.  The function \code{minctxt()} returns the smallest integer which is not being used as a BLACS context.
+\np
+Throughout \pkg{pbdBASE} (and \pkg{pbdDMAT}), if a function does not accept an argument for BLACS context, you can rest assured that it does not alter context.  However, there are some functions which will implicitly change context, such as \code{na.exclude()}, and some explicitly such as \code{redistribute()}.  For this particular function, the data is redistributed across context 1, because in this distribution, dropping rows (namely those containing \code{NA}'s) does not destroy block-cyclicality.  For this reason, an optional context argument is provided, and the default will simply convert the matrix back to its incoming context (from the slot \code{@CTXT}).
+
+\subsection[]{Exiting BLACS Contexts}
+\label{sec:ictxt}
+\addcontentsline{toc}{subsection}{\thesubsection. Exiting BLACS Contexts}
+
+You can create BLACS contexts, and you can also free them.  To free a particular context, you would use the \code{gridexit()} function.  You can not free contexts 0, 1, or 2, as these are protected values that much of the internals rely on for the vast majority of users.  You can free any other context number, assuming that you created one.
+\np
+You can also shut down all BLACS contexts at once without shutting down all MPI communicators using the \code{blacsexit()} function.  This is automatically called, as necessary, when you call \code{finalize()}, because a failure to shut down all BLACS communicators can result in memory leaks.
+\np
+The names of these functions are the same as the names of the corresponding BLACS routines that they rely on.
+
+
+
+
+

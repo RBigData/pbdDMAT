@@ -1,0 +1,62 @@
+\section[]{Information for Users}
+\addcontentsline{toc}{section}{\thesection. Information for Users}
+
+\subsection[]{The General Procedure for Using the System}\label{sec:basic_steps}
+\addcontentsline{toc}{subsection}{\thesubsection. The General Procedure for Using the System}
+
+To use \pkg{pbdBASE}, and whence any package which relies on it, there are a few special considerations one must keep in mind which separate the system over using ordinary \proglang{R}.  These are
+\begin{enumerate}
+ \item In addition to the ordinary MPI communicator provided by \pkg{pbdMPI}, a special, rectangular MPI communicator is used.~\citep{blug}
+ \item Data is block cyclically distributed across the rectangular process grid.~\citep{slug} (\href{http://netlib.org/scalapack/slug/node75.html}{link})
+\end{enumerate}
+
+The first item is fairly simple.  Simply, you will start every analysis using the \pkg{pbdBASE} by making a call to the function \code{init.grid()}.  The latter is slightly more complicated; for the moment, we will merely say that one achieves this with a parallel reader or data distribution function.  See the package reference manual, as well as the later sections of this vignette for more details.
+\np
+A generic skeleton of what a typical analysis using \pkg{pbdBASE} looks like involves 4 steps (which will be discussed in detail in the sections to follow):
+
+\begin{enumerate}
+\item Initialize the process grid. (\code{init.grid()})
+\item Read the data into the processes, store it as a distributed matrix.
+\item Call \proglang{R} functions exactly as you would with ordinary matrices (when applicable).
+\item Collect your results and finalize (\code{finalize()}).
+\end{enumerate}
+
+One can generally use the above steps on existing \proglang{R} scripts with only a few minor modifications, and
+quickly parallelize his or her serial code.   For most users, this will amount to simply adding in the appropriate calls to \code{init.grid()}, \code{finalize()}, and a parallel data reader or data distributor function (such as \code{as.ddmatrix()}).  However, there are a few hitches with setting up a process grid and with distributing/parallel reading.  We discuss these issues in the following two sections.
+
+\subsection[]{Printing in Parallel}
+\addcontentsline{toc}{subsection}{\thesubsection. Printing in Parallel}
+
+Printing in parallel can take some getting used to, especially in SPMD style programs.  If you simply issue the order \code{print(x)}, then every process will print, but it is often a cacophony of undecipherable writing out to the terminal, with each process trampling the others.  
+\np
+To this end, you should learn to make extensive use of the \pkg{pbdMPI} function \code{comm.print()}.  For instance, if you have two processors, each with an object \code{x}, but with disagreement to what \code{x} actually is --- say for example, one thinks \code{x} is 1, and the other thinks it is 2.  Then calling \code{comm.print(x)} will print two pieces of information:  the processor printing the value (here process 0) and the value itself, 1.  By default, the only processor to print is that with MPI communicator address 0.  You can have all processor ranks print using the optional argument \code{all.rank=TRUE}.  This will print all values stored for the requested object, but will do so ``one at a time''.  You can also disable the printing of which processor is doing the printing via the optional argument \code{quiet=TRUE}.  See the official \code{pbdMPI} documentation for details.
+\np
+Additionally, there is a method for the \code{print()} function when applied to a distributed class such as \code{ddmatrix}.  This will print some brief information about the matrix from processor 0.  This has the optional argument \code{all=}, which can be used to print the entire matrix, one line at a time.
+\np
+This function should not be called from \code{comm.print()}.  Actually, one of the easiest ways to get yourself into trouble and hang up all the processors is to call a function which requires communication between processors from inside something like \code{comm.print()}.
+
+\subsection[]{Process Grid Size}
+\addcontentsline{toc}{subsection}{\thesubsection. Process Grid Size}
+
+Recall that we will very frequently visualize the processors as being in a 2-dimensional processor grid.  This grid is initialized via the function \code{init.grid()}, which accepts the optional arguments \code{nprows=} and \code{npcols=}.  If these are left blank, then a reasonable choice will be made based on the number of available processors.  Here ``reasonable'' means ``as close to square as possible.''  The inspired reader can find more detail within the ScaLAPACK User's Guide~\citep{slug} as to why this is a good choice. (\href{http://www.netlib.org/utk/papers/scalapack/node20.html}{link})
+\np
+To reiterate, in most cases, taking \code{nprow} and \code{npcol} as close to each other as possible is ``sufficiently good''.  Leaving the \code{nprow=} and \code{npcol=} options blank will make this choice for you.  For example, we note that the user should be aware that providing 37 cores to \pkg{pbdDMAT} may not perform as well as providing 36 cores in the form of a $6\times6$ process grid.  There is a strong connection between the process grid and the block-cyclic distribution, which we will discuss further in the following section.
+\np
+Additionally, we note that the \code{init.grid()} function accepts an additional argument \code{ICTXT=}, which we will discuss in Section~\ref{sec:devs}.  This argument is also discussed in detail in the package reference manual.
+
+\subsection[]{Distributing Data}
+\addcontentsline{toc}{subsection}{\thesubsection. Distributing Data}
+
+When distributing data, you must use a \emph{blocking factor}.  This is a pair of numbers $(a,b)$, and unless you think you have a great reason to do otherwise, you should have $a=b$.  If you have no intuition, the just make them equal.  The scale of these numbers should generally correspond to the size of your process grid and the scale of the data.  The choice of blocking factor can seriously impact performance, because it is intimately tied to the data distribution.  We will spare the details for the moment, and merely say that the blocking factor constitutes a tradeoff.  Smaller values, down to $(1,1)$, mean that there will be more parallelism in many of the matrix algebra routines but also increase communication costs.  On the other hand, larger values, which could be larger than the dimensions of any one of your matrices, will limit communication between the processors, but naturally also limit the parallelism.
+\np
+A good choice of blocking factor can be difficult, and in the author's opinion, requires some intuition gained through experimentation.  A discussion on this topic can be found in the ScaLAPACK User's Guide.~\citep{slug} (\href{http://www.netlib.org/utk/papers/scalapack/node19.html}{link}) However, we note that \pkg{pbdBASE} defaults to a $4\times 4$ blocking factor, which is probably an acceptable choice if you do not know what else to do.  For monstrously huge matrices, it could be a bit small, and so scaling it up by powers of 2 ($8\times 8$, $16\times 16$, \dots, $256\times 256$) may be warranted.  The blocking does not have to be by power of 2, but this is a convenient way to do business.  The performance-hungry user is encouraged to experiment with various blocking factors across various processor grids with various matrix sizes to develop intuition.
+
+\subsection[]{Reading Data In Parallel}
+\addcontentsline{toc}{subsection}{\thesubsection. Reading Data In Parallel}
+
+To really get the most out of this system, you need to read the data into \proglang{R} in a parallel distributed fashion.  This generally necessitates the use of a parallel file system, such as Lustre.  These are the kinds of resources that one generally does not have on his/her laptop, unfortunately.  It is possible to read all of the data in on one core and have that core distribute the data to all the other processes, which is what one should do in the absence of a parallel file system.  However, these added communication costs could  overtake the gains provided by distributed computation, depending on the task.  Worse, the user is again trapped in the world of 32-bit integer indexing, meaning the size of problem that it is possible to solve shrinks.
+\np
+As a general rule, if you are on a smaller system with limited resources, you do what you must.  If you are on a larger system with luxurious resources, you really should know better, and act accordingly.  Failure to do so will significantly negatively impact performance with this system.
+\np
+Some functions which are useful in this regard are \code{as.ddmatrix()}, \code{distribute()}, and \code{redistribute()}.  See the reference manual for details.
+
