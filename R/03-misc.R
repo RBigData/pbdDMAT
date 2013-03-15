@@ -87,30 +87,29 @@ dmat.reblock <- function(dx, bldim=dx@bldim, ICTXT=.ICTXT)
     dx@ldim[1] <- mxx
   if (all(ldimB==1))
     ldimB[1] <- mxb
-  
-  if (pbdMPI::allreduce(dx@ldim[1], op='max')==1 && dx@dim[1]>1)
-    dx@ldim[1] <- mxx
-  if (pbdMPI::allreduce(ldimB[1], op='max')==1)
-    ldimB[1] <- mxb
+#  
+#  if (pbdMPI::allreduce(dx@ldim[1], op='max')==1 && dx@dim[1]>1)
+#    dx@ldim[1] <- mxx
+#  if (pbdMPI::allreduce(ldimB[1], op='max')==1)
+#    ldimB[1] <- mxb
   
   descx <- base.descinit(dim=dim, bldim=dx@bldim, ldim=dx@ldim, ICTXT=dx@ICTXT)
   descy <- base.descinit(dim=dim, bldim=bldim, ldim=ldimB, ICTXT=ICTXT)
   
   dy <- new("ddmatrix", Data=matrix(0.0, 1, 1), dim=dim, ldim=TldimB, bldim=bldim, ICTXT=ICTXT)
   
-  xblacs_ <- base.blacs(dx@ICTXT)
-  if (xblacs_$MYROW==-1 || xblacs_$MYCOL==-1){
-    descx[2] <- -1
-  }
-  
-  blacs_ <- base.blacs(ICTXT=ICTXT)
-  if (blacs_$MYROW==-1 || blacs_$MYCOL==-1){
-    descy[2] <- -1
-  }
+#  xblacs_ <- base.blacs(dx@ICTXT)
+#  if (xblacs_$MYROW==-1 || xblacs_$MYCOL==-1){
+#    descx[2] <- -1
+#  }
+#  
+#  blacs_ <- base.blacs(ICTXT=ICTXT)
+#  if (blacs_$MYROW==-1 || blacs_$MYCOL==-1){
+#    descy[2] <- -1
+#  }
   
   if (!is.double(dx@Data))
     storage.mode(dx@Data) <- "double"
-  
   
   ret <- base.rpdgemr2d(x=dx@Data, descx=descx, descy=descy)
   
