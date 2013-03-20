@@ -371,8 +371,6 @@ setMethod("eigen", signature(x="ddmatrix"),
     
     out <- base.rpdsyev(jobz=jobz, uplo='L', n=x@dim[2L], a=x@Data, desca=desca, descz=descz)
     
-    out$w <- rev(out$w)
-    
     return( out )
   }
 )
