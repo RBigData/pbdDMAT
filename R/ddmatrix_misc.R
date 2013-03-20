@@ -37,6 +37,8 @@ setMethod("ownany", signature(x="missing"),
 setMethod("[", signature(x="ddmatrix"),
   function(x, i, j, ICTXT)
   {
+    attributes(x@Data) <- attributes(x@Data)[which(names(attributes(x@Data))=='dim')]
+    
     if (missing(ICTXT))
       oldCTXT <- x@ICTXT
     else

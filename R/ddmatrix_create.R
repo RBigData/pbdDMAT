@@ -357,13 +357,15 @@ setMethod("as.matrix", signature(x="ddmatrix"),
       ddms <- sapply(attributes(x@Data), is.ddmatrix)
       if (any(ddms)){
         for (att in which(ddms)){
-          if (any(attributes(x@Data)[[att]]@ldim == 1))
+          if (any(attributes(x@Data)[[att]]@ldim == 1)){
             attributes(x@Data)[[att]] <- as.vector(attributes(x@Data)[[att]])
+          }
           else
             attributes(x@Data)[[att]] <- as.matrix(attributes(x@Data)[[att]])
         }
       }
     }
+    
     
     ret <- base.as.matrix(x=x, proc.dest=proc.dest)
     

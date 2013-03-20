@@ -10,6 +10,8 @@ setGeneric(name = "as.matrix", useAsDefault = base::as.matrix, package="pbdDMAT"
 setGeneric(name = "na.exclude", useAsDefault = stats::na.exclude, package="pbdDMAT")
 setGeneric(name = "all.equal", useAsDefault = base::all.equal, package="pbdDMAT")
 setGeneric(name = "summary", useAsDefault = base::summary, package="pbdDMAT")
+setGeneric(name = "isSymmetric", useAsDefault = base::isSymmetric, package="pbdDMAT")
+
 
 setGeneric(name="as.vector", 
   function(x, ...)
@@ -78,7 +80,7 @@ setGeneric(name = "norm", useAsDefault = base::norm, package="pbdDMAT")
 setGeneric(name = "rcond", useAsDefault = base::rcond, package="pbdDMAT")
 #setGeneric(name = "lu", useAsDefault = Matrix::lu, package="pbdDMAT")
 setGeneric(name="lu", function(x, ...) standardGeneric("lu"), package="pbdDMAT")
-
+setGeneric(name = "eigen", useAsDefault = base::eigen, package="pbdDMAT")
 
 # Games to satisfy codetools' global variable checking --- they don't always play nice with S4
 setGeneric(name="La.svd", 

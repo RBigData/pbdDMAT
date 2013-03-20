@@ -94,3 +94,86 @@ setMethod("log1p", signature(x="ddmatrix"),
     return(x)
   }
 )
+
+
+# trig
+setMethod("sin", signature(x="ddmatrix"),
+  function(x)
+  {
+    if (base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT))
+      x@Data <- sin(x@Data)
+    return(x)
+  }
+)
+
+setMethod("cos", signature(x="ddmatrix"),
+  function(x)
+  {
+    if (base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT))
+      x@Data <- cos(x@Data)
+    return(x)
+  }
+)
+
+setMethod("tan", signature(x="ddmatrix"),
+  function(x)
+  {
+    if (base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT))
+      x@Data <- cos(x@Data)
+    return(x)
+  }
+)
+
+setMethod("asin", signature(x="ddmatrix"),
+  function(x)
+  {
+    if (base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT))
+      x@Data <- asin(x@Data)
+    return(x)
+  }
+)
+
+setMethod("acos", signature(x="ddmatrix"),
+  function(x)
+  {
+    if (base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT))
+      x@Data <- acos(x@Data)
+    return(x)
+  }
+)
+
+setMethod("atan", signature(x="ddmatrix"),
+  function(x)
+  {
+    if (base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT))
+      x@Data <- atan(x@Data)
+    return(x)
+  }
+)
+
+setMethod("sinh", signature(x="ddmatrix"),
+  function(x)
+  {
+    if (base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT))
+      x@Data <- sinh(x@Data)
+    return(x)
+  }
+)
+
+setMethod("cosh", signature(x="ddmatrix"),
+  function(x)
+  {
+    if (base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT))
+      x@Data <- cosh(x@Data)
+    return(x)
+  }
+)
+
+setMethod("tanh", signature(x="ddmatrix"),
+  function(x)
+  {
+    if (base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT))
+      x@Data <- tanh(x@Data)
+    return(x)
+  }
+)
