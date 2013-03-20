@@ -58,15 +58,16 @@ dmat.gmat <- function(dx, proc.dest="all")
   if (is.null(out))
     return(out)
   else {
-#    out <- matrix(out, nrow=dim[1], ncol=dim[2])
     if (length(xattrs)>1){
       if (length(names)>0)
         xattrs$dimnames <- NULL
       
-      oattrs <- union(attributes(out), xattrs[-1])
-      names(oattrs) <- names(xattrs)
-      attributes(out) <- oattrs
+#      oattrs <- union(attributes(out), xattrs[-1])
+#      names(oattrs) <- names(xattrs)
+      xattrs$dim <- dim(out)
+      attributes(out) <- xattrs
     }
+    
     return( out )
   }
 }

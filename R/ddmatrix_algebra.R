@@ -352,6 +352,31 @@ setMethod("lu", signature(x="ddmatrix"),
   }
 )
 
+setMethod("eigen", signature(x="ddmatrix"), 
+  function(x, symmetric, only.values = FALSE)
+  {
+    if (x@dim[1L] != x@dim[2L])
+      comm.stop("non-square matrix in 'eigen'")
+    
+    if (missing(symmetric)) 
+      symmetric <- isSymmetric.matrix(x)
+    
+    if (only.values)
+      jobz <- 'N'
+    else
+      jobz <- 'V'
+    
+    desca <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
+    descz <- desca
+    
+    out <- base.rpdsyev(jobz=jobz, uplo='L', n=x@dim[2L], a=x@Data, desca=desca, descz=descz)
+    
+    out$w <- rev(out$w)
+    
+    return( out )
+  }
+)
+
 # ---------------------------------------------------------
 # QR stuff no one will ever use
 # ---------------------------------------------------------
@@ -528,6 +553,18 @@ setMethod("qr.qty", signature(x="ANY"),
 # Auxillary
 # ------------------------------------------------
 # ################################################
+
+setMethod("isSymmetric", signature(object="ddmatrix"), 
+  function (object, tol = 100 * .Machine$double.eps, ...) 
+  {
+    if (object@dim[1L] != object@dim[2L]) 
+      return(FALSE)
+    
+    all.equal(object, t(object), tolerance = tol, ...)
+    
+    isTRUE(test)
+  }
+)
 
 setMethod("norm", signature(x="ddmatrix"), 
   function (x, type = c("O", "I", "F", "M", "2")) 

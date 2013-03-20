@@ -6,7 +6,7 @@
 base.dropper <- function(x, oldbldim, iorj, ij, ICTXT)
 {
   blacs_ <- base.blacs(ICTXT)
-
+  
   bldim <- oldbldim #x@bldim
   if (x@ICTXT != ICTXT){
 # FIXME: would like to alter block dimension so that the data
@@ -23,22 +23,26 @@ base.dropper <- function(x, oldbldim, iorj, ij, ICTXT)
   if (iorj=='i'){ # rows
     if (newObj@ldim[1L] == newObj@dim[1L]){
       new <- newObj@Data[ij, ]
+      
       if (base::length(new)==0)
         new <- matrix(0.0)
-      if (!is.matrix(new))
-        dim(new) <- c(length(ij), newObj@ldim[2L])
-#          new <- matrix(new, ncol=newObj@ldim[2])
+      else {
+        dim <- c(length(ij), newObj@ldim[2L])
+        dim(new) <- dim
+      }
       
       newObj@Data <- new
     }
   } else { # columns
     if (newObj@ldim[2L] == newObj@dim[2L]){
       new <- newObj@Data[, ij]
+      
       if (base::length(new)==0)
         new <- matrix(0.0)
-      if (!is.matrix(new))
-        dim(new) <- c(newObj@ldim[1L], length(ij))
-#          new <- matrix(new, nrow=newObj@ldim[1])
+      else {
+        dim <- c(length(ij), newObj@ldim[2L])
+        dim(new) <- dim
+      }
       
       newObj@Data <- new
     }
@@ -87,7 +91,7 @@ dmat.reblock <- function(dx, bldim=dx@bldim, ICTXT=.ICTXT)
     dx@ldim[1] <- mxx
   if (all(ldimB==1))
     ldimB[1] <- mxb
-#  
+  
 #  if (pbdMPI::allreduce(dx@ldim[1], op='max')==1 && dx@dim[1]>1)
 #    dx@ldim[1] <- mxx
 #  if (pbdMPI::allreduce(ldimB[1], op='max')==1)
@@ -98,16 +102,6 @@ dmat.reblock <- function(dx, bldim=dx@bldim, ICTXT=.ICTXT)
   
   dy <- new("ddmatrix", Data=matrix(0.0, 1, 1), dim=dim, ldim=TldimB, bldim=bldim, ICTXT=ICTXT)
   
-#  xblacs_ <- base.blacs(dx@ICTXT)
-#  if (xblacs_$MYROW==-1 || xblacs_$MYCOL==-1){
-#    descx[2] <- -1
-#  }
-#  
-#  blacs_ <- base.blacs(ICTXT=ICTXT)
-#  if (blacs_$MYROW==-1 || blacs_$MYCOL==-1){
-#    descy[2] <- -1
-#  }
-  
   if (!is.double(dx@Data))
     storage.mode(dx@Data) <- "double"
   
@@ -115,12 +109,11 @@ dmat.reblock <- function(dx, bldim=dx@bldim, ICTXT=.ICTXT)
   
   dy@Data <- ret
   
-  
   if (length(xattrs) > 1){
-    battrs <- union(attributes(dy@Data), xattrs[-1])
-    names(battrs) <- names(xattrs)
-    attributes(dy@Data) <- battrs
+    xattrs$dim <- dy@ldim
+    attributes(dy@Data) <- xattrs
   }
+  
   
   return( dy )
 }

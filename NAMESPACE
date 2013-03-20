@@ -8,7 +8,7 @@ export(
   # Arithmetic
   "+", "-", "*", "/", "^", "%%", "%/%", 
   # Algebra
-  t, "%*%", crossprod, tcrossprod, chol2inv, solve, La.svd, svd, lu, 
+  t, "%*%", crossprod, tcrossprod, chol2inv, solve, La.svd, svd, lu, eigen,
   chol, kappa.ddmatrix, rcond,
   # Math
   abs, sqrt, log, log2, log10, log1p, round, ceiling, floor,
@@ -21,14 +21,15 @@ export(
   # Misc
   as.matrix, ownany, ddmatrix, ddmatrix.local, as.ddmatrix, is.ddmatrix, 
   is.na, is.nan, is.infinite, is.numeric, head.ddmatrix, tail.ddmatrix,
-  "[", "[<-", distribute, redistribute
+  "[", "[<-", distribute, redistribute,
+  .ICTXT,.BLDIM
 )
 
 exportMethods(
   "median", "apply", "scale", "sweep",
   "qr", "qr.Q", "qr.R", "qr.qty", "qr.qy", "chol2inv",
   "rcond", "norm",
-  "lm.fit", "diag", "crossprod", "tcrossprod", "lu",
+  "lm.fit", "diag", "crossprod", "tcrossprod", "lu", "eigen",
   "as.matrix", "as.vector", "as.ddmatrix", "ddmatrix", "ddmatrix.local",
   "submatrix", "submatrix<-",
   "[", "[<-", "na.exclude",
