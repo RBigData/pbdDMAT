@@ -287,12 +287,12 @@ dmat.svd <- function(x, nu, nv, inplace=FALSE)
 
 
 setMethod("La.svd", signature(x="ddmatrix"), 
-  function(x, nu=min(n, p), nv=min(n, p), ..., inplace=FALSE)
+  function(x, nu=min(n, p), nv=min(n, p)) #, ..., inplace=FALSE)
   {
     n <- nrow(x)
     p <- ncol(x)
     
-    ret <- dmat.svd(x=x, nu=nu, nv=nv, inplace=inplace)
+    ret <- dmat.svd(x=x, nu=nu, nv=nv, inplace=FALSE)
     
     return( ret )
   }
@@ -300,12 +300,12 @@ setMethod("La.svd", signature(x="ddmatrix"),
 
 
 setMethod("svd", signature(x="ddmatrix"), 
-  function(x, nu=min(n, p), nv=min(n, p), ..., inplace=FALSE)
+  function(x, nu=min(n, p), nv=min(n, p)) #, ..., inplace=FALSE)
   {
     n <- nrow(x)
     p <- ncol(x)
     
-    ret <- dmat.svd(x=x, nu=nu, nv=nv, inplace=inplace)
+    ret <- dmat.svd(x=x, nu=nu, nv=nv, inplace=FALSE)
     
     if (is.ddmatrix(ret$vt))
       ret$vt <- t(ret$vt)
@@ -359,7 +359,7 @@ setMethod("eigen", signature(x="ddmatrix"),
       comm.stop("non-square matrix in 'eigen'")
     
     if (missing(symmetric)) 
-      symmetric <- isSymmetric.matrix(x)
+      symmetric <- isSymmetric(x)
     
     if (only.values)
       jobz <- 'N'
