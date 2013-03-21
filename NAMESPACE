@@ -28,7 +28,7 @@ exportMethods(
   "median", "apply", "scale", "sweep",
   "qr", "qr.Q", "qr.R", "qr.qty", "qr.qy", "chol2inv",
   "rcond", "norm",
-  "lm.fit", "diag", "crossprod", "tcrossprod", "lu", "eigen",
+  "lm.fit", "diag", "crossprod", "tcrossprod", "lu", "eigen", "isSymmetric",
   "as.matrix", "as.vector", "as.ddmatrix", "ddmatrix", "ddmatrix.local",
   "submatrix", "submatrix<-",
   "[", "[<-", "na.exclude",

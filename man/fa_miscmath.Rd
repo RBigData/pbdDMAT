@@ -30,6 +30,42 @@
 \alias{log1p,ddmatrix-method}
 \alias{log1p}
 
+\alias{sin-method}
+\alias{sin,ddmatrix-method}
+\alias{sin}
+
+\alias{cos-method}
+\alias{cos,ddmatrix-method}
+\alias{cos}
+
+\alias{tan-method}
+\alias{tan,ddmatrix-method}
+\alias{tan}
+
+\alias{asin-method}
+\alias{asin,ddmatrix-method}
+\alias{asin}
+
+\alias{acos-method}
+\alias{acos,ddmatrix-method}
+\alias{acos}
+
+\alias{atan-method}
+\alias{atan,ddmatrix-method}
+\alias{atan}
+
+\alias{sinh-method}
+\alias{sinh,ddmatrix-method}
+\alias{sinh}
+
+\alias{cosh-method}
+\alias{cosh,ddmatrix-method}
+\alias{cosh}
+
+\alias{tanh-method}
+\alias{tanh,ddmatrix-method}
+\alias{tanh}
+
 \title{ Miscellaneous Mathematical Functions }
 \description{
   Binary operations for distributed matrix/distributed matrix and
@@ -48,7 +84,15 @@
   \S4method{log2}{ddmatrix}(x)
   \S4method{log10}{ddmatrix}(x)
   \S4method{log1p}{ddmatrix}(x)
-  
+  \S4method{sin}{ddmatrix}(x)
+  \S4method{cos}{ddmatrix}(x)
+  \S4method{tan}{ddmatrix}(x)
+  \S4method{asin}{ddmatrix}(x)
+  \S4method{acos}{ddmatrix}(x)
+  \S4method{atan}{ddmatrix}(x)
+  \S4method{sinh}{ddmatrix}(x)
+  \S4method{cosh}{ddmatrix}(x)
+  \S4method{tanh}{ddmatrix}(x)
 }
 \arguments{
   \item{x}{numeric distributed matrix}

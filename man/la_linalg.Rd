@@ -6,6 +6,10 @@
 \alias{t,ddmatrix-method}
 \alias{t}
 
+\alias{isSymmetric-method}
+\alias{isSymmetric,ddmatrix-method}
+\alias{isSymmetric}
+
 \alias{solve-method}
 \alias{solve,ddmatrix,ddmatrix-method}
 \alias{solve,ddmatrix,ANY-method}
@@ -18,6 +22,10 @@
 \alias{svd-method}
 \alias{svd,ddmatrix-method}
 \alias{svd}
+
+\alias{eigen-method}
+\alias{eigen,ddmatrix-method}
+\alias{eigen}
 
 \alias{chol-method}
 \alias{chol,ddmatrix-method}
@@ -41,22 +49,31 @@
 }
 }
 \usage{
+  \S4method{isSymmetric}{ddmatrix}(object, tol = 100 * .Machine$double.eps, ...) 
   \S4method{t}{ddmatrix}(x)
   \S4method{solve}{ddmatrix,ddmatrix}(a, b)
   \S4method{solve}{ddmatrix,ANY}(a)
   \S4method{La.svd}{ddmatrix}(x, nu, nv)
   \S4method{svd}{ddmatrix}(x, nu, nv)
+  \S4method{eigen}{ddmatrix}(x, symmetric, only.values = FALSE)
   \S4method{chol}{ddmatrix}(x)
   \S4method{lu}{ddmatrix}(x)
 }
 \arguments{
-  \item{x, a, b}{numeric distributed matrices.  If applicable, 
+  \item{object, x, a, b}{numeric distributed matrices.  If applicable, 
   \code{a} and \code{b} must be on the same BLACS context and
   have the same blocking dimension.}
+  \item{tol}{precision tolerance.}
+  \item{...}{additional arguments.}
   \item{nu}{number of left singular vectors to return when
   calculating singular values.}
   \item{nv}{number of right singular vectors to return when
   calculating singular values.}
+  \item{symmetric}{logical, if \code{TRUE} then the matrix is assumed
+  to be symmetric and only the lower triangle is used.  Otherwise \code{x}
+  is inspected for symmetry.}
+  \item{only.values}{logical, if \code{TRUE} then only the eigenvalues
+  are returned.  Otherwise both eigenvalues and eigenvectors are returned.}
 }
 \details{
   Extensions of R linear algebra functions.
@@ -80,6 +97,9 @@
   global R vector. Sometimes core R (via LAPACK) and ScaLAPACK 
   will disagree as to what the left/right singular vectors
   are, but the disagreement is always only up to sign.
+  
+  \code{eigen()} computes the eigenvalues, and eigenvectors if requested.
+  As with \code{svd()}, eigenvalues are stored in a global R vector.
   
   \code{chol()} performs Cholesky factorization.
   
