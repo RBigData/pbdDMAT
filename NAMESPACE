@@ -21,8 +21,7 @@ export(
   # Misc
   as.matrix, ownany, ddmatrix, ddmatrix.local, as.ddmatrix, is.ddmatrix, 
   is.na, is.nan, is.infinite, is.numeric, head.ddmatrix, tail.ddmatrix,
-  "[", "[<-", distribute, redistribute,
-  .ICTXT,.BLDIM
+  "[", "[<-", distribute, redistribute
 )
 
 exportMethods(

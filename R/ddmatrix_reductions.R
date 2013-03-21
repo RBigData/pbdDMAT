@@ -4,7 +4,7 @@
 
 
 # Higher level reduction interface
-dmat.blacsreduction <- function(x, SCOPE, op, ICTXT, proc.dest=-1)
+dmat.blacsreduction <- function(x, SCOPE, op, ICTXT, proc.dest=-1, check=TRUE)
 {
   if (!is.character(SCOPE)){
     if (SCOPE==1)
@@ -41,6 +41,28 @@ dmat.blacsreduction <- function(x, SCOPE, op, ICTXT, proc.dest=-1)
     rdest <- proc.dest[1L]
     cdest <- proc.dest[2L]
   }
+  
+  # checking that all m and n agree
+  if (check){
+    mx <- allreduce(c(m,n), op='max')
+    
+    dm <- mx[1L] - m
+    dn <- mx[2L] - n
+    
+    if (dm > 0 || dn > 0){
+      dim(x) <- NULL
+    
+    if (is.integer(x))
+      nd <- 0L
+    else
+      nd <- 0.0
+    
+      x <- c(x, rep(nd, prod(mx)-(m*n)))
+      m <- mx[1L]
+      n <- mx[2L]
+    }
+  }
+  
   
   if (op == 'sum'){
     if (is.integer(x))
@@ -135,10 +157,6 @@ dmat.rcsum <- function(x, na.rm=FALSE, SCOPE, MEAN=FALSE)
   
   
   out <- dmat.blacsreduction(x=Data, SCOPE=SCOPE, op='sum', ICTXT=x@ICTXT, proc.dest=-1)
-  
-#  out <- .Call("R_dgsum2d1", as.integer(x@ICTXT), as.character(SCOPE), as.integer(1L),
-#                as.integer(n), Data, as.integer(1), as.integer(-1), as.integer(-1), 
-#                PACKAGE="pbdBASE")
   
   return( out )
 }
