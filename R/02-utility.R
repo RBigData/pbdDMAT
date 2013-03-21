@@ -61,9 +61,6 @@ dmat.gmat <- function(dx, proc.dest="all")
     if (length(xattrs)>1){
       if (length(names)>0)
         xattrs$dimnames <- NULL
-      
-#      oattrs <- union(attributes(out), xattrs[-1])
-#      names(oattrs) <- names(xattrs)
       xattrs$dim <- dim(out)
       attributes(out) <- xattrs
     }
