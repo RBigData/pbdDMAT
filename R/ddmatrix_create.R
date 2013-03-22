@@ -143,11 +143,25 @@ setMethod("diag", signature(x="vector"),
   {
     type <- match.arg(type, c("matrix", "ddmatrix"))
     
-    if (length(bldim)==1)
-      bldim <- rep(bldim, 2)
+    if (missing(nrow) && missing(ncol))
+      nrow <- ncol <- length(x)
+    else if (missing(nrow) && !missing(ncol))
+      nrow <- ncol
+    else if (missing(ncol) && !missing(nrow))
+      ncol <- nrow
     
-    if (type=="ddmatrix")
-      ret <- base.ddiagmk(diag=x, nrow=nrow, ncol=ncol, bldim=bldim, ICTXT=ICTXT)
+    if (type=="ddmatrix"){
+      if (length(bldim)==1)
+        bldim <- rep(bldim, 2)
+      
+      dim <- c(nrow, ncol)
+      ldim <- base.numroc(dim=dim, bldim=bldim, ICTXT=ICTXT)
+      
+      descx <- base.descinit(dim=dim, bldim=bldim, ldim=ldim, ICTXT=ICTXT)
+      
+      out <- base.ddiagmk(diag=x, descx=descx)
+      ret <- new("ddmatrix", Data=out, dim=dim, ldim=ldim, bldim=bldim, ICTXT=ICTXT)
+    }
     else
       ret <- base::diag(x=x, nrow=nrow, ncol=ncol)
     
@@ -183,7 +197,11 @@ setMethod("diag", signature(x="character"),
         
 #        dim(Data) <- ldim
       }
-      ret <- base.ddiagmk(diag=Data, nrow=nrow, ncol=ncol, bldim=bldim, ICTXT=ICTXT)
+      
+      descx <- base.descinit(dim=dim, bldim=bldim, ldim=ldim, ICTXT=ICTXT)
+      
+      out <- base.ddiagmk(diag=Data, descx=descx)
+      ret <- new("ddmatrix", Data=out, dim=dim, ldim=ldim, bldim=bldim, ICTXT=ICTXT)
     }
     else {
       if (data=="runif" || data=="uniform")

@@ -27,7 +27,7 @@ base.dropper <- function(x, oldbldim, iorj, ij, ICTXT)
       if (base::length(new)==0)
         new <- matrix(0.0)
       else {
-        dim <- c(length(ij), newObj@ldim[2L])
+        dim <- c(length(new)/newObj@ldim[2L], newObj@ldim[2L])
         dim(new) <- dim
       }
       
@@ -40,7 +40,7 @@ base.dropper <- function(x, oldbldim, iorj, ij, ICTXT)
       if (base::length(new)==0)
         new <- matrix(0.0)
       else {
-        dim <- c(length(ij), newObj@ldim[2L])
+        dim <- c(newObj@ldim[1L], length(new)/newObj@ldim[1L])
         dim(new) <- dim
       }
       
