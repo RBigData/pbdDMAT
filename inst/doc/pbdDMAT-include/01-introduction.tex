@@ -3,6 +3,14 @@
 \label{sec:introduction}
 \addcontentsline{toc}{section}{\thesection. Introduction}
 
+
+The Programming with Big Data in R~\citep{pbdr2012}, abbreviated pbdR or just pbd, is a project which seeks to elevate the \proglang{R} language to supercomputers.  This package, \pkg{pbdBASE}~\citep{Schmidt2012pbdBASEpackage}, contains a set of wrappers of the high performance libraries BLACS, PBLAS, and ScaLAPACK~\citep{slug}, and also a host of new subroutines for performing distributed matrix computations in \proglang{R}.  The package is a dependency of \pkg{pbdDMAT}~\citep{Schmidt2012pbdDMATpackage}, which is meant to greatly simplify the \pkg{pbdBASE} system into something that intimately resembles the \proglang{R} language.  Since these two packages ultimately rely on the ScaLAPACK library, the data type used with each is the block-cyclic distributed matrix.  See the \pkg{pbdDMAT} vignette for more details.
+\np
+Updates and bug releases for this and other \pkg{pbd} projects may, especially while in infancy, be much more frequent than \href{http://cran.r-project.org/}{CRAN} releases.  So for up to date packages, as well as evolving information about the \pkg{pbd} project,  see the pbdR project's github \url{http://code.r-pbd.org} or our website \href{http://r-pbd.org/}{http://r-pbd.org/}.
+
+
+
+
 The \pkg{pbdDMAT} package (Programming with Big Data: Distributed Matrix Algebra Computation)~\citep{Schmidt2012pbdDMATpackage} is a (mostly) implicitly parallel system for doing distributed matrix computations in \proglang{R}.~\citep{Rcore}  It offers numerous high level methods for a the \pkg{pbdBASE}~\citep{Schmidt2012pbdBASEpackage} distributed matrix type \code{ddmatrix} which intentionally, very closely resemble the existing \proglang{R} syntax for non-distributed matrices.  Much of the heavy lifting --- especially that involving distributed linear algebra --- is handled by the well-known Fortran libraries Scalable Linear Algebra Package (ScaLAPACK) and the Parallel Basic Linear Algebra Subroutines (PBLAS).~\citep{slug}
 \np
 Ordinarily, a user of these libraries would have to deal with a great many more headaches than the user of \pkg{pbdDMAT}.  Of note, a user of the \pkg{pbdDMAT} system can achieve great speedups with only the most minimal interaction with the more cumbersome sides of ScaLAPACK, such as the MPI layer for ScaLAPACK, the Basic Linear Algebra Communication Subroutines (BLACS).~\citep{blug}  Local storage issues, descriptor vectors, and BLACS communications are very much still there, but almost all of these problems have been abstracted away for the user.  In addition to offering copycat routines for linear algebra, the \pkg{pbdDMAT} package also offers many other routines that look native to \proglang{R}, but operate on these special distributed matrix data types.

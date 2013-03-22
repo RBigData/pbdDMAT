@@ -2,16 +2,19 @@
 
 # Initialize process grid
 library(pbdDMAT, quiet=T)
+
+if(comm.size() != 2)
+  comm.stop("Exactly 2 processors are required for this demo.")
+
 init.grid()
 
 # Setup for the remainder
-set.seed(25)
+comm.set.seed(diff=TRUE)
 M <- N <- 16
 BL <- 2 # blocking --- passing single value BL assumes BLxBL blocking
-A <- matrix(rnorm(M * N, mean = 100, sd = 10), nrow = M, ncol = N)
+dA <- ddmatrix("rnorm", nrow=M, ncol=N)
+A <- as.matrix(dA)
 
-# Distributing matrices
-dA <- as.ddmatrix(A, BL)
 
 # Run
 rs1 <- rowSums(A)

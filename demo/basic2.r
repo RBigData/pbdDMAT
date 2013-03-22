@@ -2,6 +2,10 @@
 
 # Initialize process grid
 library(pbdDMAT, quiet=T)
+
+if(comm.size() != 2)
+  comm.stop("Exactly 2 processors are required for this demo.")
+
 init.grid()
 
 # First we generate the matrix on process 0 and then distribute it to

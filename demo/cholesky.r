@@ -2,10 +2,14 @@
 
 # Initialize process grid
 library(pbdDMAT, quiet=T)
+
+if(comm.size() != 2)
+  comm.stop("Exactly 2 processors are required for this demo.")
+
 init.grid()
 
 # Setup for the remainder
-set.seed(25)
+comm.set.seed(diff=TRUE)
 M <- 16
 N <- 4
 BL <- 2 # blocking --- passing single value BL assumes BLxBL blocking
