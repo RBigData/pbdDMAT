@@ -44,7 +44,10 @@ dmat.blacsreduction <- function(x, SCOPE, op, ICTXT, proc.dest=-1, check=TRUE)
   
   # checking that all m and n agree
   if (check){
-    mx <- allreduce(c(m,n), op='max')
+    if (SCOPE=='All')
+      mx <- allreduce(c(m,n), op='max')
+    else
+      mx <- base.igamx2d(ICTXT=ICTXT, SCOPE=SCOPE, m=2, n=1, x=c(m,n), lda=2, RDEST=-1, CDEST=-1)
     
     dm <- mx[1L] - m
     dn <- mx[2L] - n
