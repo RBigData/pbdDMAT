@@ -4,15 +4,15 @@
 \subsection[]{The General Procedure for Using the System}\label{sec:basic_steps}
 \addcontentsline{toc}{subsection}{\thesubsection. The General Procedure for Using the System}
 
-To use \pkg{pbdBASE}, and whence any package which relies on it, there are a few special considerations one must keep in mind which separate the system over using ordinary \proglang{R}.  These are
+To use \pkg{pbdDMAT}, there are a few special considerations one must keep in mind which separate the system over using ordinary \proglang{R}.  These are
 \begin{enumerate}
  \item In addition to the ordinary MPI communicator provided by \pkg{pbdMPI}, a special, rectangular MPI communicator is used.~\citep{blug}
  \item Data is block cyclically distributed across the rectangular process grid.~\citep{slug} (\href{http://netlib.org/scalapack/slug/node75.html}{link})
 \end{enumerate}
 
-The first item is fairly simple.  Simply, you will start every analysis using the \pkg{pbdBASE} by making a call to the function \code{init.grid()}.  The latter is slightly more complicated; for the moment, we will merely say that one achieves this with a parallel reader or data distribution function.  See the package reference manual, as well as the later sections of this vignette for more details.
+The first item is fairly simple.  Simply, you will start every analysis using the \pkg{pbdDMAT} package by making a call to the function \code{init.grid()}.  The latter is slightly more complicated; for the moment, we will merely say that one achieves this with a parallel reader or data distribution function.  See the package reference manual, as well as the later sections of this vignette for more details.
 \np
-A generic skeleton of what a typical analysis using \pkg{pbdBASE} looks like involves 4 steps (which will be discussed in detail in the sections to follow):
+A generic skeleton of what a typical analysis using \pkg{pbdDMAT} looks like involves 4 steps (which will be discussed in detail in the sections to follow):
 
 \begin{enumerate}
 \item Initialize the process grid. (\code{init.grid()})
@@ -40,7 +40,7 @@ This function should not be called from \code{comm.print()}.  Actually, one of t
 
 Recall that we will very frequently visualize the processors as being in a 2-dimensional processor grid.  This grid is initialized via the function \code{init.grid()}, which accepts the optional arguments \code{nprows=} and \code{npcols=}.  If these are left blank, then a reasonable choice will be made based on the number of available processors.  Here ``reasonable'' means ``as close to square as possible.''  The inspired reader can find more detail within the ScaLAPACK User's Guide~\citep{slug} as to why this is a good choice. (\href{http://www.netlib.org/utk/papers/scalapack/node20.html}{link})
 \np
-To reiterate, in most cases, taking \code{nprow} and \code{npcol} as close to each other as possible is ``sufficiently good''.  Leaving the \code{nprow=} and \code{npcol=} options blank will make this choice for you.  For example, we note that the user should be aware that providing 37 cores to \pkg{pbdDMAT} may not perform as well as providing 36 cores in the form of a $6\times6$ process grid.  There is a strong connection between the process grid and the block-cyclic distribution, which we will discuss further in the following section.
+To reiterate, in most cases, taking \code{nprow} and \code{npcol} as close to each other as possible is ``sufficiently good''.  Leaving the \code{nprow=} and \code{npcol=} options blank will make this choice for you.  For example, we note that the user should be aware that providing 37 cores may not perform as well as providing 36 cores in the form of a $6\times6$ process grid.  There is a strong connection between the process grid and the block-cyclic distribution, which we will discuss further in the following section.
 \np
 Additionally, we note that the \code{init.grid()} function accepts an additional argument \code{ICTXT=}, which we will discuss in Section~\ref{sec:devs}.  This argument is also discussed in detail in the package reference manual.
 
@@ -49,7 +49,9 @@ Additionally, we note that the \code{init.grid()} function accepts an additional
 
 When distributing data, you must use a \emph{blocking factor}.  This is a pair of numbers $(a,b)$, and unless you think you have a great reason to do otherwise, you should have $a=b$.  If you have no intuition, the just make them equal.  The scale of these numbers should generally correspond to the size of your process grid and the scale of the data.  The choice of blocking factor can seriously impact performance, because it is intimately tied to the data distribution.  We will spare the details for the moment, and merely say that the blocking factor constitutes a tradeoff.  Smaller values, down to $(1,1)$, mean that there will be more parallelism in many of the matrix algebra routines but also increase communication costs.  On the other hand, larger values, which could be larger than the dimensions of any one of your matrices, will limit communication between the processors, but naturally also limit the parallelism.
 \np
-A good choice of blocking factor can be difficult, and in the author's opinion, requires some intuition gained through experimentation.  A discussion on this topic can be found in the ScaLAPACK User's Guide.~\citep{slug} (\href{http://www.netlib.org/utk/papers/scalapack/node19.html}{link}) However, we note that \pkg{pbdBASE} defaults to a $4\times 4$ blocking factor, which is probably an acceptable choice if you do not know what else to do.  For monstrously huge matrices, it could be a bit small, and so scaling it up by powers of 2 ($8\times 8$, $16\times 16$, \dots, $256\times 256$) may be warranted.  The blocking does not have to be by power of 2, but this is a convenient way to do business.  The performance-hungry user is encouraged to experiment with various blocking factors across various processor grids with various matrix sizes to develop intuition.
+A good choice of blocking factor can be difficult, and in the author's opinion, requires some intuition gained through experimentation.  A discussion on this topic can be found in the ScaLAPACK User's Guide.~\citep{slug} (\href{http://www.netlib.org/utk/papers/scalapack/node19.html}{link}) However, we note that \pkg{pbdDMAT} defaults to a $4\times 4$ blocking factor, which is probably an acceptable choice if you do not know what else to do.  For very large matrices, this blocking could be a bit small, and so scaling it up by powers of 2 ($8\times 8$, $16\times 16$, \dots, $256\times 256$) may be warranted.  The blocking does not have to be by power of 2, but this is a convenient way to do business.  The performance-hungry user is encouraged to experiment with various blocking factors across various processor grids with various matrix sizes to develop intuition.
+
+
 
 \subsection[]{Reading Data In Parallel}
 \addcontentsline{toc}{subsection}{\thesubsection. Reading Data In Parallel}
@@ -60,3 +62,19 @@ As a general rule, if you are on a smaller system with limited resources, you do
 \np
 Some functions which are useful in this regard are \code{as.ddmatrix()}, \code{distribute()}, and \code{redistribute()}.  See the reference manual for details.
 
+
+
+
+
+\subsection[]{Controlling Defaults}
+\addcontentsline{toc}{subsection}{\thesubsection. Controlling Defaults}
+
+The internal default blocking factor can be modified very simply by modifying the object \code{.BLDIM}.  So for example, if the user wishes to have a default data blocking of $16\times 16$ then it is sufficient to enter the command:
+\begin{lstlisting}[language=rr]
+.BLDIM <- c(16, 16)
+\end{lstlisting}
+
+Similarly, the internal default BLACS context is 0, but it can be controlled by changing the value of the object \code{.ICTXT}.  So if the user wishes to have BLACS context 2 as the default, then he/she need only enter the command:
+\begin{lstlisting}[language=rr]
+.ICTXT <- 2
+\end{lstlisting}

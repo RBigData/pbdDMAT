@@ -44,29 +44,11 @@ mn <- 10
 sdd <- 100
 
 # ScaLAPACK blocking dimension
-bldim <- c(8, 8)
+.BLDIM <- c(8, 8)
 
 # ---------------------------------------------
 # Analysis
 # ---------------------------------------------
-
-# generator
-Hnorm <- function(dim, bldim, mean=0, sd=1, ICTXT=0)
-{
-  ldim <- base.numroc(dim=dim, bldim=bldim, ICTXT=ICTXT, fixme=FALSE)
-    
-  if (any(ldim < 1)){
-    xmat <- matrix(0)
-    ldim <- c(1,1)
-  }
-  else
-    xmat <- matrix(rnorm(prod(ldim), mean=mean, sd=sd), nrow=ldim[1], ncol=ldim[2])
-              
-  dx <- new("ddmatrix", Data=xmat,
-            dim=dim, ldim=ldim, bldim=bldim, CTXT=ICTXT)
-            
-  return(dx)
-}
 
 # timing function
 timer <- function(timed)
@@ -82,7 +64,7 @@ timer <- function(timed)
 
 # generated
 time_data <- timer({
-  x <- Hnorm(dim=c(nrows, ncols), bldim=bldim, mean=mn, sd=sdd, ICTXT=0)
+  x <- ddmatrix("rnorm", nrow=nrows, ncol=ncols, mean=mn, sd=sdd)
 })
 
 barrier()
@@ -97,9 +79,7 @@ comm.print(
   rbind(
     DataGeneration=time_data, 
     PCA=time_pca, 
-    Total=time_pca+time_data
-    ), 
-  quiet=T 
-)
+    Total=time_pca+time_data), 
+  quiet=T)
 
 finalize()

@@ -1,0 +1,43 @@
+\section[]{Classes and Methods}
+% \label{sec:introduction}
+\addcontentsline{toc}{section}{\thesection. Classes and Methods}
+
+\subsection[]{Class ddmatrix}
+\addcontentsline{toc}{subsection}{\thesubsection. Class ddmatrix}
+
+The package \pkg{pbdDMAT} contains one new class, namely the class \code{ddmatrix} which stands for \textbf{d}istributed \textbf{d}ense \textbf{matrix}.  This S4 class serves as a container for a distributed matrix type, consisting of the members:
+
+\begin{align*}
+\text{\code{ddmatrix}}&=\begin{cases}
+ $\textbf{Data}$ & $S4 slot containing the object's submatrix, an R matrix$\\
+ $\textbf{dim}$ & $S4 slot containing the dimension of the global matrix, a numeric pair$\\
+ $\textbf{ldim}$ & $S4 slot containing the dimension of the local submatrix, a numeric pair$\\
+ $\textbf{bldim}$ & $S4 slot containing the ScaLAPACK blocking factor, a numeric pair$\\
+ $\textbf{CTXT}$ & $S4 slot containing the BLACS context, an numeric singleton$
+ \end{cases}
+\end{align*}
+with prototype
+\begin{align*}
+\text{\code{new("ddmatrix")}}&=\begin{cases}
+ $\textbf{Data}$ & =\text{\code{matrix(0.0)}}\\
+ $\textbf{dim}$ & =\text{\code{c(1,1)}}\\
+ $\textbf{ldim}$ & =\text{\code{c(1,1)}}\\
+ $\textbf{bldim}$ & =\text{\code{c(1,1)}}\\
+ $\textbf{CTXT}$ & =0
+ \end{cases}
+\end{align*}
+We will discuss the last two items in more detail in the later sections, particularly Section~\ref{sec:advanced} and Section~\ref{sec:devs}.
+
+
+
+
+\subsection[]{Computational Methods}
+\label{sec:methods}
+\addcontentsline{toc}{subsection}{\thesubsection. Computational Methods}
+
+
+The \pkg{pbdDMAT} package also contains numerous methods for class \code{ddmatrix}, including \code{`[`} for subsetting (with global indices), \code{lm.fit()} for linear models, and numerous others.  These methods, when replicas of serial \proglang{R} functions, have very similar (usually identical) look and feel to their \proglang{R} counterparts.  A complete list can be obtained by opening an interactive \proglang{R} session and entering the command:
+\begin{lstlisting}[language=rr]
+showMethods(class="pbdDMAT::ddmatrix")
+\end{lstlisting} 
+For complete details, see the \pkg{pbdDMAT} reference manual.
