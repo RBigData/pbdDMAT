@@ -7,10 +7,6 @@ In this section, we will discuss the block-cyclic distribution of data across a 
 \subsection[]{Blocking Factor}
 \addcontentsline{toc}{subsection}{\thesubsection. Blocking Factor}
 
-The motivation for the development of \pkg{pbdBASE} was to be able to use ScaLAPACK routines for distributed linear algebra.  The S4 methods which use these routines are in the package \pkg{pbdDMAT}, but all the same, using block-cyclically distributed data is absolutely essential for \pkg{pbdBASE}, since it is essential for ScaLAPACK.  
-\np
-Most of the difficulty in using this type of distributed data has been abstracted away for the user of \pkg{pbdBASE}.  However, you may still find it useful to experiment with a block cyclic data distributor provided by~\citep{web:datadist} to gain some intuition and understanding of how the package is powered underneath, and why a simple \code{read.table()} call will not suffice.
-\np
 The idea is fairly simple, even if the execution can sometimes be cumbersome.  We want to try to evenly balance the data distribution for ``large'' matrices across the process grid, but in a way that is congruent with the natural blocking of matrices when performing LAPACK operations on them.  As the name implies, we imagine taking a large global matrix and chopping it into blocks, and assigning those blocks to the processors in the grid.  The way this is done is far from arbitrary, however.  
 \np
 For simplicity, let us explicitly assume for the moment that we are going to distribute a $9\times 9$ matrix across a $2\times 3$ process grid, using a $2\times 2$ blocking factor.  The above link may be extremely useful to your understanding the following.  For those who flatly refuse to click the link, we can visualize the process as follows.  We can imagine our global matrix (even if we never actually have a globally stored matrix, this is the way we would imagine it in our heads) as looking like:
@@ -135,27 +131,11 @@ Now, the user should never need to develop an algorithm to perform this kind of 
 \np
 Very loosely speaking, parallelism is good and communication is bad, but in practice, we can't really have one without the other.
 
-\subsection[]{Different BLACS Contexts}
+
+
+
+\subsection[]{Managing BLACS Contexts}
 \label{sec:ictxt}
 \addcontentsline{toc}{subsection}{\thesubsection. Different BLACS Contexts}
 
-A very advanced user, perhaps someone already familiar with ScaLAPACK, may wish to be able to use a variety of BLACS contexts.  Herein, we shall discuss in depth the BLACS system and \pkg{pbdBASE}'s relationship with it.
-\np
-Suppose you have $np$ processors.  When a call to \code{init.grid()} is first made, contexts 0, 1, and 2 are created.  These are, respectively, the $P\times Q$ processor grid, where $P=nprows$ and $Q=npcols$ (with an optimal choice made for each of $P$ and $Q$ if the \code{nprows=} and \code{npcols=} arguments are missing), 1 is the $1\times np$ process grid, and 2 is the $np\times 1$ process grid.  For this reason, \textbf{contexts 0, 1, and 2 are reserved}.  Additional contexts can be created via \code{init.grid()} by passing integer values of 3 or greater to the \code{ICTXT=} argument.  The function \code{minctxt()} returns the smallest integer which is not being used as a BLACS context.
-\np
-Throughout \pkg{pbdBASE} (and \pkg{pbdDMAT}), if a function does not accept an argument for BLACS context, you can rest assured that it does not alter context.  However, there are some functions which will implicitly change context, such as \code{na.exclude()}, and some explicitly such as \code{redistribute()}.  For this particular function, the data is redistributed across context 1, because in this distribution, dropping rows (namely those containing \code{NA}'s) does not destroy block-cyclicality.  For this reason, an optional context argument is provided, and the default will simply convert the matrix back to its incoming context (from the slot \code{@CTXT}).
-
-\subsection[]{Exiting BLACS Contexts}
-\label{sec:ictxt}
-\addcontentsline{toc}{subsection}{\thesubsection. Exiting BLACS Contexts}
-
-You can create BLACS contexts, and you can also free them.  To free a particular context, you would use the \code{gridexit()} function.  You can not free contexts 0, 1, or 2, as these are protected values that much of the internals rely on for the vast majority of users.  You can free any other context number, assuming that you created one.
-\np
-You can also shut down all BLACS contexts at once without shutting down all MPI communicators using the \code{blacsexit()} function.  This is automatically called, as necessary, when you call \code{finalize()}, because a failure to shut down all BLACS communicators can result in memory leaks.
-\np
-The names of these functions are the same as the names of the corresponding BLACS routines that they rely on.
-
-
-
-
-
+A very advanced user, perhaps someone already familiar with ScaLAPACK, may wish to be able to use a variety of BLACS contexts.  Both the creation and destruction of BLACS contexts is discussed in detail in the \pkg{pbdBASE} vignette and reference manual, and so the reader should refer to those sources for details.

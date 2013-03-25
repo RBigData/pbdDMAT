@@ -1,5 +1,13 @@
-\section[]{An Example}\label{secex}
-\addcontentsline{toc}{section}{\thesection. An Example}
+\section[]{Examples}\label{sec:eg1}
+\addcontentsline{toc}{section}{\thesection. Examples}
+
+
+
+
+
+
+\subsection[]{Example 1}
+\addcontentsline{toc}{subsection}{\thesubsection. Example 1}
 
 Let's take a look at some example code.  Here, we will do some distributed matrix multiplication, as well as solving some systems of equations.  You probably should not use a large process grid for this problem.  Anything bigger than $8\times 8$ is \emph{massive} overkill.  A $2\times 2$, $2\times 4$, or $4\times 4$ process grid (4, 8, or 16 processes respectively) should be more than plenty --- so a humble laptop or desktop should more than suffice.  You've got to crawl before you can drag race.
 \np
@@ -8,6 +16,7 @@ Throughout, we will preface distributed objects by a $d$, purely for pedagogical
 To convince you that this new stuff is really doing the same things as the old stuff, we are going to randomly generate a $500\times 500$ matrix on process 0, and then distribute that matrix across the process grid, using a $32\times 32$ blocking dimension.  If you are using more than 4 processes, you might consider backing that off to $16\times 16$, but it's not really necessary; remember, the purpose here is to learn.
 
 \begin{lstlisting}[language=rr,title=Generating Test Data]
+library(pbdDMAT, quiet = TRUE)
 init.grid() 
 
 # Number of rows and columns to generate
@@ -35,7 +44,7 @@ db <- as.ddmatrix(x=b, bldim=bldim)
 # continued in the next block of code ...
 \end{lstlisting}
 
-All of this information is covered in the \pkg{pbdBASE} documentation and vignette~\citep{Schmidt2012pbdBASEvignette}, and while all of the above code is in \pkg{pbdBASE}, it is good to go over this process again:
+The basic explanation for what this is doing is:
 \begin{itemize}
  \item \textbf{Load the package} with \code{library(pbdDMAT)}
  \item \textbf{Use \code{init.grid()} to initialize the process grid} and MPI communicator(s).  You can optionally specify \code{nprow=} for the number of process rows here, and \code{npcol=} for the number of process columns.  Not specifying means that the function will choose the ``best'' option for you, meaning a grid that is as close to square as possible for the number of processors you have given it.
@@ -45,9 +54,7 @@ All of this information is covered in the \pkg{pbdBASE} documentation and vignet
 
 Before continuing, it is good to reiterate that this is not an efficient way to do business if you are using many processes.  You need to use multiple processes to either read in the matrix into pieces from disk in parallel, or you need to do random generation in parallel using multiple (perhaps all) processes.
 \np
-Now that we have our data and have dealt with the \pkg{pbdBASE} side of things, it's pure easy street from here.  Now we just forget that there is anything distributed at all going on and write our code exactly as we would with plain, vanilla \proglang{R}.
-\np
-First, we will multiply the transpose of \code{dx} and calculate the inverse of this product, storing the result in \code{dx_inv}.  Finally, we solve the system of equations with two right hand sides \code{dx_inv * solns = db}.
+Now that we have our data in the right format, it's pure easy street from here.  Now we just forget that there is anything distributed at all going on and write our code exactly as we would with plain, vanilla \proglang{R}.  First, we will multiply the transpose of \code{dx} and calculate the inverse of this product, storing the result in \code{dx_inv}.  Finally, we solve the system of equations with two right hand sides \code{dx_inv * solns = db}.
 
 \begin{lstlisting}[language=rr,title=Simple Matrix Operations]
 # Computations in parallel
@@ -77,11 +84,111 @@ if (comm.rank()==0) {
 finalize()
 \end{lstlisting}
 
-The above script is in the \pkg{pbdDMAT} directory, located at \code{inst/examples/dmat_vignette_eg.R}.  To run the code, you would make a batch execution call.  Say you have 4 processors you wish to use for this analysis.  Then you could execute the script via the command:
+The above script is in the \pkg{pbdDMAT} directory, located at \code{inst/examples/pbddmat_example1.R}.  To run the code, you would make a batch execution call.  Say you have 4 processors you wish to use for this analysis.  Then you could execute the script via the command:
 
 \begin{lstlisting}
 # replace the 4 below with hoever many processors you actually want to use
-mpirun -np 4 Rscript dmat_vignette_eg.R
+mpirun -np 4 Rscript pbddmat_example1.R
 \end{lstlisting}
 
 from a terminal.  If everything works correctly, then two \code{TRUE}'s will print to the terminal.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection[]{Example 2}
+\addcontentsline{toc}{subsection}{\thesubsection. Example 2}
+
+First we will generate some data on process 0, or (0,0) using the grid notation.  We will do this using a simple \code{if()} together with the \pkg{pbdMPI} function \code{comm.rank()}, which returns the MPI communicator number for the calling process.  Any process not initially storing any data should store \code{NULL} for the object.  This probably isn't the way you will want to run your production code, especially if you are randomly generating data; in that case, it would be much more efficient to just generate what is needed on each processor.  Although doing this requires that you have access to good seeds for parallel random number generation; for more information, see the documentation on setting seeds via \code{comm.set.seed()} in the \pkg{pbdMPI} package, or for more control, see the \pkg{rlecuyer} or \pkg{rsprng} packages.  
+\np
+There is merit, however, in operating in this way.  This is somewhat like the process necessary for reading in data onto a subset of processors (just 1 if you do not have access to a parallel file system) and then distributing that out to the larger grid, so it is a useful skill.  For more information about this procedure, see Section~\ref{sec:eg2}.
+
+\begin{lstlisting}[language=rr,title=Generating Test Data]
+library(pbdDMAT, quiet = TRUE)
+init.grid()
+
+comm.set.seed(diff=TRUE) # independent RNG streams via rlecuyer
+
+nrows <- ncols <- 10 # generate a 10x10 matrix
+.BLDIM <- 2 # the blocking factor for distribution
+
+
+dx <- ddmatrix("rnorm", mean=10, sd=100, nrow=nrows, ncol=ncols)
+x <- as.matrix(dx) # for confirmation
+
+# continued in the next block of code ...
+\end{lstlisting}
+
+To convince ourselves that the data is distributed, we can inspect the new object in several ways:
+
+\begin{lstlisting}[language=rr,title=Printing the Object]
+print(dx)
+
+comm.print(submatrix(dx))
+
+comm.print(dx)
+ 
+# continued in the next block of code ...
+\end{lstlisting}
+
+Here, \code{print()} is a special method that shows you the slots of your distributed matrix.  The \code{submatrix()} function will show the local submatrix (syntactic sugar for printing \code{dx@Data}).  Use of \pkg{pbdMPI}'s \code{comm.print()} ensures that only process 0 will print the result.  Finally, just using \proglang{R}'s print method on the object in \code{comm.print(dx)} will produce an uglier version of \code{print(dx)} and \code{comm.print(submatrix(dx))}.
+\np
+We can also do insertions and extractions:
+
+\begin{lstlisting}[language=rr,title=Insertion and Extraction]
+dx[1,1] <- NA # insertion indices are global
+comm.print(submatrix(dx)[1,1], all.rank=T) # see?
+
+comm.print(dim(dx))
+dx <- dx[, -2]
+comm.print(dim(dx))
+
+nona <- na.exclude(dx)
+
+# continued in the next block of code ...
+\end{lstlisting}
+
+Finally, we can convert the distributed matrix back into an ordinary \proglang{R} matrix on processor 0.  You probably will not need to do this very often in production code, because in practice, you could be dealing with matrices with so many elements that they will not fit into a single R process.  For testing however, this process can be very useful.  It could also conceivably have utility for dealing with $n\times 1$ matrices.
+
+\begin{lstlisting}[language=rr,title=Insertion and Extraction]
+# convert back
+nona <- as.matrix(nona, proc.dest=0)
+
+# compare our results with R --- notice the syntax is essentially identical
+if (comm.rank()==0){
+  x[1,1] <- NA
+  x <- x[, -2]
+  r_nona <- na.exclude(x)
+  
+  all.equal(r_nona, nona)
+}
+
+finalize()
+\end{lstlisting}
+
+
+In the above script, there is one addition over the previous pieces.  Namely, we include several calls to \code{comm.cat()}.  All this does is demand line breaks (via the regular expression \code{\textbackslash n}) for more human-readable printing.
+\np
+The script file is available in the \pkg{pbdDMAT} directory, under \code{inst/examples/pbddmat_example2.R}, and you can run this script from the command line with the following command:
+
+\begin{lstlisting}
+# replace the 4 below with your number of processors
+mpirun -np 4 Rscript pbddmat_example2.R
+\end{lstlisting}
+
+If you want to ramp up the size of the problem and the number of cores, you may want to change the \code{nrows}, \code{ncols}, and \code{BL} definitions (these are good to experiment with regardless). 

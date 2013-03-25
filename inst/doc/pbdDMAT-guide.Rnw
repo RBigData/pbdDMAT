@@ -72,7 +72,7 @@ Oak Ridge, TN, USA \\
 %\\
 %\today
 }
-\title{A Quick Guide for the \pkg{pbdDMAT} Package}
+\title{Guide to the \pkg{pbdDMAT} Package\\{\large Version 2.0}}
 %\\
 %\vspace{0.2cm} \large (Based on Version 0.1-2)}
 
@@ -142,9 +142,13 @@ Oak Ridge, TN, USA \\
 
 \input{./pbdDMAT-include/00-zzz-abstract.tex}
 \input{./pbdDMAT-include/01-introduction}
-\input{./pbdDMAT-include/02-methods}
-\input{./pbdDMAT-include/03-using}
+\input{./pbdDMAT-include/02-classesnmeths}
+\input{./pbdDMAT-include/03-users}
 \input{./pbdDMAT-include/04-examples}
+\input{./pbdDMAT-include/05-advanced}
+\input{./pbdDMAT-include/06-adveg}
+\input{./pbdDMAT-include/07-developers}
+
 
 \newpage
 \phantomsection
