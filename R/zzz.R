@@ -20,7 +20,8 @@
     library.dynam("pbdSLAP", "pbdSLAP", libname)
   }
 
-  if(! is.loaded("mpi_blacs_initialize")){
+#  if(! is.loaded("mpi_blacs_initialize")){
+  if(! is.loaded("R_blacs_init")){
     library.dynam("pbdBASE", "pbdBASE", libname)
   }
 
