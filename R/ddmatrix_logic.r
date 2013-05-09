@@ -186,6 +186,9 @@ setMethod("<=", signature(e1="ddmatrix", e2="numeric"),
         e1@Data <- out
       }
     }
+    else {
+      e1@Data <- matrix(0.0, 1, 1)
+    }
     return(e1)
   }
 )
