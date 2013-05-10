@@ -24,11 +24,11 @@ setMethod("all", signature(x="ddmatrix"),
   function(x, na.rm=FALSE)
   {
     if (base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT))
-      ret <- base::all(x@Data)
+      ret <- as.integer(base::all(x@Data))
     else
-      ret <- 1
+      ret <- 1L
     
-    ret <- as.logical( pbdMPI::allreduce(ret, op='min') )
+    ret <- as.logical( spmd.allreduce.integer(ret, op='min') )
     
     return(ret)
   }
@@ -38,11 +38,11 @@ setMethod("any", signature(x="ddmatrix"),
   function(x, na.rm=FALSE)
   {
     if (base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT))
-      ret <- base::all(x@Data)
+      ret <- as.integer(base::all(x@Data))
     else
-      ret <- 0
+      ret <- 0L
     
-    ret <- as.logical( pbdMPI::allreduce(ret, op='max') )
+    ret <- as.logical( spmd.allreduce.integer(ret, op='max') )
     
     return(ret)
   }
