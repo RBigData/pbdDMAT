@@ -6,7 +6,9 @@ setMethod("==", signature(e1="ddmatrix", e2="ddmatrix"),
   function(e1, e2)
   {
     base.checkem(x=e1, y=e2, checks=1:3)
-    e1@Data <- e1@Data == e2@Data
+    if (base.ownany(dim=e1@dim, bldim=e1@bldim, ICTXT=e1@ICTXT))
+      e1@Data <- e1@Data == e2@Data
+    
     return( e1 )
   }
 ) 
@@ -15,7 +17,9 @@ setMethod("!=", signature(e1="ddmatrix", e2="ddmatrix"),
   function(e1, e2)
   {
     base.checkem(x=e1, y=e2, checks=1:3)
-    e1@Data <- e1@Data != e2@Data
+    if (base.ownany(dim=e1@dim, bldim=e1@bldim, ICTXT=e1@ICTXT))
+      e1@Data <- e1@Data != e2@Data
+    
     return( e1 )
   }
 ) 
@@ -52,7 +56,9 @@ setMethod("<", signature(e1="ddmatrix", e2="ddmatrix"),
   function(e1, e2)
   {
     base.checkem(x=e1, y=e2, checks=1:3)
-    e1@Data <- e1@Data < e2@Data
+    if (base.ownany(dim=e1@dim, bldim=e1@bldim, ICTXT=e1@ICTXT))
+      e1@Data <- e1@Data < e2@Data
+    
     return(e1)
   }
 ) 
@@ -61,7 +67,9 @@ setMethod(">", signature(e1="ddmatrix", e2="ddmatrix"),
   function(e1, e2)
   {
     base.checkem(x=e1, y=e2, checks=1:3)
-    e1@Data <- e1@Data > e2@Data
+    if (base.ownany(dim=e1@dim, bldim=e1@bldim, ICTXT=e1@ICTXT))
+      e1@Data <- e1@Data > e2@Data
+    
     return(e1)
   }
 ) 
@@ -70,7 +78,9 @@ setMethod("<=", signature(e1="ddmatrix", e2="ddmatrix"),
   function(e1, e2)
   {
     base.checkem(x=e1, y=e2, checks=1:3)
-    e1@Data <- e1@Data <= e2@Data
+    if (base.ownany(dim=e1@dim, bldim=e1@bldim, ICTXT=e1@ICTXT))
+      e1@Data <- e1@Data <= e2@Data
+    
     return(e1)
   }
 ) 
@@ -79,7 +89,9 @@ setMethod(">=", signature(e1="ddmatrix", e2="ddmatrix"),
   function(e1, e2)
   {
     base.checkem(x=e1, y=e2, checks=1:3)
-    e1@Data <- e1@Data >= e2@Data
+    if (base.ownany(dim=e1@dim, bldim=e1@bldim, ICTXT=e1@ICTXT))
+      e1@Data <- e1@Data >= e2@Data
+    
     return(e1)
   }
 ) 
@@ -88,7 +100,9 @@ setMethod("|", signature(e1="ddmatrix", e2="ddmatrix"),
   function(e1, e2)
   {
     base.checkem(x=e1, y=e2, checks=1:3)
-    e1@Data <- e1@Data | e2@Data
+    if (base.ownany(dim=e1@dim, bldim=e1@bldim, ICTXT=e1@ICTXT))
+      e1@Data <- e1@Data | e2@Data
+    
     return( e1 )
   }
 ) 
@@ -97,7 +111,9 @@ setMethod("&", signature(e1="ddmatrix", e2="ddmatrix"),
   function(e1, e2)
   {
     base.checkem(x=e1, y=e2, checks=1:3)
-    e1@Data <- e1@Data & e2@Data
+    if (base.ownany(dim=e1@dim, bldim=e1@bldim, ICTXT=e1@ICTXT))
+      e1@Data <- e1@Data & e2@Data
+    
     return( e1 )
   }
 ) 

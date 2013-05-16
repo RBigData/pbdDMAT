@@ -20,8 +20,10 @@ setMethod("apply", signature(X="ddmatrix"),
       # agreement occurs for ICTXT=1/MARGIN=2, and vice versa,
     # Row margin
     if (MARGIN==1){
-      if (X@ICTXT!=2)
-        X <- dmat.reblock(dx=X, bldim=X@bldim/2, ICTXT=2)
+      if (X@ICTXT!=2){
+        fudge <- max(floor(X@bldim/base.blacs(X@ICTXT)$NPCOLS), 1)
+        X <- dmat.reblock(dx=X, bldim=fudge, ICTXT=2)
+      }
       
       tmp <- apply(X@Data, MARGIN=1, FUN=FUN)
       

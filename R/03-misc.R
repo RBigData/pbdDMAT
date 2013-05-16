@@ -18,6 +18,8 @@ base.dropper <- function(x, oldbldim, iorj, ij, ICTXT)
 #      bldim <- c(ceiling(bldim[1] / blacs_$NPROW), dim(x)[2])
   
     newObj <- dmat.reblock(dx=x, bldim=bldim, ICTXT)
+  } else {
+    newObj <- x
   }
   
   if (iorj=='i'){ # rows

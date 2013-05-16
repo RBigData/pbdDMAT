@@ -54,12 +54,12 @@ dmat.blacsreduction <- function(x, SCOPE, op, ICTXT, proc.dest=-1, check=TRUE)
     
     if (dm > 0 || dn > 0){
       dim(x) <- NULL
-    
-    if (is.integer(x))
-      nd <- 0L
-    else
-      nd <- 0.0
-    
+      
+      if (is.integer(x))
+        nd <- 0L
+      else
+        nd <- 0.0
+      
       x <- c(x, rep(nd, prod(mx)-(m*n)))
       m <- mx[1L]
       n <- mx[2L]
