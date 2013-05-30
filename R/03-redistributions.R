@@ -53,10 +53,12 @@ dmat.redistribute <- dmat.reblock
 redistribute <- dmat.redistribute
 
 
+
+
 ### Simple interfaces
 
 # cyclic
-dmat.as.rowcyclic <- function(dx, bldim=dx@bldim)
+dmat.as.rowcyclic <- function(dx, bldim=.BLDIM)
 {
   if (dx@ICTXT == 2 && all(dx@bldim == bldim))
     return(dx)
@@ -67,7 +69,7 @@ dmat.as.rowcyclic <- function(dx, bldim=dx@bldim)
 }
 
 
-dmat.as.colcyclic <- function(dx, bldim=dx@bldim)
+dmat.as.colcyclic <- function(dx, bldim=.BLDIM)
 {
   if (dx@ICTXT == 1 && all(dx@bldim == bldim))
     return(dx)
@@ -81,6 +83,17 @@ as.rowcyclic <- dmat.as.rowcyclic
 as.colcyclic <- dmat.as.colcyclic
 
 
+# block-cyclic
+dmat.as.blockcyclic <- function(dx, bldim=.BLDIM)
+{
+  if (dx@ICTXT == 0L && all(dx@bldim == bldim))
+    return(dx)
+  else
+    ret <- dmat.reblock(dx=dx, bldim=bldim, ICTXT=0L)
+}
+
+as.blockcyclic <- dmat.as.blockcyclic
+
 
 # block
 dmat.as.block <- function(dx, square.bldim=TRUE)
@@ -90,7 +103,7 @@ dmat.as.block <- function(dx, square.bldim=TRUE)
   procs <- c(blacs_$NPROW, blacs_$NPCOL)
   
   if (square.bldim)
-    new.bldim <- rep(max(sapply(1L:2L, function(i) ceiling(dx@dim[i]/procs[i]))), 2)
+    new.bldim <- rep(max(sapply(1L:2L, function(i) ceiling(dx@dim[i]/procs[i]))), 2L)
   else
     new.bldim <- sapply(1L:2L, function(i) ceiling(dx@dim[i]/procs[i]))
   
@@ -105,7 +118,7 @@ as.block <- dmat.as.block
 
 dmat.as.rowblock <- function(dx)
 {
-  new.bldim <- sapply(1L:2L, function(i) ceiling(dx@dim[i]/comm.size()))
+  new.bldim <- rep(ceiling(dx@dim[1L]/comm.size()), 2L)
   
   if (dx@ICTXT == 2 && all(dx@bldim == new.bldim))
     return(dx)
@@ -115,7 +128,7 @@ dmat.as.rowblock <- function(dx)
 
 dmat.as.colblock <- function(dx)
 {
-  new.bldim <- sapply(1L:2L, function(i) ceiling(dx@dim[i]/comm.size()))
+  new.bldim <- rep(ceiling(dx@dim[2L]/comm.size()), 2L)
   
   if (dx@ICTXT == 1 && all(dx@bldim == new.bldim))
     return(dx)

@@ -6,6 +6,7 @@
 \alias{as.colblock}
 \alias{as.rowcyclic}
 \alias{as.colcyclic}
+\alias{as.blockcyclic}
 
 \title{ Distribute/Redistribute matrices across the process grid }
 \description{
@@ -17,8 +18,9 @@
   as.block(dx, square.bldim = TRUE)
   as.rowblock(dx)
   as.colblock(dx)
-  as.rowcyclic(dx, bldim = dx@bldim)
-  as.colcyclic(dx, bldim = dx@bldim)
+  as.rowcyclic(dx, bldim = .BLDIM)
+  as.colcyclic(dx, bldim = .BLDIM)
+  as.blockcyclic(dx, bldim = .BLDIM)
 }
 \arguments{
   \item{dx}{numeric distributed matrix}
@@ -46,21 +48,29 @@
   \code{as.rowblock()} will convert a distributed matrix into one which
   is distributed by row into a block distributed matrix.  That is, the 
   rows are stored contiguously, and different processors will own different
-  rows, but with no cycling.
+  rows, but with no cycling.  In other words, it block redistributes the data 
+  across context 2.
   
   \code{as.colblock()} is the column-wise analogue of \code{as.rowblock()}.
+  In other words, it block redistributes the data across context 1.
   
   \code{as.rowcyclic()} is a slightly more general version of \code{as.rowblock()},
   in that the data will be distributed row-wise, but with the possibility
-  of cycling, as determined by the blocking factor.
+  of cycling, as determined by the blocking factor.  In other words it
+  block-cyclically redistributes the data across context 2.
   
   \code{as.colcyclic()} is a the column-wise analogue of \code{as.rowcyclic()}.
+  In other words, it block-cyclically redistributes the data across context 1.
+  
+  \code{as.blockcyclic()} moves the distributed matrix into a general block-cyclic
+  distribution across a 2-dimensional process grid.  In other words, it
+  block-cyclically redistributes the data across context 0.
 }
 \value{
   Returns a distributed matrix.
 }
 \seealso{
-  \code{\link{as.ddmatrix}, \link{Distribute},  \link{BLACS}}
+  \code{\link{as.ddmatrix}, \link{Distribute}, \link{BLACS}}
 }
 \examples{
 \dontrun{
@@ -85,6 +95,9 @@ x <- as.rowcyclic(dx)
 x
 
 x <- as.colcyclic(dx)
+x
+
+x <- as.blockcyclic(dx)
 x
 
 finalize()

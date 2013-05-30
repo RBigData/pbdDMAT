@@ -82,6 +82,7 @@ export(
   redistribute,
   as.rowcyclic,
   as.colcyclic,
+  as.blockcyclic,
   as.block,
   as.rowblock,
   as.colblock
