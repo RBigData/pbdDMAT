@@ -58,6 +58,10 @@ export(
   colSums, 
   rowMeans, 
   colMeans,
+  rowMin,
+  colMin,
+  rowMax,
+  colMax,
   # Misc
   as.matrix, 
   ownany, 
@@ -74,7 +78,13 @@ export(
   "[", 
   "[<-", 
   distribute, 
-  redistribute
+  # redistributions
+  redistribute,
+  as.rowcyclic,
+  as.colcyclic,
+  as.block,
+  as.rowblock,
+  as.colblock
 )
 
 exportMethods(
@@ -82,6 +92,10 @@ exportMethods(
   "apply", 
   "scale", 
   "sweep",
+  "rowMin",
+  "colMin",
+  "rowMax",
+  "colMax",
   "qr", 
   "qr.Q", 
   "qr.R", 
@@ -122,6 +136,7 @@ exportMethods(
   "rbind", 
   "cbind",
   "print",
+  "show",
   "cov", 
   "cor", 
   "cov2cor", 

@@ -1,7 +1,9 @@
 \name{Distribute}
+
 \alias{Distribute}
 \alias{distribute}
 \alias{redistribute}
+
 \title{ Distribute/Redistribute matrices across the process grid }
 \description{
   Takes either an R matrix and distributes it as a distributed matrix,
@@ -51,6 +53,10 @@
   least one process in common. Likewise for \code{redistribute()} with 
   \code{xCTXT} and \code{ICTXT}.
   
+  Very general redistributions can be done with \code{redistribute()}, but
+  thinking in these terms is an acquired skill.  For this reason, several
+  simple interfaces to this function have been written.  See \link{SimpleRedistributions}
+  for details.
 }
 \value{
   Returns a distributed matrix.

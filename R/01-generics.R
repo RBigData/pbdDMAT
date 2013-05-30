@@ -67,6 +67,29 @@ setGeneric(name = "colSums", useAsDefault = base::colSums, package="pbdDMAT")
 setGeneric(name = "rowMeans", useAsDefault = base::rowMeans, package="pbdDMAT")
 setGeneric(name = "colMeans", useAsDefault = base::colMeans, package="pbdDMAT")
 
+setGeneric(name="rowMin", 
+  function(x, ...)
+    standardGeneric("rowMin"),
+  package="pbdDMAT"
+)
+
+setGeneric(name="rowMax", 
+  function(x, ...)
+    standardGeneric("rowMax"),
+  package="pbdDMAT"
+)
+
+setGeneric(name="colMin", 
+  function(x, ...)
+    standardGeneric("colMin"),
+  package="pbdDMAT"
+)
+
+setGeneric(name="colMax", 
+  function(x, ...)
+    standardGeneric("colMax"),
+  package="pbdDMAT"
+)
 
 
 # Algebra
@@ -183,6 +206,12 @@ setGeneric("submatrix<-",
 setGeneric(name="ldim", 
   function(x, ...) 
     standardGeneric("ldim"), 
+  package="pbdDMAT"
+)
+
+setGeneric(name="llen", 
+  function(x, ...) 
+    standardGeneric("llen"), 
   package="pbdDMAT"
 )
 

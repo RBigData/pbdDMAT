@@ -28,7 +28,6 @@ setMethod("t", signature(x="ddmatrix"),
 
 
 
-
 dmat.ddmatmult <- function(x, y, outbldim=x@bldim)
 {
   if (!is.ddmatrix(x) || !is.ddmatrix(y))
@@ -64,7 +63,6 @@ setMethod("%*%", signature(x="ddmatrix", y="ddmatrix"),
 
 
 
-
 dmat.crossprod <- function(trans, x)
 {
   ICTXT <- x@ICTXT
@@ -93,6 +91,8 @@ dmat.crossprod <- function(trans, x)
   return( c )
 }
 
+
+
 setMethod("crossprod", signature(x="ddmatrix", y="ANY"), 
   function(x, y = NULL)
   {
@@ -115,6 +115,7 @@ setMethod("crossprod", signature(x="ddmatrix", y="ANY"),
     }
   }
 )
+
 
 
 setMethod("tcrossprod", signature(x="ddmatrix", y="ANY"), 
@@ -141,6 +142,7 @@ setMethod("tcrossprod", signature(x="ddmatrix", y="ANY"),
 )
 
 
+
 # inversion
 setMethod("solve", signature(a="ddmatrix"), 
   function(a)
@@ -159,6 +161,8 @@ setMethod("solve", signature(a="ddmatrix"),
     return(a)
   }
 )
+
+
 
 # inversion via a cholesky, or inversion of crossprod(x) via qr
 setMethod("chol2inv", signature(x="ddmatrix"), 
@@ -188,12 +192,13 @@ setMethod("chol2inv", signature(x="ddmatrix"),
   }
 )
 
+
+
 # ################################################
 # ------------------------------------------------
 # Solving systems
 # ------------------------------------------------
 # ################################################
-
 
 setMethod("solve", signature(a="ddmatrix", b="ddmatrix"), 
   function(a, b)
@@ -214,6 +219,7 @@ setMethod("solve", signature(a="ddmatrix", b="ddmatrix"),
     return( b )
   }
 )
+
 
 
 # ################################################
@@ -286,6 +292,7 @@ dmat.svd <- function(x, nu, nv, inplace=FALSE)
 }
 
 
+
 setMethod("La.svd", signature(x="ddmatrix"), 
   function(x, nu=min(n, p), nv=min(n, p)) #, ..., inplace=FALSE)
   {
@@ -297,6 +304,7 @@ setMethod("La.svd", signature(x="ddmatrix"),
     return( ret )
   }
 )
+
 
 
 setMethod("svd", signature(x="ddmatrix"), 
@@ -314,6 +322,7 @@ setMethod("svd", signature(x="ddmatrix"),
     return( ret )
   }
 )
+
 
 
 setMethod("chol", signature(x="ddmatrix"), 
@@ -339,6 +348,7 @@ setMethod("chol", signature(x="ddmatrix"),
 )
 
 
+
 setMethod("lu", signature(x="ddmatrix"), 
   function(x)
   {
@@ -351,6 +361,8 @@ setMethod("lu", signature(x="ddmatrix"),
     return( x )
   }
 )
+
+
 
 setMethod("eigen", signature(x="ddmatrix"), 
   function(x, symmetric, only.values = FALSE)
@@ -374,6 +386,8 @@ setMethod("eigen", signature(x="ddmatrix"),
     return( out )
   }
 )
+
+
 
 # ---------------------------------------------------------
 # QR stuff no one will ever use
@@ -470,6 +484,8 @@ dmat.qr.R <- function(qr, complete=FALSE)
   return(ret)
 }
 
+
+
 setMethod("qr.R", signature(x="ANY"), 
   function(x, complete = FALSE) 
   {
@@ -517,6 +533,7 @@ setMethod("qr.qy", signature(x="ANY"),
 )
 
 
+
 setMethod("qr.qty", signature(x="ANY"), 
   function(x, y)
   {
@@ -546,6 +563,8 @@ setMethod("qr.qty", signature(x="ANY"),
   }
 )
 
+
+
 # ################################################
 # ------------------------------------------------
 # Auxillary
@@ -564,6 +583,8 @@ setMethod("isSymmetric", signature(object="ddmatrix"),
   }
 )
 
+
+
 setMethod("norm", signature(x="ddmatrix"), 
   function (x, type = c("O", "I", "F", "M", "2")) 
   {
@@ -581,7 +602,6 @@ setMethod("norm", signature(x="ddmatrix"),
     return( ret )
   }
 )
-
 
 
 
@@ -609,11 +629,15 @@ setMethod("norm", signature(x="ddmatrix"),
   }
 }
 
+
+
 kappa.qr2 <- function (z, ...) 
 {
     R <- qr.R(z, complete=FALSE)
     .kappa_tri2(R, ...)
 }
+
+
 
 kappa.ddmatrix <- function (z, exact = FALSE, norm = NULL, method = c("qr", "direct"), ...) 
 {
@@ -637,6 +661,7 @@ kappa.ddmatrix <- function (z, exact = FALSE, norm = NULL, method = c("qr", "dir
       .kappa_tri2(z, exact = FALSE, norm = norm, ...)
   }
 }
+
 
 
 setMethod("rcond", signature(x="ddmatrix"),

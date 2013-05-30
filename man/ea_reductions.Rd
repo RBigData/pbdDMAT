@@ -42,6 +42,22 @@
 \alias{max,ddmatrix-method}
 \alias{max}
 
+\alias{rowMin-method}
+\alias{rowMin,ddmatrix-method}
+\alias{rowMin}
+
+\alias{rowMax-method}
+\alias{rowMax,ddmatrix-method}
+\alias{rowMax}
+
+\alias{colMin-method}
+\alias{colMin,ddmatrix-method}
+\alias{colMin}
+
+\alias{colMax-method}
+\alias{colMax,ddmatrix-method}
+\alias{colMax}
+
 \title{ Arithmetic Reductions: Sums, Means, and Prods }
 \description{
   Arithmetic reductions for distributed matrices.
@@ -62,6 +78,10 @@
   \S4method{colMeans}{ddmatrix}(x, na.rm = FALSE)
   \S4method{min}{ddmatrix}(x, na.rm = FALSE)
   \S4method{max}{ddmatrix}(x, na.rm = FALSE)
+  \S4method{rowMin}{ddmatrix}(x, na.rm = FALSE)
+  \S4method{colMin}{ddmatrix}(x, na.rm = FALSE)
+  \S4method{rowMax}{ddmatrix}(x, na.rm = FALSE)
+  \S4method{colMax}{ddmatrix}(x, na.rm = FALSE)
 }
 \arguments{
   \item{x}{numeric distributed matrix}
@@ -70,8 +90,17 @@
   \item{...}{additional arguments}
 }
 \details{
-  Performs the reduction operation on a distributed
-  matrix.
+  Performs the reduction operation on a distributed matrix.
+  
+  There are four legitimately new operations, namely \code{rowMin()},
+  \code{rowMax()}, \code{colMin()}, and \code{colMax()}.  These
+  implementations are not really necessary in R because one can
+  easily (and reasonably efficiently) do something like
+  
+  \code{apply(X=x, MARGIN=1L, FUN=min, na.rm=TRUE)}
+  
+  But \code{apply()} on a \code{ddmatrix} is \emph{very} costly, and
+  should be used sparingly.
 }
 \value{
   Returns a global numeric vector.

@@ -151,6 +151,7 @@ setMethod("[", signature(x="ddmatrix"),
 )
 
 
+# `[`
 setReplaceMethod("[", signature(x ="ddmatrix", value="ANY"),
   function(x, i, j, ..., value) 
   {
@@ -171,12 +172,13 @@ setReplaceMethod("[", signature(x ="ddmatrix", value="ANY"),
   }
 )
 
-#
+
+# `[<-`
 setReplaceMethod("[", signature(x ="ddmatrix", value="ddmatrix"),
   function(x, i, j, ..., value) 
   {
-#    if (missing(i) && missing(j))
-#      comm.stop("incorrect number of subscripts")
+    if (missing(i) && missing(j))
+      return(x)
     if (missing(i)){
       lv <- as.integer(value@dim[2L])
       if (length(j) %% lv != 0)
@@ -207,8 +209,6 @@ setReplaceMethod("[", signature(x ="ddmatrix", value="ddmatrix"),
         ret@Data <- out
       }
     }
-    else
-      comm.stop("can't do this yet")
     
     return( ret )
   }
@@ -291,6 +291,11 @@ setMethod("print", signature(x="ddmatrix"),
   }
 )
 
+setMethod("show", signature(object="ddmatrix"),
+  function(object)
+    print(object)
+)
+
 # -------------------
 # Dimensions
 # -------------------
@@ -339,8 +344,8 @@ setMethod("ldim", signature(x="ddmatrix"),
 
 dmat.bldim <- function(x)
 {
-  if (!is.ddmatrix(x))
-    comm.stop("Not a distributed matrix")
+  if (!is.ddmatrix(x) && !is.ddvector(x))
+    comm.stop("'bldim' only applies objects of class 'ddmatrix' and 'ddvector'")
   else
     return(x@bldim)
 }
@@ -363,8 +368,8 @@ setMethod("submatrix", signature(x="ddmatrix"),
 
 dmat.ictxt <- function(x)
 {
-  if (!is.ddmatrix(x))
-    comm.stop("Not a distributed matrix")
+  if (!is.ddmatrix(x) && !is.ddvector(x))
+    comm.stop("'ICTXT' only applies objects of class 'ddmatrix' and 'ddvector'")
   else
     return(x@ICTXT)
 }

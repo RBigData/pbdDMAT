@@ -41,6 +41,20 @@
 
 
 \alias{diag,matrix-method}
+\alias{rowMin,matrix-method}
+\alias{colMin,matrix-method}
+\alias{rowMax,matrix-method}
+\alias{colMax,matrix-method}
+
+\alias{dmat.as.block}
+\alias{dmat.as.rowblock}
+\alias{dmat.as.colblock}
+\alias{dmat.as.rowcyclic}
+\alias{dmat.as.colcyclic}
+\alias{dmat.rcminmax}
+
+
+\alias{show,ddmatrix-method}
 
 
 \alias{svd,ANY-method}

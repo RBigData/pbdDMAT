@@ -71,69 +71,6 @@ dropper <- base.dropper
 
 
 
-# redistribute data from one BC type to another
-dmat.reblock <- function(dx, bldim=dx@bldim, ICTXT=.ICTXT)
-{
-  if (length(bldim)==1)
-    bldim <- rep(bldim, 2)
-  
-  dim <- dx@dim
-  m <- dim[1]
-  n <- dim[2]
-  xattrs <- attributes(dx@Data)
-  
-  ldimB <- base.numroc(dim=dim, bldim=bldim, ICTXT=ICTXT)
-  TldimB <- ldimB # true ldimB
-  
-  # lda's of 1 infuriate pdgemr2d
-  mxx <- pbdMPI::allreduce(max(dx@ldim), op='max')
-  mxb <- pbdMPI::allreduce(max(ldimB), op='max')
-  
-  if (all(dx@ldim==1))
-    dx@ldim[1] <- mxx
-  if (all(ldimB==1))
-    ldimB[1] <- mxb
-  
-#  if (pbdMPI::allreduce(dx@ldim[1], op='max')==1 && dx@dim[1]>1)
-#    dx@ldim[1] <- mxx
-#  if (pbdMPI::allreduce(ldimB[1], op='max')==1)
-#    ldimB[1] <- mxb
-  
-  descx <- base.descinit(dim=dim, bldim=dx@bldim, ldim=dx@ldim, ICTXT=dx@ICTXT)
-  descy <- base.descinit(dim=dim, bldim=bldim, ldim=ldimB, ICTXT=ICTXT)
-  
-  dy <- new("ddmatrix", Data=matrix(0.0, 1, 1), dim=dim, ldim=TldimB, bldim=bldim, ICTXT=ICTXT)
-  
-  if (!is.double(dx@Data))
-    storage.mode(dx@Data) <- "double"
-  
-  ret <- base.rpdgemr2d(x=dx@Data, descx=descx, descy=descy)
-  
-  dy@Data <- ret
-  
-  if (length(xattrs) > 1){
-    xattrs$dim <- dy@ldim
-    attributes(dy@Data) <- xattrs
-  }
-  
-  
-  return( dy )
-}
-
-reblock <- dmat.reblock
-
-
-dmat.redistribute <- function(dx, bldim=dx@bldim, ICTXT=.ICTXT)
-{
-#  if (dx@ICTXT != ICTXT)
-  ret <- dmat.reblock(dx=dx, bldim=bldim, ICTXT=ICTXT)
-  
-  return( ret )
-}
-
-redistribute <- dmat.redistribute
-
-
 #---------------------------------------------
 # *bind functions
 #---------------------------------------------
