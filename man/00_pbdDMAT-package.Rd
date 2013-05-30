@@ -22,6 +22,8 @@
 }
 \author{
   Drew Schmidt \email{schmidt AT math.utk.edu}, Wei-Chen Chen,
-  George Ostrouchov, and Pragneshkumar Patel.
+  George Ostrouchov, and Pragneshkumar Patel, with contributions
+  from R Core team (some wrappers taken from the base and stats 
+  packages).
 }
 \keyword{Package}

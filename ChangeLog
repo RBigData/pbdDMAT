@@ -1,3 +1,8 @@
+2013-5-30:
+  * Added rowMin(), colMin(), rowMax(), and colMax() methods.
+  * Added as.block(), as.rowblock(), as.colblock(), as.rowcyclic(), 
+    as.colcyclic(), and as.blockcyclic() redistribution methods.
+
 2013-5-24:
   * Added experimental ddvector class.
 

@@ -9,12 +9,14 @@ LazyData: yes
 Authors@R: c(person("Drew", "Schmidt", role = c("aut", "cre"), email =
         "schmidt@math.utk.edu"), person("Wei-Chen", "Chen", role =
         "aut"), person("George", "Ostrouchov", role = "aut"),
-        person("Pragneshkumar", "Patel", role = "aut"))
+        person("Pragneshkumar", "Patel", role = "aut"), 
+        person("R Core team", role = "ctb", comment = "some wrappers
+        taken from the base and stats packages"))
 Description: pbdDMAT contains high level S3 and S4 methods for creating,
         modifying, and performing computations with dense, distributed 
-		matrices. This includes a new class, 'ddmatrix', for storing all 
-		of the distributed data details.  Computation is handled mostly 
-		by routines from the pbdBASE package.
+        matrices. This includes a new class, 'ddmatrix', for storing all 
+        of the distributed data details.  Computation is handled mostly 
+        by routines from the pbdBASE package.
 SystemRequirements: OpenMPI (>= 1.5.4) on Solaris, Linux and Mac,
         MPICH2 (>= 1.4.1p1) on Windows
 License: GPL (>= 2)
@@ -26,5 +28,6 @@ Packaged: 2012-12-18 04:45:42 UTC; snoweye
 Author: Drew Schmidt [aut, cre],
   Wei-Chen Chen [aut],
   George Ostrouchov [aut],
-  Pragneshkumar Patel [aut]
+  Pragneshkumar Patel [aut],
+  R Core team [ctb]
 Maintainer: Drew Schmidt <schmidt@math.utk.edu>
