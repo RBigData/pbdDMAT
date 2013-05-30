@@ -47,7 +47,7 @@ dmat.blacsreduction <- function(x, SCOPE, op, ICTXT, proc.dest=-1, check=TRUE)
     if (SCOPE=='All')
       mx <- allreduce(c(m,n), op='max')
     else
-      mx <- base.igamx2d(ICTXT=ICTXT, SCOPE=SCOPE, m=2, n=1, x=c(m,n), lda=2, RDEST=-1, CDEST=-1)
+      mx <- base.igamx2d(ICTXT=ICTXT, SCOPE=SCOPE, m=2L, n=1L, x=c(m,n), lda=2, RDEST=-1, CDEST=-1)
     
     dm <- mx[1L] - m
     dn <- mx[2L] - n
@@ -80,7 +80,10 @@ dmat.blacsreduction <- function(x, SCOPE, op, ICTXT, proc.dest=-1, check=TRUE)
       out <- base.dgamx2d(ICTXT=ICTXT, SCOPE=SCOPE, m=m, n=n, x=x, lda=m, RDEST=rdest, CDEST=cdest)
   }
   else if (op == 'min'){
-    out <- base.dgamn2d(ICTXT=ICTXT, SCOPE=SCOPE, m=m, n=n, x=x, lda=m, RDEST=rdest, CDEST=cdest)
+    if (is.integer(x))
+      out <- base.igamn2d(ICTXT=ICTXT, SCOPE=SCOPE, m=m, n=n, x=x, lda=m, RDEST=rdest, CDEST=cdest)
+    else
+      out <- base.dgamn2d(ICTXT=ICTXT, SCOPE=SCOPE, m=m, n=n, x=x, lda=m, RDEST=rdest, CDEST=cdest)
   }
   else 
     comm.stop("ERROR : invalid argument 'op'")
@@ -153,8 +156,8 @@ dmat.rcsum <- function(x, na.rm=FALSE, SCOPE, MEAN=FALSE)
   }
   
   
-  if (!is.double(Data))
-    storage.mode(Data) <- "double"
+#  if (!is.double(Data))
+#    storage.mode(Data) <- "double"
   
   out <- dmat.blacsreduction(x=Data, SCOPE=SCOPE, op='sum', ICTXT=x@ICTXT, proc.dest=-1)
   
@@ -188,9 +191,43 @@ dmat.rcminmax <- function(x, na.rm=FALSE, SCOPE, op)
       n <- ncol(Data)
   }
   
+  # have to account for possible lack of ownership
+  if (SCOPE=='All')
+    mx <- allreduce(dim(Data), op='max')
+  else
+    mx <- base.igamx2d(ICTXT=x@ICTXT, SCOPE=SCOPE, m=2L, n=1L, x=dim(Data), lda=2, RDEST=-1, CDEST=-1)
+  
+  m <- dim(x@Data)[1L]
+  n <- dim(x@Data)[2L]
+  
+  dm <- mx[1L] - m
+  dn <- mx[2L] - n
   
   if (!is.double(Data))
     storage.mode(Data) <- "double"
+  
+  iown <- base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT)
+  
+  if (op=='min')
+    nd <- allreduce(max(Data), op='max')
+  else if (op=='max')
+    nd <- allreduce(min(Data), op='min')
+  
+  if (dm > 0 || dn > 0 || !iown){
+    dim(Data) <- NULL
+    
+#    if (op=='min')
+#      nd <- Inf
+#    else if (op=='max')
+#      nd <- -Inf
+    
+    if(!iown)
+      Data <- rep(nd, prod(mx))
+    else
+      Data <- c(Data, rep(nd, prod(mx)-(m*n)))
+    
+    dim(Data) <- mx
+  }
   
   out <- dmat.blacsreduction(x=Data, SCOPE=SCOPE, op=op, ICTXT=x@ICTXT, proc.dest=-1)
   
@@ -253,7 +290,7 @@ setMethod("colMeans", signature(x="ddmatrix"),
 # rowMin
 setMethod("rowMin", signature(x="ddmatrix"), 
   function(x, na.rm=FALSE){
-    Data <- dmat.rcminmax(x, na.rm=na.rm, SCOPE='Row', op='min')
+    Data <- dmat.rcminmax(x=x, na.rm=na.rm, SCOPE='Row', op='min')
     
     z <- new("ddmatrix", Data=Data, dim=c(x@dim[1L], 1L), ldim=c(length(x@Data), 1L), bldim=x@bldim) 
     
@@ -270,7 +307,7 @@ setMethod("rowMin", signature(x="matrix"),
 # colMin
 setMethod("colMin", signature(x="ddmatrix"), 
   function(x, na.rm=FALSE){
-    Data <- dmat.rcminmax(x, na.rm=na.rm, SCOPE='Col', op='min')
+    Data <- dmat.rcminmax(x=x, na.rm=na.rm, SCOPE='Col', op='min')
     
     z <- new("ddmatrix", Data=Data, dim=c(1L, x@dim[2L]), ldim=c(1L,length(x@Data)), bldim=x@bldim) 
     
@@ -288,7 +325,7 @@ setMethod("colMin", signature(x="matrix"),
 # rowMax
 setMethod("rowMax", signature(x="ddmatrix"), 
   function(x, na.rm=FALSE){
-    Data <- dmat.rcminmax(x, na.rm=na.rm, SCOPE='Row', op='max')
+    Data <- dmat.rcminmax(x=x, na.rm=na.rm, SCOPE='Row', op='max')
     
     z <- new("ddmatrix", Data=Data, dim=c(x@dim[1L], 1L), ldim=c(length(x@Data), 1L), bldim=x@bldim) 
     
@@ -306,7 +343,7 @@ setMethod("rowMax", signature(x="matrix"),
 # colMin
 setMethod("colMax", signature(x="ddmatrix"), 
   function(x, na.rm=FALSE){
-    Data <- dmat.rcminmax(x, na.rm=na.rm, SCOPE='Col', op='max')
+    Data <- dmat.rcminmax(x=x, na.rm=na.rm, SCOPE='Col', op='max')
     
     z <- new("ddmatrix", Data=Data, dim=c(1L, x@dim[2L]), ldim=c(1L,length(x@Data)), bldim=x@bldim) 
     
