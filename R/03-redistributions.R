@@ -2,6 +2,9 @@
 # redistribute data from one context and/or blocking factor to another
 dmat.reblock <- function(dx, bldim=dx@bldim, ICTXT=.ICTXT)
 {
+  if (!is.ddmatrix(dx))
+    stop("function only applies to objects of class 'ddmatrix'")
+  
   if (length(bldim)==1)
     bldim <- rep(bldim, 2)
   
@@ -60,6 +63,9 @@ redistribute <- dmat.redistribute
 # cyclic
 dmat.as.rowcyclic <- function(dx, bldim=.BLDIM)
 {
+  if (!is.ddmatrix(dx))
+    stop("function only applies to objects of class 'ddmatrix'")
+  
   if (dx@ICTXT == 2 && all(dx@bldim == bldim))
     return(dx)
   else
@@ -71,6 +77,9 @@ dmat.as.rowcyclic <- function(dx, bldim=.BLDIM)
 
 dmat.as.colcyclic <- function(dx, bldim=.BLDIM)
 {
+  if (!is.ddmatrix(dx))
+    stop("function only applies to objects of class 'ddmatrix'")
+  
   if (dx@ICTXT == 1 && all(dx@bldim == bldim))
     return(dx)
   else
@@ -86,6 +95,9 @@ as.colcyclic <- dmat.as.colcyclic
 # block-cyclic
 dmat.as.blockcyclic <- function(dx, bldim=.BLDIM)
 {
+  if (!is.ddmatrix(dx))
+    stop("function only applies to objects of class 'ddmatrix'")
+  
   if (dx@ICTXT == 0L && all(dx@bldim == bldim))
     return(dx)
   else
@@ -98,6 +110,8 @@ as.blockcyclic <- dmat.as.blockcyclic
 # block
 dmat.as.block <- function(dx, square.bldim=TRUE)
 {
+  if (!is.ddmatrix(dx))
+    stop("function only applies to objects of class 'ddmatrix'")
   
   blacs_ <- base.blacs(ICTXT=dx@ICTXT)
   procs <- c(blacs_$NPROW, blacs_$NPCOL)
@@ -118,6 +132,9 @@ as.block <- dmat.as.block
 
 dmat.as.rowblock <- function(dx)
 {
+  if (!is.ddmatrix(dx))
+    stop("function only applies to objects of class 'ddmatrix'")
+  
   new.bldim <- rep(ceiling(dx@dim[1L]/comm.size()), 2L)
   
   if (dx@ICTXT == 2 && all(dx@bldim == new.bldim))
@@ -128,6 +145,9 @@ dmat.as.rowblock <- function(dx)
 
 dmat.as.colblock <- function(dx)
 {
+  if (!is.ddmatrix(dx))
+    stop("function only applies to objects of class 'ddmatrix'")
+  
   new.bldim <- rep(ceiling(dx@dim[2L]/comm.size()), 2L)
   
   if (dx@ICTXT == 1 && all(dx@bldim == new.bldim))
