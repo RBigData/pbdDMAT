@@ -42,6 +42,7 @@ dmat.blacsreduction <- function(x, SCOPE, op, ICTXT, proc.dest=-1, check=TRUE)
     cdest <- proc.dest[2L]
   }
   
+  
   # checking that all m and n agree
   if (check){
     if (SCOPE=='All')
@@ -59,6 +60,7 @@ dmat.blacsreduction <- function(x, SCOPE, op, ICTXT, proc.dest=-1, check=TRUE)
         nd <- 0L
       else
         nd <- 0.0
+      
       
       x <- c(x, rep(nd, prod(mx)-(m*n)))
       m <- mx[1L]
@@ -156,10 +158,7 @@ dmat.rcsum <- function(x, na.rm=FALSE, SCOPE, MEAN=FALSE)
   }
   
   
-#  if (!is.double(Data))
-#    storage.mode(Data) <- "double"
-  
-  out <- dmat.blacsreduction(x=Data, SCOPE=SCOPE, op='sum', ICTXT=x@ICTXT, proc.dest=-1)
+  out <- dmat.blacsreduction(x=Data, SCOPE=SCOPE, op='sum', ICTXT=x@ICTXT, proc.dest=-1, check=TRUE)
   
   return( out )
 }
@@ -395,6 +394,7 @@ setMethod("sum", signature(x="ddmatrix"),
       na.rm=na.rm)
     else
       other <- 0
+    
     local <- sum(x@Data, na.rm=na.rm) + other
     pbdMPI::allreduce(local, op="sum")
   }

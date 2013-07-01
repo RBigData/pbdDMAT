@@ -39,14 +39,11 @@ dmat.ddmatmult <- function(x, y, outbldim=x@bldim)
   
   ICTXT <- x@ICTXT
   
-  bldimx <- x@bldim
-  bldimy <- y@bldim
-  
   cdim <- c(x@dim[1L], y@dim[2L])
   cldim <- base.numroc(cdim, outbldim, ICTXT=ICTXT)
   
-  descx <- base.descinit(dim=x@dim, bldim=bldimx, ldim=x@ldim, ICTXT=ICTXT)
-  descy <- base.descinit(dim=y@dim, bldim=bldimy, ldim=y@ldim, ICTXT=ICTXT)
+  descx <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=ICTXT)
+  descy <- base.descinit(dim=y@dim, bldim=y@bldim, ldim=y@ldim, ICTXT=ICTXT)
   descc <- base.descinit(dim=cdim, bldim=outbldim, ldim=cldim, ICTXT=ICTXT)
   
   out <- base.rpdgemm(transx='N', transy='N', x=x@Data, descx=descx, y=y@Data, descy=descy, descc=descc)
@@ -406,8 +403,10 @@ setMethod("qr", signature(x="ddmatrix"),
     ret <- base.rpdgeqpf(tol=tol, m=m, n=n, x=x@Data, descx=descx)
     
     ret$INFO <- NULL
-    x@Data <- ret$qr
-    ret$qr <- x
+    if (base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT)){
+      x@Data <- ret$qr
+      ret$qr <- x
+    }
     
     attr(ret, "class") <- "qr"
     
