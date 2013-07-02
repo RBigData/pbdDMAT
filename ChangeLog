@@ -1,3 +1,6 @@
+2013-7-2:
+  * Several qr()/qr.Q() bugs fixed.
+
 2013-5-30:
   * Added rowMin(), colMin(), rowMax(), and colMax() methods.
   * Added as.block(), as.rowblock(), as.colblock(), as.rowcyclic(), 
