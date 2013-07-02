@@ -400,13 +400,23 @@ setMethod("qr", signature(x="ddmatrix"),
     n <- descx[4L]
     
     # qr
-    ret <- base.rpdgeqpf(tol=tol, m=m, n=n, x=x@Data, descx=descx)
+    out <- base.rpdgeqpf(tol=tol, m=m, n=n, x=x@Data, descx=descx)
     
-    ret$INFO <- NULL
+    # make sure processors who own nothing have a real value (not a null
+    # pointer) for the numerical rank
+    if (comm.rank()!=0)
+      rank <- 0
+    else
+      rank <- out$rank
+    
+    rank <- allreduce(rank)
+    
+    
     if (base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT)){
-      x@Data <- ret$qr
-      ret$qr <- x
+      x@Data <- out$qr
     }
+    
+    ret <- list(qr=x, rank=rank, tau=out$tau, pivot=out$pivot)
     
     attr(ret, "class") <- "qr"
     
@@ -425,8 +435,8 @@ setMethod("qr.Q", signature(x="ANY"),
         # complete/Dvec options
         qr <- x$qr
         
-        if (qr@dim[1] < qr@dim[2])
-          qr <- qr[, 1:x$rank]
+        if (qr@dim[1L] < qr@dim[2L])
+          qr <- qr[, 1L:x$rank]
         
         # Matrix descriptors
         descqr <- base.descinit(qr@dim, qr@bldim, qr@ldim, ICTXT=qr@ICTXT)
@@ -438,7 +448,9 @@ setMethod("qr.Q", signature(x="ANY"),
         
         ret <- base.rpdorgqr(m=m, n=n, k=k, qr=qr@Data, descqr=descqr, tau=x$tau)
         
-        qr@Data <- ret
+        if (base.ownany(dim=qr@dim, bldim=qr@bldim, ICTXT=qr@ICTXT)){
+          qr@Data <- ret
+        }
         
         return( qr )
         
