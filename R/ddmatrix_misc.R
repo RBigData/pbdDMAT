@@ -279,9 +279,9 @@ setMethod("print", signature(x="ddmatrix"),
     } else {
       ff <- paste(paste(format(base.firstfew(x, atmost=4), scientific=TRUE, digits=3), collapse=", "), ", ...", sep="")
       if (comm.rank()==0){
-        blacs_ <- base.blacs(x@ICTXT)
+        grid <- base.blacs(x@ICTXT)
         cat(sprintf("\nDENSE DISTRIBUTED MATRIX\n---------------------------\n@Data:\t\t\t%s\nProcess grid:\t\t%dx%d\nGlobal dimension:\t%dx%d\n(max) Local dimension:\t%dx%d\nBlocking:\t\t%dx%d\nBLACS ICTXT:\t\t%d\n\n",
-          ff, blacs_$NPROW, blacs_$NPCOL, x@dim[1], x@dim[2], x@ldim[1], x@ldim[2], x@bldim[1], x@bldim[2], x@ICTXT))
+          ff, grid$NPROW, grid$NPCOL, x@dim[1], x@dim[2], x@ldim[1], x@ldim[2], x@bldim[1], x@bldim[2], x@ICTXT))
       }
     }
     
@@ -293,7 +293,13 @@ setMethod("print", signature(x="ddmatrix"),
 
 setMethod("show", signature(object="ddmatrix"),
   function(object)
-    print(object)
+  {
+    grid <- base.blacs(object@ICTXT)
+    comm.cat(sprintf("\nDENSE DISTRIBUTED MATRIX\n---------------------------\nProcess grid:\t\t%dx%d\nGlobal dimension:\t%dx%d\n(max) Local dimension:\t%dx%d\nBlocking:\t\t%dx%d\nBLACS ICTXT:\t\t%d\n\n",
+      grid$NPROW, grid$NPCOL, object@dim[1], object@dim[2], object@ldim[1], object@ldim[2], object@bldim[1], object@bldim[2], object@ICTXT), quiet=T)
+    
+    return( invisible(0) )
+  }
 )
 
 # -------------------
@@ -344,7 +350,7 @@ setMethod("ldim", signature(x="ddmatrix"),
 
 dmat.bldim <- function(x)
 {
-  if (!is.ddmatrix(x) && !is.ddvector(x))
+  if (!is.ddmatrix(x))# && !is.ddvector(x))
     comm.stop("'bldim' only applies objects of class 'ddmatrix' and 'ddvector'")
   else
     return(x@bldim)
@@ -368,7 +374,7 @@ setMethod("submatrix", signature(x="ddmatrix"),
 
 dmat.ictxt <- function(x)
 {
-  if (!is.ddmatrix(x) && !is.ddvector(x))
+  if (!is.ddmatrix(x))# && !is.ddvector(x))
     comm.stop("'ICTXT' only applies objects of class 'ddmatrix' and 'ddvector'")
   else
     return(x@ICTXT)

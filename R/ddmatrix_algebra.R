@@ -404,19 +404,19 @@ setMethod("qr", signature(x="ddmatrix"),
     
     # make sure processors who own nothing have a real value (not a null
     # pointer) for the numerical rank
-    if (comm.rank()!=0)
-      rank <- 0
-    else
-      rank <- out$rank
-    
-    rank <- allreduce(rank)
+#    if (comm.rank()!=0)
+#      rank <- 0
+#    else
+#      rank <- out$rank
+#    
+#    rank <- allreduce(rank)
     
     
     if (base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT)){
       x@Data <- out$qr
     }
     
-    ret <- list(qr=x, rank=rank, tau=out$tau, pivot=out$pivot)
+    ret <- list(qr=x, rank=out$rank, tau=out$tau, pivot=out$pivot)
     
     attr(ret, "class") <- "qr"
     

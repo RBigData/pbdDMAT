@@ -26,8 +26,11 @@ setMethod("lm.fit", signature(x="ddmatrix", y="ddmatrix"),
     if (!singular.ok && out$RANK < x@dim[2L]) 
       comm.stop("singular fit encountered")
     
-    x@Data <- out$A
-    y@Data <- out$B
+    if (base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT))
+      x@Data <- out$A
+    if (base.ownany(dim=y@dim, bldim=y@bldim, ICTXT=y@ICTXT))
+      y@Data <- out$B
+    
     
     eff <- new("ddmatrix", Data=out$EFF, dim=y@dim, 
                ldim=y@bldim, bldim=y@bldim, ICTXT=y@ICTXT)
