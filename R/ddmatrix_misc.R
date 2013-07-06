@@ -294,9 +294,13 @@ setMethod("print", signature(x="ddmatrix"),
 setMethod("show", signature(object="ddmatrix"),
   function(object)
   {
-    grid <- base.blacs(object@ICTXT)
-    comm.cat(sprintf("\nDENSE DISTRIBUTED MATRIX\n---------------------------\nProcess grid:\t\t%dx%d\nGlobal dimension:\t%dx%d\n(max) Local dimension:\t%dx%d\nBlocking:\t\t%dx%d\nBLACS ICTXT:\t\t%d\n\n",
-      grid$NPROW, grid$NPCOL, object@dim[1], object@dim[2], object@ldim[1], object@ldim[2], object@bldim[1], object@bldim[2], object@ICTXT), quiet=T)
+    if (comm.rank()==0){
+      grid <- base.blacs(object@ICTXT)
+      cat(sprintf("\nDENSE DISTRIBUTED MATRIX\n---------------------------\nProcess grid:\t\t%dx%d\nGlobal dimension:\t%dx%d\n(max) Local dimension:\t%dx%d\nBlocking:\t\t%dx%d\nBLACS ICTXT:\t\t%d\n\n",
+        grid$NPROW, grid$NPCOL, object@dim[1], object@dim[2], object@ldim[1], object@ldim[2], object@bldim[1], object@bldim[2], object@ICTXT))
+    }
+    
+#    pbdMPI::barrier()
     
     return( invisible(0) )
   }
