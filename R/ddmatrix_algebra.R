@@ -588,7 +588,7 @@ setMethod("isSymmetric", signature(object="ddmatrix"),
     if (object@dim[1L] != object@dim[2L]) 
       return(FALSE)
     
-    all.equal(object, t(object), tolerance = tol, ...)
+    test <- all.equal(object, t(object), tolerance = tol, ...)
     
     isTRUE(test)
   }
