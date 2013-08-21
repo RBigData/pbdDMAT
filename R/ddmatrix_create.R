@@ -346,11 +346,11 @@ setMethod("ddmatrix.local", signature(data="character"),
       Data <- matrix(0.0, 1, 1)
     else {
       if (data=="runif" || data=="uniform")
-        Data <- matrix(n=runif(prod(ldim), min=min, max=max), ldim[1L], ldim[2L])
+        Data <- matrix(runif(prod(ldim), min=min, max=max), ldim[1L], ldim[2L])
       else if (data=="rnorm" || data=="normal")
-        Data <- matrix(n=rnorm(prod(ldim), mean=mean, sd=sd), ldim[1L], ldim[2L])
+        Data <- matrix(rnorm(prod(ldim), mean=mean, sd=sd), ldim[1L], ldim[2L])
       else if (data=="rexp" || data=="exponential")
-        Data <- matrix(n=rexp(prod(ldim), rate=rate), ldim[1L], ldim[2L])
+        Data <- matrix(rexp(prod(ldim), rate=rate), ldim[1L], ldim[2L])
       else if (data=="rweibull" || data=="weibull")
         Data <- matrix(rweibull(n=prod(ldim), shape=shape, scale=scale), ldim[1L], ldim[2L])
     }
