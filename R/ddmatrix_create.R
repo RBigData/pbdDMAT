@@ -363,6 +363,29 @@ setMethod("ddmatrix.local", signature(data="character"),
 
 
 
+companion <- function(coef, type="matrix", ..., bldim=.BLDIM, ICTXT=.ICTXT)
+  {
+    type <- match.arg(type, c("matrix", "ddmatrix"))
+    
+    if (type=="ddmatrix"){
+      if (length(bldim)==1)
+        bldim <- rep(bldim, 2L)
+      
+      dim <- rep(length(coef), 2L)
+      ldim <- base.numroc(dim=dim, bldim=bldim, ICTXT=ICTXT)
+      
+      descx <- base.descinit(dim=dim, bldim=bldim, ldim=ldim, ICTXT=ICTXT)
+      
+      out <- base.pdmkcpn1(coef=coef, descx=descx)
+      ret <- new("ddmatrix", Data=out, dim=dim, ldim=ldim, bldim=bldim, ICTXT=ICTXT)
+    }
+    else
+      ret <- base::diag(x=x, nrow=nrow, ncol=ncol)
+    
+    return( ret )
+}
+
+
 # -------------------
 # Converters
 # -------------------

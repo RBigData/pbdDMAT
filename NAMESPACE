@@ -41,7 +41,6 @@ export(
   # Principal Components
   scale, 
   prcomp, 
-  diag,
   # Covariance
   var, 
   cov, 
@@ -62,11 +61,14 @@ export(
   colMin,
   rowMax,
   colMax,
+  # constructors
+  diag,
+  ddmatrix, 
+  ddmatrix.local, 
+  companion,
   # Misc
   as.matrix, 
   ownany, 
-  ddmatrix, 
-  ddmatrix.local, 
   as.ddmatrix, 
   is.ddmatrix, 
   is.na, 

@@ -362,7 +362,7 @@ setMethod("lu", signature(x="ddmatrix"),
 
 
 setMethod("eigen", signature(x="ddmatrix"), 
-  function(x, symmetric, only.values = FALSE)
+  function(x, symmetric, only.values=FALSE)
   {
     if (x@dim[1L] != x@dim[2L])
       comm.stop("non-square matrix in 'eigen'")
@@ -380,8 +380,8 @@ setMethod("eigen", signature(x="ddmatrix"),
       
       out <- base.rpdsyev(jobz=jobz, uplo='L', n=x@dim[2L], a=x@Data, desca=desca, descz=desca)
     } else {
-      if (!only.values)
-        comm.stop("Currently not possible to recover eigenvectors from a non-symmetric matrix")
+      if (!only.values) # FIXME
+        comm.stop("Currently only possible to recover eigenvalues from a non-symmetric matrix")
       
       out <- base.pdgeeig(dx@Data, descx=desca)
     }
@@ -580,6 +580,38 @@ setMethod("qr.qty", signature(x="ANY"),
   }
 )
 
+
+
+# ################################################
+# ------------------------------------------------
+# Misc
+# ------------------------------------------------
+# ################################################
+
+setMethod("polyroot", signature(z="ddmatrix"),
+  function(z)
+  {
+    bldim <- z@bldim
+    
+    if (diff(bldim) != 0)
+      stop("blocking dimensions for 'z' must agree")
+    
+    # Adjustment for eigen()'s shortcomings
+    if (bldim[1L] < 5)
+      bldim <- rep(5L, 2L)
+    else if (bldim[1L] > 32)
+      bldim <- rep(32L, 2L)
+    
+    if (bldim[1L] != z@bldim[1L])
+      z <- dmat.redistribute(dx=z, bldim=bldim, ICTXT=z@ICTXT)
+    
+    
+    
+    ret <- eigen(x, symmetric=FALSE, only.values=TRUE)
+    
+    return( ret )
+  }
+)
 
 
 # ################################################
