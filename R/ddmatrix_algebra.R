@@ -391,6 +391,47 @@ setMethod("eigen", signature(x="ddmatrix"),
 )
 
 
+eigen2 <- function(x, only.values=FALSE, abstol=1e-8, orfac=1e-3)
+{
+    pbdDMAT:::must.be(only.values, "logical")
+    pbdDMAT:::must.be(x, "ddmatrix")
+    
+    if (only.values)
+        jobz <- 'N'
+    else
+        jobz <- 'V'
+    
+    range <- 'V'
+    vl <- 0
+    vu <- 100
+    il <- 0
+    iu <- 1
+    
+    abstol <- 1e-8
+    orfac <- 1e-3
+    
+    
+    desca <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
+    
+    out <- base.rpdsyevx(jobz=jobz, range=range, n=x@dim[1L], a=x@Data, desca=desca, vl=vl, vu=vu, il=il, iu=iu, abstol=abstol, orfac=orfac)
+    
+    if (jobz == 'N')
+        return( out )
+    else
+    {
+        if (out$m == 0)
+            return( NULL )
+        
+        z <- new("ddmatrix", Data=out$vectors, dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
+        z <- z[, 1:out$m]
+        ret <- list(values=out$values, vectors=z)
+        
+        return( ret )
+    }
+}
+
+
+
 
 # ---------------------------------------------------------
 # QR stuff no one will ever use

@@ -28,6 +28,7 @@ export(
   chol, 
   kappa.ddmatrix, 
   rcond,
+  eigen2,
   # Math
   abs, 
   sqrt, 

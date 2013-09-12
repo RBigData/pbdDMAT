@@ -115,15 +115,17 @@ base.distribute <- function(x, bldim=.BLDIM, xCTXT=0, ICTXT=.ICTXT)
     dim <- c(0, 0)
   
   ldim <- dim(x)
-
+  
   if (!is.double(x))
     storage.mode(x) <- "double"
-
+  
   blacs_ <- blacs(xCTXT)
+  
   if (blacs_$NPROW > 1)
     dim[1] <- pbdMPI::allreduce(dim[1], op='sum')
   else
     dim[1] <- pbdMPI::allreduce(dim[1], op='max')
+  
   if (blacs_$NPCOL > 1)
     dim[2] <- pbdMPI::allreduce(dim[2], op='sum')
   else

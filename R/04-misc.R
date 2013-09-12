@@ -257,3 +257,20 @@ base.firstfew <- function(dx, atmost=5)
   return(out)
 }
 
+
+
+# error checking for the lazy man
+must.be <- function(x, type)
+{
+    type <- match.arg(type, c("numeric", "integer", "double", "logical", "matrix", "data.frame", "vector", "ddmatrix"))
+    
+    nm <- deparse(substitute(x))
+    
+    fun <- eval(parse(text=paste("is.", type, sep="")))
+    
+    if (!fun(x))
+        stop(paste("argument '", nm, "' must be of type ", type, sep=""), call.=FALSE)
+    
+    invisible(TRUE)
+}
+
