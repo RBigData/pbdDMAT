@@ -391,24 +391,48 @@ setMethod("eigen", signature(x="ddmatrix"),
 )
 
 
-eigen2 <- function(x, only.values=FALSE, abstol=1e-8, orfac=1e-3)
+
+eigen2 <- function(x, range=c(-Inf, Inf), range.type="interval", only.values=FALSE, abstol=1e-8, orfac=1e-3)
 {
-    pbdDMAT:::must.be(only.values, "logical")
+    # Basic checking
     pbdDMAT:::must.be(x, "ddmatrix")
+    pbdDMAT:::must.be(range, "numeric")
+    pbdDMAT:::must.be(range.type, "character")
+    pbdDMAT:::must.be(only.values, "logical")
     
+    # Return eigenvectors or not
     if (only.values)
         jobz <- 'N'
     else
         jobz <- 'V'
     
-    range <- 'V'
-    vl <- 0
-    vu <- 100
-    il <- 0
-    iu <- 1
+    # Eigenvalue search
+    range.type <- match.arg(tolower(range.type), c("interval", "index"))
     
-    abstol <- 1e-8
-    orfac <- 1e-3
+    if (range.type == "interval")
+    {
+        vl <- range[1L]
+        vu <- range[2L]
+        
+        if (vl == -Inf && vu == Inf)
+            range <- 'A'
+        else
+            range <- 'V'
+        
+        il <- iu <- 0
+    }
+    else
+    {
+        il <- range[1L]
+        iu <- range[2L]
+        
+        if (vl == -Inf && vu == Inf)
+            range <- 'A'
+        else
+            range <- 'I'
+        
+        vl <- vu <- 0
+    }
     
     
     desca <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
