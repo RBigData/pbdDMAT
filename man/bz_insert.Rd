@@ -50,9 +50,6 @@
 \value{
   Returns a distributed matrix.
 }
-\seealso{
-  \code{\link{BLACS}, \link{InitGrid}}
-}
 \examples{
 \dontrun{
 # Save code in a file "demo.r" and run with 2 processors by

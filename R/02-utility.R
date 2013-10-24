@@ -48,9 +48,11 @@ dmat.gmat <- function(dx, proc.dest="all")
   if (proc.dest[1]=='all')
     rsrc <- csrc <- -1
   else {
-    dest <- base.pcoord(ICTXT=ICTXT, PNUM=proc.dest)
-    rsrc <- dest[[1]]
-    csrc <- dest[[2]]
+#    dest <- base.pcoord(ICTXT=ICTXT, PNUM=proc.dest)
+#    rsrc <- dest[[1]]
+#    csrc <- dest[[2]]
+    rsrc <- proc.dest[1]
+    csrc <- proc.dest[2]
   }
   
   out <- base.mkgblmat(dx@Data, descx=descx, rsrc=rsrc, csrc=csrc)

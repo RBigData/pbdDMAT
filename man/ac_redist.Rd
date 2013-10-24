@@ -70,7 +70,7 @@
   Returns a distributed matrix.
 }
 \seealso{
-  \code{\link{as.ddmatrix}, \link{Distribute}, \link{BLACS}}
+  \code{\link{as.ddmatrix}, \link{Distribute}}
 }
 \examples{
 \dontrun{

@@ -61,8 +61,7 @@
   matrix information is stored. This is mostly for internal 
   bookkeeping, though advanced users might be able to effectively
   leverage differing BLACS contexts for performance improvements. 
-  For details, see \code{\link{InitGrid}}. Accessible via
-  \code{\link[=SlotAccessors]{ictxt()}}. 
+  Accessible via \code{\link[=SlotAccessors]{ictxt()}}. 
   The \code{ICTXT} slot is global, i.e. each process 
   stores the same information in this slot.
   
@@ -78,6 +77,6 @@
   is just a wrapper on \code{numroc()} with argument \code{fixme=FALSE}.
 }
 \seealso{
-  \code{\link{InitGrid}, \link{SlotAccessors}}
+  \code{\link{SlotAccessors}}
 }
 \keyword{Classes}

@@ -1,3 +1,15 @@
+2013-10-24:
+  * as.vector() and as.matrix() bugfix for unusual proc.dest values.
+
+2013-10-22:
+  * Added method for constructing distributed Hilbert matrices.
+
+2013-9-30:
+  * Improved manual.
+
+2013-8-20:
+  * Added experimental eigen2() method.
+
 2013-7-20:
   * Fixed eigen() bug.
 

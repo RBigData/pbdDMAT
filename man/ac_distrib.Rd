@@ -62,7 +62,7 @@
   Returns a distributed matrix.
 }
 \seealso{
-  \code{\link{as.ddmatrix}, \link{BLACS}, \link{InitGrid}}
+  \code{\link{as.ddmatrix}}
 }
 \examples{
 \dontrun{

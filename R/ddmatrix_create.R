@@ -386,6 +386,28 @@ companion <- function(coef, type="matrix", ..., bldim=.BLDIM, ICTXT=.ICTXT)
 }
 
 
+Hilbert <- function(n, type="matrix", ..., bldim=.BLDIM, ICTXT=.ICTXT)
+{
+  type <- match.arg(type, c("matrix", "ddmatrix"))
+  if (type == "ddmatrix")
+  {
+    dim <- c(n, n)
+    ldim <- base.numroc(dim=dim, bldim=bldim, ICTXT=ICTXT, fixme=TRUE)
+    descx <- base.descinit(dim=dim, bldim=bldim, ldim=ldim, ICTXT=ICTXT)
+    
+    out <- base.pdhilbmk(descx)
+    
+    ret <- new("ddmatrix", Data=out, dim=dim, ldim=ldim, bldim=bldim, ICTXT=ICTXT)
+  }
+  else
+  {
+    ret <- base.dhilbmk(n)
+  }
+  
+  return( ret )
+}
+
+
 # -------------------
 # Converters
 # -------------------
