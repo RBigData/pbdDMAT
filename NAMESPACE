@@ -1,3 +1,5 @@
+useDynLib(pbdDMAT)
+
 import(methods, rlecuyer, pbdMPI, pbdSLAP, pbdBASE)
 
 # All internal functions
@@ -89,7 +91,9 @@ export(
   as.blockcyclic,
   as.block,
   as.rowblock,
-  as.colblock
+  as.colblock,
+  # exponentiation
+  matexp
 )
 
 exportMethods(

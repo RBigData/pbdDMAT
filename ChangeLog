@@ -1,3 +1,6 @@
+2013-11-4: 
+  * Added matrix exponentiation.
+
 2013-10-24:
   * as.vector() and as.matrix() bugfix for unusual proc.dest values.
 

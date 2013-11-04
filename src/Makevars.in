@@ -1,0 +1,15 @@
+PKG_CFLAGS = -w
+
+R_OBJS = \
+matexp.o \
+dmat_matexp.o
+OBJECTS = ${R_OBJS}
+
+
+all: $(SHLIB)
+
+$(SHLIB): $(OBJECTS)
+
+clean:
+	@rm -rf *.o *.d *.rc *.so* *.dylib *.dll *.a *.lib \
+                Makedeps Makevars $(SHLIB) $(OBJECTS)

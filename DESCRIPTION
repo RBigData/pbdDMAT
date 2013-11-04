@@ -20,6 +20,7 @@ Description: pbdDMAT contains high level S3 and S4 methods for creating,
 SystemRequirements: OpenMPI (>= 1.5.4) on Solaris, Linux and Mac,
         MPICH2 (>= 1.4.1p1) on Windows
 License: GPL (>= 2)
+NeedsCompilation: Yes
 URL: http://r-pbd.org/
 BugReports: http://group.r-pbd.org/
 MailingList: Please send questions and comments regarding pbdR to
