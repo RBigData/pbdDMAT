@@ -1,0 +1,19 @@
+== Methods to implement
+-det()
+-expm()
+-isDiagonal()
+-isTriangular()
+-nnzero
+-Schur()
+
+
+== Bugs to fix
+
+
+== Improvements to make
+-`[`
+
+
+== Get it done already
+-glm
+-nonsymmetric eigenvalue problem
