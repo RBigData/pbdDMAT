@@ -148,7 +148,7 @@ dmat.rank_k <- function(vec, k, shouldsort=FALSE)
     if (vec==0)
       vec <- NA
   
-    mdmd <- median(unlist(pbdMPI::allgather(median(vec, na.rm=T))), na.rm=T)
+    mdmd <- median(unlist(pbdMPI::allgather(median(vec, na.rm=TRUE))), na.rm=TRUE)
 
     below <- vec[which(vec <= mdmd)]
     lbelow <- length(below)

@@ -271,7 +271,7 @@ setMethod("ddmatrix.local", signature(data="vector"),
       
       bldim[1L] <- base.nbd(ldim[1L], bldim[1L])
       bldim[2L] <- base.nbd(ldim[2L], bldim[2L])
-      comm.cat(paste("Using bldim of ", bldim[1L], "x", bldim[2L], "\n\n", sep=""), quiet=T)
+      comm.cat(paste("Using bldim of ", bldim[1L], "x", bldim[2L], "\n\n", sep=""), quiet=TRUE)
     }
     
     if (length(data) > 1){
@@ -338,7 +338,7 @@ setMethod("ddmatrix.local", signature(data="character"),
       
       bldim[1L] <- base.nbd(ldim[1L], bldim[1L])
       bldim[2L] <- base.nbd(ldim[2L], bldim[2L])
-      comm.cat(paste("Using bldim of ", bldim[1L], "x", bldim[2L], "\n\n", sep=""), quiet=T)
+      comm.cat(paste("Using bldim of ", bldim[1L], "x", bldim[2L], "\n\n", sep=""), quiet=TRUE)
     }
     
     

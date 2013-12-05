@@ -479,10 +479,10 @@ setMethod("median", signature(x="ddmatrix"),
       lenloc <- 0
     n <- pbdMPI::allreduce(lenloc, op='sum')
     if (n%%2==1)
-      ret <- dmat.rank_k(vec=x@Data, k=ceiling(n/2), shouldsort=T)
+      ret <- dmat.rank_k(vec=x@Data, k=ceiling(n/2), shouldsort=TRUE)
     else {
-      ret1 <- dmat.rank_k(vec=x@Data, k=ceiling(n/2), shouldsort=T)
-      ret2 <- dmat.rank_k(vec=x@Data, k=ceiling((n+1)/2), shouldsort=T)
+      ret1 <- dmat.rank_k(vec=x@Data, k=ceiling(n/2), shouldsort=TRUE)
+      ret2 <- dmat.rank_k(vec=x@Data, k=ceiling((n+1)/2), shouldsort=TRUE)
       ret <- mean(c(ret1, ret2))
     }
 
