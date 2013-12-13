@@ -380,7 +380,10 @@ companion <- function(coef, type="matrix", ..., bldim=.BLDIM, ICTXT=.ICTXT)
       ret <- new("ddmatrix", Data=out, dim=dim, ldim=ldim, bldim=bldim, ICTXT=ICTXT)
     }
     else
-      ret <- base::diag(x=x, nrow=nrow, ncol=ncol)
+    {
+      n <- length(coef)
+      ret <- cbind(rbind(rep(0, n-1), diag(1, nrow=n-1, ncol=n-1)), -coef)
+    }
     
     return( ret )
 }

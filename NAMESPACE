@@ -106,6 +106,7 @@ exportMethods(
   "qr.R", 
   "qr.qty", 
   "qr.qy", 
+  "expm",
   "chol2inv",
   "rcond", 
   "norm",

@@ -11,7 +11,7 @@ setGeneric(name = "na.exclude", useAsDefault = stats::na.exclude, package="pbdDM
 setGeneric(name = "all.equal", useAsDefault = base::all.equal, package="pbdDMAT")
 setGeneric(name = "summary", useAsDefault = base::summary, package="pbdDMAT")
 setGeneric(name = "isSymmetric", useAsDefault = base::isSymmetric, package="pbdDMAT")
-setGeneric(name = "polyroot", useAsDefault = base::polyroot, package="pbdDMAT")
+#setGeneric(name = "polyroot", useAsDefault = base::polyroot, package="pbdDMAT")
 
 
 setGeneric(name="as.vector", 
@@ -137,6 +137,13 @@ setMethod("svd", signature(x="ANY"),
     base::svd(x=x, nu=nu, nv=nv, LINPACK=LINPACK)
   }
 )
+
+setGeneric(name="expm", 
+  function(x) 
+    standardGeneric("expm"), 
+  package="pbdDMAT"
+)
+
 
 
 

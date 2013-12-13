@@ -11,8 +11,8 @@
 .onLoad <- function(libname, pkgname){
   if(! is.loaded("spmd_initialize")){
     library.dynam("pbdMPI", "pbdMPI", libname)
-    if(pbdMPI:::comm.is.null(0L) == -1){
-      pbdMPI:::init()
+    if(pbdMPI::comm.is.null(0L) == -1){
+      pbdMPI::init()
     }
   }
 

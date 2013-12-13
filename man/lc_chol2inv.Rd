@@ -56,4 +56,4 @@ finalize()
 }
 }
 \keyword{Methods}
-\keyword{Extraction}
+\keyword{Linear Algebra}

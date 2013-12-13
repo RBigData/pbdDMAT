@@ -60,4 +60,5 @@ finalize()
 }
 }
 \keyword{Methods}
+\keyword{Linear Algebra}
 \keyword{ConditionNumbers}
