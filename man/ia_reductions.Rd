@@ -68,20 +68,20 @@
 }
 }
 \usage{
-  \S4method{sum}{ddmatrix}(x, ..., na.rm = FALSE)
-  \S4method{mean}{ddmatrix}(x, na.rm = FALSE)
-  \S4method{median}{ddmatrix}(x, na.rm = FALSE)
-  \S4method{prod}{ddmatrix}(x, na.rm = FALSE)
-  \S4method{rowSums}{ddmatrix}(x, na.rm = FALSE)
-  \S4method{colSums}{ddmatrix}(x, na.rm = FALSE)
-  \S4method{rowMeans}{ddmatrix}(x, na.rm = FALSE)
-  \S4method{colMeans}{ddmatrix}(x, na.rm = FALSE)
-  \S4method{min}{ddmatrix}(x, na.rm = FALSE)
-  \S4method{max}{ddmatrix}(x, na.rm = FALSE)
-  \S4method{rowMin}{ddmatrix}(x, na.rm = FALSE)
-  \S4method{colMin}{ddmatrix}(x, na.rm = FALSE)
-  \S4method{rowMax}{ddmatrix}(x, na.rm = FALSE)
-  \S4method{colMax}{ddmatrix}(x, na.rm = FALSE)
+\S4method{sum}{ddmatrix}(x, ..., na.rm = FALSE)
+\S4method{mean}{ddmatrix}(x, na.rm = FALSE)
+\S4method{median}{ddmatrix}(x, na.rm = FALSE)
+\S4method{prod}{ddmatrix}(x, na.rm = FALSE)
+\S4method{rowSums}{ddmatrix}(x, na.rm = FALSE)
+\S4method{colSums}{ddmatrix}(x, na.rm = FALSE)
+\S4method{rowMeans}{ddmatrix}(x, na.rm = FALSE)
+\S4method{colMeans}{ddmatrix}(x, na.rm = FALSE)
+\S4method{min}{ddmatrix}(x, na.rm = FALSE)
+\S4method{max}{ddmatrix}(x, na.rm = FALSE)
+\S4method{rowMin}{ddmatrix}(x, na.rm = FALSE)
+\S4method{colMin}{ddmatrix}(x, na.rm = FALSE)
+\S4method{rowMax}{ddmatrix}(x, na.rm = FALSE)
+\S4method{colMax}{ddmatrix}(x, na.rm = FALSE)
 }
 \arguments{
   \item{x}{numeric distributed matrix}

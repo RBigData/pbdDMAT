@@ -24,10 +24,10 @@
 }
 }
 \usage{
-  \S4method{ceiling}{ddmatrix}(x)
-  \S4method{floor}{ddmatrix}(x)
-  
-  \S4method{round}{ddmatrix}(x, digits = 0)
+\S4method{ceiling}{ddmatrix}(x)
+\S4method{floor}{ddmatrix}(x)
+
+\S4method{round}{ddmatrix}(x, digits = 0)
 }
 \arguments{
   \item{x}{numeric distributed matrix}

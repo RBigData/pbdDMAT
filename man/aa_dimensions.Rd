@@ -59,18 +59,18 @@
 }
 }
 \usage{
-  \S4method{nrow}{ddmatrix}(x)
-  \S4method{ncol}{ddmatrix}(x)
-  \S4method{NROW}{ddmatrix}(x)
-  \S4method{NCOL}{ddmatrix}(x)
-  \S4method{length}{ddmatrix}(x)
-  \S4method{dim}{ddmatrix}(x)
-  \S4method{submatrix}{ddmatrix}(x)
-  \S4method{ldim}{ddmatrix}(x)
-  \S4method{bldim}{ddmatrix}(x)
-  \S4method{ICTXT}{ddmatrix}(x)
-  \S4method{ownany}{ddmatrix}(x, ...)
-  \S4method{ownany}{missing}(dim, bldim=.BLDIM, ICTXT=.ICTXT, x)
+\S4method{nrow}{ddmatrix}(x)
+\S4method{ncol}{ddmatrix}(x)
+\S4method{NROW}{ddmatrix}(x)
+\S4method{NCOL}{ddmatrix}(x)
+\S4method{length}{ddmatrix}(x)
+\S4method{dim}{ddmatrix}(x)
+\S4method{submatrix}{ddmatrix}(x)
+\S4method{ldim}{ddmatrix}(x)
+\S4method{bldim}{ddmatrix}(x)
+\S4method{ICTXT}{ddmatrix}(x)
+\S4method{ownany}{ddmatrix}(x, ...)
+\S4method{ownany}{missing}(dim, bldim=.BLDIM, ICTXT=.ICTXT, x)
 }
 \arguments{
   \item{x}{numeric distributed matrix}

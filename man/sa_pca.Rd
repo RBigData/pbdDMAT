@@ -17,7 +17,7 @@
 }
 }
 \usage{
-  \S4method{prcomp}{ddmatrix}(x, retx = TRUE, center = TRUE, 
+\S4method{prcomp}{ddmatrix}(x, retx = TRUE, center = TRUE, 
   scale. = FALSE, tol = NULL)
 }
 \arguments{

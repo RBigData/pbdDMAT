@@ -21,8 +21,8 @@
 }
 }
 \usage{
-  \S4method{as.vector}{ddmatrix}(x, mode = 'any', proc.dest = 'all')
-  \S4method{as.matrix}{ddmatrix}(x, proc.dest = 'all', attributes = TRUE) 
+\S4method{as.vector}{ddmatrix}(x, mode = 'any', proc.dest = 'all')
+\S4method{as.matrix}{ddmatrix}(x, proc.dest = 'all', attributes = TRUE) 
 }
 \arguments{
   \item{x}{numeric distributed matrix}

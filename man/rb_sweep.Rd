@@ -18,8 +18,8 @@
 }
 }
 \usage{
-  \S4method{sweep}{ddmatrix,ANY,vector}(x, MARGIN, STATS, FUN = "-")
-  \S4method{sweep}{ddmatrix,ANY,ddmatrix}(x, MARGIN, STATS, FUN = "-")
+\S4method{sweep}{ddmatrix,ANY,vector}(x, MARGIN, STATS, FUN = "-")
+\S4method{sweep}{ddmatrix,ANY,ddmatrix}(x, MARGIN, STATS, FUN = "-")
 }
 \arguments{
   \item{x}{numeric distributed matrix.}

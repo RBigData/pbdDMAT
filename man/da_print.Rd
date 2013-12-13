@@ -15,7 +15,7 @@
 }
 }
 \usage{
-  \S4method{print}{ddmatrix}(x, ..., all = FALSE, name = "x") 
+\S4method{print}{ddmatrix}(x, ..., all = FALSE, name = "x") 
 }
 \arguments{
   \item{x}{numeric distributed matrix}

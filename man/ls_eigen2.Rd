@@ -9,7 +9,8 @@
   matrix by seraching over ranges of values or ranges of indices.
 }
 \usage{
-  eigen2(x, range=c(-Inf, Inf), range.type="interval", only.values=FALSE, abstol=1e-8, orfac=1e-3)
+  eigen2(x, range=c(-Inf, Inf), range.type="interval", 
+         only.values=FALSE, abstol=1e-8, orfac=1e-3)
 }
 \arguments{
   \item{x}{symmetric, numeric ddmatrix.}

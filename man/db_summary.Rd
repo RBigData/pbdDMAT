@@ -15,7 +15,7 @@
 }
 }
 \usage{
-  \S4method{summary}{ddmatrix}(object) 
+\S4method{summary}{ddmatrix}(object) 
 }
 \arguments{
   \item{object}{numeric distributed matrix}

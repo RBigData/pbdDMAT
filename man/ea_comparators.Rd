@@ -65,16 +65,16 @@
 }
 }
 \usage{
-  x == y
-  x < y
-  x > y
-  x >= y
-  x <= y
-  x != y
-  x & y
-  x | y
-  \S4method{any}{ddmatrix}(x, na.rm=FALSE)
-  \S4method{all}{ddmatrix}(x, na.rm=FALSE)
+x == y
+x < y
+x > y
+x >= y
+x <= y
+x != y
+x & y
+x | y
+\S4method{any}{ddmatrix}(x, na.rm=FALSE)
+\S4method{all}{ddmatrix}(x, na.rm=FALSE)
   
 }
 \arguments{

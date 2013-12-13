@@ -17,7 +17,7 @@
 }
 }
 \usage{
-  \S4method{lm.fit}{ddmatrix,ddmatrix}(x, y, tol = 1e-07, singular.ok = TRUE)
+\S4method{lm.fit}{ddmatrix,ddmatrix}(x, y, tol = 1e-07, singular.ok = TRUE)
 }
 \arguments{
   \item{x, y}{numeric distributed matrices}

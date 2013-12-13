@@ -77,22 +77,22 @@
 }
 }
 \usage{
-  \S4method{abs}{ddmatrix}(x)
-  \S4method{sqrt}{ddmatrix}(x)
-  \S4method{exp}{ddmatrix}(x)
-  \S4method{log}{ddmatrix}(x, base = exp(1))
-  \S4method{log2}{ddmatrix}(x)
-  \S4method{log10}{ddmatrix}(x)
-  \S4method{log1p}{ddmatrix}(x)
-  \S4method{sin}{ddmatrix}(x)
-  \S4method{cos}{ddmatrix}(x)
-  \S4method{tan}{ddmatrix}(x)
-  \S4method{asin}{ddmatrix}(x)
-  \S4method{acos}{ddmatrix}(x)
-  \S4method{atan}{ddmatrix}(x)
-  \S4method{sinh}{ddmatrix}(x)
-  \S4method{cosh}{ddmatrix}(x)
-  \S4method{tanh}{ddmatrix}(x)
+\S4method{abs}{ddmatrix}(x)
+\S4method{sqrt}{ddmatrix}(x)
+\S4method{exp}{ddmatrix}(x)
+\S4method{log}{ddmatrix}(x, base = exp(1))
+\S4method{log2}{ddmatrix}(x)
+\S4method{log10}{ddmatrix}(x)
+\S4method{log1p}{ddmatrix}(x)
+\S4method{sin}{ddmatrix}(x)
+\S4method{cos}{ddmatrix}(x)
+\S4method{tan}{ddmatrix}(x)
+\S4method{asin}{ddmatrix}(x)
+\S4method{acos}{ddmatrix}(x)
+\S4method{atan}{ddmatrix}(x)
+\S4method{sinh}{ddmatrix}(x)
+\S4method{cosh}{ddmatrix}(x)
+\S4method{tanh}{ddmatrix}(x)
 }
 \arguments{
   \item{x}{numeric distributed matrix}

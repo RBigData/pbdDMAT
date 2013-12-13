@@ -16,8 +16,8 @@
 }
 }
 \usage{
-  \S4method{apply}{ddmatrix}(X, MARGIN, FUN, ..., reduce = FALSE, 
-  proc.dest="all")
+\S4method{apply}{ddmatrix}(X, MARGIN, FUN, ..., reduce = FALSE, 
+proc.dest="all")
 }
 \arguments{
   \item{X}{distributed matrix}

@@ -41,12 +41,12 @@
 }
 }
 \usage{
-  \S4method{qr}{ddmatrix}(x, tol = 1e-07)
-  \S4method{qr.Q}{ANY}(x, complete = FALSE,  Dvec = rep.int(if (cmplx) 1 + 
-  (0+0i) else 1, if (complete) dqr[1] else min(dqr)))
-  \S4method{qr.R}{ANY}(x, complete = FALSE)
-  \S4method{qr.qy}{ANY}(x, y)
-  \S4method{qr.qty}{ANY}(x, y)
+\S4method{qr}{ddmatrix}(x, tol = 1e-07)
+\S4method{qr.Q}{ANY}(x, complete = FALSE,  Dvec = rep.int(if (cmplx) 1 + 
+(0+0i) else 1, if (complete) dqr[1] else min(dqr)))
+\S4method{qr.R}{ANY}(x, complete = FALSE)
+\S4method{qr.qy}{ANY}(x, y)
+\S4method{qr.qty}{ANY}(x, y)
 }
 \arguments{
   \item{x, y}{numeric distributed matrices for \code{qr()}. Otherwise,

@@ -49,15 +49,15 @@
 }
 }
 \usage{
-  \S4method{isSymmetric}{ddmatrix}(object, tol = 100 * .Machine$double.eps, ...) 
-  \S4method{t}{ddmatrix}(x)
-  \S4method{solve}{ddmatrix,ddmatrix}(a, b)
-  \S4method{solve}{ddmatrix,ANY}(a)
-  \S4method{La.svd}{ddmatrix}(x, nu, nv)
-  \S4method{svd}{ddmatrix}(x, nu, nv)
-  \S4method{eigen}{ddmatrix}(x, symmetric, only.values = FALSE)
-  \S4method{chol}{ddmatrix}(x)
-  \S4method{lu}{ddmatrix}(x)
+\S4method{isSymmetric}{ddmatrix}(object, tol = 100 * .Machine$double.eps, ...) 
+\S4method{t}{ddmatrix}(x)
+\S4method{solve}{ddmatrix,ddmatrix}(a, b)
+\S4method{solve}{ddmatrix,ANY}(a)
+\S4method{La.svd}{ddmatrix}(x, nu, nv)
+\S4method{svd}{ddmatrix}(x, nu, nv)
+\S4method{eigen}{ddmatrix}(x, symmetric, only.values = FALSE)
+\S4method{chol}{ddmatrix}(x)
+\S4method{lu}{ddmatrix}(x)
 }
 \arguments{
   \item{object, x, a, b}{numeric distributed matrices.  If applicable, 

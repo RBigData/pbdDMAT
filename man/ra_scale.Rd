@@ -17,7 +17,7 @@
 }
 }
 \usage{
-  \S4method{scale}{ddmatrix,ANY,ANY}(x, center = TRUE, scale = TRUE)
+\S4method{scale}{ddmatrix,ANY,ANY}(x, center = TRUE, scale = TRUE)
 }
 \arguments{
   \item{x}{numeric distributed matrix.}

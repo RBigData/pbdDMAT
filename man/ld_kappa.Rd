@@ -20,10 +20,10 @@
   Computes or estimates the condition number.
 }
 \usage{
-  \S3method{kappa}{ddmatrix}(z, exact = FALSE, norm = NULL,
-                             method = c("qr", "direct"), ...)
-  \S4method{rcond}{ddmatrix}(x, norm = c("O", "I", "1"), 
-                             triangular = FALSE, ...)
+\S3method{kappa}{ddmatrix}(z, exact = FALSE, norm = NULL,
+                           method = c("qr", "direct"), ...)
+\S4method{rcond}{ddmatrix}(x, norm = c("O", "I", "1"), 
+                           triangular = FALSE, ...)
 }
 \arguments{
   \item{x,z}{numeric distributed matrices.}

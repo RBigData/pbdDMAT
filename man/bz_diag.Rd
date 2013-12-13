@@ -21,13 +21,13 @@
 }
 }
 \usage{
-  \S4method{diag}{ddmatrix}(x)
-  \S4method{diag}{vector}(x, nrow, ncol, type = "matrix", ..., 
-                          bldim = .BLDIM, ICTXT = .ICTXT)
-  \S4method{diag}{character}(x, nrow, ncol, type = "matrix", ..., 
-                             min = 0, max = 1, mean = 0, sd = 1,
-                             rate = 1, shape, scale = 1, 
-                             bldim = .BLDIM, ICTXT = .ICTXT)
+\S4method{diag}{ddmatrix}(x)
+\S4method{diag}{vector}(x, nrow, ncol, type = "matrix", ..., 
+                        bldim = .BLDIM, ICTXT = .ICTXT)
+\S4method{diag}{character}(x, nrow, ncol, type = "matrix", ..., 
+                           min = 0, max = 1, mean = 0, sd = 1,
+                           rate = 1, shape, scale = 1, 
+                           bldim = .BLDIM, ICTXT = .ICTXT)
 }
 \arguments{
   \item{x}{distributed matrix or a vector.}

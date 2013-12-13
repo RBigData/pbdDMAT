@@ -12,9 +12,9 @@
   \code{redistribute()} functions.
 }
 \usage{
-  \S4method{as.ddmatrix}{NULL}(x, bldim = .BLDIM, ICTXT = .ICTXT)
-  \S4method{as.ddmatrix}{vector}(x, bldim = .BLDIM, ICTXT = .ICTXT)
-  \S4method{as.ddmatrix}{matrix}(x, bldim = .BLDIM, ICTXT = .ICTXT)
+\S4method{as.ddmatrix}{NULL}(x, bldim = .BLDIM, ICTXT = .ICTXT)
+\S4method{as.ddmatrix}{vector}(x, bldim = .BLDIM, ICTXT = .ICTXT)
+\S4method{as.ddmatrix}{matrix}(x, bldim = .BLDIM, ICTXT = .ICTXT)
 }
 \arguments{
   \item{x}{a numeric matrix}

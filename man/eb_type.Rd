@@ -31,11 +31,11 @@
 }
 }
 \usage{
-  is.ddmatrix(x)
-  \S4method{is.numeric}{ddmatrix}(x)
-  \S4method{is.na}{ddmatrix}(x)
-  \S4method{is.nan}{ddmatrix}(x)
-  \S4method{is.infinite}{ddmatrix}(x)
+is.ddmatrix(x)
+\S4method{is.numeric}{ddmatrix}(x)
+\S4method{is.na}{ddmatrix}(x)
+\S4method{is.nan}{ddmatrix}(x)
+\S4method{is.infinite}{ddmatrix}(x)
 }
 \arguments{
   \item{x}{numeric distributed matrix}

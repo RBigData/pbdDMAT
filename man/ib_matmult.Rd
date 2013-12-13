@@ -22,9 +22,9 @@
   Multiplies two distributed matrices, if they are conformable.
 }
 \usage{
-  x \%*\% y
-  \S4method{crossprod}{ddmatrix,ANY}(x, y = NULL)
-  \S4method{tcrossprod}{ddmatrix,ANY}(x, y = NULL)
+x \%*\% y
+\S4method{crossprod}{ddmatrix,ANY}(x, y = NULL)
+\S4method{tcrossprod}{ddmatrix,ANY}(x, y = NULL)
 }
 \section{Methods}{
 \describe{

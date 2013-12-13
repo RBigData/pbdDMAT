@@ -37,26 +37,26 @@
 }
 }
 \usage{
-  \S4method{ddmatrix}{character}(data, nrow = 1, ncol = 1, byrow = FALSE,
-                                 ..., min = 0, max = 1, mean = 0, sd = 1,
-                                 rate = 1, shape, scale = 1, 
-                                  bldim = .BLDIM, ICTXT = .ICTXT)
-  \S4method{ddmatrix}{matrix}(data, nrow = 1, ncol = 1, byrow = FALSE,
-                                 ..., bldim = .BLDIM, ICTXT = .ICTXT)
-  \S4method{ddmatrix}{missing}(data, nrow = 1, ncol = 1, byrow = FALSE,
-                                 ..., bldim = .BLDIM, ICTXT = .ICTXT)
-  \S4method{ddmatrix}{vector}(data, nrow = 1, ncol = 1, byrow = FALSE,
-                                 ..., bldim = .BLDIM, ICTXT = .ICTXT)
-  \S4method{ddmatrix.local}{character}(data, nrow = 1, ncol = 1, byrow = FALSE,
-                                 ..., min = 0, max = 1, mean = 0, sd = 1,
-                                 rate = 1, shape, scale = 1, 
-                                  bldim = .BLDIM, ICTXT = .ICTXT)
-  \S4method{ddmatrix.local}{matrix}(data, nrow = 1, ncol = 1, byrow = FALSE,
-                                 ..., bldim = .BLDIM, ICTXT = .ICTXT)
-  \S4method{ddmatrix.local}{missing}(data, nrow = 1, ncol = 1, byrow = FALSE,
-                                 ..., bldim = .BLDIM, ICTXT = .ICTXT)
-  \S4method{ddmatrix.local}{vector}(data, nrow = 1, ncol = 1, byrow = FALSE,
-                                 ..., bldim = .BLDIM, ICTXT = .ICTXT)
+\S4method{ddmatrix}{character}(data, nrow = 1, ncol = 1, byrow = FALSE,
+                               ..., min = 0, max = 1, mean = 0, sd = 1,
+                               rate = 1, shape, scale = 1, 
+                                bldim = .BLDIM, ICTXT = .ICTXT)
+\S4method{ddmatrix}{matrix}(data, nrow = 1, ncol = 1, byrow = FALSE,
+                               ..., bldim = .BLDIM, ICTXT = .ICTXT)
+\S4method{ddmatrix}{missing}(data, nrow = 1, ncol = 1, byrow = FALSE,
+                               ..., bldim = .BLDIM, ICTXT = .ICTXT)
+\S4method{ddmatrix}{vector}(data, nrow = 1, ncol = 1, byrow = FALSE,
+                               ..., bldim = .BLDIM, ICTXT = .ICTXT)
+\S4method{ddmatrix.local}{character}(data, nrow = 1, ncol = 1, byrow = FALSE,
+                               ..., min = 0, max = 1, mean = 0, sd = 1,
+                               rate = 1, shape, scale = 1, 
+                                bldim = .BLDIM, ICTXT = .ICTXT)
+\S4method{ddmatrix.local}{matrix}(data, nrow = 1, ncol = 1, byrow = FALSE,
+                               ..., bldim = .BLDIM, ICTXT = .ICTXT)
+\S4method{ddmatrix.local}{missing}(data, nrow = 1, ncol = 1, byrow = FALSE,
+                               ..., bldim = .BLDIM, ICTXT = .ICTXT)
+\S4method{ddmatrix.local}{vector}(data, nrow = 1, ncol = 1, byrow = FALSE,
+                               ..., bldim = .BLDIM, ICTXT = .ICTXT)
 }
 \arguments{
   \item{data}{optional data vector.}

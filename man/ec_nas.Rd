@@ -16,7 +16,7 @@
 }
 }
 \usage{
-  \S4method{na.exclude}{ddmatrix}(object, ..., ICTXT)
+\S4method{na.exclude}{ddmatrix}(object, ..., ICTXT)
 }
 \arguments{
   \item{object}{numeric distributed matrix}

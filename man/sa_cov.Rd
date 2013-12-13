@@ -38,12 +38,12 @@
 }
 }
 \usage{
-  \S4method{sd}{ddmatrix}(x, na.rm = FALSE, reduce = FALSE, proc.dest="all")
-  \S4method{sd}{ANY}(x, na.rm = FALSE) 
-  \S4method{var}{ddmatrix}(x, y = NULL, na.rm = FALSE, use)
-  \S4method{cov}{ddmatrix}(x, y = NULL, use = "everything", method = 
-  "pearson")
-  \S4method{cov2cor}{ddmatrix}(V)
+\S4method{sd}{ddmatrix}(x, na.rm = FALSE, reduce = FALSE, proc.dest="all")
+\S4method{sd}{ANY}(x, na.rm = FALSE) 
+\S4method{var}{ddmatrix}(x, y = NULL, na.rm = FALSE, use)
+\S4method{cov}{ddmatrix}(x, y = NULL, use = "everything", method = 
+"pearson")
+\S4method{cov2cor}{ddmatrix}(V)
 }
 \arguments{
   \item{x, y, V}{numeric distributed matrices.}
