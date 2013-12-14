@@ -395,10 +395,10 @@ setMethod("eigen", signature(x="ddmatrix"),
 eigen2 <- function(x, range=c(-Inf, Inf), range.type="interval", only.values=FALSE, abstol=1e-8, orfac=1e-3)
 {
     # Basic checking
-    pbdDMAT:::must.be(x, "ddmatrix")
-    pbdDMAT:::must.be(range, "numeric")
-    pbdDMAT:::must.be(range.type, "character")
-    pbdDMAT:::must.be(only.values, "logical")
+    must.be(x, "ddmatrix")
+    must.be(range, "numeric")
+    must.be(range.type, "character")
+    must.be(only.values, "logical")
     
     # Return eigenvectors or not
     if (only.values)
@@ -528,7 +528,7 @@ setMethod("qr.Q", signature(x="ANY"),
       } else {
         dqr <- dim(x$qr)
         cmplx <- mode(x$qr) == "complex"
-        ret <- base:::qr.Q(qr=x, complete=complete, Dvec=Dvec)
+        ret <- base::qr.Q(qr=x, complete=complete, Dvec=Dvec)
       }
       
       return( ret )
