@@ -1,3 +1,6 @@
+useDynLib(pbdDMAT)
+
+
 import(methods, rlecuyer, pbdMPI, pbdSLAP, pbdBASE)
 
 # All internal functions
@@ -147,5 +150,6 @@ exportMethods(
   "cor", 
   "cov2cor", 
   "|", 
-  "&"
+  "&",
+  "sparsity"
 )

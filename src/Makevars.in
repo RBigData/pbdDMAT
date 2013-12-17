@@ -1,0 +1,24 @@
+### Setup R source code and objects.
+PKG_CPPFLAGS = @DEFS@
+PKG_CFLAGS = -w
+
+### For user configuration.
+USER_CONF = Makeconf
+
+### For libcpuid
+R_OBJS = \
+sparse_utils.o
+
+
+OBJECTS = ${R_OBJS}
+
+
+### Start making here.
+all: $(SHLIB)
+
+$(SHLIB): $(OBJECTS)
+
+clean:
+		@rm -rf *.o *.d *.rc *.so* *.dylib *.dll *.a *.lib \
+				Makedeps Makevars $(SHLIB) $(OBJECTS)
+

@@ -241,3 +241,10 @@ setGeneric(name="ownany",
   package="pbdDMAT"
 )
 
+
+setGeneric(name="sparsity", 
+  function(x, count="zero", out="count", tol=.Machine$double.eps) 
+    standardGeneric("sparsity"), 
+  package="pbdDMAT"
+)
+
