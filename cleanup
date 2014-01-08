@@ -14,3 +14,4 @@ rm -rf ./src/*.a
 rm -rf ./src/*.rc
 rm -rf ./src/*.rds
 rm -rf ./src-*
+rm -rf ./man/*.pdf
