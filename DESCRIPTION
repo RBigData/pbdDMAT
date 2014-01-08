@@ -7,8 +7,9 @@ Depends: R (>= 2.14.0), methods, rlecuyer, pbdMPI (>= 0.2-1),
 LazyLoad: yes
 LazyData: yes
 Authors@R: c(person("Drew", "Schmidt", role = c("aut", "cre"), email =
-        "schmidt@math.utk.edu"), person("Wei-Chen", "Chen", role =
-        "aut"), person("George", "Ostrouchov", role = "aut"),
+        "schmidt@math.utk.edu"), 
+        person("Wei-Chen", "Chen", role = "aut"), 
+        person("George", "Ostrouchov", role = "aut"),
         person("Pragneshkumar", "Patel", role = "aut"), 
         person("R Core team", role = "ctb", comment = "some wrappers
         taken from the base and stats packages"))
