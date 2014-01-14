@@ -41,7 +41,7 @@ setMethod("sparsity", signature(x="vector"),
   }
 )
 
-setMethod("sparsity", signature(x="ddmatrix"), 
+setMethod("sparsity", signature(x="dmat"), 
   function(x, count="zero", out="count", tol=.Machine$double.eps)
   {
     ret <- sparsity(x=x@Data, count=count, out="count", tol=tol)

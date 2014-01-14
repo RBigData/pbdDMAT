@@ -1,6 +1,18 @@
 # -------------------
-# Creation
+# Constructors
 # -------------------
+
+setMethod("dmat", signature(data="missing"), 
+  function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=.BLDIM, ICTXT=.ICTXT)
+  {
+    data <- NA
+    ret <- ddmatrix(data=data, nrow=nrow, ncol=ncol, byrow=byrow, bldim=bldim, ICTXT=ICTXT)
+    
+    return( ret )
+  }
+)
+
+
 
 #setMethod("ddmatrix", signature(data="ddmatrix"), 
 #  function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=.BLDIM, ICTXT=.ICTXT)

@@ -1,8 +1,6 @@
-# ##################################################
 # --------------------------------------------------
-# Classes
+# Validity methods
 # --------------------------------------------------
-# ##################################################
 
 # Validity checking for ddmatrix objects
 valid.ddmatrix <- function(object)
@@ -32,33 +30,48 @@ valid.ddmatrix <- function(object)
   return(TRUE)
 }
 
+# --------------------------------------------------
+# Matrices
+# --------------------------------------------------
+
+setClass(Class="dmat", 
+  representation=representation(
+    Data="matrix", 
+    dim="numeric", 
+    ldim="numeric",
+    storage="character", 
+    "VIRTUAL"),
+)
 
 # Distributed Dense Matrix
 setClass(
-         "ddmatrix", 
-          representation(
-                         Data="matrix",
-                         dim="numeric",
-                         ldim="numeric",
-                         bldim="numeric",
-                         ICTXT="numeric"
-          ),
-          
-          prototype(
-                         Data=matrix(0.0),
-                         dim=c(1L, 1L),
-                         ldim=c(1L, 1L),
-                         bldim=c(1L, 1L),
-                         ICTXT=0L
-          )#,
-          #
-          #validity=valid.ddmatrix
+  Class="ddmatrix", 
+  representation=representation(
+    bldim="numeric",
+    ICTXT="numeric"
+  ),
+  
+  prototype=prototype(
+    Data=matrix(0.0),
+    dim=c(1L, 1L),
+    ldim=c(1L, 1L),
+    bldim=c(1L, 1L),
+    ICTXT=0L,
+    storage="dense"
+  ),
+  contains="dmat"#,
+  #
+  #validity=valid.ddmatrix
 )
+
+# --------------------------------------------------
+# Vectors
+# --------------------------------------------------
 
 # Distributed Dense Vector
 setClass(
-         "ddvector", 
-          representation(
+          Class="ddvector", 
+          representation=representation(
                          Data="vector",
                          len="numeric",
                          llen="numeric",
@@ -66,7 +79,7 @@ setClass(
                          ICTXT="numeric"
           ),
           
-          prototype(
+          prototype=prototype(
                          Data=0.0,
                          len=1L,
                          llen=1L,
