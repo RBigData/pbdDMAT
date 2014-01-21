@@ -181,6 +181,12 @@ setGeneric(name="qr.qty",
 
 
 ### S4 methods for new things
+setGeneric(name="dmat", 
+  function(data, ...)
+    standardGeneric("dmat"),
+  package="pbdDMAT"
+)
+
 setGeneric(name="ddmatrix", 
   function(data, ...) 
     standardGeneric("ddmatrix"), 

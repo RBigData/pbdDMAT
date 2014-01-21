@@ -41,6 +41,11 @@ setClass(Class="dmat",
     ldim="numeric",
     storage="character", 
     "VIRTUAL"),
+  prototype=prototype(
+    Data=matrix(0.0), 
+    dim=c(1L, 1L), 
+    ldim=c(1L, 1L),
+    storage="dense")
 )
 
 # Distributed Dense Matrix
