@@ -414,10 +414,10 @@ setMethod("na.exclude", signature(object="ddmatrix"),
     else
       tmp <- numeric(0)
 
-    tmplen <- allreduce(length(tmp), op='max')
+    tmplen <- pbdMPI::allreduce(length(tmp), op='max')
     if (length(tmp) < tmplen)
       tmp <- rep(0, tmplen)
-    tmp <- allreduce(tmp)
+    tmp <- pbdMPI::allreduce(tmp)
 
     narows <- which(is.na(tmp))
     lnarows <- length(narows)
@@ -444,7 +444,7 @@ setMethod("na.exclude", signature(object="ddmatrix"),
     }
 
     if (all(newObj@dim>0)){
-      newdim <- allreduce(dim(newObj@Data)[1], op='max')
+      newdim <- pbdMPI::allreduce(dim(newObj@Data)[1], op='max')
       newObj@dim[1]  <- newdim
     }
 

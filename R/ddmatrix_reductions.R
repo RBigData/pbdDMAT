@@ -46,7 +46,7 @@ dmat.blacsreduction <- function(x, SCOPE, op, ICTXT, proc.dest=-1, check=TRUE)
   # checking that all m and n agree
   if (check){
     if (SCOPE=='All')
-      mx <- allreduce(c(m,n), op='max')
+      mx <- pbdMPI::allreduce(c(m,n), op='max')
     else
       mx <- base.igamx2d(ICTXT=ICTXT, SCOPE=SCOPE, m=2L, n=1L, x=c(m,n), lda=2, RDEST=-1, CDEST=-1)
     
@@ -192,7 +192,7 @@ dmat.rcminmax <- function(x, na.rm=FALSE, SCOPE, op)
   
   # have to account for possible lack of ownership
   if (SCOPE=='All')
-    mx <- allreduce(dim(Data), op='max')
+    mx <- pbdMPI::allreduce(dim(Data), op='max')
   else
     mx <- base.igamx2d(ICTXT=x@ICTXT, SCOPE=SCOPE, m=2L, n=1L, x=dim(Data), lda=2, RDEST=-1, CDEST=-1)
   
@@ -208,9 +208,9 @@ dmat.rcminmax <- function(x, na.rm=FALSE, SCOPE, op)
   iown <- base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT)
   
   if (op=='min')
-    nd <- allreduce(max(Data), op='max')
+    nd <- pbdMPI::allreduce(max(Data), op='max')
   else if (op=='max')
-    nd <- allreduce(min(Data), op='min')
+    nd <- pbdMPI::allreduce(min(Data), op='min')
   
   if (dm > 0 || dn > 0 || !iown){
     dim(Data) <- NULL

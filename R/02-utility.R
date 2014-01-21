@@ -86,7 +86,7 @@ dmat.as.ddmatrix <- function(x, bldim=.BLDIM, ICTXT=.ICTXT)
       iown <- pbdMPI::comm.rank()
     else
       iown <- 0
-    iown <- allreduce(iown, op='max')
+    iown <- pbdMPI::allreduce(iown, op='max')
     return( base.distribute(x=x, bldim=bldim, xCTXT=0, ICTXT=ICTXT) )
   } 
   # global ownership is assumed --- this should only ever really happen in testing

@@ -1,28 +1,54 @@
 sparse_count_zeros <- function(x, tol=.Machine$double.eps)
 {
-  if (!is.double(x))
+  if (is.logical(x))
+    storage.mode(x) <- "integer"
+  
+  if (is.integer(x))
+  {
+    ret <- .Call("R_int_sparse_count_zeros", x)
+  }
+  else if (!is.double(x))
+  {
     storage.mode(x) <- "double"
   
-  .Call("R_sparse_count_zeros", x, tol)
+    ret <- .Call("R_sparse_count_zeros", x, tol)
+  }
+  
+  return( ret )
 }
+
+check_sparsity_inputs <- function(count, out, tol)
+{
+  match.arg(tolower(count), c("zero", "other"))
+  match.arg(tolower(out), c("count", "proportion", "percent"))
+}
+
+calc_sparsity_return <- function(n, dim, count, out)
+{
+  count <- match.arg(tolower(count), c("zero", "other"))
+  out <- match.arg(tolower(out), c("count", "proportion", "percent"))
+  
+  if (count == "other")
+    ret <- dim - n
+  
+  if (out == "proportion")
+    ret <- n/dim
+  else if (out == "percent")
+    ret <- n/dim*100
+  
+  return( ret )
+}
+
+
 
 setMethod("sparsity", signature(x="matrix"), 
   function(x, count="zero", out="count", tol=.Machine$double.eps)
   {
-    count <- match.arg(tolower(count), c("zero", "other"))
-    out <- match.arg(tolower(out), c("count", "proportion", "percent"))
-    
-    ret <- sparse_count_zeros(x=x, tol=tol)
+    check_sparsity_inputs(count=count, out=out, tol=tol)
+    n <- sparse_count_zeros(x=x, tol=tol)
     
     dim <- prod(dim(x))
-    
-    if (count == "other")
-      ret <- dim - ret
-    
-    if (out == "proportion")
-      ret <- ret/dim
-    else if (out == "percent")
-      ret <- ret/dim*100
+    ret <- calc_sparsity_return(n=n, dim=dim, count=count, out=out)
     
     return( ret )
   }
@@ -44,19 +70,12 @@ setMethod("sparsity", signature(x="vector"),
 setMethod("sparsity", signature(x="dmat"), 
   function(x, count="zero", out="count", tol=.Machine$double.eps)
   {
-    ret <- sparsity(x=x@Data, count=count, out="count", tol=tol)
+    n <- sparsity(x=x@Data, count="zero", out="count", tol=tol)
     
-    ret <- allreduce(ret)
+    n <- pbdMPI::allreduce(n)
     
     dim <- prod(x@dim)
-    
-    if (count == "other")
-      ret <- dim - ret
-    
-    if (out == "proportion")
-      ret <- ret/dim
-    else if (out == "percent")
-      ret <- ret/dim*100
+    ret <- calc_sparsity_return(n=n, dim=dim, count=count, out=out)
     
     return( ret )
   }
