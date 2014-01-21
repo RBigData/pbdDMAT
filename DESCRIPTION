@@ -18,8 +18,9 @@ Description: pbdDMAT contains high level S3 and S4 methods for creating,
         matrices. This includes a new class, 'ddmatrix', for storing all 
         of the distributed data details.  Computation is handled mostly 
         by routines from the pbdBASE package.
-SystemRequirements: OpenMPI (>= 1.5.4) on Solaris, Linux and Mac,
-        MPICH2 (>= 1.4.1p1) on Windows
+SystemRequirements: OpenMPI (>= 1.5.4) on Solaris, Linux, Mac, and
+        FreeBSD. MS-MPI (Microsoft HPC Pack 2012) or MPICH2 (>= 1.4.1p1)
+        on Windows.
 License: GPL (>= 2)
 NeedsCompilation: Yes
 URL: http://r-pbd.org/
