@@ -53,6 +53,37 @@ int sparse_count_zeros(int m, int n, double *x, double tol)
 
 
 
+int sparse_count_zeros_withrows(int m, int n, int *rows, double *x, double tol)
+{
+  int count = 0;
+  int i, j;
+  int first;
+  
+  *rows = 0;
+  
+  for (i=0; i<m; i++)
+  {
+    first = true;
+    for (j=0; j<n; j++)
+    {
+      if (fequals(x[i + m*j], 0.0, tol))
+      {
+        count++;
+      
+        if (first == true)
+        {
+          (*rows)++;
+          first = false;
+        }
+      }
+    }
+  }
+  
+  return count;
+}
+
+
+
 SEXP R_sparse_count_zeros(SEXP x, SEXP tol)
 {
   SEXP ret;

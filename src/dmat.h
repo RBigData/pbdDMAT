@@ -22,3 +22,4 @@ SEXP R_sparse_count_zeros(SEXP x, SEXP tol);
 
 
 #endif
+

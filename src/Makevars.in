@@ -11,7 +11,8 @@ PKG_LIBS = $(SEXPTOOLS_LDFLAGS)
 
 R_OBJS = \
     converters.o \
-    sparse_utils.o
+    sparse_utils.o \
+    util.o
 
 
 

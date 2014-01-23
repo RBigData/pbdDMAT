@@ -69,6 +69,27 @@ setClass(
   #validity=valid.ddmatrix
 )
 
+# Distributed Sparse Matrix
+#setClass(
+  #Class="dsmatrix", 
+  #representation=representation(
+    #row_ptr="numeric",
+    #col_ind="numeric"
+  #),
+  
+  #prototype=prototype(
+    #Data=0.0,
+    #dim=c(1L, 1L),
+    #ldim=c(1L, 1L),
+    #row_ptr=1,
+    #col_ind=1,
+    #storage="csr"
+  #),
+  #contains="dmat",
+#)
+
+
+
 # --------------------------------------------------
 # Vectors
 # --------------------------------------------------
