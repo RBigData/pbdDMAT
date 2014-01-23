@@ -1,11 +1,6 @@
-#include <R.h>
-#include <Rinternals.h>
 #include <math.h>
+#include "dmat.h"
 
-#define false 0
-#define true 1
-
-#define fequals(x,y,tol) (fabs(x-y)<tol?true:false)
 
 int int_sparse_count_zeros(int m, int n, int *x)
 {
@@ -25,6 +20,7 @@ int int_sparse_count_zeros(int m, int n, int *x)
 }
 
 
+
 SEXP R_int_sparse_count_zeros(SEXP x)
 {
   SEXP ret;
@@ -35,6 +31,7 @@ SEXP R_int_sparse_count_zeros(SEXP x)
   UNPROTECT(1);
   return ret;
 }
+
 
 
 int sparse_count_zeros(int m, int n, double *x, double tol)
