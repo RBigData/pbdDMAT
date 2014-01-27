@@ -47,7 +47,7 @@ setClass(Class="dmat",
 #    Data=matrix(0.0), 
     dim=c(1L, 1L), 
     ldim=c(1L, 1L),
-    storage="gbd")
+    storage="llb") # locally load balanced
 )
 
 # Distributed Dense Matrix
