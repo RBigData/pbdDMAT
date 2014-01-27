@@ -254,3 +254,17 @@ setGeneric(name="sparsity",
   package="pbdDMAT"
 )
 
+
+
+setGeneric(name="as.dmat", 
+  function(x, ...) 
+    standardGeneric("as.dmat"), 
+  package="pbdDMAT"
+)
+
+setGeneric(name="as.dsmatrix", 
+  function(x, ...) 
+    standardGeneric("as.dsmatrix"), 
+  package="pbdDMAT"
+)
+
