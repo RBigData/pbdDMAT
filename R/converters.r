@@ -6,7 +6,7 @@
 setMethod("as.dmat", signature(x="dsmatrix"),
   function(x)
   {
-    Data <- convert_csr_to_dense(dim=x@dim, ldim=x@ldim, Data=x@Data, row_ptr=x@row_ptr, col_ind=x@col_ind)
+    Data <- convert_csr_to_dense(dim=x@ldim, Data=x@Data, row_ptr=x@row_ptr, col_ind=x@col_ind)
     llb <- new("dmat", Data=Data, dim=x@dim, ldim=x@ldim, storage="llb")
     
     return( llb )
@@ -45,7 +45,8 @@ setMethod("as.matrix", signature(x="dmat"),
     start <- dmat_index(nrows)
     end <- start + nrows.local - 1L
     
-    mat[start:end, ] <- x@Data
+    if (ldim[1L] > 0)
+      mat[start:end, ] <- x@Data
     
     # FIXME make this bcast later, too lazy atm
     mat <- allreduce(mat)
