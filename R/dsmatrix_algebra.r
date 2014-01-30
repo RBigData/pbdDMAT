@@ -21,6 +21,7 @@ setMethod("t", signature(x="dsmatrix"),
 )
 
 
+
 setMethod("%*%", signature(x="dsmatrix", y="dsmatrix"),
   function(x, y)
   {
@@ -51,4 +52,23 @@ setMethod("%*%", signature(x="dsmatrix", y="dsmatrix"),
     return( ret )
   }
 )
+
+
+
+setMethod("solve", signature(a="dsmatrix"),
+  function(a)
+  {
+    out <- petsc_invert(dim=a@dim, ldim=a@ldim, Data=a@Data, row_ptr=a@row_ptr, col_ind=a@col_ind)
+    
+    if (ldim[1L] == 0)
+      Data <- matrix(0.0, 1L, 1L)
+    else
+      Data <- out$Data
+    
+    ret <- new("dmat", dim=a@dim, ldim=a@ldim, Data=Data)
+    
+    return( ret )
+  }
+)
+
 
