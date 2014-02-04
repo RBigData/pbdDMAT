@@ -10,9 +10,9 @@
 \addcontentsline{toc}{subsection}{\thesubsection. Example 1}
 
 Let's take a look at some example code.  Here, we will do some distributed matrix multiplication, as well as solving some systems of equations.  You probably should not use a large process grid for this problem.  Anything bigger than $8\times 8$ is \emph{massive} overkill.  A $2\times 2$, $2\times 4$, or $4\times 4$ process grid (4, 8, or 16 processes respectively) should be more than plenty --- so a humble laptop or desktop should more than suffice.  You've got to crawl before you can drag race.
-\np
+
 Throughout, we will preface distributed objects by a $d$, purely for pedagogical reasons.  Non-distributed objects will not have any preface.  So \code{x} is not distributed, but \code{dx} is.
-\np
+
 To convince you that this new stuff is really doing the same things as the old stuff, we are going to randomly generate a $500\times 500$ matrix on process 0, and then distribute that matrix across the process grid, using a $32\times 32$ blocking dimension.  If you are using more than 4 processes, you might consider backing that off to $16\times 16$, but it's not really necessary; remember, the purpose here is to learn.
 
 \begin{lstlisting}[language=rr,title=Generating Test Data]
@@ -53,7 +53,7 @@ The basic explanation for what this is doing is:
 \end{itemize}
 
 Before continuing, it is good to reiterate that this is not an efficient way to do business if you are using many processes.  You need to use multiple processes to either read in the matrix into pieces from disk in parallel, or you need to do random generation in parallel using multiple (perhaps all) processes.
-\np
+
 Now that we have our data in the right format, it's pure easy street from here.  Now we just forget that there is anything distributed at all going on and write our code exactly as we would with plain, vanilla \proglang{R}.  First, we will multiply the transpose of \code{dx} and calculate the inverse of this product, storing the result in \code{dx_inv}.  Finally, we solve the system of equations with two right hand sides \code{dx_inv * solns = db}.
 
 \begin{lstlisting}[language=rr,title=Simple Matrix Operations]
@@ -115,7 +115,7 @@ from a terminal.  If everything works correctly, then two \code{TRUE}'s will pri
 \addcontentsline{toc}{subsection}{\thesubsection. Example 2}
 
 First we will generate some data on process 0, or (0,0) using the grid notation.  We will do this using a simple \code{if()} together with the \pkg{pbdMPI} function \code{comm.rank()}, which returns the MPI communicator number for the calling process.  Any process not initially storing any data should store \code{NULL} for the object.  This probably isn't the way you will want to run your production code, especially if you are randomly generating data; in that case, it would be much more efficient to just generate what is needed on each processor.  Although doing this requires that you have access to good seeds for parallel random number generation; for more information, see the documentation on setting seeds via \code{comm.set.seed()} in the \pkg{pbdMPI} package, or for more control, see the \pkg{rlecuyer} or \pkg{rsprng} packages.  
-\np
+
 There is merit, however, in operating in this way.  This is somewhat like the process necessary for reading in data onto a subset of processors (just 1 if you do not have access to a parallel file system) and then distributing that out to the larger grid, so it is a useful skill.  For more information about this procedure, see Section~\ref{sec:eg2}.
 
 \begin{lstlisting}[language=rr,title=Generating Test Data]
@@ -147,7 +147,7 @@ comm.print(dx)
 \end{lstlisting}
 
 Here, \code{print()} is a special method that shows you the slots of your distributed matrix.  The \code{submatrix()} function will show the local submatrix (syntactic sugar for printing \code{dx@Data}).  Use of \pkg{pbdMPI}'s \code{comm.print()} ensures that only process 0 will print the result.  Finally, just using \proglang{R}'s print method on the object in \code{comm.print(dx)} will produce an uglier version of \code{print(dx)} and \code{comm.print(submatrix(dx))}.
-\np
+
 We can also do insertions and extractions:
 
 \begin{lstlisting}[language=rr,title=Insertion and Extraction]
@@ -159,8 +159,6 @@ dx <- dx[, -2]
 comm.print(dim(dx))
 
 nona <- na.exclude(dx)
-
-# continued in the next block of code ...
 \end{lstlisting}
 
 Finally, we can convert the distributed matrix back into an ordinary \proglang{R} matrix on processor 0.  You probably will not need to do this very often in production code, because in practice, you could be dealing with matrices with so many elements that they will not fit into a single R process.  For testing however, this process can be very useful.  It could also conceivably have utility for dealing with $n\times 1$ matrices.
@@ -183,7 +181,7 @@ finalize()
 
 
 In the above script, there is one addition over the previous pieces.  Namely, we include several calls to \code{comm.cat()}.  All this does is demand line breaks (via the regular expression \code{\textbackslash n}) for more human-readable printing.
-\np
+
 The script file is available in the \pkg{pbdDMAT} directory, under \code{inst/examples/pbddmat_example2.R}, and you can run this script from the command line with the following command:
 
 \begin{lstlisting}

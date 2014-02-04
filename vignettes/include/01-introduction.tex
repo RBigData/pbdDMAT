@@ -5,9 +5,9 @@
 
 The Programming with Big Data in R~\citep{pbdr2012} project, abbreviated pbdR or just pbd, seeks to elevate the \proglang{R} language to supercomputers.  
 The \pkg{pbdDMAT} package (Programming with Big Data: Distributed Matrix Algebra Computation)~\citep{Schmidt2012pbdDMATpackage} is a (mostly) implicitly parallel system for doing distributed matrix computations in \proglang{R}.~\citep{Rcore}  It offers a new \code{S4} class \code{ddmatrix} and numerous high level methods for this object, which (intentionally) very closely resemble the existing \proglang{R} syntax for non-distributed matrices.  Much of the heavy lifting --- especially that involving distributed linear algebra --- is handled by the \pkg{pbdBASE}~\citep{Schmidt2012pbdBASEpackage} package, which efficiently utilizes the well-known high performance libraryes ScaLAPACK and PBLAS~\citep{slug}.
-\np
+
 Ordinarily, a user of these libraries would have to deal with a great many more headaches than the user of \pkg{pbdDMAT}.  Of note, a user of the \pkg{pbdDMAT} system can achieve massive performance boosts with only the most minimal interaction with the more cumbersome sides of ScaLAPACK, such as the MPI layer for ScaLAPACK, the Basic Linear Algebra Communication Subroutines (BLACS)~\citep{blug}.  The peculiarities of using these libraries, such as local storage issues, descriptor arrays, and BLACS grids are very much still there, but almost all of these problems have been abstracted away for the user.  Distributed matrix algebra has never been easier, and more importantly, massively scalable computational statistics has never been more accessible.
-\np
+
 The principal goal of the \pkg{pbdDMAT} package is to provide \proglang{R} users with access to extremely powerful distributed, implicitly parallel computation, all while preserving the friendly and familiar \proglang{R} syntax for these computations, so that effectively, much existing \proglang{R} code could used with this system with only trivial modifications, yet receive massive performance boosts.  Updates and bug releases for this and other \pkg{pbd} projects may, especially while in infancy, be much more frequent than \href{http://cran.r-project.org/}{CRAN} releases.  So for up to date packages, as well as evolving information about the \pkg{pbd} project,  see the pbdR project's github \url{http://code.r-pbd.org} or our website \href{http://r-pbd.org/}{http://r-pbd.org/}.
 
 
@@ -18,13 +18,13 @@ The principal goal of the \pkg{pbdDMAT} package is to provide \proglang{R} users
 \subsection[]{Achievements}
 \addcontentsline{toc}{subsection}{\thesubsection. Achievements}
 The pbdR series of packages offer the \proglang{R} user several new advancements.  First, by hiding the distributed details of ScaLAPACK, we offer (near) ScaLAPACK speeds and scaling to many cores, but with \proglang{R} syntax.  Second, by distributing the objects across processors, we are able to largely overcome \proglang{R}'s memory barrier.  
-\np
+
 At present\footnote{Though this is expected to change by summer 2013}, it is impossible to index native \proglang{R} objects with a 32-bit integer.  Since a matrix in \proglang{R} is really just an array, this means that the largest square matrix it is possible to store in \proglang{R} is roughly a $46,000 \times 46,000$ matrix.  This imposes two restrictions on the \pkg{pbd} system.  First, the global dimension of any matrix used at this time with the \pkg{pbd} toolchain must have dimensions indexable by a 32-bit integer.  Namely, no single dimension of the ``full'', global matrix may have more than 
 \begin{align*}
 \left(2^{32-1}-1\right)^2 &\approx 4.612 \times 10^{18} \label{pbdsize}
 \end{align*}
 because each dimension must be an integer, and in \proglang{R} terms, that means a 32-bit integer.
-\np
+
 By comparison, the largest matrix which a single \proglang{R} process can hold has
 
 \newcounter{mytag}
@@ -98,13 +98,13 @@ mpiexec -np 2 Rscript -e "demo(cholesky, package='pbdDMAT', ask=F, echo=F)"
 \addcontentsline{toc}{section}{\thesection. Terminology}
 % \label{sec:installation}
 Before beginning, we will make frequent use of concepts from the Single Program/Multiple Data (SPMD) paradigm.  If you are entirely unfamiliar with this approach to parallelism, or if you are unfamiliar with the \pkg{pbdMPI} package, then you are strongly encouraged to read the vignette~\citep{Chen2012pbdMPIvignette} contained in the \pkg{pbdMPI} package, as well as examine and digest its many examples in order to better understand what follows.
-\np
+
 A concise explanation of SPMD is that it is an approach to parallel, distributed programming in which one program is written, and each processor runs that same program, though that program locally will often be interacting with different data.  This, in contrast to the manager/worker paradigm where one processor, the manager, is in charge of its workers, each of whom swear fealty to the manager.  So in SPMD, each processor believes itself to be the manager, the one in charge.  As a colleague, Dr. Russell Zaretzki put it, ``it's like academia.''
-\np
+
 Throughout the remainder, we will be discussing a distributed matrix object, and wish to do so with some standardized terminology.  A matrix is of course a rectangular collection of numbers.  A \emph{distributed matrix} then is just a matrix which has been decomposed in some fashion so that each processor only owns a piece of the ``whole'' matrix.  For us, this decomposition is non-overlapping, so that if one processor owns some piece of the ``full'' matrix, then no other processor owns that same piece.  The ``whole'' matrix (which need not ever actually exist, except theoretically, at any time), rather than pieces of it distributed among the processors, will be referred to as a/the \emph{global} matrix.  Loosely speaking, the global matrix is what we are really thinking of when we deal with the sub-pieces of the distributed matrix.  
-\np
+
 In the SPMD paradigm, each processor, though only owning a piece of the whole (henceforth referred to as the \emph{local matrix} or \emph{submatrix}, relative to that processor), will call functions on that matrix exactly as one would with an ordinary, non-distributed matrix on a single processor.  The difference for the user is minimal; all the ``heavy lifting'' which explicitly handles the distributed nature of the object is performed in the background.
-\np
+
 Matrices, distributed or otherwise, have dimensions --- that is, lengths of the number of rows and the number of columns in the rectangle.  The global matrix has a \emph{global dimension}, and this is a global value, i.e., this value does not vary from processor to processor.  Every processor agrees as to the size of the ``full'' matrix, otherwise we would have anarchy.  However, the local matrices, in practice, will differ from processor to processor, and so too should their \emph{local dimensions}.  A local dimension, as the name implies, is the dimension of the submatrix, relative to a particular processor.
 
 
