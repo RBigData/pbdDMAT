@@ -56,16 +56,20 @@
 \author{
 \begin{minipage}{6in}
 \centering
-Drew Schmidt$^1$, Wei-Chen Chen$^2$, George Ostrouchov$^{1,2}$, \\
+Drew Schmidt$^1$, Wei-Chen Chen$^2$, George Ostrouchov$^{1,3}$, \\
 Pragneshkumar Patel$^1$
 \end{minipage}
 \\
 \\
-$^1$Remote Data Analysis and Visualization Center\\
+$^1$National Institute for Computational Sciences,\\
 University of Tennessee, \\
 Knoxville, TN, USA \\
 \\
-$^2$Computer Science and Mathematics Division, \\
+$^2$Department of Ecology and Evolutionary Biology,\\
+University of Tennessee, \\
+Knoxville, TN, USA \\
+\\
+$^3$Computer Science and Mathematics Division,\\
 Oak Ridge National Laboratory, \\
 Oak Ridge, TN, USA \\
 %\\
