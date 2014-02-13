@@ -1,12 +1,10 @@
-\section[]{Information for Developers}
+\section{Information for Developers}
 \label{sec:devs}
-\addcontentsline{toc}{section}{\thesection. Information for Developers}
 
 In this section, we will discuss some issues that are not really important for anyone except those who need to develop new methods which rely on \pkg{pbdBASE}.  For the remainder, we will make mention and use of \proglang{R}'s S4 method of object oriented programming, and we will assume that the reader has at least a working familiarity with S4.  There are several fine introductions to S4 methods available, including those from~\citep{s4chambers} and~\citep{s4notsoshort}.  It probably goes without saying that before beginning this section, the reader should be familiar with all sections prior.
 
-\subsection[]{Class \code{ddmatrix}}
+\subsection{Class \code{ddmatrix}}
 \label{sec:ictxt}
-\addcontentsline{toc}{subsection}{\thesubsection. Class \code{ddmatrix}}
 
 Every local submatrix must be a matrix containing at least one value, even if it technically should not have anything.  You will unleash unspeakable misery on yourself if you use \code{matrix(nrow=0, ncol=0)} for the submatrix, in particular when passing down to ScaLAPACK routines (the motivating example for the existence of \pkg{pbdBASE}).  Instead, you should use the routine \code{ownany()}, a simple wrapper on \code{numroc()}, to determine if the process actually owns any data from the global matrix.  If you consider this an extravagant waste of memory, then I have some very interesting things to tell you about \proglang{R}.
 
@@ -36,9 +34,8 @@ setMethod("log", signature(x="ddmatrix"),
 
 This is more or less how things are done in \pkg{pbdDMAT}.
 
-\subsection[]{BLACS}
+\subsection{BLACS}
 \label{sec:ictxt}
-\addcontentsline{toc}{subsection}{\thesubsection. BLACS}
 
 The most critical piece of information to impart is that no matter what, ``block-cyclicality'' can not be destroyed.  Most of the routines for distributed matrices (and almost all of the really complicated ones) assume this structure.  This is why 3 BLACS contexts are created by default when initializing the process grid; namely, context 0 is the optimal (unless otherwise specified) rectangular process grid, context 1 is the $PQ\times 1$ process grid (assuming $P$ process rows and $Q$ process columns), and context 2 is the $1\times PQ$ process grid.  As defined above, context 0 is optimal for many linear algebra routines, and not really any worse (aside from being cumbersome) for most other computations.  The other contexts are important because they are more natural for adding/removing columns and rows (respectively).
 

@@ -1,13 +1,11 @@
-\section[]{Examples}\label{sec:eg1}
-\addcontentsline{toc}{section}{\thesection. Examples}
+\section{Examples}\label{sec:eg1}
 
 
 
 
 
 
-\subsection[]{Example 1}
-\addcontentsline{toc}{subsection}{\thesubsection. Example 1}
+\subsection{Example 1}
 
 Let's take a look at some example code.  Here, we will do some distributed matrix multiplication, as well as solving some systems of equations.  You probably should not use a large process grid for this problem.  Anything bigger than $8\times 8$ is \emph{massive} overkill.  A $2\times 2$, $2\times 4$, or $4\times 4$ process grid (4, 8, or 16 processes respectively) should be more than plenty --- so a humble laptop or desktop should more than suffice.  You've got to crawl before you can drag race.
 
@@ -104,15 +102,7 @@ from a terminal.  If everything works correctly, then two \code{TRUE}'s will pri
 
 
 
-
-
-
-
-
-
-
-\subsection[]{Example 2}
-\addcontentsline{toc}{subsection}{\thesubsection. Example 2}
+\subsection{Example 2}
 
 First we will generate some data on process 0, or (0,0) using the grid notation.  We will do this using a simple \code{if()} together with the \pkg{pbdMPI} function \code{comm.rank()}, which returns the MPI communicator number for the calling process.  Any process not initially storing any data should store \code{NULL} for the object.  This probably isn't the way you will want to run your production code, especially if you are randomly generating data; in that case, it would be much more efficient to just generate what is needed on each processor.  Although doing this requires that you have access to good seeds for parallel random number generation; for more information, see the documentation on setting seeds via \code{comm.set.seed()} in the \pkg{pbdMPI} package, or for more control, see the \pkg{rlecuyer} or \pkg{rsprng} packages.  
 

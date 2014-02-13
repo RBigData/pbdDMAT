@@ -1,11 +1,9 @@
-\section[]{Information for Advanced Users}
+\section{Information for Advanced Users}
 \label{sec:advanced}
-\addcontentsline{toc}{section}{\thesection. Using Information for Advanced Users}
 
 In this section, we will discuss the block-cyclic distribution of data across a 2-dimensional processor grid in lengthy detail.  It probably goes without saying that before beginning this section, the reader should be familiar with all sections prior.
  
-\subsection[]{Blocking Factor}
-\addcontentsline{toc}{subsection}{\thesubsection. Blocking Factor}
+\subsection{Blocking Factor}
 
 The idea is fairly simple, even if the execution can sometimes be cumbersome.  We want to try to evenly balance the data distribution for ``large'' matrices across the process grid, but in a way that is congruent with the natural blocking of matrices when performing LAPACK operations on them.  As the name implies, we imagine taking a large global matrix and chopping it into blocks, and assigning those blocks to the processors in the grid.  The way this is done is far from arbitrary, however.  
 
@@ -134,8 +132,7 @@ Very loosely speaking, parallelism is good and communication is bad, but in prac
 
 
 
-\subsection[]{Managing BLACS Contexts}
+\subsection{Managing BLACS Contexts}
 \label{sec:ictxt}
-\addcontentsline{toc}{subsection}{\thesubsection. Different BLACS Contexts}
 
 A very advanced user, perhaps someone already familiar with ScaLAPACK, may wish to be able to use a variety of BLACS contexts.  Both the creation and destruction of BLACS contexts is discussed in detail in the \pkg{pbdBASE} vignette and reference manual, and so the reader should refer to those sources for details.

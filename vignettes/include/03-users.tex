@@ -1,8 +1,6 @@
-\section[]{Information for Users}
-\addcontentsline{toc}{section}{\thesection. Information for Users}
+\section{Information for Users}
 
-\subsection[]{The General Procedure for Using the System}\label{sec:basic_steps}
-\addcontentsline{toc}{subsection}{\thesubsection. The General Procedure for Using the System}
+\subsection{The General Procedure for Using the System}\label{sec:basic_steps}
 
 To use \pkg{pbdDMAT}, there are a few special considerations one must keep in mind which separate the system over using ordinary \proglang{R}.  These are
 \begin{enumerate}
@@ -24,8 +22,7 @@ A generic skeleton of what a typical analysis using \pkg{pbdDMAT} looks like inv
 One can generally use the above steps on existing \proglang{R} scripts with only a few minor modifications, and
 quickly parallelize his or her serial code.   For most users, this will amount to simply adding in the appropriate calls to \code{init.grid()}, \code{finalize()}, and a parallel data reader or data distributor function (such as \code{as.ddmatrix()}).  However, there are a few hitches with setting up a process grid and with distributing/parallel reading.  We discuss these issues in the following two sections.
 
-\subsection[]{Printing in Parallel}
-\addcontentsline{toc}{subsection}{\thesubsection. Printing in Parallel}
+\subsection{Printing in Parallel}
 
 Printing in parallel can take some getting used to, especially in SPMD style programs.  If you simply issue the order \code{print(x)}, then every process will print, but it is often a cacophony of undecipherable writing out to the terminal, with each process trampling the others.  
 
@@ -35,8 +32,7 @@ Additionally, there is a method for the \code{print()} function when applied to 
 
 This function should not be called from \code{comm.print()}.  Actually, one of the easiest ways to get yourself into trouble and hang up all the processors is to call a function which requires communication between processors from inside something like \code{comm.print()}.
 
-\subsection[]{Process Grid Size}
-\addcontentsline{toc}{subsection}{\thesubsection. Process Grid Size}
+\subsection{Process Grid Size}
 
 Recall that we will very frequently visualize the processors as being in a 2-dimensional processor grid.  This grid is initialized via the function \code{init.grid()}, which accepts the optional arguments \code{nprows=} and \code{npcols=}.  If these are left blank, then a reasonable choice will be made based on the number of available processors.  Here ``reasonable'' means ``as close to square as possible.''  The inspired reader can find more detail within the ScaLAPACK User's Guide~\citep{slug} as to why this is a good choice. (\href{http://www.netlib.org/utk/papers/scalapack/node20.html}{link})
 
@@ -44,8 +40,7 @@ To reiterate, in most cases, taking \code{nprow} and \code{npcol} as close to ea
 
 Additionally, we note that the \code{init.grid()} function accepts an additional argument \code{ICTXT=}, which we will discuss in Section~\ref{sec:devs}.  This argument is also discussed in detail in the package reference manual.
 
-\subsection[]{Distributing Data}
-\addcontentsline{toc}{subsection}{\thesubsection. Distributing Data}
+\subsection{Distributing Data}
 
 When distributing data, you must use a \emph{blocking factor}.  This is a pair of numbers $(a,b)$, and unless you think you have a great reason to do otherwise, you should have $a=b$.  If you have no intuition, the just make them equal.  The scale of these numbers should generally correspond to the size of your process grid and the scale of the data.  The choice of blocking factor can seriously impact performance, because it is intimately tied to the data distribution.  We will spare the details for the moment, and merely say that the blocking factor constitutes a tradeoff.  Smaller values, down to $(1,1)$, mean that there will be more parallelism in many of the matrix algebra routines but also increase communication costs.  On the other hand, larger values, which could be larger than the dimensions of any one of your matrices, will limit communication between the processors, but naturally also limit the parallelism.
 
@@ -53,8 +48,7 @@ A good choice of blocking factor can be difficult, and in the author's opinion, 
 
 
 
-\subsection[]{Reading Data In Parallel}
-\addcontentsline{toc}{subsection}{\thesubsection. Reading Data In Parallel}
+\subsection{Reading Data In Parallel}
 
 To really get the most out of this system, you need to read the data into \proglang{R} in a parallel distributed fashion.  This generally necessitates the use of a parallel file system, such as Lustre.  These are the kinds of resources that one generally does not have on his/her laptop, unfortunately.  It is possible to read all of the data in on one core and have that core distribute the data to all the other processes, which is what one should do in the absence of a parallel file system.  However, these added communication costs could  overtake the gains provided by distributed computation, depending on the task.  Worse, the user is again trapped in the world of 32-bit integer indexing, meaning the size of problem that it is possible to solve shrinks.
 
@@ -66,8 +60,7 @@ Some functions which are useful in this regard are \code{as.ddmatrix()}, \code{d
 
 
 
-\subsection[]{Controlling Defaults}
-\addcontentsline{toc}{subsection}{\thesubsection. Controlling Defaults}
+\subsection{Controlling Defaults}
 
 The internal default blocking factor can be modified very simply by modifying the object \code{.BLDIM}.  So for example, if the user wishes to have a default data blocking of $16\times 16$ then it is sufficient to enter the command:
 \begin{lstlisting}[language=rr]

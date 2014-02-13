@@ -1,7 +1,5 @@
-
-\section[]{Introduction}
+\section{Introduction}
 \label{sec:introduction}
-\addcontentsline{toc}{section}{\thesection. Introduction}
 
 The Programming with Big Data in R~\citep{pbdr2012} project, abbreviated pbdR or just pbd, seeks to elevate the \proglang{R} language to supercomputers.  
 The \pkg{pbdDMAT} package (Programming with Big Data: Distributed Matrix Algebra Computation)~\citep{Schmidt2012pbdDMATpackage} is a (mostly) implicitly parallel system for doing distributed matrix computations in \proglang{R}.~\citep{Rcore}  It offers a new \code{S4} class \code{ddmatrix} and numerous high level methods for this object, which (intentionally) very closely resemble the existing \proglang{R} syntax for non-distributed matrices.  Much of the heavy lifting --- especially that involving distributed linear algebra --- is handled by the \pkg{pbdBASE}~\citep{Schmidt2012pbdBASEpackage} package, which efficiently utilizes the well-known high performance libraryes ScaLAPACK and PBLAS~\citep{slug}.
@@ -15,8 +13,7 @@ The principal goal of the \pkg{pbdDMAT} package is to provide \proglang{R} users
 
 
 
-\subsection[]{Achievements}
-\addcontentsline{toc}{subsection}{\thesubsection. Achievements}
+\subsection{Achievements}
 The pbdR series of packages offer the \proglang{R} user several new advancements.  First, by hiding the distributed details of ScaLAPACK, we offer (near) ScaLAPACK speeds and scaling to many cores, but with \proglang{R} syntax.  Second, by distributing the objects across processors, we are able to largely overcome \proglang{R}'s memory barrier.  
 
 At present\footnote{Though this is expected to change by summer 2013}, it is impossible to index native \proglang{R} objects with a 32-bit integer.  Since a matrix in \proglang{R} is really just an array, this means that the largest square matrix it is possible to store in \proglang{R} is roughly a $46,000 \times 46,000$ matrix.  This imposes two restrictions on the \pkg{pbd} system.  First, the global dimension of any matrix used at this time with the \pkg{pbd} toolchain must have dimensions indexable by a 32-bit integer.  Namely, no single dimension of the ``full'', global matrix may have more than 
@@ -47,7 +44,6 @@ So at this time, a user would need 1024 cores to comfortably be able to analyze 
 
 \subsection{Intended Audience}
 \label{sec:more_examples}
-\addcontentsline{toc}{subsection}{\thesubsection. Indented Audience}
 
 The \pkg{pbdDMAT} package depends on \pkg{pbdBASE}, and so anyone who wishes to use the former package must first install \pkg{pbdBASE}.  However, much of the direct use of \pkg{pbdBASE} is intended only for extremely advanced users and developers.  A few exceptions are the \code{init.grid()} and \code{finalize()} functions, which are detailed in the \pkg{pbdBASE} vignette~\citep{Schmidt2012pbdBASEvignette}.  The overwhelming majority of the remaining functions are either internal or for people deeply familiar with ScaLAPACK, and so, especially while learning, focus should be spent on \pkg{pbdDMAT}.
 
@@ -56,9 +52,8 @@ The \pkg{pbdDMAT} package depends on \pkg{pbdBASE}, and so anyone who wishes to 
 
 
 
-\subsection[]{Installation}
+\subsection{Installation}
 \label{sec:installation}
-\addcontentsline{toc}{subsection}{\thesubsection. Installation}
 
 The \pkg{pbdDMAT} package is available from the CRAN at
 \url{http://cran.r-project.org}, and can be installed via a simple 
@@ -72,9 +67,8 @@ This assumes only that you have MPI installed and properly configured on your sy
 
 
 
-\subsection[]{Package Examples}
+\subsection{Package Examples}
 \label{sec:more_examples}
-\addcontentsline{toc}{subsection}{\thesubsection. Package Examples}
 
 One can quickly get started with \pkg{pbdDMAT} by learning from the following eight examples:
 \begin{lstlisting}[title=Shell Script]
@@ -95,7 +89,6 @@ mpiexec -np 2 Rscript -e "demo(cholesky, package='pbdDMAT', ask=F, echo=F)"
 
 
 \section{Terminology}
-\addcontentsline{toc}{section}{\thesection. Terminology}
 % \label{sec:installation}
 Before beginning, we will make frequent use of concepts from the Single Program/Multiple Data (SPMD) paradigm.  If you are entirely unfamiliar with this approach to parallelism, or if you are unfamiliar with the \pkg{pbdMPI} package, then you are strongly encouraged to read the vignette~\citep{Chen2012pbdMPIvignette} contained in the \pkg{pbdMPI} package, as well as examine and digest its many examples in order to better understand what follows.
 
