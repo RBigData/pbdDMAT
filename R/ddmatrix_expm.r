@@ -68,7 +68,7 @@ matexp_scale_factor <- function(x)
   
   
   # 1-norm
-  x_1 <- max(colSums(abs(x))) 
+  x_1 <- norm(x, type="O") # max(colSums(abs(x))) 
   
   for (th in theta)
   {
