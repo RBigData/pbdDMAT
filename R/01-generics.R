@@ -139,7 +139,7 @@ setMethod("svd", signature(x="ANY"),
 )
 
 setGeneric(name="expm", 
-  function(x) 
+  function(x, t=1) 
     standardGeneric("expm"), 
   package="pbdDMAT"
 )

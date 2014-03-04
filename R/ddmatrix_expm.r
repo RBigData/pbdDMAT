@@ -85,14 +85,14 @@ matexp_scale_factor <- function(x)
 
 
 setMethod("expm", signature(x="matrix"), 
-  function(x)
+  function(x, t=1)
   {
     n <- matexp_scale_factor(x)
     
     if (n == 0)
       return( matexp_pade(x) )
     
-    x <- x/n
+    x <- t*x/n
     
     S <- matexp_pade(x)
     S <- matpow_by_squaring(S, n)
@@ -104,14 +104,14 @@ setMethod("expm", signature(x="matrix"),
 
 
 setMethod("expm", signature(x="ddmatrix"), 
-  function(x)
+  function(x, t=1)
   {
     n <- matexp_scale_factor(x)
     
     if (n == 0)
       return( p_matexp_pade(x) )
     
-    x <- x/n
+    x <- t*x/n
     
     S <- p_matexp_pade(x)
     S <- p_matpow_by_squaring(S, n)

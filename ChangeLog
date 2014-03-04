@@ -1,3 +1,9 @@
+2014-3-4:
+ * Fixed sparsity() bugs.
+
+2014-3-3:
+ * Added scalar to expm() method.
+
 2014-2-4:
  * Updated vignette format.
  * Fixed author affiliation in vignette.

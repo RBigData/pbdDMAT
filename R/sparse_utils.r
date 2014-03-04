@@ -2,20 +2,18 @@ sparse_count_zeros <- function(x, tol=.Machine$double.eps)
 {
   if (is.logical(x))
     storage.mode(x) <- "integer"
-  
-  if (is.integer(x))
-  {
-    ret <- .Call("R_int_sparse_count_zeros", x)
-  }
-  else if (!is.double(x))
-  {
+  else if (!is.integer(x) && !is.double(x))
     storage.mode(x) <- "double"
   
+  if (is.integer(x))
+    ret <- .Call("R_int_sparse_count_zeros", x)
+  else
     ret <- .Call("R_sparse_count_zeros", x, tol)
-  }
   
   return( ret )
 }
+
+
 
 check_sparsity_inputs <- function(count, out, tol)
 {
@@ -23,15 +21,19 @@ check_sparsity_inputs <- function(count, out, tol)
   match.arg(tolower(out), c("count", "proportion", "percent"))
 }
 
+
+
 calc_sparsity_return <- function(n, dim, count, out)
 {
   count <- match.arg(tolower(count), c("zero", "other"))
   out <- match.arg(tolower(out), c("count", "proportion", "percent"))
   
   if (count == "other")
-    ret <- dim - n
+    n <- dim - n
   
-  if (out == "proportion")
+  if (out == "count")
+    ret <- n
+  else if (out == "proportion")
     ret <- n/dim
   else if (out == "percent")
     ret <- n/dim*100
@@ -54,6 +56,8 @@ setMethod("sparsity", signature(x="matrix"),
   }
 )
 
+
+
 setMethod("sparsity", signature(x="vector"), 
   function(x, count="zero", out="count", tol=.Machine$double.eps)
   {
@@ -66,6 +70,8 @@ setMethod("sparsity", signature(x="vector"),
     return( ret )
   }
 )
+
+
 
 setMethod("sparsity", signature(x="dmat"), 
   function(x, count="zero", out="count", tol=.Machine$double.eps)
@@ -80,5 +86,4 @@ setMethod("sparsity", signature(x="dmat"),
     return( ret )
   }
 )
-
 
