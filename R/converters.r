@@ -15,9 +15,31 @@ setMethod("as.dmat", signature(x="dsmatrix"),
 
 
 
+setMethod("as.dsvector", signature(x="dsmatrix"),
+  function(x)
+  {
+    if (x@dim[2L] != 1)
+      comm.stop("not yet supported")
+    
+    y <- new("dsvector", length=x@dim[1L], llength=x@ldim[1L], Data=x@Data, row_ptr=x@row_ptr, col_ind=x@col_ind, storage=x@storage)
+    
+    return( y )
+  }
+)
+
+
+
+
 # -----------------------------------------------------------
 # x = dmat
 # -----------------------------------------------------------
+
+setMethod("as.dsmatrix", signature(x="matrix"),
+  function(x)
+    as.dsmatrix(as.dmat(x))
+)
+
+
 
 setMethod("as.dsmatrix", signature(x="dmat"),
   function(x)

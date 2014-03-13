@@ -79,6 +79,7 @@ setClass(
     Data="numeric",
     row_ptr="numeric",
     col_ind="numeric"
+    
   ),
   
   prototype=prototype(
@@ -116,4 +117,27 @@ setClass(
                          bldim=c(1L, 1L),
                          ICTXT=0L
           )
+)
+
+
+# Distributed Sparse Vector
+setClass(
+  Class="dsvector", 
+  representation=representation(
+    Data="vector",
+    length="numeric",
+    llength="numeric",
+    row_ptr="numeric",
+    col_ind="numeric",
+    storage="character"
+  ),
+  
+  prototype=prototype(
+    Data=0.0,
+    length=1L,
+    llength=1L,
+    row_ptr=1,
+    col_ind=1,
+    storage="csr"
+  )
 )

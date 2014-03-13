@@ -84,13 +84,13 @@ matexp_scale_factor <- function(x)
 
 
 
-setMethod("expm", signature(x="matrix"), 
+setMethod("expm", signature(x="matrix", y="missing"), 
   function(x, t=1)
   {
     n <- matexp_scale_factor(x)
     
     if (n == 0)
-      return( matexp_pade(x) )
+      return( matexp_pade(t*x) )
     
     x <- t*x/n
     
@@ -103,13 +103,13 @@ setMethod("expm", signature(x="matrix"),
 
 
 
-setMethod("expm", signature(x="ddmatrix"), 
+setMethod("expm", signature(x="ddmatrix", y="missing"), 
   function(x, t=1)
   {
     n <- matexp_scale_factor(x)
     
     if (n == 0)
-      return( p_matexp_pade(x) )
+      return( p_matexp_pade(t*x) )
     
     x <- t*x/n
     

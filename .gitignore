@@ -1,3 +1,4 @@
+*.in
 *.o
 *.mod
 *.so
@@ -5,3 +6,5 @@
 *.status
 *~
 *.swp
+
+src/Makevars
