@@ -426,7 +426,7 @@ eigen2 <- function(x, range=c(-Inf, Inf), range.type="interval", only.values=FAL
         il <- range[1L]
         iu <- range[2L]
         
-        if (vl == -Inf && vu == Inf)
+        if (il == -Inf && iu == Inf)
             range <- 'A'
         else
             range <- 'I'

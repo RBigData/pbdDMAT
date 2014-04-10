@@ -87,6 +87,9 @@ matexp_scale_factor <- function(x)
 setMethod("expm", signature(x="matrix", y="missing"), 
   function(x, t=1)
   {
+    if (nrow(x) != ncol(x))
+      stop("Matrix exponentiation is only defined for square matrices.")
+    
     n <- matexp_scale_factor(x)
     
     if (n == 0)
@@ -106,6 +109,9 @@ setMethod("expm", signature(x="matrix", y="missing"),
 setMethod("expm", signature(x="ddmatrix", y="missing"), 
   function(x, t=1)
   {
+    if (nrow(x) != ncol(x))
+      stop("Matrix exponentiation is only defined for square matrices.")
+    
     n <- matexp_scale_factor(x)
     
     if (n == 0)
