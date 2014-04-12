@@ -1,3 +1,6 @@
+2014-4-12:
+ * Added check to eigen2() for non-square bldims.
+
 2014-3-4:
  * Fixed sparsity() bugs.
 
