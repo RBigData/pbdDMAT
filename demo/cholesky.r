@@ -9,7 +9,7 @@ if(comm.size() != 2)
 init.grid()
 
 # Setup for the remainder
-comm.set.seed(diff=TRUE)
+comm.set.seed(1234, diff=TRUE)
 M <- 16
 N <- 4
 BL <- 2 # blocking --- passing single value BL assumes BLxBL blocking
