@@ -400,7 +400,7 @@ eigen2 <- function(x, range=c(-Inf, Inf), range.type="interval", only.values=FAL
     must.be(range.type, "character")
     must.be(only.values, "logical")
  
-    if (x@bldim[1L] != x@bldim[2L})
+    if (x@bldim[1L] != x@bldim[2L])
         comm.stop("The blocking factor for argument 'x' must be square; consider using the redistribute() function")
 
     # Return eigenvectors or not
