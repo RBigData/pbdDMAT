@@ -1,11 +1,10 @@
 // Copyright 2013, Schmidt
 
 
-#include <SEXPtools.h>
 #include "dmat.h"
 
 
-SEXP sbase_convert_csr_to_dense(SEXP dim, SEXP data, SEXP row_ptr, SEXP col_ind)
+SEXP convert_csr_to_dense(SEXP dim, SEXP data, SEXP row_ptr, SEXP col_ind)
 {
   R_INIT;
   int i, j;
@@ -56,8 +55,7 @@ SEXP sbase_convert_csr_to_dense(SEXP dim, SEXP data, SEXP row_ptr, SEXP col_ind)
 
 
 
-double get_machine_eps();
-SEXP sbase_convert_dense_to_csr(SEXP x)
+SEXP convert_dense_to_csr(SEXP x)
 {
   R_INIT;
   SEXP data, row_ptr, col_ind;
@@ -67,18 +65,15 @@ SEXP sbase_convert_dense_to_csr(SEXP x)
   int row_ptr_len;
   int sparsity, density;
   int ct = 0, rct = 0, first;
-  const double tol = get_machine_eps();
   
-  //FIXME
-  sparsity = sparse_count_zeros_withrows(m, n, &row_ptr_len, REAL(x), tol);
+  
+  sparsity = sparse_count_zeros_withrows(m, n, &row_ptr_len, REAL(x));
   density = m*n - sparsity;
   
   newRvec(data, density, "dbl");
   newRvec(col_ind, density, "int");
   newRvec(row_ptr, m+1, "int");
   
-  
-  PRINT(x);
   
   for (i=0; i<m; i++)
   {
@@ -100,6 +95,7 @@ SEXP sbase_convert_dense_to_csr(SEXP x)
         }
       }
     }
+    
     if (first == true)
     {
       INT(row_ptr, rct) = ct+1;
@@ -110,7 +106,7 @@ SEXP sbase_convert_dense_to_csr(SEXP x)
   INT(row_ptr, m) = ct+1;
   
   R_list_names = make_list_names(3, "Data", "row_ptr", "col_ind");
-  R_list = make_list(R_list_names, data, row_ptr, col_ind);
+  R_list = make_list(R_list_names, 3, data, row_ptr, col_ind);
   
   R_END;
   return R_list;

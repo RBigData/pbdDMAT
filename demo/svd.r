@@ -9,20 +9,22 @@ if(comm.size() != 2)
 init.grid()
 
 # Setup for the remainder
-comm.set.seed(diff=TRUE)
+comm.set.seed(1234, diff=TRUE)
 M <- N <- 16
 BL <- 2 # blocking --- passing single value BL assumes BLxBL blocking
 
 dA <- ddmatrix("rnorm", nrow=M, ncol=N, mean=100, sd=10)
 A <- as.matrix(dA)
 
-# LA SVD
+# SVD
 svd1 <- La.svd(A)
 svd2 <- La.svd(dA)
 svd2 <- lapply(svd2, as.matrix)
-comm.print(sum(svd1$d - svd2$d))
-comm.print(sum(svd1$u - svd2$u))
-comm.print(sum(svd1$vt - svd2$vt))
+
+# Test equality of serial and parallel versions
+comm.print(all.equal(svd1$d, as.vector(svd2$d)))
+comm.print(all.equal(svd1$u, svd2$u))
+comm.print(all.equal(svd1$vt, svd2$vt))
 
 # Finish
 finalize()
