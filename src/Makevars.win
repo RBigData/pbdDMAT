@@ -1,7 +1,6 @@
 ### For libcpuid
 R_OBJS = \
-sparse_utils.o
-
+	sparse_utils.o
 
 OBJECTS = ${R_OBJS}
 
