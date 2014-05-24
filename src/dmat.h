@@ -4,7 +4,11 @@
 
 #include <R.h>
 #include <Rinternals.h>
-#include <SEXPtools.h>
+
+#define false 0
+#define true 1
+
+#define fequals(x,y,tol) (fabs(x-y)<tol?true:false)
 
 
 // converters.c

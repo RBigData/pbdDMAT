@@ -9,7 +9,7 @@ if(comm.size() != 2)
 init.grid()
 
 # Setup for the remainder
-comm.set.seed(1234, diff=TRUE)
+comm.set.seed(diff=TRUE)
 M <- N <- 16
 BL <- 2 # blocking --- passing single value BL assumes BLxBL blocking
 dA <- ddmatrix("rnorm", nrow=M, ncol=N)

@@ -10,7 +10,7 @@ init.grid()
 
 # Generate a random matrix common to all processes and distribute it.
 # This approach should only be used while learning the pbdDMAT package.
-comm.set.seed(1234, diff=TRUE)
+comm.set.seed(diff=TRUE)
 dx <- ddmatrix("rnorm", nrow = 25, ncol = 4)
 x <- as.matrix(dx)
 

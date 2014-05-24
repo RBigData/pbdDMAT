@@ -22,13 +22,12 @@
 }
 \arguments{
   \item{x}{A numeric matrix or a numeric distributed matrix.} 
-  \item{t}{Scalar; the canonical t in exp(t*x)}
 }
 \details{
   Formally, the exponential of a square matrix \code{X} is a power 
   series:
   
-  \eqn{expm(X) = X/1! + X^2/2! + X^3/3! + \dots}
+  \eqn{expm(x) = X/1! + X^2/2! + X^3/3! + \dots}
   
   where the powers on the matrix correspond to matrix-matrix multiplications.
   

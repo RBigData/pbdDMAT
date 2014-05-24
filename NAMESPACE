@@ -6,7 +6,7 @@ import(methods, rlecuyer, pbdMPI, pbdSLAP, pbdBASE)
 # All internal functions
 exportPattern("^dmat\\.[[:alpha:]]+")
 
-exportClasses("ddmatrix", "dmat", "dsmatrix")
+exportClasses("ddmatrix", "dmat")
 
 export(
   # Arithmetic
@@ -75,8 +75,6 @@ export(
   as.matrix, 
   ownany, 
   as.ddmatrix, 
-  as.dmat,
-  as.dsmatrix,
   is.ddmatrix, 
   is.na, 
   is.nan, 

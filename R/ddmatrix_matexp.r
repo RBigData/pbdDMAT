@@ -68,7 +68,7 @@ matexp_scale_factor <- function(x)
   
   
   # 1-norm
-  x_1 <- norm(x, type="O") # max(colSums(abs(x))) 
+  x_1 <- max(colSums(abs(x))) 
   
   for (th in theta)
   {
@@ -84,18 +84,15 @@ matexp_scale_factor <- function(x)
 
 
 
-setMethod("expm", signature(x="matrix", y="missing"), 
-  function(x, t=1)
+setMethod("expm", signature(x="matrix"), 
+  function(x)
   {
-    if (nrow(x) != ncol(x))
-      stop("Matrix exponentiation is only defined for square matrices.")
-    
     n <- matexp_scale_factor(x)
     
     if (n == 0)
-      return( matexp_pade(t*x) )
+      return( matexp_pade(x) )
     
-    x <- t*x/n
+    x <- x/n
     
     S <- matexp_pade(x)
     S <- matpow_by_squaring(S, n)
@@ -106,18 +103,15 @@ setMethod("expm", signature(x="matrix", y="missing"),
 
 
 
-setMethod("expm", signature(x="ddmatrix", y="missing"), 
-  function(x, t=1)
+setMethod("expm", signature(x="ddmatrix"), 
+  function(x)
   {
-    if (nrow(x) != ncol(x))
-      stop("Matrix exponentiation is only defined for square matrices.")
-    
     n <- matexp_scale_factor(x)
     
     if (n == 0)
-      return( p_matexp_pade(t*x) )
+      return( p_matexp_pade(x) )
     
-    x <- t*x/n
+    x <- x/n
     
     S <- p_matexp_pade(x)
     S <- p_matpow_by_squaring(S, n)
