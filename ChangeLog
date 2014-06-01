@@ -1,3 +1,6 @@
+2014-05-31:
+  * Migrate to MS-MPI.
+
 2014-4-12:
  * Added check to eigen2() for non-square bldims.
 
