@@ -2,8 +2,8 @@ Package: pbdDMAT
 Title: Programming with Big Data -- Distributed Matrix Methods
 Version: 0.3-0
 Date: 2014-05-31
-Depends: R (>= 3.0.0), methods, rlecuyer, pbdMPI (>=
-        0.2-3), pbdSLAP (>= 0.1-9), SEXPtools, pbdBASE (>= 0.3-0)
+Depends: R (>= 3.0.0), methods, rlecuyer, pbdMPI (>= 0.2-3), pbdSLAP
+        (>= 0.1-9), SEXPtools, pbdBASE (>= 0.3-0)
 LazyLoad: yes
 LazyData: yes
 ByteCompile: yes
@@ -28,3 +28,11 @@ URL: http://r-pbd.org/
 BugReports: http://group.r-pbd.org/
 MailingList: Please send questions and comments regarding pbdR to
         RBigData@gmail.com
+Packaged: 2014-06-01 02:19:58 UTC; snoweye
+Author: Drew Schmidt [aut, cre],
+  Wei-Chen Chen [aut],
+  George Ostrouchov [aut],
+  Pragneshkumar Patel [aut],
+  R Core team [ctb] (some wrappers taken from the base and stats
+    packages)
+Maintainer: Drew Schmidt <schmidt@math.utk.edu>
