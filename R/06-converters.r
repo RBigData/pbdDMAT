@@ -29,6 +29,17 @@ setMethod("as.dsvector", signature(x="dsmatrix"),
 
 
 
+setMethod("as.matrix", signature(x="dsmatrix"),
+  function(x)
+  {
+    y <- as.matrix(as.dmat(x))
+    
+    return( y )
+  }
+)
+
+
+
 
 # -----------------------------------------------------------
 # x = dmat

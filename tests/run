@@ -1,0 +1,3 @@
+#!/bin/sh
+
+mpirun -np $1 R -d "valgrind --tool=memcheck --leak-check=full" --vanilla < valgrind.r
