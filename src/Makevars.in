@@ -1,21 +1,18 @@
-#################################################################
-
 ### SEXPtools
 SEXPTOOLS_CPPFLAGS = `$(R_HOME)/bin/Rscript -e "SEXPtools:::cppflags()"`
 SEXPTOOLS_LDFLAGS = `$(R_HOME)/bin/Rscript -e "SEXPtools:::ldflags()"`
 
 
+### Setup R package flags.
 PKG_CPPFLAGS = $(SEXPTOOLS_CPPFLAGS)
 PKG_CFLAGS = -w -g
 PKG_LIBS = $(SEXPTOOLS_LDFLAGS)
 
-
+### Setup objects.
 R_OBJS = \
     converters.o \
     sparse_utils.o \
     util.o
-
-
 
 OBJECTS = ${R_OBJS}
 
