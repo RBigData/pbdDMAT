@@ -48,6 +48,7 @@ University of Tennessee}
 \newpage
 \phantomsection
 \bibliography{./include/pbdDMAT}
+\bibliographystyle{plainnat}
 
 \end{document}
 

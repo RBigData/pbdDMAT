@@ -1,13 +1,13 @@
 %\VignetteIndexEntry{pbdDMAT-guide}
 \documentclass[11pt]{article}
 \usepackage[margin=1.1in]{geometry}
-\newcommand{\thispackage}{\pkg{pbdBASE}\xspace}
+\newcommand{\thispackage}{\pkg{pbdDMAT}\xspace}
 
 \input{./include/preamble}
 
 
 \mytitle{Guide to the\\ \thispackage Package}
-\mysubtitle{ScaLAPACK Wrappers and Helpers}
+\mysubtitle{Distributed Matrix Classes and Methods}
 \myversion{0.3-0}
 \myauthor{
 \centering
@@ -48,6 +48,7 @@ University of Tennessee}
 \newpage
 \phantomsection
 \bibliography{./include/pbdDMAT}
+\bibliographystyle{plainnat}
 
 \end{document}
 
