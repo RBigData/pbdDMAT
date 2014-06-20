@@ -25,7 +25,7 @@ if (comm.rank()==0){
   x <- NULL
 }
 
-comm.set.seed(diff=F)
+comm.set.seed(seed=1234, diff=F)
 y <- matrix(rnorm(n*p, mean=100, sd=10), n, p)
 
 dx <- as.ddmatrix(x, 2)
