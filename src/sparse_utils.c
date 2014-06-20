@@ -54,7 +54,7 @@ int sparse_count_zeros(int m, int n, double *x, double tol)
 
 
 
-int sparse_count_zeros_withrows(int m, int n, int *rows, double *x, double tol)
+int sparse_count_zeros_withrows(int m, int n, int *rows, double *x)
 {
   int count = 0;
   int i, j;
