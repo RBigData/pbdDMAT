@@ -2,7 +2,7 @@ Package: pbdDMAT
 Title: Programming with Big Data -- Distributed Matrix Methods
 Version: 0.3-0
 Date: 2013-3-4
-Depends: R (>= 2.14.0), methods, rlecuyer, pbdMPI (>= 0.2-4), 
+Depends: R (>= 2.14.0), methods, pbdMPI (>= 0.2-4), 
         pbdSLAP (>= 0.1-9), pbdBASE (>= 0.3-0)
 LinkingTo: SEXPtools
 Enhances: pbdSBASE

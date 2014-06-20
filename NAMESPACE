@@ -1,7 +1,7 @@
 useDynLib(pbdDMAT)
 
 
-import(methods, rlecuyer, pbdMPI, pbdSLAP, pbdBASE)
+import(methods, pbdMPI, pbdSLAP, pbdBASE)
 
 # All internal functions
 exportPattern("^dmat\\.[[:alpha:]]+")
