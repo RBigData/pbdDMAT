@@ -4,7 +4,7 @@
 
 #include <R.h>
 #include <Rinternals.h>
-#include <SEXPtools.h>
+#include <RNACI.h>
 
 
 // converters.c

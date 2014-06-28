@@ -584,8 +584,8 @@ PACKAGE_URL=''
 ac_unique_file="src/sparse_utils.c"
 ac_subst_vars='LTLIBOBJS
 LIBOBJS
-SEXPTOOLS_LDFLAGS
-SEXPTOOLS_CPPFLAGS
+RNACI_LDFLAGS
+RNACI_CPPFLAGS
 OBJEXT
 EXEEXT
 ac_ct_CC
@@ -2521,9 +2521,9 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 R_SCMD="${R_HOME}/bin/Rscript -e"
 
-# SEXPtools
-SEXPTOOLS_CPPFLAGS=`${R_SCMD} "SEXPtools:::cppflags()"`
-SEXPTOOLS_LDFLAGS=`${R_SCMD} "SEXPtools:::ldflags()"`
+# RNACI
+RNACI_CPPFLAGS=`${R_SCMD} "RNACI:::cppflags()"`
+RNACI_LDFLAGS=`${R_SCMD} "RNACI:::ldflags()"`
 
 
 # Substitute templates

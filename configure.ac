@@ -9,13 +9,13 @@ AC_PROG_CC
 
 R_SCMD="${R_HOME}/bin/Rscript -e"
 
-# SEXPtools
-SEXPTOOLS_CPPFLAGS=`${R_SCMD} "SEXPtools:::cppflags()"`
-SEXPTOOLS_LDFLAGS=`${R_SCMD} "SEXPtools:::ldflags()"`
+# RNACI
+RNACI_CPPFLAGS=`${R_SCMD} "RNACI:::cppflags()"`
+RNACI_LDFLAGS=`${R_SCMD} "RNACI:::ldflags()"`
 
 
 # Substitute templates
-AC_SUBST(SEXPTOOLS_CPPFLAGS)
-AC_SUBST(SEXPTOOLS_LDFLAGS)
+AC_SUBST(RNACI_CPPFLAGS)
+AC_SUBST(RNACI_LDFLAGS)
 
 AC_OUTPUT(src/Makevars)

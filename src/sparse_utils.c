@@ -1,6 +1,5 @@
 #include <math.h>
 #include "dmat.h"
-#include <SEXPtools.h>
 
 
 int int_sparse_count_zeros(int m, int n, int *x)
