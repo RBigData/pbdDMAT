@@ -1,6 +1,5 @@
 // Copyright 2013, Schmidt
 
-#include <SEXPtools.h>
 #include "dmat.h"
 
 double get_machine_eps()
