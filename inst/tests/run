@@ -11,9 +11,9 @@
 
 #mpirun -np $1 Rscript 10_reductions.R
 #mpirun -np $1 Rscript 11_arithmetic.R
-#mpirun -np $1 Rscript 12_pblas.R
+mpirun -np $1 Rscript 12_pblas.R
 #mpirun -np $1 Rscript 13_scalapack.R
 #mpirun -np $1 Rscript 14_stats.R
 #mpirun -np $1 Rscript 15_qr.R
-mpirun -np $1 Rscript 16_lmfit.R
+#mpirun -np $1 Rscript 16_lmfit.R
 #mpirun -np $1 Rscript 17_norm.R
