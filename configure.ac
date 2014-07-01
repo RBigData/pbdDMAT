@@ -7,14 +7,15 @@ AC_CONFIG_SRCDIR([src/sparse_utils.c])
 # Checks for programs.
 AC_PROG_CC
 
-# Checks for libraries.
+R_SCMD="${R_HOME}/bin/Rscript -e"
 
-# Checks for header files.
+# RNACI
+RNACI_CPPFLAGS=`${R_SCMD} "RNACI:::cppflags()"`
+RNACI_LDFLAGS=`${R_SCMD} "RNACI:::ldflags()"`
 
-# Checks for typedefs, structures, and compiler characteristics.
 
-# Checks for library functions.
-#AC_CHECK_FUNCS([sqrt])
+# Substitute templates
+AC_SUBST(RNACI_CPPFLAGS)
+AC_SUBST(RNACI_LDFLAGS)
 
-#AC_CONFIG_SUBDIRS([src/sunbathe])
 AC_OUTPUT(src/Makevars)

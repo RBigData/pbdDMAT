@@ -9,7 +9,7 @@ if(comm.size() != 2)
 init.grid()
 
 # Setup for the remainder
-set.seed(25)
+comm.set.seed(25, diff=FALSE)
 M <- N <- O <- 16
 BL <- 2 # blocking --- passing single value BL assumes BLxBL blocking
 
@@ -20,15 +20,15 @@ B <- matrix(rnorm(N * O, mean = 100, sd = 10), nrow = N, ncol = O)
 dA <- as.ddmatrix(A, BL)
 dB <- as.ddmatrix(B, BL)
 
-# Solve system AX=B test
+# Solve system AX=B and check the serial and parallel results
 sol <- solve(A, B)
 dsol <- as.matrix(solve(dA, dB))
-comm.print(sum(sol - dsol))
+comm.print(all.equal(sol, dsol))
 
-# Invert matrix A
+# Invert matrix A and check the serial and parallel results
 inv <- solve(A)
 dinv <- as.matrix(solve(dA))
-comm.print(sum(inv - dinv))
+comm.print(all.equal(inv, dinv))
 
 # Finish
 finalize()

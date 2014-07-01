@@ -25,6 +25,9 @@ dmat.reblock <- function(dx, bldim=dx@bldim, ICTXT=.ICTXT)
   if (all(ldimB==1))
     ldimB[1] <- mxb
   
+  if (!ownany(x=dx))
+    ldimB <- c(0,0)
+  
 #  if (dx@dim[1]>1 && pbdMPI::allreduce(dx@ldim[1], op='max')==1)
 #    dx@ldim[1] <- mxx
 #  if (pbdMPI::allreduce(ldimB[1], op='max')==1)

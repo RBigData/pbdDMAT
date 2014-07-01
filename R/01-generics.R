@@ -139,7 +139,7 @@ setMethod("svd", signature(x="ANY"),
 )
 
 setGeneric(name="expm", 
-  function(x) 
+  function(x, y, ...) 
     standardGeneric("expm"), 
   package="pbdDMAT"
 )
@@ -253,4 +253,25 @@ setGeneric(name="sparsity",
     standardGeneric("sparsity"), 
   package="pbdDMAT"
 )
+
+
+
+setGeneric(name="as.dmat", 
+  function(x, ...) 
+    standardGeneric("as.dmat"), 
+  package="pbdDMAT"
+)
+
+setGeneric(name="as.dsmatrix", 
+  function(x, ...) 
+    standardGeneric("as.dsmatrix"), 
+  package="pbdDMAT"
+)
+
+setGeneric(name="as.dsvector", 
+  function(x, ...) 
+    standardGeneric("as.dsvector"), 
+  package="pbdDMAT"
+)
+
 

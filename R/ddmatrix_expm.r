@@ -45,11 +45,11 @@ p_matpow_by_squaring <- function(A, b=1)
 
 
 
-p_matexp_pade <- function(A)
+p_matexp_pade <- function(A, p)
 {
   desca <- base.descinit(dim=A@dim, bldim=A@bldim, ldim=A@ldim, ICTXT=A@ICTXT)
   
-  out <- base.p_matexp_pade_wrap(A=A@Data, desca=desca)
+  out <- base.p_matexp_pade_wrap(A=A@Data, desca=desca, p=p)
   
   N <- new("ddmatrix", Data=out$N, dim=A@dim, ldim=A@ldim, bldim=A@bldim, ICTXT=A@ICTXT)
   D <- new("ddmatrix", Data=out$D, dim=A@dim, ldim=A@ldim, bldim=A@bldim, ICTXT=A@ICTXT)
@@ -68,7 +68,7 @@ matexp_scale_factor <- function(x)
   
   
   # 1-norm
-  x_1 <- max(colSums(abs(x))) 
+  x_1 <- norm(x, type="O") # max(colSums(abs(x))) 
   
   for (th in theta)
   {
@@ -84,17 +84,23 @@ matexp_scale_factor <- function(x)
 
 
 
-setMethod("expm", signature(x="matrix"), 
-  function(x)
+setMethod("expm", signature(x="matrix", y="missing"), 
+  function(x, t=1, p=6)
   {
+    if (nrow(x) != ncol(x))
+      stop("Matrix exponentiation is only defined for square matrices.")
+    
+    if (p > 13)
+      stop("argument 'p' must be between 1 and 13.")
+    
     n <- matexp_scale_factor(x)
     
     if (n == 0)
-      return( matexp_pade(x) )
+      return( matexp_pade(A=t*x, p=p) )
     
-    x <- x/n
+    x <- t*x/n
     
-    S <- matexp_pade(x)
+    S <- matexp_pade(A=x, p=p)
     S <- matpow_by_squaring(S, n)
     
     return( S )
@@ -103,17 +109,20 @@ setMethod("expm", signature(x="matrix"),
 
 
 
-setMethod("expm", signature(x="ddmatrix"), 
-  function(x)
+setMethod("expm", signature(x="ddmatrix", y="missing"), 
+  function(x, t=1, p=6)
   {
+    if (nrow(x) != ncol(x))
+      stop("Matrix exponentiation is only defined for square matrices.")
+    
     n <- matexp_scale_factor(x)
     
     if (n == 0)
-      return( p_matexp_pade(x) )
+      return( p_matexp_pade(t*x, p=p) )
     
-    x <- x/n
+    x <- t*x/n
     
-    S <- p_matexp_pade(x)
+    S <- p_matexp_pade(x, p=p)
     S <- p_matpow_by_squaring(S, n)
     
     return( S )

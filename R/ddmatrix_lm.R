@@ -6,8 +6,8 @@ setMethod("lm.fit", signature(x="ddmatrix", y="ddmatrix"),
   function (x, y, tol = 1e-07, singular.ok=TRUE)
   {
     # checks
-    base.checkem(x=x, y=y, checks=2:3)
-    if (x@dim[1] != y@dim[1])
+    base.checkem(x=x, y=y, checks=2L:3L)
+    if (x@dim[1L] != y@dim[1L])
       comm.stop("Error : incompatible dimensions")
     
     oldctxt <- y@ICTXT
@@ -16,9 +16,9 @@ setMethod("lm.fit", signature(x="ddmatrix", y="ddmatrix"),
     desca <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=oldctxt)
     descb <- base.descinit(dim=y@dim, bldim=y@bldim, ldim=y@ldim, ICTXT=oldctxt)
     
-    m <- desca[3]
-    n <- desca[4]
-    nrhs <- descb[4]
+    m <- desca[3L]
+    n <- desca[4L]
+    nrhs <- descb[4L]
     
     # fit the model
     out <- base.rpdgels(tol=tol, m=m, n=n, nrhs=nrhs, a=x@Data, desca=desca, b=y@Data, descb=descb)
@@ -41,9 +41,12 @@ setMethod("lm.fit", signature(x="ddmatrix", y="ddmatrix"),
     
     # rearranging solution in the overdetermined and/or rank deficient case
     temp <- 1L:n # indexing of coefficients
-    if (m >= n){
+    if (m >= n)
+    {
       y <- y[temp, , ICTXT=1L]
-    } else {
+    } 
+    else 
+    {
       cdim <- c(n-y@dim[1L], y@dim[2L])
       cldim <- base.numroc(dim=cdim, bldim=y@bldim, ICTXT=y@ICTXT, fixme=TRUE)
       c <- new("ddmatrix", Data=matrix(as.double(NA), nrow=cldim[1L], ncol=cldim[2L]), dim=cdim, ldim=cldim, bldim=y@bldim, ICTXT=y@ICTXT)
@@ -51,32 +54,43 @@ setMethod("lm.fit", signature(x="ddmatrix", y="ddmatrix"),
     }
     
     # convert IPIV to global vector if it isn't already
-    if (base.blacs(ICTXT=x@ICTXT)$NPCOL > 1L){
+    if (base.blacs(ICTXT=x@ICTXT)$NPCOL > 1L)
+    {
       dim(out$IPIV) <- c(1L, length(out$IPIV))
       c <- new("ddmatrix", Data=out$IPIV,
                 dim=c(1L, y@dim[1L]), ldim=c(1L, y@ldim[1L]), 
                 bldim=y@bldim, ICTXT=oldctxt)
       pivot <- as.vector(c)
-    } else {
+    } 
+    else 
+    {
       pivot <- out$IPIV
     }
     
-    if (out$RANK < n){
+    
+    if (out$RANK < n)
+    {
   #    vec <- as.ddmatrix(matrix(NA, nrow=1, ncol=nrhs), bldim=y@bldim)
       if (m >= n)
         y[(out$RANK+1L):n, , ICTXT=y@ICTXT] <- as.double(NA)
-      else {
+      else 
+      {
         if (out$RANK < m)
           y[(out$RANK+1L):m, , ICTXT=y@ICTXT] <- as.double(NA)
       }
-      if (any(pivot - temp != 0L)){
+      if (any(pivot - temp != 0L))
+      {
         perm <- sapply(temp, function(i) temp[which(i==pivot)])
         y <- dmat.redistribute(dx=y, bldim=y@bldim, ICTXT=2L)
         y <- y[perm, , ICTXT=oldctxt]
-      } else {
+      } 
+      else 
+      {
         y <- dmat.redistribute(dx=y, bldim=y@bldim, ICTXT=oldctxt)
       }
-    } else {
+    } 
+    else 
+    {
       y <- dmat.redistribute(dx=y, bldim=y@bldim, ICTXT=oldctxt)
     }
     

@@ -1,7 +1,20 @@
-### For libcpuid
-R_OBJS = \
-sparse_utils.o
+### Rscript
+R_SCMD = ${R_HOME}/bin${R_ARCH_BIN}/Rscript -e
 
+### Get RNACI flags.
+RNACI_CPPFLAGS=$(shell ${R_SCMD} "RNACI:::cppflags()")
+RNACI_LDFLAGS=$(shell ${R_SCMD} "RNACI:::ldflags()")
+
+### Setup R package flags.
+PKG_CPPFLAGS = $(RNACI_CPPFLAGS)
+PKG_CFLAGS = -w
+PKG_LIBS = $(RNACI_LDFLAGS)
+
+### Setup objects.
+R_OBJS = \
+    converters.o \
+    sparse_utils.o \
+    util.o
 
 OBJECTS = ${R_OBJS}
 

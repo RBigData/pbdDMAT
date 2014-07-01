@@ -1,11 +1,6 @@
-#include <R.h>
-#include <Rinternals.h>
 #include <math.h>
+#include "dmat.h"
 
-#define false 0
-#define true 1
-
-#define fequals(x,y,tol) (fabs(x-y)<tol?true:false)
 
 int int_sparse_count_zeros(int m, int n, int *x)
 {
@@ -25,6 +20,7 @@ int int_sparse_count_zeros(int m, int n, int *x)
 }
 
 
+
 SEXP R_int_sparse_count_zeros(SEXP x)
 {
   SEXP ret;
@@ -37,6 +33,7 @@ SEXP R_int_sparse_count_zeros(SEXP x)
 }
 
 
+
 int sparse_count_zeros(int m, int n, double *x, double tol)
 {
   int count = 0;
@@ -46,7 +43,7 @@ int sparse_count_zeros(int m, int n, double *x, double tol)
   {
     for (i=0; i<m; i++)
     {
-      if (fequals(x[i + m*j], 0.0, tol))
+      if (fis_zero(x[i + m*j]))
         count++;
     }
   }
@@ -56,6 +53,37 @@ int sparse_count_zeros(int m, int n, double *x, double tol)
 
 
 
+int sparse_count_zeros_withrows(int m, int n, int *rows, double *x)
+{
+  int count = 0;
+  int i, j;
+  int first;
+  
+  *rows = 0;
+  
+  for (i=0; i<m; i++)
+  {
+    first = true;
+    for (j=0; j<n; j++)
+    {
+      if (fis_zero(x[i + m*j]))
+      {
+        count++;
+      
+        if (first == true)
+        {
+          (*rows)++;
+          first = false;
+        }
+      }
+    }
+  }
+  
+  return count;
+}
+
+
+//FIXME remove tol
 SEXP R_sparse_count_zeros(SEXP x, SEXP tol)
 {
   SEXP ret;

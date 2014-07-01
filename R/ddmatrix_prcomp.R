@@ -6,10 +6,9 @@ setMethod("prcomp", signature(x="ddmatrix"),
       x <- scale(x, center = center, scale = scale.)
       cen <- attr(x@Data, "scaled:center")
       sc <- attr(x@Data , "scaled:scale")
-      if (any(sc == 0)) {
-          comm.print("cannot rescale a constant/zero column to unit variance")
-          stop("")
-         }
+      if (any(sc == 0))
+          comm.stop("cannot rescale a constant/zero column to unit variance")
+      
       s <- svd(x, nu=0)
       s$d <- s$d/sqrt(max(1, nrow(x) - 1))
       if (!is.null(tol)) {

@@ -1,159 +1,55 @@
 %\VignetteIndexEntry{pbdDMAT-guide}
+\documentclass[11pt]{article}
+\usepackage[margin=1.1in]{geometry}
+\newcommand{\thispackage}{\pkg{pbdDMAT}\xspace}
 
-\documentclass[article,shortnames,nojss]{pbdDMAT-include/jss}
+\input{./include/preamble}
 
-\usepackage{amsmath}
-\usepackage{amsthm}
-\usepackage{amssymb}
 
-\usepackage{subfig}
-
-\usepackage{color}
-\usepackage{listings}
-
-\definecolor{mygreen}{RGB}{0,150,0}
-
-\definecolor{gray}{rgb}{.6,.6,.6}
-\definecolor{orange}{rgb}{1,0.5,0}
-\definecolor{grayish}{rgb}{.85, .85, .85}
-
-\definecolor{g11}{rgb}{0, 0, 1}
-\definecolor{g12}{rgb}{0, .4, 1}
-\definecolor{g13}{rgb}{0, .8, 1}
-
-\definecolor{g21}{rgb}{0, .5, .3}
-\definecolor{g22}{rgb}{.4, .5, .3}
-\definecolor{g23}{rgb}{.8, .5, .3}
-
-\definecolor{dkgreen}{rgb}{0,0.6,0}
-\definecolor{mauve}{rgb}{0.58,0,0.82}
-
-\lstdefinelanguage{rr}{language=R, 
-                       basicstyle=\ttfamily\color{black}, 
-% 		       backgroundcolor=\color{grayish}, 
-		       frame=single, 
-		       breaklines=true, 
-                      keywordstyle=\color{blue},
-		      commentstyle=\color{dkgreen},
-		      stringstyle=\color{mauve},
-		      numbers=none,
-		      stepnumber=1,       
-		      numbersep=6pt,      
-		      showspaces=false,      
-		      showstringspaces=false,  
-		      showtabs=false,     
-		      rulecolor=\color{black},   
-		      tabsize=4,     
-		      captionpos=t,
-		      title=\lstname
-} 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% declarations for jss.cls %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%% almost as usual
-\author{
-\begin{minipage}{6in}
+\mytitle{Guide to the\\ \thispackage Package}
+\mysubtitle{Distributed Matrix Classes and Methods}
+\myversion{0.3-0}
+\myauthor{
 \centering
-Drew Schmidt$^1$, Wei-Chen Chen$^2$, George Ostrouchov$^{1,2}$, \\
-Pragneshkumar Patel$^1$
-\end{minipage}
-\\
-\\
-$^1$Remote Data Analysis and Visualization Center\\
-University of Tennessee, \\
-Knoxville, TN, USA \\
-\\
-$^2$Computer Science and Mathematics Division, \\
-Oak Ridge National Laboratory, \\
-Oak Ridge, TN, USA \\
-%\\
-%\\
-%\today
+Drew Schmidt \\
+\textit{National Institute for Computational Sciences \\
+University of Tennessee}
+\\[.4cm]
+%
+Wei-Chen Chen \\
+\textit{Department of Ecology and Evolutionary Biology \\
+University of Tennessee}
+\\[.4cm]
+%
+George Ostrouchov \\
+\textit{Computer Science and Mathematics Division, \\
+Oak Ridge National Laboratory}
+\\[.4cm]
+%
+Pragneshkumar Patel \\
+\textit{National Institute for Computational Sciences \\
+University of Tennessee}
 }
-\title{Guide to the \pkg{pbdDMAT} Package\\{\large Version 2.0}}
-%\\
-%\vspace{0.2cm} \large (Based on Version 0.1-2)}
 
-%% for pretty printing and a nice hypersummary also set:
-\Plainauthor{Drew Schmidt, Wei-Chen Chen, George Ostrouchov, Pragneshkumar Patel} %% comma-separated
-\Plaintitle{Quick Guide for pbdDMAT} %% without formatting
-\Shorttitle{Quick Guide for pbdDMAT} %% a short title (if necessary)
-
-%% an abstract and keywords
-%\Abstract{
-%}
-%\Keywords{}
-%\Plainkeywords{} %% without formatting
-%% at least one keyword must be supplied
-
-%% publication information
-%% NOTE: Typically, this can be left commented and will be filled out by the technical editor
-%% \Volume{13}
-%% \Issue{9}
-%% \Month{September}
-%% \Year{2004}
-%% \Submitdate{2004-09-29}
-%% \Acceptdate{2004-09-29}
-
-%% The address of (at least) one author should be given
-%% in the following format:
-\Address{
-  Drew Schmidt\\
-  E-mail: \email{schmidt@math.utk.edu}\\
-  URL: \url{http://thirteen-01.stat.iastate.edu/snoweye/hpsc/}
-}
-%% It is also possible to add a telephone and fax number
-%% before the e-mail in the following format:
-%% Telephone: +43/1/31336-5053
-%% Fax: +43/1/31336-734
-
-%% for those who use Sweave please include the following line (with % symbols):
-%% need no \usepackage{Sweave.sty}
-
-%% end of declarations %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\input{./pbdDMAT-include/00-preamble}
-
-\setcounter{secnumdepth}{3}
-\setcounter{tocdepth}{3}
-
-% new paragraph
-\newcommand{\np}{\\[.4cm]}
 
 \begin{document}
 
-\pagenumbering{roman}
-\tableofcontents
+\makefirstfew
 
-%\newpage
-\input{./pbdDMAT-include/01-copyright}
-
-%% include your article here, just as usual
-%% Note that you should use the \pkg{}, \proglang{} and \code{} commands.
-
-\newpage
-\input{./pbdDMAT-include/00-acknowledgement}
-
-\newpage
-\pagenumbering{arabic}
-\setcounter{page}{1}
-
-\input{./pbdDMAT-include/00-zzz-abstract.tex}
-\input{./pbdDMAT-include/01-introduction}
-\input{./pbdDMAT-include/02-classesnmeths}
-\input{./pbdDMAT-include/03-users}
-\input{./pbdDMAT-include/04-examples}
-\input{./pbdDMAT-include/05-advanced}
-\input{./pbdDMAT-include/06-adveg}
-\input{./pbdDMAT-include/07-developers}
-
+\input{./include/00-zzz-abstract.tex}
+\input{./include/01-introduction}
+\input{./include/02-classesnmeths}
+\input{./include/03-users}
+\input{./include/04-examples}
+\input{./include/05-advanced}
+\input{./include/06-adveg}
+\input{./include/07-developers}
 
 \newpage
 \phantomsection
-\addcontentsline{toc}{section}{References}
-\bibliography{./pbdDMAT-include/pbdDMAT}
+\bibliography{./include/pbdDMAT}
+\bibliographystyle{plainnat}
 
 \end{document}
+
 

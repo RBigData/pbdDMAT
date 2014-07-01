@@ -34,24 +34,27 @@ valid.ddmatrix <- function(object)
 # Matrices
 # --------------------------------------------------
 
+setClassUnion("Linalg", c("vector", "matrix"))
+
 setClass(Class="dmat", 
   representation=representation(
-    Data="matrix", 
+    Data="Linalg", 
     dim="numeric", 
     ldim="numeric",
-    storage="character", 
-    "VIRTUAL"),
+    storage="character"#, "VIRTUAL"
+    ),
   prototype=prototype(
-    Data=matrix(0.0), 
+#    Data=matrix(0.0), 
     dim=c(1L, 1L), 
     ldim=c(1L, 1L),
-    storage="dense")
+    storage="llb") # locally load balanced
 )
 
 # Distributed Dense Matrix
 setClass(
   Class="ddmatrix", 
   representation=representation(
+    Data="matrix",
     bldim="numeric",
     ICTXT="numeric"
   ),
@@ -62,12 +65,35 @@ setClass(
     ldim=c(1L, 1L),
     bldim=c(1L, 1L),
     ICTXT=0L,
-    storage="dense"
+    storage="scalapack"
   ),
   contains="dmat"#,
   #
   #validity=valid.ddmatrix
 )
+
+# Distributed Sparse Matrix
+setClass(
+  Class="dsmatrix", 
+  representation=representation(
+    Data="numeric",
+    row_ptr="numeric",
+    col_ind="numeric"
+    
+  ),
+  
+  prototype=prototype(
+    Data=0.0,
+    dim=c(1L, 1L),
+    ldim=c(1L, 1L),
+    row_ptr=1,
+    col_ind=1,
+    storage="csr"
+  ),
+  contains="dmat",
+)
+
+
 
 # --------------------------------------------------
 # Vectors
@@ -91,4 +117,27 @@ setClass(
                          bldim=c(1L, 1L),
                          ICTXT=0L
           )
+)
+
+
+# Distributed Sparse Vector
+setClass(
+  Class="dsvector", 
+  representation=representation(
+    Data="vector",
+    length="numeric",
+    llength="numeric",
+    row_ptr="numeric",
+    col_ind="numeric",
+    storage="character"
+  ),
+  
+  prototype=prototype(
+    Data=0.0,
+    length=1L,
+    llength=1L,
+    row_ptr=1,
+    col_ind=1,
+    storage="csr"
+  )
 )

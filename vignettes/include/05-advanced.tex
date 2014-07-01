@@ -1,14 +1,12 @@
-\section[]{Information for Advanced Users}
+\section{Information for Advanced Users}
 \label{sec:advanced}
-\addcontentsline{toc}{section}{\thesection. Using Information for Advanced Users}
 
 In this section, we will discuss the block-cyclic distribution of data across a 2-dimensional processor grid in lengthy detail.  It probably goes without saying that before beginning this section, the reader should be familiar with all sections prior.
  
-\subsection[]{Blocking Factor}
-\addcontentsline{toc}{subsection}{\thesubsection. Blocking Factor}
+\subsection{Blocking Factor}
 
 The idea is fairly simple, even if the execution can sometimes be cumbersome.  We want to try to evenly balance the data distribution for ``large'' matrices across the process grid, but in a way that is congruent with the natural blocking of matrices when performing LAPACK operations on them.  As the name implies, we imagine taking a large global matrix and chopping it into blocks, and assigning those blocks to the processors in the grid.  The way this is done is far from arbitrary, however.  
-\np
+
 For simplicity, let us explicitly assume for the moment that we are going to distribute a $9\times 9$ matrix across a $2\times 3$ process grid, using a $2\times 2$ blocking factor.  The above link may be extremely useful to your understanding the following.  For those who flatly refuse to click the link, we can visualize the process as follows.  We can imagine our global matrix (even if we never actually have a globally stored matrix, this is the way we would imagine it in our heads) as looking like:
 \begin{align*}
 x &= \left[
@@ -41,11 +39,11 @@ and our process grid looks like:
 \right|
 \end{align*}
 with the usual MPI processor rank on the left, and the corresponding BLACS processor grid position on the right.
-\np
+
 To distribute this data across our 6 processors in the form of a $2\times 3$ process grid in $2\times 2$ blocks, we go in a ``round robin'' fashion, assigning $2\times 2$ submatrices of the original matrix to the appropriate processor, starting with processor $(0, 0)$.  Then, if possible, we move on to the next $2\times 2$ block of $x$ and give it to processor $(0, 1)$.  We continue in this fashion with $(0,2)$ if necessary, and if there is yet more of $x$ in that row still without ownership, we cycle back to processor $(0,0)$ and start over, continuing in this fashion until there is nothing left to distribute in that row.
-\np
+
 After all the data in the first two rows of $x$ has been chopped into 2-column blocks and given to the appropriate process in process-column 1, we then move onto the next 2 rows, proceeding in the same way but now using the second process row from our process grid.  For the next 2 rows, we cycle back to process row 1.  And so on and so forth.
-\np
+
 Two visual representations of this 
 \begin{figure}[h]
 \begin{align*}
@@ -124,18 +122,17 @@ block cyclic data decomposition can be seen in Figure~\ref{fig:blockcyclic} and
 \caption{Local Processor Storage View of the Block Cyclic Data Decomposition}\label{fig:blockcyclic2}
 \end{figure}
 Figure~\ref{fig:blockcyclic2}~.   As you can see ``all animals are equal, but some animals are more equal than others.''  Meaning that we don't inherently penalize any processor or go out of our way to imbalance the data load, but that it is possible to do so with poor choice of blocking factor, and that generally process $(0, 0)$ in the BLACS grid will receive the most data.  Additionally, notice that matrices that are closer to being square will distribute better than will vectors.  In this case, a vector (here, a $9\times 1$ matrix) would only distribute across the processes in the first process column, namely $(0,0)$ and $(1,0)$.  This isn't necessarily the great imbalance problem you might instinctively think it is.  These matrices are generally fairly small, so it's not really that big of a deal that they do not distribute well.  On the other hand, things close to square are really quite large, and so we should go out of our way to make sure that they distribute ``well'', whatever that really means.
-\np
+
 Now, the user should never need to develop an algorithm to perform this kind of block-cyclic decomposition of the data; it may be necessary, especially for a developer who wishes to use this system, to have to deal with this data distribution business in a very up-front way, but many helper functions are provided by the package to that end.  We bring up this issue to illustrate a critical point:  the choice of blocking can make a large difference in performance, and generally should be tailored to the process grid.  
-\np
+
 \textbf{If the blocking factor (in the above, $2\times 2$) is too ``big'' (relative to the process grid), then the data distribution will be very uneven.  This has the net effect of reducing communication times between processes, but also limiting the amount of parallelism possible.  On the other hand, if the blocking factor is too ``small'', then the data distribution is ``too fair'', gaining much parallelism but massively inflating communication costs.}  At the extreme ends of this are, for the former, using a blocking factor that would encompass the entirety of the matrix (so that the data is distributed to only one process --- no communnication, no parallelism), and for the latter, using a blocking factor of $(1,1)$, so that there is effectively nothing \emph{but} communication and parallelism.
-\np
+
 Very loosely speaking, parallelism is good and communication is bad, but in practice, we can't really have one without the other.
 
 
 
 
-\subsection[]{Managing BLACS Contexts}
+\subsection{Managing BLACS Contexts}
 \label{sec:ictxt}
-\addcontentsline{toc}{subsection}{\thesubsection. Different BLACS Contexts}
 
 A very advanced user, perhaps someone already familiar with ScaLAPACK, may wish to be able to use a variety of BLACS contexts.  Both the creation and destruction of BLACS contexts is discussed in detail in the \pkg{pbdBASE} vignette and reference manual, and so the reader should refer to those sources for details.

@@ -8,6 +8,7 @@
 
 
 == Bugs to fix
+-check for NA, missing, etc. in .BLDIM and .ICTXT
 
 
 == Improvements to make

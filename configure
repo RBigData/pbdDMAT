@@ -584,6 +584,8 @@ PACKAGE_URL=''
 ac_unique_file="src/sparse_utils.c"
 ac_subst_vars='LTLIBOBJS
 LIBOBJS
+RNACI_LDFLAGS
+RNACI_CPPFLAGS
 OBJEXT
 EXEEXT
 ac_ct_CC
@@ -2517,16 +2519,17 @@ ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
-# Checks for libraries.
+R_SCMD="${R_HOME}/bin/Rscript -e"
 
-# Checks for header files.
+# RNACI
+RNACI_CPPFLAGS=`${R_SCMD} "RNACI:::cppflags()"`
+RNACI_LDFLAGS=`${R_SCMD} "RNACI:::ldflags()"`
 
-# Checks for typedefs, structures, and compiler characteristics.
 
-# Checks for library functions.
-#AC_CHECK_FUNCS([sqrt])
+# Substitute templates
 
-#AC_CONFIG_SUBDIRS([src/sunbathe])
+
+
 ac_config_files="$ac_config_files src/Makevars"
 
 cat >confcache <<\_ACEOF
