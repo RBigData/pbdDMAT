@@ -22,7 +22,6 @@
 }
 \arguments{
   \item{x}{A numeric matrix or a numeric distributed matrix.} 
-  \item{t}{Scalar; the canonical t in exp(t*x)}
 }
 \details{
   Formally, the exponential of a square matrix \code{X} is a power 
