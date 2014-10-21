@@ -1,16 +1,9 @@
-dsmat.print <- function(dx)
-{
-  #TODO
-}
-
-
-
 setMethod("print", signature(x="dsmatrix"),
-  function(x, ..., all=FALSE)
+  function(x, ..., all=FALSE, fmt="default")
   {
     if (all)
     {
-      # sbase printer
+      pbdSBASE::petsc_matprinter(dim=x@dim, ldim=x@ldim, data=x@Data, x@row_ptr, x@col_ind, fmt=fmt)
     } 
     else 
     {
@@ -23,7 +16,7 @@ setMethod("print", signature(x="dsmatrix"),
     
     pbdMPI::barrier()
     
-    return( invisible(0) )
+    invisible(0)
   }
 )
 
