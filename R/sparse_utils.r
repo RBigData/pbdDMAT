@@ -6,9 +6,9 @@ sparse_count_zeros <- function(x, tol=.Machine$double.eps)
     storage.mode(x) <- "double"
   
   if (is.integer(x))
-    ret <- .Call("R_int_sparse_count_zeros", x)
+    ret <- .Call(R_int_sparse_count_zeros, x)
   else
-    ret <- .Call("R_sparse_count_zeros", x, tol)
+    ret <- .Call(R_sparse_count_zeros, x, tol)
   
   return( ret )
 }

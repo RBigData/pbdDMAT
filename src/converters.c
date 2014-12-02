@@ -4,7 +4,7 @@
 #include "dmat.h"
 
 
-SEXP convert_csr_to_dense(SEXP dim, SEXP data, SEXP row_ptr, SEXP col_ind)
+SEXP R_convert_csr_to_dense(SEXP dim, SEXP data, SEXP row_ptr, SEXP col_ind)
 {
   R_INIT;
   int i, j;
@@ -55,7 +55,7 @@ SEXP convert_csr_to_dense(SEXP dim, SEXP data, SEXP row_ptr, SEXP col_ind)
 
 
 
-SEXP convert_dense_to_csr(SEXP x)
+SEXP R_convert_dense_to_csr(SEXP x)
 {
   R_INIT;
   SEXP data, row_ptr, col_ind;

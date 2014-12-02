@@ -3,7 +3,7 @@ convert_dense_to_csr <- function(x)
     if (!is.double(x))
         storage.mode(x) <- "double"
     
-    .Call("convert_dense_to_csr", x, PACKAGE="pbdDMAT")
+    .Call(R_convert_dense_to_csr, x)
 }
 
 
@@ -22,5 +22,5 @@ convert_csr_to_dense <- function(dim, Data, row_ptr, col_ind)
     if (!is.integer(col_ind))
       storage.mode(col_ind) <- "integer"
     
-    .Call("convert_csr_to_dense", dim, Data, row_ptr, col_ind, PACKAGE="pbdDMAT")
+    .Call(R_convert_csr_to_dense, dim, Data, row_ptr, col_ind)
 }

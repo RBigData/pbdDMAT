@@ -1,4 +1,7 @@
-useDynLib(pbdDMAT)
+useDynLib(pbdDMAT,
+  R_int_sparse_count_zeros, R_sparse_count_zeros, 
+  R_convert_dense_to_csr, R_convert_csr_to_dense
+)
 
 
 import(methods, pbdMPI, pbdSLAP, pbdBASE)
