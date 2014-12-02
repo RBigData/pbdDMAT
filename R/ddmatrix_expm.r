@@ -3,9 +3,6 @@
 # Awad H. Al-Mohy and Nicholas J. Higham, August 2009
 
 
-matpow_by_squaring <- base.matpow_by_squaring
-matexp_pade <- base.matexp_pade
-
 
 p_matpow_by_squaring <- function(A, b=1)
 {
@@ -61,29 +58,6 @@ p_matexp_pade <- function(A, p)
 
 
 
-matexp_scale_factor <- function(x)
-{
-#  theta <- c(3.7e-8, 5.3e-4, 1.5e-2, 8.5e-2, 2.5e-1, 5.4e-1, 9.5e-1, 1.5e0, 2.1e0, 2.8e0, 3.6e0, 4.5e0, 5.4e0, 6.3e0, 7.3e0, 8.4e0, 9.4e0, 1.1e1, 1.2e1, 1.3e1)
-  theta <- c(1.5e-2, 2.5e-1, 9.5e-1, 2.1e0, 5.4e0)
-  
-  
-  # 1-norm
-  x_1 <- norm(x, type="O") # max(colSums(abs(x))) 
-  
-  for (th in theta)
-  {
-    if (x_1 <= th)
-      return( 0 )
-  }
-  
-  j <- ceiling(log2(x_1/theta[5]))
-  n <- 2^j
-  
-  return( n )
-}
-
-
-
 setMethod("expm", signature(x="matrix", y="missing"), 
   function(x, t=1, p=6)
   {
@@ -93,15 +67,7 @@ setMethod("expm", signature(x="matrix", y="missing"),
     if (p > 13)
       stop("argument 'p' must be between 1 and 13.")
     
-    n <- matexp_scale_factor(x)
-    
-    if (n == 0)
-      return( matexp_pade(A=t*x, p=p) )
-    
-    x <- t*x/n
-    
-    S <- matexp_pade(A=x, p=p)
-    S <- matpow_by_squaring(S, n)
+    S <- base.matexp(A=x, p=p, t=t)
     
     return( S )
   }

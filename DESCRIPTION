@@ -4,7 +4,6 @@ Version: 0.3-0
 Depends: R (>= 2.14.0), methods, pbdMPI (>= 0.2-4), pbdSLAP (>= 0.1-9),
         pbdBASE (>= 0.3-0)
 LinkingTo: RNACI
-Imports: RNACI
 Enhances: pbdSBASE
 LazyLoad: yes
 LazyData: yes

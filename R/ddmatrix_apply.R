@@ -56,7 +56,7 @@ setMethod("apply", signature(X="ddmatrix"),
         fudge <- max(floor(X@bldim/base.blacs(X@ICTXT)$NPROWS), 1)
         X <- dmat.reblock(dx=X, bldim=X@bldim/2, ICTXT=1)
       
-      tmp <- apply(X@Data, MARGIN=2, FUN=FUN)
+      tmp <- apply(X@Data, MARGIN=2, FUN=FUN, ...)
       
       if (is.list(tmp)){
         if (!all(sapply(tmp, is.numeric)))
