@@ -118,6 +118,10 @@ dA <- as.ddmatrix(A, BL)
   out2 <- as.matrix(chol(t(dA) %*% dA))
   comm.print(all.equal(out1, out2))
 
+  out1 <- chol2inv(x=out1)
+  out2 <- as.matrix(chol2inv(x=chol(t(dA %*% dA))))
+  comm.print(all.equal(out1, out2))
+
 comm.print("-------ScaLAPACK lu()-------")
 
 N <- 25
