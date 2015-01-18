@@ -43,6 +43,8 @@ out1 <- solve(A)
 out2 <- as.matrix(solve(dA))
 comm.print(all.equal(out1, out2))
 
+
+
 comm.print("-------ScaLAPACK svd()-------")
 comm.print("       Square")
 
@@ -77,61 +79,72 @@ dA <- as.ddmatrix(A, BL)
   out2 <- svd(dA, nv=0)$d
   comm.print(all.equal(out1, out2))
 
+
+
 comm.print("       Column")
 
 A <- matrix(rnorm(M*1, 10, 100), M, 1)
 dA <- as.ddmatrix(A, BL)
 
-  out1 <- svd(A)$d
-  out2 <- svd(dA)$d
-  comm.print(all.equal(out1, out2))
+out1 <- svd(A)$d
+out2 <- svd(dA)$d
+comm.print(all.equal(out1, out2))
 
-  out1 <- svd(A, nu=0)$d
-  out2 <- svd(dA, nu=0)$d
-  comm.print(all.equal(out1, out2))
+out1 <- svd(A, nu=0)$d
+out2 <- svd(dA, nu=0)$d
+comm.print(all.equal(out1, out2))
 
-  out1 <- svd(A, nv=0)$d
-  out2 <- svd(dA, nv=0)$d
-  comm.print(all.equal(out1, out2))
+out1 <- svd(A, nv=0)$d
+out2 <- svd(dA, nv=0)$d
+comm.print(all.equal(out1, out2))
+
+
 
 comm.print("       Row")
 
 A <- matrix(rnorm(1*N, 10, 100), 1, N)
 dA <- as.ddmatrix(A, BL)
-  out1 <- svd(A)$d
-  out2 <- svd(dA)$d
-  comm.print(all.equal(out1, out2))
 
-  out1 <- svd(A, nu=0)$d
-  out2 <- svd(dA, nu=0)$d
-  comm.print(all.equal(out1, out2))
+out1 <- svd(A)$d
+out2 <- svd(dA)$d
+comm.print(all.equal(out1, out2))
 
-  out1 <- svd(A, nv=0)$d
-  out2 <- svd(dA, nv=0)$d
-  comm.print(all.equal(out1, out2))
+out1 <- svd(A, nu=0)$d
+out2 <- svd(dA, nu=0)$d
+comm.print(all.equal(out1, out2))
+
+out1 <- svd(A, nv=0)$d
+out2 <- svd(dA, nv=0)$d
+comm.print(all.equal(out1, out2))
+
+
 
 comm.print("-------ScaLAPACK chol()-------")
 
 A <- matrix(rnorm(N*N, 10, 100), N, N)
 dA <- as.ddmatrix(A, BL)
-  out1 <- chol(t(A) %*% A)
-  out2 <- as.matrix(chol(t(dA) %*% dA))
-  comm.print(all.equal(out1, out2))
 
-  out1 <- chol2inv(x=out1)
-  out2 <- as.matrix(chol2inv(x=chol(t(dA %*% dA))))
-  comm.print(all.equal(out1, out2))
+out1 <- chol(t(A) %*% A)
+out2 <- as.matrix(chol(t(dA) %*% dA))
+comm.print(all.equal(out1, out2))
+
+out1 <- chol2inv(x=out1)
+out2 <- as.matrix(chol2inv(x=chol(t(dA %*% dA))))
+comm.print(all.equal(out1, out2))
+
+
 
 comm.print("-------ScaLAPACK lu()-------")
 
 N <- 25
 A <- matrix(rnorm(N*N, 10, 100), N, N)
 dA <- as.ddmatrix(A, BL)
-  out2 <- as.matrix( lu(dA) )
-  
-  suppressPackageStartupMessages(library(Matrix))
-  out1 <- matrix(lu(A)@x, nrow=N, ncol=N)
-  comm.print(all.equal(out1, out2))
+
+out2 <- as.matrix( lu(dA) )
+
+suppressPackageStartupMessages(library(Matrix))
+out1 <- matrix(lu(A)@x, nrow=N, ncol=N)
+comm.print(all.equal(out1, out2))
 
 
 finalize()

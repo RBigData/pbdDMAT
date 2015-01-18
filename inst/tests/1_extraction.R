@@ -1,139 +1,138 @@
-# ################################################
-# ------------------------------------------------
-# Extraction
-# ------------------------------------------------
-# ################################################
+library(pbdTEST)
+settings(mpi=TRUE)
 
-# For each test, script returns TRUE if the test was successful 
-# (produced the correct value), and returns FALSE if the test was
-# unsuccessful (produced the incorrect value).
-
-
-suppressPackageStartupMessages(library(pbdDMAT, quiet=T))
-
-init.grid()
-
-diditwork <- function(A, B)
-{
-  all(round(A-B, 5)==0)
-}
-
+.BLDIM <- 2
 seed <- 10
 
-tol <- 1e-8
 
-comm.print(" ---------------[---------------", quiet=T)
+### --------------------------------------
+module("Extraction: 1 column")
 
+x <- matrix(1:20, ncol=1)
+dx <- as.ddmatrix(x)
 
-## -----------------------------------
-comm.print(quiet=TRUE, "-------1 col--------")
+test("[1:6, ]", {
+  a <- x[1:6, , drop=FALSE]
+  b <- as.matrix(dx[1:6, ])
+})
 
-A <- matrix(1:20, ncol=1)
-dA <- as.ddmatrix(A, 2)
-
-newObj <- dA[1:6, ]
-out <- as.matrix(newObj)
-comm.print(quiet=TRUE, diditwork(out, A[1:6, ]))
-
-## -----------------------------------
-comm.print(quiet=TRUE, "-------1 row--------")
-
-A <- matrix(1:20, nrow=1)
-dA <- as.ddmatrix(A, 2)
-
-newObj <- dA[, 1:6]
-out <- as.matrix(newObj)
-comm.print(quiet=TRUE, diditwork(out, A[, 1:6]))
+collect()
 
 
-## -----------------------------------
-comm.print(quiet=TRUE, "-------square--------")
 
-A <- matrix(1:100, ncol=10)
-dA <- as.ddmatrix(A, 2)
+### --------------------------------------
+module("Extraction: 1 row")
 
-newObj <- dA[1:3, 1:2]
-out <- as.matrix(newObj)
-comm.print(quiet=TRUE, diditwork(out, A[1:3, 1:2]))
+x <- matrix(1:20, nrow=1)
+dx <- as.ddmatrix(x)
 
+test("[, 1:6]", {
+  a <- x[, 1:6, drop=FALSE]
+  b <- as.matrix(dx[, 1:6])
+})
 
-newObj <- dA[1, 1]
-out <- as.matrix(newObj)
-comm.print(quiet=TRUE, diditwork(out, A[1, 1]))
-
-
-newObj <- dA[7, 7]
-out <- as.matrix(newObj)
-comm.print(quiet=TRUE, diditwork(out, A[7, 7]))
+collect()
 
 
-# --------------------------------------------------
 
-newObj <- dA[1:2, 1:2]
+### --------------------------------------
+module("Extraction: square")
 
-out <- as.matrix(newObj)
-comm.print(quiet=TRUE, diditwork(out, A[1:2, 1:2]))
+x <- matrix(1:100, ncol=10)
+dx <- as.ddmatrix(x, 2)
 
-newObj <- dA[-1, -1]
-out <- as.matrix(newObj)
-comm.print(quiet=TRUE, diditwork(out, A[-1, -1]))
+test("[1:3, 1:2]", {
+  a <- x[1:3, 1:2, drop=FALSE]
+  b <- as.matrix(dx[1:3, 1:2])
+})
 
+test("[1, 1]", {
+  a <- x[1, 1, drop=FALSE]
+  b <- as.matrix(dx[1, 1])
+})
 
-newObj <- dA[5:7, 8:9]
-out <- as.matrix(newObj)
-comm.print(quiet=TRUE, diditwork(out, A[5:7, 8:9]))
+test("[7, 7]", {
+  a <- x[7, 7, drop=FALSE]
+  b <- as.matrix(dx[7, 7])
+})
 
+test("[1:2, 1:2]", {
+  a <- x[1:2, 1:2, drop=FALSE]
+  b <- as.matrix(dx[1:2, 1:2])
+})
 
-## -----------------------------------
-comm.print(quiet=TRUE, "-------2 cols--------")
+test("[-1, -1]", {
+  a <- x[-1, -1, drop=FALSE]
+  b <- as.matrix(dx[-1, -1])
+})
 
-A <- matrix(1:100, ncol=2)
-dA <- as.ddmatrix(A, 2)
+test("[5:7, 8:9]", {
+  a <- x[5:7, 8:9, drop=FALSE]
+  b <- as.matrix(dx[5:7, 8:9])
+})
 
-newObj <- dA[1:3, 1:2]
-out <- as.matrix(newObj)
-comm.print(quiet=TRUE, diditwork(out, A[1:3, 1:2]))
-
-
-newObj <- dA[1, 1]
-out <- as.matrix(newObj)
-comm.print(quiet=TRUE, diditwork(out, A[1, 1]))
-
-
-newObj <- dA[1:2, 1:2]
-out <- as.matrix(newObj)
-comm.print(quiet=TRUE, diditwork(out, A[1:2, 1:2]))
-
-
-newObj <- dA[1:10, -1]
-out <- as.matrix(newObj)
-comm.print(quiet=TRUE, diditwork(out, A[1:10, -1]))
+collect()
 
 
-## -----------------------------------
-comm.print(quiet=TRUE, "-------2 rows--------")
 
-A <- matrix(1:100, nrow=2)
-dA <- as.ddmatrix(A, 2)
+### --------------------------------------
+module("Extraction: 2 columns")
 
-newObj <- dA[1, 1:2]
-out <- as.matrix(newObj)
-comm.print(quiet=TRUE, diditwork(out, A[1, 1:2]))
+x <- matrix(1:100, ncol=2)
+dx <- as.ddmatrix(x)
+
+test("[1:3, 1:2]", {
+  a <- x[1:3, 1:2, drop=FALSE]
+  b <- as.matrix(dx[1:3, 1:2])
+})
+
+test("[1, 1]", {
+  a <- x[1, 1, drop=FALSE]
+  b <- as.matrix(dx[1, 1])
+})
+
+test("[1:2, 1:2]", {
+  a <- x[1:2, 1:2, drop=FALSE]
+  b <- as.matrix(dx[1:2, 1:2])
+})
+
+test("[1:10, -1]", {
+  a <- x[1:10, -1, drop=FALSE]
+  b <- as.matrix(dx[1:10, -1])
+})
+
+collect()
 
 
-newObj <- dA[1, 1]
-out <- as.matrix(newObj)
-comm.print(quiet=TRUE, diditwork(out, A[1, 1]))
 
+### --------------------------------------
+module("Extraction: 2 rows")
 
-newObj <- dA[1:2, 1:2]
-out <- as.matrix(newObj)
-comm.print(quiet=TRUE, diditwork(out, A[1:2, 1:2]))
+x <- matrix(1:100, nrow=2)
+dx <- as.ddmatrix(x)
 
+test("[1, 1:2]", {
+  a <- x[1, 1:2, drop=FALSE]
+  b <- as.matrix(dx[1, 1:2])
+})
 
-newObj <- dA[-1, 1:10]
-out <- as.matrix(newObj)
-comm.print(quiet=TRUE, diditwork(out, A[-1, 1:10]))
+test("[1, 1]", {
+  a <- x[1, 1, drop=FALSE]
+  b <- as.matrix(dx[1, 1])
+})
+
+test("[1:2, 1:2]", {
+  a <- x[1:2, 1:2, drop=FALSE]
+  b <- as.matrix(dx[1:2, 1:2])
+})
+
+test("[-1, 1:10]", {
+  a <- x[-1, 1:10, drop=FALSE]
+  b <- as.matrix(dx[-1, 1:10])
+})
+
+collect()
+
 
 
 finalize()
