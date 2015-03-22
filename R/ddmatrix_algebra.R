@@ -392,6 +392,42 @@ setMethod("eigen", signature(x="ddmatrix"),
 
 
 
+#' eigen2
+#' 
+#' Compute eigenvalues and, optionally, eigenvectors of a real symmetric matrix
+#' by seraching over ranges of values or ranges of indices.
+#' 
+#' This new method computes selected eigenvalues and, optionally, eigenvectors
+#' of a real symmetric matrix. Eigenvalues and eigenvectors can be selected by
+#' specifying either a range of values or a range of indices for the desired
+#' eigenvalues.
+#' 
+#' @param x 
+#' symmetric, numeric ddmatrix.
+#' @param range 
+#' A set of interval endpoints, i.e. a numeric pair.  Controls the
+#' set of values over which the eigenvalue search occurs.
+#' @param range.type 
+#' Controls whether interval \code{range} refers to a set of
+#' possible values for the eigenvalues, or a set of indices for the
+#' eigenvalues.  Options are "interval" and "index".
+#' @param only.values 
+#' logical. Determines whether only the eigenvalues should
+#' be computed, or if the eigenvectors should as well.
+#' @param abstol 
+#' The absolute error tolerance for the eigenvalues.
+#' @param orfac 
+#' Specifies which eigenvectors should be reorthogonalized.
+#' Eigenvectors that correspond to eigenvalues which are within
+#' tol=orfac*norm(A)of each other are to be reorthogonalized.
+#' 
+#' @return 
+#' Returns a distributed matrix.
+#' 
+#' @keywords Methods Linear Algebra
+#' 
+#' @name eigen2
+#' @export
 eigen2 <- function(x, range=c(-Inf, Inf), range.type="interval", only.values=FALSE, abstol=1e-8, orfac=1e-3)
 {
     # Basic checking

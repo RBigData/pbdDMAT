@@ -2,10 +2,6 @@
 
 # Misc
 setGeneric(name = "print", useAsDefault = base::print, package="pbdDMAT")
-setGeneric(name = "nrow", useAsDefault = base::nrow, package="pbdDMAT")
-setGeneric(name = "ncol", useAsDefault = base::ncol, package="pbdDMAT")
-setGeneric(name = "NROW", useAsDefault = base::NROW, package="pbdDMAT")
-setGeneric(name = "NCOL", useAsDefault = base::NCOL, package="pbdDMAT")
 setGeneric(name = "as.matrix", useAsDefault = base::as.matrix, package="pbdDMAT")
 setGeneric(name = "na.exclude", useAsDefault = stats::na.exclude, package="pbdDMAT")
 setGeneric(name = "all.equal", useAsDefault = base::all.equal, package="pbdDMAT")
@@ -50,7 +46,6 @@ setGeneric(name = "cov2cor", useAsDefault = stats::cov2cor, package="pbdDMAT")
 setGeneric(name = "prcomp", useAsDefault = stats::prcomp, package="pbdDMAT")
 setGeneric(name = "scale", useAsDefault = base::scale, package="pbdDMAT")
 setGeneric(name = "sweep", useAsDefault = base::sweep, package="pbdDMAT")
-setGeneric(name = "lm.fit", useAsDefault = stats::lm.fit, package="pbdDMAT")
 
 setGeneric(name="sd", 
   function(x, ...)
@@ -199,27 +194,9 @@ setGeneric(name="ddmatrix.local",
   package="pbdDMAT"
 )
 
-setGeneric(name="as.ddmatrix", 
-  function(x, ...) 
-    standardGeneric("as.ddmatrix"), 
-  package="pbdDMAT"
-)
-
-setGeneric(name="submatrix", 
-  function(x, ...) 
-    standardGeneric("submatrix"), 
-  package="pbdDMAT"
-)
-
 setGeneric("submatrix<-", 
   function(x, value)
     standardGeneric("submatrix<-"),
-  package="pbdDMAT"
-)
-
-setGeneric(name="ldim", 
-  function(x, ...) 
-    standardGeneric("ldim"), 
   package="pbdDMAT"
 )
 
@@ -229,17 +206,6 @@ setGeneric(name="llen",
   package="pbdDMAT"
 )
 
-setGeneric(name="bldim", 
-  function(x, ...) 
-    standardGeneric("bldim"), 
-  package="pbdDMAT"
-)
-
-setGeneric(name="ICTXT", 
-  function(x, ...) 
-    standardGeneric("ICTXT"), 
-  package="pbdDMAT"
-)
 
 setGeneric(name="ownany", 
   function(x, ...) 

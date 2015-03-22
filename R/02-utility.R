@@ -73,32 +73,6 @@ dmat.gmat <- function(dx, proc.dest="all")
 
 
 
-# Distribute dense, in-core matrices
-dmat.as.ddmatrix <- function(x, bldim=.BLDIM, ICTXT=.ICTXT)
-{
-  nprocs <- pbdMPI::comm.size()
-  owns <- pbdMPI::allreduce(is.matrix(x), op='sum')
-  
-  # owned by one process 
-  if (owns==1){ 
-    iown <- is.matrix(x)
-    if (iown)
-      iown <- pbdMPI::comm.rank()
-    else
-      iown <- 0
-    iown <- pbdMPI::allreduce(iown, op='max')
-    return( base.distribute(x=x, bldim=bldim, xCTXT=0, ICTXT=ICTXT) )
-  } 
-  # global ownership is assumed --- this should only ever really happen in testing
-  else if (owns==nprocs){ 
-    return( base.mat.to.ddmat(x, bldim=bldim, ICTXT=ICTXT) )
-  }
-  # neither of these two cases
-  else 
-    comm.stop("Matrix 'x' is defined on some, but not all processes. Consider using the redistribute() function.")
-}
-
-
 # distribute a matrix from process (0,0) to the full ICTXT grid
 base.distribute <- function(x, bldim=.BLDIM, xCTXT=0, ICTXT=.ICTXT)
 {

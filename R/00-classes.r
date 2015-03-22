@@ -50,7 +50,15 @@ setClass(Class="dmat",
     storage="llb") # locally load balanced
 )
 
-# Distributed Dense Matrix
+
+
+#' Class ddmatrix
+#' 
+#' Distributed matrix class.
+#' 
+#' @name ddmatrix-class
+#' @seealso \code{\link{SlotAccessors}}
+#' @keywords Classes
 setClass(
   Class="ddmatrix", 
   representation=representation(

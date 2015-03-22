@@ -1,7 +1,82 @@
-# ---------------------------------------------------------
-# lm.fit
-# ---------------------------------------------------------
+#' Fitter for Linear Models
+#' 
+#' Fits a real linear model via QR with a "limited pivoting strategy", as in
+#' R's DQRDC2 (fortran).
+#' 
+#' Solves the linear least squares problem, which is to find an \code{x}
+#' (possibly non-uniquely) such that || Ax - b ||^2 is minimized, where
+#' \code{A} is a given n-by-p model matrix, \code{b} is a "right hand side"
+#' n-by-1 vector (multiple right hand sides can be solved at once, but the
+#' solutions are independent, i.e. not simultaneous), and "||" is the l2 norm.
+#' 
+#' Uses level 3 PBLAS and ScaLAPACK routines (modified PDGELS) to get a linear
+#' least squares solution, using the 'limited pivoting strategy' from R's
+#' DQRDC2 (unsed in DQRLS) routine as a way of dealing with (possibly) rank
+#' deficient model matrices.
+#' 
+#' A model matrix with many dependent columns will likely experience poor
+#' performance, especially at scale, due to all the data swapping that must
+#' occur to handle rank deficiency.
+#' 
+#' @param x,y 
+#' numeric distributed matrices
+#' @param tol 
+#' tolerance for numerical rank estimation in QR decomposition.
+#' @param singular.ok 
+#' logical. If \code{FALSE} then a singular model
+#' (rank-deficient \code{x}) produces an error.
+#' 
+#' @return 
+#' Returns a list of values similar to R's \code{lm.fit()}. Namely, the
+#' list contains: 
+#' \tabular{ll}{
+#'   \code{coefficients} \tab (distributed matrix) solution to the linear least squares problem \cr
+#'   \code{residuals} \tab (distributed matrix) difference in the numerical fit and the observed \cr
+#'   \code{effects} \tab (distributed matrix) \code{t(Q) \%*\% y} \cr
+#'   \code{rank} \tab (global numeric) numerical column rank \cr
+#'   \code{fitted.values} \tab (distributed matrix) Numerical fit \code{A \%*\% x} \cr
+#'   \code{assign} \tab \code{NULL} if \code{lm.fit()} is called directly \cr
+#'   \code{qr} \tab list, same as return from \code{qr()} \cr 
+#'   \code{df.residual} \tab (global numeric) degrees of freedom of residuals\cr
+#' }
+#' 
+#' @seealso \code{\link{QR}}
+#' 
+#' @keywords Methods Extraction
+#' 
+#' @examples
+#' \dontrun{
+#' # Save code in a file "demo.r" and run with 2 processors by
+#' # > mpiexec -np 2 Rscript demo.r
+#' 
+#' library(pbdDMAT, quiet = TRUE)
+#' init.grid()
+#' 
+#' # don't do this in production code
+#' x <- matrix(rnorm(9), 3)
+#' y <- matrix(rnorm(3))
+#' 
+#' dx <- as.ddmatrix(x)
+#' dy <- as.ddmatrix(y)
+#' 
+#' fit <- lm.fit(x=dx, y=dy)
+#' 
+#' print(fit)
+#' 
+#' finalize()
+#' }
+#' 
+#' @name lm.fit
+#' @rdname lm.fit
+#' @export
+NULL
 
+#' @rdname lm.fit
+#' @export
+setGeneric(name = "lm.fit", useAsDefault = stats::lm.fit, package="pbdDMAT")
+
+#' @rdname lm.fit
+#' @export
 setMethod("lm.fit", signature(x="ddmatrix", y="ddmatrix"), 
   function (x, y, tol = 1e-07, singular.ok=TRUE)
   {

@@ -375,52 +375,6 @@ setMethod("ddmatrix.local", signature(data="character"),
 
 
 
-companion <- function(coef, type="matrix", ..., bldim=.BLDIM, ICTXT=.ICTXT)
-  {
-    type <- match.arg(type, c("matrix", "ddmatrix"))
-    
-    if (type=="ddmatrix"){
-      if (length(bldim)==1)
-        bldim <- rep(bldim, 2L)
-      
-      dim <- rep(length(coef), 2L)
-      ldim <- base.numroc(dim=dim, bldim=bldim, ICTXT=ICTXT)
-      
-      descx <- base.descinit(dim=dim, bldim=bldim, ldim=ldim, ICTXT=ICTXT)
-      
-      out <- base.pdmkcpn1(coef=coef, descx=descx)
-      ret <- new("ddmatrix", Data=out, dim=dim, ldim=ldim, bldim=bldim, ICTXT=ICTXT)
-    }
-    else
-    {
-      n <- length(coef)
-      ret <- cbind(rbind(rep(0, n-1), diag(1, nrow=n-1, ncol=n-1)), -coef)
-    }
-    
-    return( ret )
-}
-
-
-Hilbert <- function(n, type="matrix", ..., bldim=.BLDIM, ICTXT=.ICTXT)
-{
-  type <- match.arg(type, c("matrix", "ddmatrix"))
-  if (type == "ddmatrix")
-  {
-    dim <- c(n, n)
-    ldim <- base.numroc(dim=dim, bldim=bldim, ICTXT=ICTXT, fixme=TRUE)
-    descx <- base.descinit(dim=dim, bldim=bldim, ldim=ldim, ICTXT=ICTXT)
-    
-    out <- base.pdhilbmk(descx)
-    
-    ret <- new("ddmatrix", Data=out, dim=dim, ldim=ldim, bldim=bldim, ICTXT=ICTXT)
-  }
-  else
-  {
-    ret <- base.dhilbmk(n)
-  }
-  
-  return( ret )
-}
 
 
 # -------------------
@@ -468,18 +422,5 @@ setMethod("as.vector", signature(x="ddmatrix"),
 setMethod("as.vector", signature(x="ANY"), 
   function(x, mode="any") 
     base::as.vector(x=x, mode=mode)
-)
-
-setMethod("as.ddmatrix", signature(x="matrix"), 
-  dmat.as.ddmatrix
-)
-
-setMethod("as.ddmatrix", signature(x="NULL"), 
-  dmat.as.ddmatrix
-)
-
-setMethod("as.ddmatrix", signature(x="vector"), 
-  function(x, bldim=.BLDIM, ICTXT=.ICTXT)
-    dmat.as.ddmatrix(matrix(x), bldim=bldim, ICTXT=ICTXT)
 )
 
