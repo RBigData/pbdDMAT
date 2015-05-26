@@ -15,7 +15,8 @@ Authors@R: c(person("Drew", "Schmidt", role = c("aut", "cre"), email =
         person("George", "Ostrouchov", role = "aut"),
         person("Pragneshkumar", "Patel", role = "aut"), 
         person("R Core team", role = "ctb", comment = "some wrappers
-        taken from the base and stats packages"))
+        taken from the base and stats packages"),
+        person("ZhaoKang", "Wang", role="ctb"))
 Description: pbdDMAT contains high level S3 and S4 methods for creating,
         modifying, and performing computations with dense, distributed 
         matrices. This includes a new class, 'ddmatrix', for storing all 
