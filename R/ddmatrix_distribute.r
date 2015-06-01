@@ -52,6 +52,11 @@ dmat.reblock <- function(dx, bldim=dx@bldim, ICTXT=.ICTXT)
   return( dy )
 }
 
+### TODO fix this mess
+dmat.redistribute <- dmat.reblock
+
+
+
 #' Distribute/Redistribute matrices across the process grid
 #' 
 #' Takes either an R matrix and distributes it as a distributed matrix, or

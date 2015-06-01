@@ -72,66 +72,6 @@ dropper <- base.dropper
 
 
 #---------------------------------------------
-# *bind functions
-#---------------------------------------------
-
-base.rbind <- function(..., ICTXT=.ICTXT)
-{
-  args <- list(...)
-  
-  return( base.rbind2(args=args, ICTXT=ICTXT) )
-}
-
-base.rbind2 <- function(args, ICTXT=.ICTXT)
-{ 
-#  args <- list(...)
-  
-  oldctxt <- args[[1]]@ICTXT
-  
-  args <- lapply(args, 
-    FUN=function(dx) dmat.redistribute(dx=dx, bldim=dx@bldim, ICTXT=1)
-  )
-  
-  dim <- c(sum(sapply(args, function(x) dim(x)[1])), args[[1]]@dim[2])
-  bldim <- args[[1]]@bldim
-  ldim <- base.numroc(dim=dim, bldim=bldim, ICTXT=1, fixme=TRUE)
-  
-  Data <- lapply(args, submatrix)
-  
-  ret <- new("ddmatrix", Data=Reduce(base::rbind, Data), dim=dim, ldim=ldim, bldim=bldim, ICTXT=1)
-  
-  if (ICTXT!=1)
-    ret <- dmat.redistribute(dx=ret, bldim=ret@bldim, ICTXT=ICTXT)
-  
-  return( ret )
-}
-
-base.cbind <- function(..., ICTXT=.ICTXT)
-{
-  args <- list(...)
-  
-  oldctxt <- args[[1]]@ICTXT
-  
-  args <- lapply(args, 
-    FUN=function(dx) dmat.redistribute(dx=dx, bldim=dx@bldim, ICTXT=2)
-  )
-  
-  dim <- c(args[[1]]@dim[1], sum(sapply(args, function(x) dim(x)[2])))
-  bldim <- args[[1]]@bldim
-  ldim <- base.numroc(dim=dim, bldim=bldim, ICTXT=2, fixme=TRUE)
-  
-  Data <- lapply(args, submatrix)
-  
-  ret <- new("ddmatrix", Data=Reduce(base::cbind, Data), dim=dim, ldim=ldim, bldim=bldim, ICTXT=2)
-  
-  if (ICTXT!=2)
-    ret <- dmat.redistribute(dx=ret, bldim=ret@bldim, ICTXT=ICTXT)
-  
-  return( ret )
-}
-
-
-#---------------------------------------------
 # rank (median)
 #---------------------------------------------
 

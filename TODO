@@ -18,3 +18,13 @@
 == Get it done already
 -glm
 -nonsymmetric eigenvalue problem
+
+
+
+
+************ rewrite ***********
+* move shit in converters.r to appropriate place
+* 
+
+
+* Come up with an R6 interface?

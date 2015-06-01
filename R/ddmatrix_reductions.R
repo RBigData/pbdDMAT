@@ -359,17 +359,6 @@ setMethod("colMin", signature(x="matrix"),
 
 ### Other
 
-# diag
-setMethod("diag", signature(x="ddmatrix"),
-  function(x)
-  {
-    descx <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
-    
-    ret <- base.ddiagtk(x=x@Data, descx=descx)
-    
-    return( ret )
-  }
-)
 
 # sum
 setMethod("sum", signature(x="ddmatrix"),

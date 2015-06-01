@@ -124,37 +124,6 @@ distribute <- base.distribute
 
 
 
-#---------------------------------------------
-# ddmatrix-to-matrix
-#---------------------------------------------
-
-# Undistribute a distributed matrix --- ONLY to be used in testing
-base.as.matrix <- function(x, proc.dest="all") 
-{
-  if (proc.dest=='all'){
-    ret <- dmat.gmat(dx=x, proc.dest="all")
-    return( ret )
-  }
-  else if (is.numeric(proc.dest)){
-    if (base::length(proc.dest)==1){
-      blacs_ <- base.blacs(x@ICTXT)
-      if (pbdMPI::comm.rank()==proc.dest)
-        proc.dest <- c(blacs_$MYROW, blacs_$MYCOL)
-      else
-        proc.dest <- c(0, 0)
-      proc.dest <- pbdMPI::allreduce(proc.dest, op='max')
-    } 
-    else if (base::length(proc.dest)>2)
-      comm.stop("Invalid destination process 'proc.dest'")
-    
-    ret <- dmat.gmat(dx=x, proc.dest=proc.dest)
-    return( ret )
-  }
-  
-  comm.stop("Invalid destinaction process 'proc.dest'")
-}
-
-
 
 #---------------------------------------------
 # ddmatrix utility
@@ -176,41 +145,3 @@ base.is.ddmatrix <- function(x)
 is.ddmatrix <- base.is.ddmatrix
 
 
-# Head and tail
-head.ddmatrix <- function(x, n=6L, ...)
-{
-  n <- as.integer(n)
-  dim <- as.integer(dim(x)[1])
-  
-  if (n == 0 || (n < 0 && -n>dim) )
-    return(x[0, ])
-  else if (n < 0){
-    n <- dim+n
-    return(x[1L:n, ])
-  }
-  else {
-    if (n >= dim)
-      return(x)
-    else
-      return(x[1L:n, ])
-  }
-}
-
-tail.ddmatrix <- function(x, n=6L, ...)
-{
-  n <- as.integer(n)
-  dim <- as.integer(dim(x)[1])
-  
-  if (n == 0 || (n < 0 && -n>dim) )
-    return(x[0, ])
-  else if (n < 0){
-    n <- dim+n
-    return(x[(dim-n+1L):n, ])
-  }
-  else {
-    if (n >= dim)
-      return(x)
-    else
-    return(x[(dim-n+1L):n, ])
-  }
-}

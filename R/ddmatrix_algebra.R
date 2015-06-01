@@ -4,6 +4,7 @@
 # ------------------------------------------------
 # ################################################
 
+#' @export
 setMethod("t", signature(x="ddmatrix"),
   function(x){
     ICTXT <- x@ICTXT
@@ -53,6 +54,7 @@ dmat.ddmatmult <- function(x, y, outbldim=x@bldim)
   return( c )
 }
 
+#' @export
 setMethod("%*%", signature(x="ddmatrix", y="ddmatrix"),
   function(x, y)
     dmat.ddmatmult(x, y, outbldim=x@bldim)

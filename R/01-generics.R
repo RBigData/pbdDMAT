@@ -1,40 +1,11 @@
 ### S4 methods
 
 # Misc
-setGeneric(name = "print", useAsDefault = base::print, package="pbdDMAT")
-setGeneric(name = "as.matrix", useAsDefault = base::as.matrix, package="pbdDMAT")
 setGeneric(name = "na.exclude", useAsDefault = stats::na.exclude, package="pbdDMAT")
 setGeneric(name = "all.equal", useAsDefault = base::all.equal, package="pbdDMAT")
-setGeneric(name = "summary", useAsDefault = base::summary, package="pbdDMAT")
 setGeneric(name = "isSymmetric", useAsDefault = base::isSymmetric, package="pbdDMAT")
 #setGeneric(name = "polyroot", useAsDefault = base::polyroot, package="pbdDMAT")
 
-
-setGeneric(name="as.vector", 
-  function(x, ...)
-    standardGeneric("as.vector"),
-  package="pbdDMAT"
-)
-
-setGeneric(name="rbind", 
-  function(..., ICTXT=.ICTXT, deparse.level=1)
-    standardGeneric("rbind"),
-  package="pbdDMAT"
-)
-
-setGeneric(name="cbind", 
-  function(..., ICTXT=.ICTXT, deparse.level=1)
-    standardGeneric("cbind"),
-  package="pbdDMAT"
-)
-
-setGeneric(name = "apply", useAsDefault = base::apply, package="pbdDMAT")
-
-setGeneric(name="diag",
-  function(x, ...)
-    standardGeneric("diag"),
-  package="pbdDMAT"
-)
 
 
 # Stats
@@ -182,17 +153,7 @@ setGeneric(name="dmat",
   package="pbdDMAT"
 )
 
-setGeneric(name="ddmatrix", 
-  function(data, ...) 
-    standardGeneric("ddmatrix"), 
-  package="pbdDMAT"
-)
 
-setGeneric(name="ddmatrix.local", 
-  function(data, ...) 
-    standardGeneric("ddmatrix.local"), 
-  package="pbdDMAT"
-)
 
 setGeneric("submatrix<-", 
   function(x, value)

@@ -1,36 +1,129 @@
-# -------------------
-# Constructors
-# -------------------
+#' Distributed Matrix Creation
+#' 
+#' Methods for simple construction of distributed matrices.
+#' 
+#' These methods are simplified methods of creating distributed matrices,
+#' including random ones.  These methods involve only local computations, i.e.,
+#' no communication is performed in the construction of a \code{ddmatrix} using
+#' these methods (in contrast to using \code{as.ddmatrix()} et al).
+#' 
+#' For non-character inputs, the methods attempt to mimic R as closely as
+#' possible.  So \code{ddmatrix(1:3, 5, 7)} produces the distributed analogue
+#' of \code{matrix(1:3, 5, 7)}.
+#' 
+#' For character inputs, you may also specify additional parametric family
+#' information.
+#' 
+#' The functions predicated with \code{.local} generate data with a fixed local
+#' dimension, i.e., each processor gets an identical amount of data.  Likewise,
+#' the remaining functions generate a fixed global amount of data, and each
+#' processor may or may not have an identical amount of local data.
+#' 
+#' To ensure good random number generation, you should only consider using the
+#' character methods with the \code{comm.set.seed()} function from pbdMPI which
+#' uses the method of L'Ecuyer via the rlecuyer package.
+#' 
+#' @param data 
+#' optional data vector.
+#' @param nrow 
+#' number of rows.  Global rows for \code{ddmatrix()}. Local rows
+#' for \code{ddmatrix.local()}.  See details below.
+#' @param ncol 
+#' number of columns.  Global columns for \code{ddmatrix()}.  Local
+#' columns for \code{ddmatrix.local()}.  See details below.
+#' @param byrow 
+#' logical. If \code{FALSE} then the distributed matrix will be
+#' filled by column major storage, otherwise row-major.
+#' @param ... 
+#' Extra arguments
+#' @param min,max 
+#' Min and max values for random uniform generation.
+#' @param mean,sd 
+#' Mean and standard deviation for random normal generation.
+#' @param rate 
+#' Rate for random exponential generation.
+#' @param shape,scale 
+#' Shape and scale parameters for random weibull generation.
+#' @param bldim 
+#' blocking dimension.
+#' @param ICTXT 
+#' BLACS context number.
+#' 
+#' @return 
+#' Returns a distributed matrix.
+#' 
+#' @examples
+#' 
+#' \dontrun{
+#' # Save code in a file "demo.r" and run with 2 processors by
+#' # > mpiexec -np 2 Rscript demo.r
+#' 
+#' library(pbdDMAT, quiet = TRUE)
+#' init.grid()
+#' 
+#' dx <- ddmatrix(data="rnorm", nrow=5, ncol=6, mean=10, sd=100)
+#' dy <- ddmatrix(data=1:4, nrow=7, ncol=5)
+#' 
+#' print(dx)
+#' print(dy)
+#' 
+#' finalize()
+#' }
+#' 
+#' @seealso \code{\link{as.ddmatrix}}
+#' @keywords Data Generation
+#' @name ddmatrix-constructors
+#' @rdname ddmatrix-constructors
+NULL
 
-setMethod("dmat", signature(data="missing"), 
-  function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=.BLDIM, ICTXT=.ICTXT)
-  {
-    data <- NA
-    ret <- ddmatrix(data=data, nrow=nrow, ncol=ncol, byrow=byrow, bldim=bldim, ICTXT=ICTXT)
-    
-    return( ret )
-  }
+
+
+#' @rdname ddmatrix-constructors
+#' @export
+setGeneric(name="ddmatrix", 
+  function(data, ...) 
+    standardGeneric("ddmatrix"), 
+  package="pbdDMAT"
 )
 
 
 
-#setMethod("ddmatrix", signature(data="ddmatrix"), 
+### TODO
+##' @rdname ddmatrix-constructors
+##' @export
+#setMethod("dmat", signature(data="missing"), 
 #  function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=.BLDIM, ICTXT=.ICTXT)
 #  {
-#    if (length(bldim)==1)
-#      bldim <- rep(bldim, 2)
+#    data <- NA
+#    ret <- ddmatrix(data=data, nrow=nrow, ncol=ncol, byrow=byrow, bldim=bldim, ICTXT=ICTXT)
 #    
-#    if (nrow==data@dim[1L] && ncol==data@dim[2L])
-#      return( data )
-#    else {
-#      comm.stop("can't do this yet") #FIXME
-#    }
-#    
+#    return( ret )
 #  }
 #)
 
 
 
+#' @rdname ddmatrix-constructors
+#' @export
+setMethod("ddmatrix", signature(data="ddmatrix"), 
+  function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=.BLDIM, ICTXT=.ICTXT)
+  {
+    if (length(bldim)==1)
+      bldim <- rep(bldim, 2)
+    
+    if (nrow==data@dim[1L] && ncol==data@dim[2L])
+      return( data )
+    else {
+      comm.stop("can't do this yet") #FIXME
+    }
+    
+  }
+)
+
+
+
+#' @rdname ddmatrix-constructors
+#' @export
 setMethod("ddmatrix", signature(data="missing"), 
   function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=.BLDIM, ICTXT=.ICTXT)
   {
@@ -43,6 +136,8 @@ setMethod("ddmatrix", signature(data="missing"),
 
 
 
+#' @rdname ddmatrix-constructors
+#' @export
 setMethod("ddmatrix", signature(data="vector"), 
   function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=.BLDIM, ICTXT=.ICTXT)
   {
@@ -103,6 +198,8 @@ setMethod("ddmatrix", signature(data="vector"),
 
 
 
+#' @rdname ddmatrix-constructors
+#' @export
 setMethod("ddmatrix", signature(data="matrix"), 
   function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=.BLDIM, ICTXT=.ICTXT)
   {
@@ -115,6 +212,8 @@ setMethod("ddmatrix", signature(data="matrix"),
 
 
 
+#' @rdname ddmatrix-constructors
+#' @export
 setMethod("ddmatrix", signature(data="character"), 
   function(data, nrow=1, ncol=1, byrow=FALSE, ..., min=0, max=1, mean=0, sd=1, rate=1, shape, scale=1, bldim=.BLDIM, ICTXT=.ICTXT)
   {
@@ -149,103 +248,19 @@ setMethod("ddmatrix", signature(data="character"),
 
 
 
-# Create a diagonal distributed matrix
-setMethod("diag", signature(x="vector"), 
-  function(x, nrow, ncol, type="matrix", ..., bldim=.BLDIM, ICTXT=.ICTXT)
-  {
-    type <- match.arg(type, c("matrix", "ddmatrix"))
-    
-    if (missing(nrow) && missing(ncol))
-      nrow <- ncol <- length(x)
-    else if (missing(nrow) && !missing(ncol))
-      nrow <- ncol
-    else if (missing(ncol) && !missing(nrow))
-      ncol <- nrow
-    
-    if (type=="ddmatrix"){
-      if (length(bldim)==1)
-        bldim <- rep(bldim, 2)
-      
-      dim <- c(nrow, ncol)
-      ldim <- base.numroc(dim=dim, bldim=bldim, ICTXT=ICTXT)
-      
-      descx <- base.descinit(dim=dim, bldim=bldim, ldim=ldim, ICTXT=ICTXT)
-      
-      out <- base.ddiagmk(diag=x, descx=descx)
-      ret <- new("ddmatrix", Data=out, dim=dim, ldim=ldim, bldim=bldim, ICTXT=ICTXT)
-    }
-    else
-      ret <- base::diag(x=x, nrow=nrow, ncol=ncol)
-    
-    return( ret )
-  }
-)
-
-setMethod("diag", signature(x="character"), 
-  function(x, nrow, ncol, type="matrix", ..., min=0, max=1, mean=0, sd=1, rate=1, shape, scale=1, bldim=.BLDIM, ICTXT=.ICTXT)
-  {
-    type <- match.arg(type, c("matrix", "ddmatrix"))
-    data <- match.arg(x, c("runif", "uniform", "rnorm", "normal", "rexp", "exponential", "rweibull", "weibull"))
-    
-    dim <- c(nrow, ncol)
-    
-    if (type=="ddmatrix"){
-      if (length(bldim)==1)
-        bldim <- rep(bldim, 2)
-      
-      ldim <- base.numroc(dim=dim, bldim=bldim, ICTXT=ICTXT)
-      
-      if (!base.ownany(dim=dim, bldim=bldim, ICTXT=ICTXT))
-        Data <- matrix(0.0, 1, 1)
-      else {
-        if (data=="runif" || data=="uniform")
-          Data <- runif(n=max(ldim), min=min, max=max)
-        else if (data=="rnorm" || data=="normal")
-          Data <- rnorm(n=max(ldim), mean=mean, sd=sd)
-        else if (data=="rexp" || data=="exponential")
-          Data <- rexp(n=max(ldim), rate=rate)
-        else if (data=="rweibull" || data=="weibull")
-          Data <- rweibull(n=max(ldim), shape=shape, scale=scale)
-        
-#        dim(Data) <- ldim
-      }
-      
-      descx <- base.descinit(dim=dim, bldim=bldim, ldim=ldim, ICTXT=ICTXT)
-      
-      out <- base.ddiagmk(diag=Data, descx=descx)
-      ret <- new("ddmatrix", Data=out, dim=dim, ldim=ldim, bldim=bldim, ICTXT=ICTXT)
-    }
-    else {
-      if (data=="runif" || data=="uniform")
-        Data <- runif(prod(dim), min=min, max=max)
-      else if (data=="rnorm" || data=="normal")
-        Data <- rnorm(prod(dim), mean=mean, sd=sd)
-      else if (data=="rexp" || data=="exponential")
-        Data <- rexp(prod(dim), rate=rate)
-      else if (data=="rweibull" || data=="weibull")
-        Data <- rnorm(prod(dim), min=min, max=max)
-      
-#      dim(Data) <- c(nrow, ncol)
-      
-      ret <- base::diag(x=Data, nrow=nrow, ncol=ncol)
-    }
-    
-    return( ret )
-  }
-)
-
-
-# dealing with R being annoying
-setMethod("diag", signature(x="matrix"), 
-  function(x, nrow, ncol)
-    base::diag(x=x)
+### local versions; not sure how useful this is to anyone, but why not?
+#' @rdname ddmatrix-constructors
+#' @export
+setGeneric(name="ddmatrix.local", 
+  function(data, ...) 
+    standardGeneric("ddmatrix.local"), 
+  package="pbdDMAT"
 )
 
 
 
-
-# local versions; not sure how useful this is to anyone, but why not?
-
+#' @rdname ddmatrix-constructors
+#' @export
 setMethod("ddmatrix.local", signature(data="missing"), 
   function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=.BLDIM, ICTXT=.ICTXT)
   {
@@ -258,6 +273,8 @@ setMethod("ddmatrix.local", signature(data="missing"),
 
 
 
+#' @rdname ddmatrix-constructors
+#' @export
 setMethod("ddmatrix.local", signature(data="vector"), 
   function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=.BLDIM, ICTXT=.ICTXT)
   {
@@ -311,6 +328,8 @@ setMethod("ddmatrix.local", signature(data="vector"),
 
 
 
+#' @rdname ddmatrix-constructors
+#' @export
 setMethod("ddmatrix.local", signature(data="matrix"), 
   function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=.BLDIM, ICTXT=.ICTXT)
   {
@@ -323,6 +342,8 @@ setMethod("ddmatrix.local", signature(data="matrix"),
 
 
 
+#' @rdname ddmatrix-constructors
+#' @export
 setMethod("ddmatrix.local", signature(data="character"), 
   function(data, nrow=1, ncol=1, byrow=FALSE, ..., min=0, max=1, mean=0, sd=1, rate=1, shape, scale=1, bldim=.BLDIM, ICTXT=.ICTXT)
   {
@@ -373,54 +394,4 @@ setMethod("ddmatrix.local", signature(data="character"),
   }
 )
 
-
-
-
-
-# -------------------
-# Converters
-# -------------------
-
-setMethod("as.matrix", signature(x="ddmatrix"), 
-  function(x, proc.dest="all", attributes=TRUE)
-  {
-    # convert ddmatrix attributes too
-    if (attributes){
-      ddms <- sapply(attributes(x@Data), is.ddmatrix)
-      if (any(ddms)){
-        for (att in which(ddms)){
-          if (any(attributes(x@Data)[[att]]@ldim == 1)){
-            attributes(x@Data)[[att]] <- as.vector(attributes(x@Data)[[att]])
-          }
-          else
-            attributes(x@Data)[[att]] <- as.matrix(attributes(x@Data)[[att]])
-        }
-      }
-    }
-    
-    
-    ret <- base.as.matrix(x=x, proc.dest=proc.dest)
-    
-    if (is.logical(x@Data))
-      storage.mode(ret) <- "logical"
-    
-    return( ret )
-  }
-)
-
-setMethod("as.vector", signature(x="ddmatrix"), 
-  function(x, mode="any", proc.dest="all"){
-    ret <- as.vector(base.as.matrix(x, proc.dest=proc.dest), mode=mode)
-    
-    if (is.logical(x@Data))
-      storage.mode(ret) <- "logical"
-    
-    return( ret )
-  }
-)
-
-setMethod("as.vector", signature(x="ANY"), 
-  function(x, mode="any") 
-    base::as.vector(x=x, mode=mode)
-)
 
