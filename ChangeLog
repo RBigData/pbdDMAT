@@ -1,119 +1,58 @@
-2014-4-12:
- * Added check to eigen2() for non-square bldims.
+Release 0.3-1
+  * Numerous improvements to documentation.
+  * Switched to roxygen2.
 
-2014-3-4:
- * Fixed sparsity() bugs.
-
-2014-3-3:
- * Added scalar to expm() method.
-
-2014-2-4:
- * Updated vignette format.
- * Fixed author affiliation in vignette.
-
-2014-1-30:
- * Added sparse dsmatrix and weaker dmat classes.
- * Added basic sparse BLAS support.
-
-2014-1-23:
- * Linked with SEXPtools.
- * Rewrote internals to use SEXPtools.
-
-2014-1-21
- * Some minor constructor bugfixes.
- * Fixed minor CRAN check issues.
-
-2014-1-14:
+Release 0.3-0
+  * Added check to eigen2() for non-square bldims.
+  * Fixed sparsity() bugs.
+  * Added scalar to expm() method.
+  * Updated vignette format.
+  * Fixed author affiliation in vignette.
+  * Added sparse dsmatrix and weaker dmat classes.
+  * Added basic sparse BLAS support.
+  * Linked with RNACI.
+  * Rewrote internals to use RNACI.
+  * Some minor constructor bugfixes.
+  * Fixed minor CRAN check issues.
   * Vignetted copyright updated.
 
-pbdDMAT 0.2-3 (2013-12-14) --------------------------------------------------
-
-2013-11-4: 
+Release 0.2-3
   * Added matrix exponentiation.
-
-2013-10-24:
   * as.vector() and as.matrix() bugfix for unusual proc.dest values.
-
-2013-10-22:
   * Added method for constructing distributed Hilbert matrices.
-
-2013-9-30:
   * Improved manual.
-
-2013-8-20:
   * Added experimental eigen2() method.
-
-2013-7-20:
   * Fixed eigen() bug.
-
-2013-7-18:
   * Fixed isSymmetric bug.
 
-pbdDMAT 0.2-2 (2013-7-8) --------------------------------------------------
-
-2013-7-2:
+Release 0.2-2
   * Several qr()/qr.Q() bugs fixed.
-
-2013-5-30:
   * Added rowMin(), colMin(), rowMax(), and colMax() methods.
   * Added as.block(), as.rowblock(), as.colblock(), as.rowcyclic(), 
     as.colcyclic(), and as.blockcyclic() redistribution methods.
-
-2013-5-24:
   * Added experimental ddvector class.
 
-pbdDMAT 0.2-1 (2013-3-25) --------------------------------------------------
-
-2013-3-20:
+Release 0.2-1
   * Added eigen() method.
   * Attributes bugfix when subsetting.
 
-pbdDMAT 0.2-0 (2013-3-12) --------------------------------------------------
-
-2013-3-12:
-  * Final touches for CRAN.
-
-2012-02-26:
+Release 0.2-0
   * Added method for 'cor' (pearson only).
   * Significantly expanded method "ddmatrix".
-
-2012-02-15:
   * Completely redid all the internals to accommodate corresponding pbdBASE changes.
-
-2012-01-04:
   * Added norm(), rcond(), and kappa() methods.
   * Added new diag() method for constructing diagonal ddmatrices.
-
-2012-12-17:
   * Added copyright to vignette.
 
-pbdDMAT 0.1-1 (2012-12-1) ----------------------------------------------------
-
-2012-11-29:
+Release 0.1-1
   * Added simple var() and sd() wrappers for ddmatrix.
   * Changed dispatch of qr.* functions to avoid WARNING in R CMD check.
-
-2012-11-21:
   * Fixed QR methods.
-
-2012-10-30:
   * Fixed whining about qr-function generics.
   * Added some documentation.
-
-2012-10-24:
   * Added wrappers for lm.fit() and qr functions.
 
-======================= Log Before Release =====================================
-2012-10-02:
-  * Prepare for the first submission.
-
-2012-08-21:
-  * Delete configure.ac and use RmpiSPMD:::LdFlags() and others.
-  * Rename to 'pbdDMAT'.
-
-2012-08-13:
+Release 0.1-0
   * Link with RmpiSLAP.
   * Add guide, man pages, installation, ...
-
-2012-07-xx:
   * Add BLACS, PBLAS, ScaLAPACK.
