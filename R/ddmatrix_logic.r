@@ -7,7 +7,7 @@
 #' If \code{na.rm} is \code{TRUE} and only \code{NA}'s are present, then
 #' \code{TRUE} is returned.
 #' 
-#' @param x,y 
+#' @param e1,e2,x
 #' distributed matrix or numeric vector
 #' @param na.rm 
 #' logical, indicating whether or not \code{NA}'s should first be

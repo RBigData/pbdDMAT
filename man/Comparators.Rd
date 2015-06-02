@@ -84,7 +84,7 @@
 \S4method{&}{numeric,ddmatrix}(e1, e2)
 }
 \arguments{
-\item{x,y}{distributed matrix or numeric vector}
+\item{e1,e2,x}{distributed matrix or numeric vector}
 
 \item{na.rm}{logical, indicating whether or not \code{NA}'s should first be
 removed. If not and an NA is present, \code{NA} is returned.}

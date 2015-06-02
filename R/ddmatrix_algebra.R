@@ -1,144 +1,82 @@
-# ################################################
-# ------------------------------------------------
-# Arithmetic
-# ------------------------------------------------
-# ################################################
-
-#' @export
-setMethod("t", signature(x="ddmatrix"),
-  function(x){
-    ICTXT <- x@ICTXT
-    
-    m <- x@dim[2L]
-    n <- x@dim[1L]
-    
-    desca <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=ICTXT)
-    
-    cdim <- c(m, n)
-    cldim <- base.numroc(cdim, x@bldim, ICTXT=ICTXT)
-    
-    descc <- base.descinit(cdim, x@bldim, cldim, ICTXT=ICTXT)
-    
-    out <- base.rpdtran(a=x@Data, desca=desca, descc=descc)
-    
-    c <- new("ddmatrix", Data=out, dim=cdim, ldim=cldim, bldim=x@bldim, ICTXT=ICTXT)
-    
-    return( c )
-  }
-)
-
-
-
-dmat.ddmatmult <- function(x, y, outbldim=x@bldim)
-{
-  if (!is.ddmatrix(x) || !is.ddmatrix(y))
-    comm.stop("'x' and 'y' must be of class 'ddmatrix'")
-  else if (x@dim[2L] != y@dim[1L])
-    comm.stop("Error : non-conformable arguments.")
-  
-  base.checkem(x=x, y=y, checks=2)
-  
-  ICTXT <- x@ICTXT
-  
-  cdim <- c(x@dim[1L], y@dim[2L])
-  cldim <- base.numroc(cdim, outbldim, ICTXT=ICTXT)
-  
-  descx <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=ICTXT)
-  descy <- base.descinit(dim=y@dim, bldim=y@bldim, ldim=y@ldim, ICTXT=ICTXT)
-  descc <- base.descinit(dim=cdim, bldim=outbldim, ldim=cldim, ICTXT=ICTXT)
-  
-  out <- base.rpdgemm(transx='N', transy='N', x=x@Data, descx=descx, y=y@Data, descy=descy, descc=descc)
-  
-  c <- new("ddmatrix", Data=out, dim=cdim, ldim=cldim, bldim=outbldim, ICTXT=ICTXT)
-  
-  return( c )
-}
-
-#' @export
-setMethod("%*%", signature(x="ddmatrix", y="ddmatrix"),
-  function(x, y)
-    dmat.ddmatmult(x, y, outbldim=x@bldim)
-)
-
-
-
-dmat.crossprod <- function(trans, x)
-{
-  ICTXT <- x@ICTXT
-  trans <- toupper(trans)
-  
-  if (trans=='N'){
-    n <- x@dim[2L]
-    k <- x@dim[1L]
-  } else {
-    n <- x@dim[1L]
-    k <- x@dim[2L]
-  }
-  
-  bldim <- x@bldim
-  
-  cdim <- c(n, n)
-  cldim <- base.numroc(cdim, bldim, ICTXT=ICTXT)
-  
-  descx <- base.descinit(dim=x@dim, bldim=bldim, ldim=x@ldim, ICTXT=ICTXT)
-  descc <- base.descinit(dim=cdim, bldim=bldim, ldim=cldim, ICTXT=ICTXT)
-  
-  out <- base.crossprod(uplo='U', trans=trans, x=x@Data, descx=descx, descc=descc)
-  
-  c <- new("ddmatrix", Data=out, dim=cdim, ldim=cldim, bldim=bldim, ICTXT=ICTXT)
-  
-  return( c )
-}
-
-
-
-setMethod("crossprod", signature(x="ddmatrix", y="ANY"), 
-  function(x, y = NULL)
-  {
-    if (is.null(y)){
-      ret <- dmat.crossprod(trans='N', x=x)
-      
-      return( ret )
-    }
-    else if (!is.ddmatrix(y))
-      comm.stop("Error : 'y' must be of class 'ddmatrix'.")
-    else {
-      if (x@dim[1L] != y@dim[1L])
-        comm.stop("Error : non-conformable arguments.")
-      
-      base.checkem(x=x, y=y, checks=2)
-      
-      ret <- t(x) %*% y
-      
-      return( ret )
-    }
-  }
-)
-
-
-
-setMethod("tcrossprod", signature(x="ddmatrix", y="ANY"), 
-  function(x, y = NULL)
-  {
-    if (is.null(y)){
-      ret <- dmat.crossprod(trans='T', x=x)
-      
-      return( ret )
-    }
-    else if (!is.ddmatrix(y))
-      comm.stop("Error : 'y' must be of class 'ddmatrix'.")
-    else {
-      if (x@dim[1L] != y@dim[1L])
-        comm.stop("Error : non-conformable arguments.")
-      
-      base.checkem(x=x, y=y, checks=2)
-      
-      ret <- x %*% t(y)
-      
-      return( ret )
-    }
-  }
-)
+#' Linear Algebra Functions
+#' 
+#' Linear alegbra functions for distributed matrices with R-like syntax, with
+#' calculations performed by the PBLAS and ScaLAPACK libraries.
+#' 
+#' Extensions of R linear algebra functions.
+#' 
+#' @name LinAlg
+#' @aliases LinAlg isSymmetric-method
+#' isSymmetric,ddmatrix-method isSymmetric solve-method
+#' solve,ddmatrix,ddmatrix-method solve,ddmatrix,ANY-method solve La.svd-method
+#' La.svd,ddmatrix-method La.svd svd-method svd,ddmatrix-method svd
+#' eigen-method eigen,ddmatrix-method eigen chol-method chol,ddmatrix-method
+#' chol lu-method lu,ddmatrix-method lu
+#' @docType methods
+#' @param object,x,a,b numeric distributed matrices.  If applicable, \code{a}
+#' and \code{b} must be on the same BLACS context and have the same blocking
+#' dimension.
+#' @param tol precision tolerance.
+#' @param ... additional arguments.
+#' @param nu number of left singular vectors to return when calculating
+#' singular values.
+#' @param nv number of right singular vectors to return when calculating
+#' singular values.
+#' @param symmetric logical, if \code{TRUE} then the matrix is assumed to be
+#' symmetric and only the lower triangle is used.  Otherwise \code{x} is
+#' inspected for symmetry.
+#' @param only.values logical, if \code{TRUE} then only the eigenvalues are
+#' returned.  Otherwise both eigenvalues and eigenvectors are returned.
+#' @return \code{t()} returns the transposed matrix.
+#' 
+#' \code{solve()} solves systems and performs matrix inversion when argument
+#' \code{b=} is missing.
+#' 
+#' \code{La.svd()} performs singular value decomposition, and returns the
+#' transpose of right singular vectors if any are requested. Singular values
+#' are stored as a global R vector. Left and right singular vectors are unique
+#' up to sign. Sometimes core R (via LAPACK) and ScaLAPACK will disagree as to
+#' what the left/right singular vectors are, but the disagreement is always
+#' only up to sign.
+#' 
+#' \code{svd()} performs singular value decomposition. Differs from
+#' \code{La.svd()} in that the right singular vectors, if requested, are
+#' returned non-transposed. Singular values are stored as a global R vector.
+#' Sometimes core R (via LAPACK) and ScaLAPACK will disagree as to what the
+#' left/right singular vectors are, but the disagreement is always only up to
+#' sign.
+#' 
+#' \code{eigen()} computes the eigenvalues, and eigenvectors if requested.  As
+#' with \code{svd()}, eigenvalues are stored in a global R vector.
+#' 
+#' \code{chol()} performs Cholesky factorization.
+#' 
+#' \code{lu()} performs LU factorization.
+#' @section Methods: \describe{ \item{list("signature(x = \"ddmatrix\")")}{}
+#' \item{list("signature(a = \"ddmatrix\")")}{} \item{list("signature(b =
+#' \"ddmatrix\")")}{} }
+#' @seealso \code{\link{Arithmetic}, \link{Reductions}, \link{MatMult},
+#' \link{MiscMath}}
+#' @keywords Methods Linear Algebra
+#' @examples
+#' 
+#' \dontrun{
+#' # Save code in a file "demo.r" and run with 2 processors by
+#' # > mpiexec -np 2 Rscript demo.r
+#' 
+#' library(pbdDMAT, quiet = TRUE)
+#' init.grid()
+#' 
+#' # don't do this in production code
+#' x <- matrix(1:9, 3)
+#' x <- as.ddmatrix(x)
+#' 
+#' y <- solve(t(A) %*% A)
+#' print(y)
+#' 
+#' finalize()
+#' }
+#' 
 
 
 
@@ -498,193 +436,7 @@ eigen2 <- function(x, range=c(-Inf, Inf), range.type="interval", only.values=FAL
 
 
 
-# ---------------------------------------------------------
-# QR stuff no one will ever use
-# ---------------------------------------------------------
 
-setMethod("qr", signature(x="ddmatrix"), 
-  function (x, tol = 1e-07)
-  {
-    # Matrix descriptors
-    descx <- base.descinit(x@dim, x@bldim, x@ldim, ICTXT=x@ICTXT)
-    
-    m <- descx[3L]
-    n <- descx[4L]
-    
-    # qr
-    out <- base.rpdgeqpf(tol=tol, m=m, n=n, x=x@Data, descx=descx)
-    
-    # make sure processors who own nothing have a real value (not a null
-    # pointer) for the numerical rank
-#    if (comm.rank()!=0)
-#      rank <- 0
-#    else
-#      rank <- out$rank
-#    
-#    rank <- allreduce(rank)
-    
-    
-    if (base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT)){
-      x@Data <- out$qr
-    }
-    
-    ret <- list(qr=x, rank=out$rank, tau=out$tau, pivot=out$pivot)
-    
-    attr(ret, "class") <- "qr"
-    
-    return( ret )
-  }
-)
-
-
-
-setMethod("qr.Q", signature(x="ANY"), 
-  function(x, complete = FALSE,  Dvec = rep.int(if (cmplx) 1 + (0+0i) else 1, if (complete) dqr[1] else min(dqr))) 
-    {
-      # x is of class qr
-      
-      if (is.ddmatrix(x$qr)){
-        # complete/Dvec options
-        qr <- x$qr
-        
-        if (qr@dim[1L] < qr@dim[2L])
-          qr <- qr[, 1L:x$rank]
-        
-        # Matrix descriptors
-        descqr <- base.descinit(qr@dim, qr@bldim, qr@ldim, ICTXT=qr@ICTXT)
-        
-        m <- descqr[3]
-        n <- descqr[4]
-        
-        k <- x$rank
-        
-        ret <- base.rpdorgqr(m=m, n=n, k=k, qr=qr@Data, descqr=descqr, tau=x$tau)
-        
-        if (base.ownany(dim=qr@dim, bldim=qr@bldim, ICTXT=qr@ICTXT)){
-          qr@Data <- ret
-        }
-        
-        return( qr )
-        
-      } else {
-        dqr <- dim(x$qr)
-        cmplx <- mode(x$qr) == "complex"
-        ret <- base::qr.Q(qr=x, complete=complete, Dvec=Dvec)
-      }
-      
-      return( ret )
-  }
-)
-
-
-
-# qr.R
-dmat.qr.R <- function(qr, complete=FALSE)
-{
-  ret <- qr$qr
-  
-  if (!complete){
-    if (min(ret@dim)!=ret@dim[1L])
-      ret <- ret[1L:min(ret@dim), ]
-  }
-  
-  descx <- base.descinit(dim=ret@dim, bldim=ret@bldim, ldim=ret@ldim, ICTXT=ret@ICTXT)
-  
-  ret@Data <- base.tri2zero(x=ret@Data, descx=descx, uplo='L', diag='N')
-  
-  # not particularly efficient, but I don't expect this to get any real use...
-  rank <- qr$rank
-  n <- ret@dim[1L]
-  p <- ret@dim[2L]
-  mn <- min(ret@dim)
-  
-  if (rank < p){
-    if (n>p)
-      for (i in (rank+1L):mn)
-        ret[i,i] <- 0
-  }
-  
-  return(ret)
-}
-
-
-
-setMethod("qr.R", signature(x="ANY"), 
-  function(x, complete = FALSE) 
-  {
-    qr <- x
-    
-    if (is.ddmatrix(qr$qr)){
-      ret <- dmat.qr.R(qr=qr, complete=complete)
-    } else {
-      ret <- base::qr.R(qr=qr, complete=complete)
-    }
-    
-    return( ret )
-  }
-)
-
-
-
-setMethod("qr.qy", signature(x="ANY"), 
-  function(x, y)
-  {
-    if (is.ddmatrix(x$qr)){
-      
-      qr <- x$qr
-      
-      # Matrix descriptors
-      descqr <- base.descinit(qr@dim, qr@bldim, qr@ldim, ICTXT=qr@ICTXT)
-      descc <- base.descinit(y@dim, y@bldim, y@ldim, ICTXT=y@ICTXT)
-      
-      m <- descqr[3L]
-      n <- y@dim[2L]
-      k <- x$rank
-      
-      out <- base.rpdormqr(side='L', trans='N', m=m, n=n, k=k, qr=qr@Data, descqr=descqr, tau=x$tau, c=y@Data, descc=descc)
-      
-      y@Data <- out
-      
-      return(y)
-      
-    } else {
-      ret <- base::qr.qy(qr=x, y=y)
-    }
-    
-    return( ret )
-  }
-)
-
-
-
-setMethod("qr.qty", signature(x="ANY"), 
-  function(x, y)
-  {
-    if (is.ddmatrix(x$qr)){
-      
-      qr <- x$qr
-      
-      # Matrix descriptors
-      descqr <- base.descinit(qr@dim, qr@bldim, qr@ldim, ICTXT=qr@ICTXT)
-      descc <- base.descinit(y@dim, y@bldim, y@ldim, ICTXT=y@ICTXT)
-      
-      m <- descqr[3L]
-      n <- y@dim[2L]
-      k <- x$rank
-      
-      out <- base.rpdormqr(side='L', trans='T', m=m, n=n, k=k, qr=qr@Data, descqr=descqr, tau=x$tau, c=y@Data, descc=descc)
-      
-      y@Data <- out
-      
-      return(y)
-      
-    } else {
-      ret <- base::qr.qty(qr=x, y=y)
-    }
-    
-    return( ret )
-  }
-)
 
 
 

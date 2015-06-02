@@ -1,3 +1,116 @@
+#' Arithmetic Reductions: Sums, Means, and Prods
+#' 
+#' Arithmetic reductions for distributed matrices.
+#' 
+#' Performs the reduction operation on a distributed matrix.
+#' 
+#' There are several legitimately new operations, including \code{rowMin()},
+#' \code{rowMax()}, \code{colMin()}, and \code{colMax()}.  These
+#' implementations are not really necessary in R because one can easily (and
+#' reasonably efficiently) do something like
+#' 
+#' \code{apply(X=x, MARGIN=1L, FUN=min, na.rm=TRUE)}
+#' 
+#' But \code{apply()} on a \code{ddmatrix} is \emph{very} costly, and should be
+#' used sparingly.
+#' 
+#' \code{sd()} will compute the standard deviations of the columns, equivalent
+#' to calling \code{apply(x, MARGIN=2, FUN=sd)} (which will work for
+#' distributed matrices, by the way). However, this should be much faster and
+#' use less memory than \code{apply()}.  If \code{reduce=FALSE} then the return
+#' is a distributed matrix consisting of one (global) row; otherwise, an
+#' \code{R} vector is returned, with ownership of this vector determined by
+#' \code{proc.dest}.
+#' 
+#' @param x 
+#' numeric distributed matrix
+#' @param na.rm 
+#' logical. Should missing (including \code{NaN}) be removed?
+#' @param ... 
+#' additional arguments
+#' @param reduce 
+#' logical or string. See details
+#' @param proc.dest 
+#' Destination process (or 'all') if a reduction occurs
+#' 
+#' @return 
+#' Returns a global numeric vector.
+#' 
+#' @examples
+#' \dontrun{
+#' # Save code in a file "demo.r" and run with 2 processors by
+#' # > mpiexec -np 2 Rscript demo.r
+#' 
+#' library(pbdDMAT, quiet = TRUE)
+#' init.grid()
+#' 
+#' # don't do this in production code
+#' x <- matrix(1:9, 3)
+#' x <- as.ddmatrix(x)
+#' 
+#' y <- sum(colMeans(x))
+#' comm.print(y)
+#' 
+#' finalize()
+#' }
+#' 
+#' @seealso \code{\link{Arithmetic}}
+#' @keywords Methods
+#' @name reductions
+#' @rdname reductions
+NULL
+
+
+
+#' @rdname reductions
+#' @export
+setGeneric(name = "rowSums", useAsDefault = base::rowSums, package="pbdDMAT")
+
+#' @rdname reductions
+#' @export
+setGeneric(name = "colSums", useAsDefault = base::colSums, package="pbdDMAT")
+
+#' @rdname reductions
+#' @export
+setGeneric(name = "rowMeans", useAsDefault = base::rowMeans, package="pbdDMAT")
+
+#' @rdname reductions
+#' @export
+setGeneric(name = "colMeans", useAsDefault = base::colMeans, package="pbdDMAT")
+
+#' @rdname reductions
+#' @export
+setGeneric(name="rowMin", 
+  function(x, ...)
+    standardGeneric("rowMin"),
+  package="pbdDMAT"
+)
+
+#' @rdname reductions
+#' @export
+setGeneric(name="rowMax", 
+  function(x, ...)
+    standardGeneric("rowMax"),
+  package="pbdDMAT"
+)
+
+#' @rdname reductions
+#' @export
+setGeneric(name="colMin", 
+  function(x, ...)
+    standardGeneric("colMin"),
+  package="pbdDMAT"
+)
+
+#' @rdname reductions
+#' @export
+setGeneric(name="colMax", 
+  function(x, ...)
+    standardGeneric("colMax"),
+  package="pbdDMAT"
+)
+
+
 # -------------------
 # MPI-like BLACS reductions
 # -------------------
@@ -237,9 +350,8 @@ dmat.rcminmax <- function(x, na.rm=FALSE, SCOPE, op)
 # Reductions
 # -------------------
 
-### Row/column reductions
-
-# rowSums
+#' @rdname reductions
+#' @export
 setMethod("rowSums", signature(x="ddmatrix"), 
   function(x, na.rm=FALSE){
     Data <- dmat.rcsum(x, na.rm=na.rm, SCOPE='Row', MEAN=FALSE)
@@ -251,7 +363,8 @@ setMethod("rowSums", signature(x="ddmatrix"),
   }
 )
 
-# colSums
+#' @rdname reductions
+#' @export
 setMethod("colSums", signature(x="ddmatrix"), 
   function(x, na.rm=FALSE){
     Data <- dmat.rcsum(x, na.rm=na.rm, SCOPE='Col', MEAN=FALSE)
@@ -262,7 +375,8 @@ setMethod("colSums", signature(x="ddmatrix"),
   }
 )
 
-# rowMeans
+#' @rdname reductions
+#' @export
 setMethod("rowMeans", signature(x="ddmatrix"), 
   function(x, na.rm=FALSE){
     Data <- dmat.rcsum(x, na.rm=na.rm, SCOPE='Row', MEAN=TRUE)
@@ -274,7 +388,8 @@ setMethod("rowMeans", signature(x="ddmatrix"),
   }
 )
 
-# colMeans
+#' @rdname reductions
+#' @export
 setMethod("colMeans", signature(x="ddmatrix"), 
   function(x, na.rm=FALSE){
     Data <- dmat.rcsum(x, na.rm=na.rm, SCOPE='Col', MEAN=TRUE)
@@ -285,8 +400,8 @@ setMethod("colMeans", signature(x="ddmatrix"),
   }
 )
 
-
-# rowMin
+#' @rdname reductions
+#' @export
 setMethod("rowMin", signature(x="ddmatrix"), 
   function(x, na.rm=FALSE){
     Data <- dmat.rcminmax(x=x, na.rm=na.rm, SCOPE='Row', op='min')
@@ -297,13 +412,15 @@ setMethod("rowMin", signature(x="ddmatrix"),
   }
 )
 
+#' @rdname reductions
+#' @export
 setMethod("rowMin", signature(x="matrix"), 
   function(x, na.rm=FALSE)
     apply(X=x, MARGIN=1L, FUN=min, na.rm=na.rm)
 )
 
-
-# colMin
+#' @rdname reductions
+#' @export
 setMethod("colMin", signature(x="ddmatrix"), 
   function(x, na.rm=FALSE){
     Data <- dmat.rcminmax(x=x, na.rm=na.rm, SCOPE='Col', op='min')
@@ -314,14 +431,15 @@ setMethod("colMin", signature(x="ddmatrix"),
   }
 )
 
-
+#' @rdname reductions
+#' @export
 setMethod("colMin", signature(x="matrix"), 
   function(x, na.rm=FALSE)
     apply(X=x, MARGIN=2L, FUN=min, na.rm=na.rm)
 )
 
-
-# rowMax
+#' @rdname reductions
+#' @export
 setMethod("rowMax", signature(x="ddmatrix"), 
   function(x, na.rm=FALSE){
     Data <- dmat.rcminmax(x=x, na.rm=na.rm, SCOPE='Row', op='max')
@@ -332,14 +450,15 @@ setMethod("rowMax", signature(x="ddmatrix"),
   }
 )
 
-
+#' @rdname reductions
+#' @export
 setMethod("rowMax", signature(x="matrix"), 
   function(x, na.rm=FALSE)
     apply(X=x, MARGIN=1L, FUN=max, na.rm=na.rm)
 )
 
-
-# colMin
+#' @rdname reductions
+#' @export
 setMethod("colMax", signature(x="ddmatrix"), 
   function(x, na.rm=FALSE){
     Data <- dmat.rcminmax(x=x, na.rm=na.rm, SCOPE='Col', op='max')
@@ -350,132 +469,41 @@ setMethod("colMax", signature(x="ddmatrix"),
   }
 )
 
-
+#' @rdname reductions
+#' @export
 setMethod("colMin", signature(x="matrix"), 
   function(x, na.rm=FALSE)
     apply(X=x, MARGIN=2L, FUN=max, na.rm=na.rm)
 )
 
-
-### Other
-
-
-# sum
-setMethod("sum", signature(x="ddmatrix"),
-  function(x, ..., na.rm=FALSE)
+#' @rdname reductions
+#' @export
+setMethod("sd", signature(x="ddmatrix"),
+function (x, na.rm = FALSE, reduce = FALSE, proc.dest="all") 
   {
-    # no need to correct for local storage issues
-    other <- list(...)
-    if (length(other) > 0)
-      other <- sum(
-        sapply(other, 
-          function(i) {
-            if (is.ddmatrix(i)) 
-              sum(i@Data, na.rm=na.rm) 
-            else {
-              if (comm.rank()==0)
-                sum(i, na.rm=na.rm)
-              else
-                0
-            }
-          }
-        ), 
-      na.rm=na.rm)
-    else
-      other <- 0
+    if (na.rm)
+      x <- na.exclude(x)
     
-    local <- sum(x@Data, na.rm=na.rm) + other
-    pbdMPI::allreduce(local, op="sum")
-  }
-)
-
-# mean, with large chunks taken from base:::mean.default
-setMethod("mean", signature(x="ddmatrix"),
-  function(x, na.rm=FALSE)
-  {
-    if (na.rm) 
-        x@Data <- matrix(x@Data[!is.na(x@Data)])
-#    if (!is.numeric(trim) || length(trim) != 1L) 
-#      comm.stop("'trim' must be numeric of length one")
-    if (!base.ownany(x@dim, x@bldim, x@ICTXT))
-      n <- 0
-    else
-    n <- length(x@Data)
-    n <- pbdMPI::allreduce(n, op='sum')
-#    if (trim > 0 && n) {
-#        if (is.complex(x)) 
-#            comm.stop("trimmed means are not defined for complex data")
-#        if (any(is.na(x))) 
-#            return(NA_real_)
-#        if (trim >= 0.5) 
-#            return(median(x, na.rm = FALSE))
-##        lo <- floor(n * trim) + 1
-##        hi <- n + 1 - lo
-##        x <- sort.int(x, partial = unique(c(lo, hi)))[lo:hi]
-#    }
+    descx <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
+    sdv <- base.pdclvar(x=x@Data, descx=descx)
     
-    sum(x, na.rm=na.rm) / n
-  }
-)
-
-# prod
-setMethod("prod", signature(x="ddmatrix"),
-  function(x, na.rm=FALSE)
-  {
-    if (base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT))
-      prod <- prod(x@Data, na.rm=na.rm)
-    else
-      prod <- 1
-    pbdMPI::allreduce(prod, op="prod")
-  }
-)
-
-# min/max
-setMethod("min", signature(x="ddmatrix"),
-  function(x, na.rm=FALSE)
-  {
-    if (base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT))
-      min <- min(x@Data, na.rm=na.rm)
-    else
-      min <- Inf
-    pbdMPI::allreduce(min, op="min")
-  }
-)
-
-setMethod("max", signature(x="ddmatrix"),
-  function(x, na.rm=FALSE)
-  {
-    if (base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT))
-      max <- max(x@Data, na.rm=na.rm)
-    else
-      max <- -Inf
-    pbdMPI::allreduce(max(x@Data, na.rm=na.rm), op="max")
-  }
-)
-
-setMethod("median", signature(x="ddmatrix"),
-  function(x, na.rm=FALSE)
-  {
-    if (!na.rm){
-      test <- any(is.na(x@Data))
-      test <- pbdMPI::allreduce(test, op='max')
-      if (test>0)
-        return(NA)
-    } else
-      x@Data <- matrix(x@Data[!is.na(x@Data)])
-    lenloc <- length(x@Data)
-    if (!base.ownany(x@dim, x@bldim, x@ICTXT))
-      lenloc <- 0
-    n <- pbdMPI::allreduce(lenloc, op='sum')
-    if (n%%2==1)
-      ret <- dmat.rank_k(vec=x@Data, k=ceiling(n/2), shouldsort=TRUE)
-    else {
-      ret1 <- dmat.rank_k(vec=x@Data, k=ceiling(n/2), shouldsort=TRUE)
-      ret2 <- dmat.rank_k(vec=x@Data, k=ceiling((n+1)/2), shouldsort=TRUE)
-      ret <- mean(c(ret1, ret2))
-    }
-
+    sdv <- sqrt(sdv)
+    dim(sdv) <- c(1L, base::length(sdv))
+#    sdv <- matrix(sqrt(sdv), nrow=1)
+    
+    ret <- new("ddmatrix", Data=sdv, dim=c(1, x@dim[2]), ldim=dim(sdv), bldim=x@bldim, ICTXT=x@ICTXT)
+    
+    if (reduce)
+      ret <- as.vector(x=ret, proc.dest=proc.dest)
+    
     return( ret )
   }
+)
+
+#' @rdname reductions
+#' @export
+setMethod("sd", signature(x="ANY"), 
+  function(x, na.rm = FALSE) 
+    stats::sd(x=x, na.rm=na.rm)
 )
 

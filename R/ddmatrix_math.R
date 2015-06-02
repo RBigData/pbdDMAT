@@ -1,37 +1,55 @@
-# -------------------
-# Rounding
-# -------------------
+#' Miscellaneous Mathematical Functions
+#' 
+#' Binary operations for distributed matrix/distributed matrix and distributed
+#' matrix/vector operations.
+#' 
+#' Performs the miscellaneous mathematical calculation on a distributed matrix.
+#' 
+#' @name MiscMath
+#' @aliases MiscMath abs-method abs,ddmatrix-method abs sqrt-method
+#' sqrt,ddmatrix-method sqrt exp-method exp,ddmatrix-method exp log-method
+#' log,ddmatrix-method log log2-method log2,ddmatrix-method log2 log10-method
+#' log10,ddmatrix-method log10 log1p-method log1p,ddmatrix-method log1p
+#' sin-method sin,ddmatrix-method sin cos-method cos,ddmatrix-method cos
+#' tan-method tan,ddmatrix-method tan asin-method asin,ddmatrix-method asin
+#' acos-method acos,ddmatrix-method acos atan-method atan,ddmatrix-method atan
+#' sinh-method sinh,ddmatrix-method sinh cosh-method cosh,ddmatrix-method cosh
+#' tanh-method tanh,ddmatrix-method tanh
+#' @docType methods
+#' @param x numeric distributed matrix
+#' @param base a positive number: the base with respect to which logarithms are
+#' computed. Defaults to e='exp(1)'.
+#' @return Returns a distributed matrix.
+#' @section Methods: \describe{ \item{list("signature(x = \"ddmatrix\")")}{} }
+#' @seealso \code{\link{Arithmetic}, \link{Reductions}}
+#' @keywords Methods
+#' @examples
+#' 
+#' \dontrun{
+#' # Save code in a file "demo.r" and run with 2 processors by
+#' # > mpiexec -np 2 Rscript demo.r
+#' 
+#' library(pbdDMAT, quiet = TRUE)
+#' init.grid()
+#' 
+#' # don't do this in production code
+#' x <- matrix(1:9, 3)
+#' x <- as.ddmatrix(x)
+#' 
+#' y <- sqrt(abs(log(x/10)))
+#' comm.print(y)
+#' 
+#' finalize()
+#' }
+#' 
+#' @name math
+#' @rdname math
+NULL
 
-setMethod("round", signature(x="ddmatrix"),
-  function(x, digits=0)
-  {
-    x@Data <- round(x@Data, digits=digits)
-    return(x)
-  }
-)
-
-setMethod("ceiling", signature(x="ddmatrix"),
-  function(x)
-  {
-    x@Data <- ceiling(x@Data)
-    return(x)
-  }
-)
-
-setMethod("floor", signature(x="ddmatrix"),
-  function(x)
-  {
-    x@Data <- floor(x@Data)
-    return(x)
-  }
-)
 
 
-# -------------------
-# Basic math functions
-# -------------------
-
-# sqrt
+#' @rdname math
+#' @export
 setMethod("sqrt", signature(x="ddmatrix"),
   function(x)
   {
@@ -40,7 +58,8 @@ setMethod("sqrt", signature(x="ddmatrix"),
   }
 )
 
-# abs
+#' @rdname math
+#' @export
 setMethod("abs", signature(x="ddmatrix"),
   function(x)
   {
@@ -49,7 +68,8 @@ setMethod("abs", signature(x="ddmatrix"),
   }
 )
 
-# exp's and log's
+#' @rdname math
+#' @export
 setMethod("exp", signature(x="ddmatrix"),
   function(x)
   {
@@ -59,6 +79,8 @@ setMethod("exp", signature(x="ddmatrix"),
   }
 )
 
+#' @rdname math
+#' @export
 setMethod("log", signature(x="ddmatrix"),
   function(x, base=exp(1))
   {
@@ -68,6 +90,8 @@ setMethod("log", signature(x="ddmatrix"),
   }
 )
 
+#' @rdname math
+#' @export
 setMethod("log2", signature(x="ddmatrix"),
   function(x)
   {
@@ -77,6 +101,8 @@ setMethod("log2", signature(x="ddmatrix"),
   }
 )
 
+#' @rdname math
+#' @export
 setMethod("log10", signature(x="ddmatrix"),
   function(x)
   {
@@ -86,6 +112,8 @@ setMethod("log10", signature(x="ddmatrix"),
   }
 )
 
+#' @rdname math
+#' @export
 setMethod("log1p", signature(x="ddmatrix"),
   function(x)
   {
@@ -95,8 +123,8 @@ setMethod("log1p", signature(x="ddmatrix"),
   }
 )
 
-
-# trig
+#' @rdname math
+#' @export
 setMethod("sin", signature(x="ddmatrix"),
   function(x)
   {
@@ -106,6 +134,8 @@ setMethod("sin", signature(x="ddmatrix"),
   }
 )
 
+#' @rdname math
+#' @export
 setMethod("cos", signature(x="ddmatrix"),
   function(x)
   {
@@ -115,6 +145,8 @@ setMethod("cos", signature(x="ddmatrix"),
   }
 )
 
+#' @rdname math
+#' @export
 setMethod("tan", signature(x="ddmatrix"),
   function(x)
   {
@@ -124,6 +156,8 @@ setMethod("tan", signature(x="ddmatrix"),
   }
 )
 
+#' @rdname math
+#' @export
 setMethod("asin", signature(x="ddmatrix"),
   function(x)
   {
@@ -133,6 +167,8 @@ setMethod("asin", signature(x="ddmatrix"),
   }
 )
 
+#' @rdname math
+#' @export
 setMethod("acos", signature(x="ddmatrix"),
   function(x)
   {
@@ -142,6 +178,8 @@ setMethod("acos", signature(x="ddmatrix"),
   }
 )
 
+#' @rdname math
+#' @export
 setMethod("atan", signature(x="ddmatrix"),
   function(x)
   {
@@ -151,6 +189,8 @@ setMethod("atan", signature(x="ddmatrix"),
   }
 )
 
+#' @rdname math
+#' @export
 setMethod("sinh", signature(x="ddmatrix"),
   function(x)
   {
@@ -160,6 +200,8 @@ setMethod("sinh", signature(x="ddmatrix"),
   }
 )
 
+#' @rdname math
+#' @export
 setMethod("cosh", signature(x="ddmatrix"),
   function(x)
   {
@@ -169,6 +211,8 @@ setMethod("cosh", signature(x="ddmatrix"),
   }
 )
 
+#' @rdname math
+#' @export
 setMethod("tanh", signature(x="ddmatrix"),
   function(x)
   {

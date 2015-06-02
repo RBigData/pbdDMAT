@@ -9,10 +9,6 @@ setGeneric(name = "isSymmetric", useAsDefault = base::isSymmetric, package="pbdD
 
 # Stats
 setGeneric(name = "scale", useAsDefault = base::scale, package="pbdDMAT")
-setGeneric(name = "var", useAsDefault = stats::var, package="pbdDMAT")
-setGeneric(name = "cov", useAsDefault = stats::cov, package="pbdDMAT")
-setGeneric(name = "cor", useAsDefault = stats::cor, package="pbdDMAT")
-setGeneric(name = "cov2cor", useAsDefault = stats::cov2cor, package="pbdDMAT")
 setGeneric(name = "prcomp", useAsDefault = stats::prcomp, package="pbdDMAT")
 setGeneric(name = "scale", useAsDefault = base::scale, package="pbdDMAT")
 setGeneric(name = "sweep", useAsDefault = base::sweep, package="pbdDMAT")
@@ -25,41 +21,7 @@ setGeneric(name="sd",
 
 
 
-# Reductions
-setGeneric(name = "mean", useAsDefault = base::mean, package="pbdDMAT")
-setGeneric(name = "median", useAsDefault = stats::median, package="pbdDMAT")
-setGeneric(name = "rowSums", useAsDefault = base::rowSums, package="pbdDMAT")
-setGeneric(name = "colSums", useAsDefault = base::colSums, package="pbdDMAT")
-setGeneric(name = "rowMeans", useAsDefault = base::rowMeans, package="pbdDMAT")
-setGeneric(name = "colMeans", useAsDefault = base::colMeans, package="pbdDMAT")
-
-setGeneric(name="rowMin", 
-  function(x, ...)
-    standardGeneric("rowMin"),
-  package="pbdDMAT"
-)
-
-setGeneric(name="rowMax", 
-  function(x, ...)
-    standardGeneric("rowMax"),
-  package="pbdDMAT"
-)
-
-setGeneric(name="colMin", 
-  function(x, ...)
-    standardGeneric("colMin"),
-  package="pbdDMAT"
-)
-
-setGeneric(name="colMax", 
-  function(x, ...)
-    standardGeneric("colMax"),
-  package="pbdDMAT"
-)
-
-
 # Algebra
-setGeneric(name = "t", useAsDefault = base::t, package="pbdDMAT")
 setGeneric(name = "crossprod", useAsDefault = base::crossprod, package="pbdDMAT")
 setGeneric(name = "tcrossprod", useAsDefault = base::tcrossprod, package="pbdDMAT")
 setGeneric(name = "solve", useAsDefault = base::solve, package="pbdDMAT")
@@ -109,39 +71,6 @@ setGeneric(name="expm",
   package="pbdDMAT"
 )
 
-
-
-
-# QR's
-setGeneric(name="qr", 
-  function(x, ...)
-    standardGeneric("qr"),
-  package="pbdDMAT"
-)
-
-setGeneric(name="qr.Q", 
-  function(x, ...)
-    standardGeneric("qr.Q"),
-  package="pbdDMAT"
-)
-
-setGeneric(name="qr.R", 
-  function(x, ...)
-    standardGeneric("qr.R"),
-  package="pbdDMAT"
-)
-
-setGeneric(name="qr.qy", 
-  function(x, ...)
-    standardGeneric("qr.qy"),
-  package="pbdDMAT"
-)
-
-setGeneric(name="qr.qty", 
-  function(x, ...)
-    standardGeneric("qr.qty"),
-  package="pbdDMAT"
-)
 
 
 

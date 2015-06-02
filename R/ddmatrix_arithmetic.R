@@ -1,14 +1,49 @@
-# ##################################################
-# --------------------------------------------------
-# Arithmetic methods for class ddmatrix, PBLAS-like
-# --------------------------------------------------
-# ##################################################
+#' Arithmetic Operators
+#' 
+#' Binary operations for distributed matrix/distributed matrix and distributed
+#' matrix/vector operations.
+#' 
+#' If \code{e1} and \code{e2} are distributed matrices, then they must be
+#' conformable, on the same BLACS context, and have the same blocking
+#' dimension.
+#' 
+#' @param e1,e2
+#' numeric distributed matrices or numeric vectors
+#' 
+#' @return 
+#' Returns a distributed matrix.
+#' 
+#' @examples
+#' \dontrun{
+#' # Save code in a file "demo.r" and run with 2 processors by
+#' # > mpiexec -np 2 Rscript demo.r
+#' 
+#' library(pbdDMAT, quiet = TRUE)
+#' init.grid()
+#' 
+#' # don't do this in production code
+#' x <- matrix(1:9, 3)
+#' x <- as.ddmatrix(x)
+#' 
+#' y <- (2*x) - x^(.5)
+#' print(y)
+#' 
+#' finalize()
+#' }
+#' 
+#' @name arithmetic
+#' @rdname arithmetic
+#' @seealso \code{\link{Arithmetic}, \link{LinAlg}, \link{MatMult}}
+#' @keywords Methods
+NULL
+
 
 # ----------------
 # +
 # ----------------
 
-# ddmatrix + Vector (scalar)
+#' @rdname arithmetic
+#' @export
 setMethod("+", signature(e1="ddmatrix", e2="numeric"), 
   function(e1, e2){
     dim <- e1@dim
@@ -30,7 +65,8 @@ setMethod("+", signature(e1="ddmatrix", e2="numeric"),
 
 
 
-# Vector + ddmatrix
+#' @rdname arithmetic
+#' @export
 setMethod("+", signature(e1="numeric", e2="ddmatrix"), 
   function(e1, e2)
     e2+e1
@@ -38,7 +74,8 @@ setMethod("+", signature(e1="numeric", e2="ddmatrix"),
 
 
 
-# ddmatrix + ddmatrix
+#' @rdname arithmetic
+#' @export
 setMethod("+", signature(e1="ddmatrix", e2="ddmatrix"), 
   function(e1, e2){
     base.checkem(x=e1, y=e2, checks=1:3)
@@ -55,7 +92,8 @@ setMethod("+", signature(e1="ddmatrix", e2="ddmatrix"),
 # -
 # ----------------
 
-# ddmatrix - Vector (scalar)
+#' @rdname arithmetic
+#' @export
 setMethod("-", signature(e1="ddmatrix", e2="numeric"), 
   function(e1, e2){
     dim <- e1@dim
@@ -76,7 +114,8 @@ setMethod("-", signature(e1="ddmatrix", e2="numeric"),
 
 
 
-# Vector - ddmatrix
+#' @rdname arithmetic
+#' @export
 setMethod("-", signature(e1="numeric", e2="ddmatrix"), 
   function(e1, e2){
     e2@Data <- -e2@Data
@@ -87,7 +126,8 @@ setMethod("-", signature(e1="numeric", e2="ddmatrix"),
 
 
 
-# ddmatrix - ddmatrix
+#' @rdname arithmetic
+#' @export
 setMethod("-", signature(e1="ddmatrix", e2="ddmatrix"), 
   function(e1, e2){
     base.checkem(x=e1, y=e2, checks=1:3)
@@ -100,7 +140,8 @@ setMethod("-", signature(e1="ddmatrix", e2="ddmatrix"),
 
 
 
-# missing - ddmatrix
+#' @rdname arithmetic
+#' @export
 setMethod("-", signature(e1="ddmatrix", e2="missing"), 
   function(e1){
     e1@Data <- -e1@Data
@@ -115,7 +156,8 @@ setMethod("-", signature(e1="ddmatrix", e2="missing"),
 # *
 # ----------------
 
-# ddmatrix * Vector (scalar)
+#' @rdname arithmetic
+#' @export
 setMethod("*", signature(e1="ddmatrix", e2="numeric"), 
   function(e1, e2){
     dim <- e1@dim
@@ -136,7 +178,8 @@ setMethod("*", signature(e1="ddmatrix", e2="numeric"),
 
 
 
-# Vector * Dmat
+#' @rdname arithmetic
+#' @export
 setMethod("*", signature(e1="numeric", e2="ddmatrix"), 
   function(e1, e2)
     return(e2*e1)
@@ -144,7 +187,8 @@ setMethod("*", signature(e1="numeric", e2="ddmatrix"),
 
 
 
-# ddmatrix * ddmatrix
+#' @rdname arithmetic
+#' @export
 setMethod("*", signature(e1="ddmatrix", e2="ddmatrix"), 
   function(e1, e2){
     base.checkem(x=e1, y=e2, checks=1:3)
@@ -161,6 +205,8 @@ setMethod("*", signature(e1="ddmatrix", e2="ddmatrix"),
 # /
 # ----------------
 
+#' @rdname arithmetic
+#' @export
 setMethod("/", signature(e1="ddmatrix", e2="numeric"), 
   function(e1, e2){
     dim <- e1@dim
@@ -181,6 +227,8 @@ setMethod("/", signature(e1="ddmatrix", e2="numeric"),
 
 
 
+#' @rdname arithmetic
+#' @export
 setMethod("/", signature(e1="numeric", e2="ddmatrix"), 
   function(e1, e2){
     if (base.ownany(dim=e2@dim, bldim=e2@bldim, ICTXT=e2@ICTXT))
@@ -192,7 +240,8 @@ setMethod("/", signature(e1="numeric", e2="ddmatrix"),
 
 
 
-# ddmatrix / ddmatrix
+#' @rdname arithmetic
+#' @export
 setMethod("/", signature(e1="ddmatrix", e2="ddmatrix"), 
   function(e1, e2){
     base.checkem(x=e1, y=e2, checks=1:3)
@@ -209,7 +258,8 @@ setMethod("/", signature(e1="ddmatrix", e2="ddmatrix"),
 # ^
 # ----------------
 
-# ddmatrix ^ numeric
+#' @rdname arithmetic
+#' @export
 setMethod("^", signature(e1="ddmatrix", e2="numeric"), 
   function(e1, e2){
     dim <- e1@dim
@@ -239,7 +289,8 @@ setMethod("^", signature(e1="ddmatrix", e2="numeric"),
 
 
 
-# ddmatrix ^ ddmatrix
+#' @rdname arithmetic
+#' @export
 setMethod("^", signature(e1="ddmatrix", e2="ddmatrix"), 
   function(e1, e2){
     base.checkem(x=e1, y=e2, checks=1:3)
@@ -256,6 +307,8 @@ setMethod("^", signature(e1="ddmatrix", e2="ddmatrix"),
 # Modulo stuff --- pretty useless, really
 # ----------------
 
+#' @rdname arithmetic
+#' @export
 setMethod("%%", signature(e1="ddmatrix", e2="ddmatrix"), 
   function(e1, e2){
     base.checkem(x=e1, y=e2, checks=1:3)
@@ -268,6 +321,8 @@ setMethod("%%", signature(e1="ddmatrix", e2="ddmatrix"),
 
 
 
+#' @rdname arithmetic
+#' @export
 setMethod("%%", signature(e1="ddmatrix", e2="numeric"), 
   function(e1, e2){
     dim <- e1@dim
@@ -288,6 +343,8 @@ setMethod("%%", signature(e1="ddmatrix", e2="numeric"),
 
 
 
+#' @rdname arithmetic
+#' @export
 setMethod("%%", signature(e1="numeric", e2="ddmatrix"), 
   function(e1, e2){
     dim <- e2@dim
@@ -308,6 +365,8 @@ setMethod("%%", signature(e1="numeric", e2="ddmatrix"),
 
 
 
+#' @rdname arithmetic
+#' @export
 setMethod("%/%", signature(e1="ddmatrix", e2="ddmatrix"), 
   function(e1, e2){
     base.checkem(x=e1, y=e2, checks=1:3)
@@ -319,6 +378,8 @@ setMethod("%/%", signature(e1="ddmatrix", e2="ddmatrix"),
 
 
 
+#' @rdname arithmetic
+#' @export
 setMethod("%/%", signature(e1="numeric", e2="ddmatrix"), 
   function(e1, e2){
     return(floor(e1 / e2))
@@ -327,6 +388,8 @@ setMethod("%/%", signature(e1="numeric", e2="ddmatrix"),
 
 
 
+#' @rdname arithmetic
+#' @export
 setMethod("%/%", signature(e1="ddmatrix", e2="numeric"), 
   function(e1, e2){
     return(floor(e1 / e2))

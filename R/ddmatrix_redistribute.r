@@ -139,12 +139,12 @@ dmat.redistribute <- dmat.reblock
 #' finalize()
 #' }
 #' 
-#' @name distribute
-#' @rdname distribute
+#' @name redistribute
+#' @rdname redistribute
 #' @export
 reblock <- dmat.reblock
 
-#' @rdname distribute
+#' @rdname redistribute
 #' @export
 redistribute <- dmat.reblock
 

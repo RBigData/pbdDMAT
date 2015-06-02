@@ -3,9 +3,7 @@
 \docType{methods}
 \name{ddmatrix-summary}
 \alias{ddmatrix-summary}
-\alias{summary}
 \alias{summary,ddmatrix-method}
-\alias{summary-method}
 \title{Distributed Matrix Summary}
 \usage{
 summary(object, ...)
@@ -23,9 +21,6 @@ Summarize a distributed matrix.  Gives min, max, mean, etc. by column.
 }
 \details{
 The return is on process 0 only.
-}
-\section{Methods}{
- \describe{ \item{list("signature(x = \"ddmatrix\")")}{} }
 }
 \examples{
 \dontrun{

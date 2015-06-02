@@ -4,14 +4,13 @@
 #' 
 #' The return is on process 0 only.
 #' 
-#' @aliases summary-method summary,ddmatrix-method summary
-#' @docType methods
-#' @param object numeric distributed matrix
-#' @return A table on processor 0, \code{NULL} on all other processors.
-#' @section Methods: \describe{ \item{list("signature(x = \"ddmatrix\")")}{} }
-#' @keywords Methods
-#' @examples
+#' @param object 
+#' numeric distributed matrix
 #' 
+#' @return 
+#' A table on processor 0, \code{NULL} on all other processors.
+#' 
+#' @examples
 #' \dontrun{
 #' # Save code in a file "demo.r" and run with 2 processors by
 #' # > mpiexec -np 2 Rscript demo.r
@@ -28,6 +27,7 @@
 #' finalize()
 #' }
 #' 
+#' @keywords Methods
 #' @name ddmatrix-summary
 #' @rdname ddmatrix-summary
 #' @export
