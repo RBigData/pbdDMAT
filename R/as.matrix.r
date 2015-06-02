@@ -44,31 +44,52 @@ setGeneric(name = "as.matrix", useAsDefault = base::as.matrix, package="pbdDMAT"
 
 
 
-dmat_ldim <- function(nrows, rank=comm.rank()) # FIXME add communicator
+# create a global matrix from a ddmatrix
+dmat.gmat <- function(dx, proc.dest="all")
 {
-  rem <- nrows %% comm.size()
+  xattrs <- attributes(dx@Data)
+  names <- xattrs$dimnames
   
-  n <- as.integer(nrows / comm.size())
+  ICTXT <- dx@ICTXT
   
-  if (rank < rem)
-    n <- n + 1L
+  dim <- dx@dim
+  ldim <- dx@ldim
+  bldim <- dx@bldim
   
-  return( n )
-}
-
-# starting index
-dmat_index <- function(nrows)
-{
-  if (comm.rank() == 0)
-    start <- 1L
-  else
-  {
-    cs <- comm.size() - 2L
-    chunks <- sapply(0L:cs, dmat_ldim, nrows=nrows)
-    start <- sum(chunks[1L:comm.rank()]) + 1L
+  descx <- base.descinit(dim=dim, bldim=bldim, ldim=ldim, ICTXT=ICTXT)
+  
+  if (any(dim==0)){
+    if (proc.dest[1L] == "all" || proc.dest==comm.rank())
+      out <- matrix(nrow=dim[1], ncol=dim[2])
+    else
+      out <- NULL
+    return(out)
   }
   
-  return( start )
+  if (proc.dest[1]=='all')
+    rsrc <- csrc <- -1
+  else {
+#    dest <- base.pcoord(ICTXT=ICTXT, PNUM=proc.dest)
+#    rsrc <- dest[[1]]
+#    csrc <- dest[[2]]
+    rsrc <- proc.dest[1]
+    csrc <- proc.dest[2]
+  }
+  
+  out <- base.mkgblmat(dx@Data, descx=descx, rsrc=rsrc, csrc=csrc)
+  
+  if (is.null(out))
+    return(out)
+  else {
+    if (length(xattrs)>1){
+      if (length(names)>0)
+        xattrs$dimnames <- NULL
+      xattrs$dim <- dim(out)
+      attributes(out) <- xattrs
+    }
+    
+    return( out )
+  }
 }
 
 

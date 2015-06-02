@@ -61,6 +61,79 @@ setGeneric(name="as.ddmatrix",
 
 
 
+base.mat.to.ddmat <- function(x, bldim=.BLDIM, ICTXT=.ICTXT)
+{
+  if (!is.matrix(x))
+    comm.stop("input 'x' must be a matrix") 
+  else if (length(bldim) == 1) 
+    bldim <- rep(bldim, 2) 
+  else if (diff(bldim) != 0)
+    comm.warning("Most ScaLAPACK routines do not allow for non-square blocking.  This is highly non-advised.")
+  
+  dim <- dim(x)
+  ldim <- base.numroc(dim=dim, bldim=bldim, ICTXT=ICTXT, fixme=TRUE)
+  descx <- base.descinit(dim=dim, bldim=bldim, ldim=ldim, ICTXT=ICTXT)
+  
+  out <- base.mksubmat(x=x, descx=descx)
+  
+  dx <- new("ddmatrix", Data=out, dim=dim, ldim=dim(out), bldim=bldim, ICTXT=ICTXT)
+  
+  return(dx)
+}
+
+
+
+# distribute a matrix from process (0,0) to the full ICTXT grid
+#' @rdname as.ddmatrix
+#' @export
+distribute <- function(x, bldim=.BLDIM, xCTXT=0, ICTXT=.ICTXT)
+{
+  if (length(bldim)==1)
+    bldim <- rep(bldim, 2L)
+  
+  if (!is.matrix(x) && is.null(x)){
+    x <- matrix(0)
+    iown <- FALSE
+  } else
+    iown <- TRUE
+  
+  if (iown)
+    dim <- dim(x)
+  else
+    dim <- c(0, 0)
+  
+  ldim <- dim(x)
+  
+  if (!is.double(x))
+    storage.mode(x) <- "double"
+  
+  blacs_ <- blacs(xCTXT)
+  
+  if (blacs_$NPROW > 1)
+    dim[1] <- pbdMPI::allreduce(dim[1], op='sum')
+  else
+    dim[1] <- pbdMPI::allreduce(dim[1], op='max')
+  
+  if (blacs_$NPCOL > 1)
+    dim[2] <- pbdMPI::allreduce(dim[2], op='sum')
+  else
+    dim[2] <- pbdMPI::allreduce(dim[2], op='max')
+  
+  if (all(ldim==0))
+    ldim <- c(1,1)
+  
+  dx <- new("ddmatrix", Data=x, dim=dim, ldim=ldim, bldim=dim, ICTXT=xCTXT)
+  
+  if (xCTXT != ICTXT)
+    dx <- dmat.reblock(dx=dx, bldim=bldim, ICTXT=ICTXT)
+  else if (any(dx@bldim != bldim))
+    dx <- dmat.reblock(dx=dx, bldim=bldim, ICTXT=dx@ICTXT)
+  
+  return( dx )
+}
+
+
+
 # Distribute dense, in-core matrices
 dmat.as.ddmatrix <- function(x, bldim=.BLDIM, ICTXT=.ICTXT)
 {
@@ -76,7 +149,7 @@ dmat.as.ddmatrix <- function(x, bldim=.BLDIM, ICTXT=.ICTXT)
     else
       iown <- 0
     iown <- pbdMPI::allreduce(iown, op='max')
-    return( base.distribute(x=x, bldim=bldim, xCTXT=0, ICTXT=ICTXT) )
+    return( distribute(x=x, bldim=bldim, xCTXT=0, ICTXT=ICTXT) )
   } 
   # global ownership is assumed --- this should only ever really happen in testing
   else if (owns==nprocs)
@@ -86,17 +159,23 @@ dmat.as.ddmatrix <- function(x, bldim=.BLDIM, ICTXT=.ICTXT)
     comm.stop("Matrix 'x' is defined on some, but not all processes. Consider using the redistribute() function.")
 }
 
+
+
 #' @rdname as.ddmatrix
 #' @export
 setMethod("as.ddmatrix", signature(x="matrix"), 
   dmat.as.ddmatrix
 )
 
+
+
 #' @rdname as.ddmatrix
 #' @export
 setMethod("as.ddmatrix", signature(x="NULL"), 
   dmat.as.ddmatrix
 )
+
+
 
 #' @rdname as.ddmatrix
 #' @export

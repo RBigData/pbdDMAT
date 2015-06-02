@@ -1,3 +1,10 @@
+setGeneric(name="ownany", 
+  function(x, ...) 
+    standardGeneric("ownany"), 
+  package="pbdDMAT"
+)
+
+
 
 setMethod("ownany", signature(x="ddmatrix"), 
   function(x, ...)
@@ -7,6 +14,8 @@ setMethod("ownany", signature(x="ddmatrix"),
     return( iown )
   }
 )
+
+
 
 setMethod("ownany", signature(x="missing"), 
   function(dim, bldim=.BLDIM, ICTXT=.ICTXT, x)

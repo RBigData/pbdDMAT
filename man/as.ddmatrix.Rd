@@ -6,9 +6,12 @@
 \alias{as.ddmatrix,NULL-method}
 \alias{as.ddmatrix,matrix-method}
 \alias{as.ddmatrix,vector-method}
+\alias{distribute}
 \title{Non-Distributed object to Distributed Object Converters}
 \usage{
 as.ddmatrix(x, ...)
+
+distribute(x, bldim = .BLDIM, xCTXT = 0, ICTXT = .ICTXT)
 
 \S4method{as.ddmatrix}{matrix}(x, bldim = .BLDIM, ICTXT = .ICTXT)
 

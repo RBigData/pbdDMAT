@@ -1,7 +1,6 @@
 ### S4 methods
 
 # Misc
-setGeneric(name = "na.exclude", useAsDefault = stats::na.exclude, package="pbdDMAT")
 setGeneric(name = "all.equal", useAsDefault = base::all.equal, package="pbdDMAT")
 setGeneric(name = "isSymmetric", useAsDefault = base::isSymmetric, package="pbdDMAT")
 #setGeneric(name = "polyroot", useAsDefault = base::polyroot, package="pbdDMAT")
@@ -168,11 +167,6 @@ setGeneric(name="llen",
 )
 
 
-setGeneric(name="ownany", 
-  function(x, ...) 
-    standardGeneric("ownany"), 
-  package="pbdDMAT"
-)
 
 
 setGeneric(name="sparsity", 

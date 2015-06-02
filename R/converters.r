@@ -1,6 +1,32 @@
 ### TODO put in appropriate as.___.r
 
 
+dmat_ldim <- function(nrows, rank=comm.rank()) # FIXME add communicator
+{
+  rem <- nrows %% comm.size()
+  
+  n <- as.integer(nrows / comm.size())
+  
+  if (rank < rem)
+    n <- n + 1L
+  
+  return( n )
+}
+
+# starting index
+dmat_index <- function(nrows)
+{
+  if (comm.rank() == 0)
+    start <- 1L
+  else
+  {
+    cs <- comm.size() - 2L
+    chunks <- sapply(0L:cs, dmat_ldim, nrows=nrows)
+    start <- sum(chunks[1L:comm.rank()]) + 1L
+  }
+  
+  return( start )
+}
 
 
 
