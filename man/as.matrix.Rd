@@ -13,13 +13,12 @@ as.matrix(x, ...)
 \arguments{
 \item{x}{numeric distributed matrix}
 
+\item{...}{Additional arguments.}
+
 \item{proc.dest}{destination process for storing the matrix}
 
 \item{attributes}{logical, specifies whether or not the current attributes
 should be preserved.}
-
-\item{mode}{A character string giving an atomic mode or "list", or (except
-for 'vector') "any".}
 }
 \value{
 Returns an ordinary R matrix.

@@ -14,7 +14,7 @@ print(x, ...)
 \S4method{show}{ddmatrix}(object)
 }
 \arguments{
-\item{x}{numeric distributed matrix}
+\item{x,object}{numeric distributed matrix}
 
 \item{...}{additional arguments}
 

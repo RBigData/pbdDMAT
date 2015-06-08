@@ -6,6 +6,8 @@
 #' 
 #' @param object 
 #' numeric distributed matrix
+#' @param ...
+#' Additional arguments.
 #' 
 #' @return 
 #' A table on processor 0, \code{NULL} on all other processors.

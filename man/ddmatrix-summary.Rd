@@ -12,6 +12,8 @@ summary(object, ...)
 }
 \arguments{
 \item{object}{numeric distributed matrix}
+
+\item{...}{Additional arguments.}
 }
 \value{
 A table on processor 0, \code{NULL} on all other processors.

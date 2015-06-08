@@ -20,6 +20,8 @@
 #' 
 #' @param x 
 #' a numeric matrix
+#' @param ...
+#' Additional arguments.
 #' @param bldim 
 #' the blocking dimension for block-cyclically distributing the
 #' matrix across the process grid.

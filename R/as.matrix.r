@@ -10,9 +10,8 @@
 #' 
 #' @param x 
 #' numeric distributed matrix
-#' @param mode 
-#' A character string giving an atomic mode or "list", or (except
-#' for 'vector') "any".
+#' @param ...
+#' Additional arguments.
 #' @param proc.dest 
 #' destination process for storing the matrix
 #' @param attributes 

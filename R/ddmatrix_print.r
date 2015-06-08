@@ -9,7 +9,7 @@
 #' will be printed in column-major fashion, with one element of the matrix per
 #' line. If \code{all=FALSE} then the \code{name=} argument is ignored.
 #' 
-#' @param x 
+#' @param x,object
 #' numeric distributed matrix
 #' @param ... 
 #' additional arguments

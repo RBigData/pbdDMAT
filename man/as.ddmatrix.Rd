@@ -22,6 +22,8 @@ distribute(x, bldim = .BLDIM, xCTXT = 0, ICTXT = .ICTXT)
 \arguments{
 \item{x}{a numeric matrix}
 
+\item{...}{Additional arguments.}
+
 \item{bldim}{the blocking dimension for block-cyclically distributing the
 matrix across the process grid.}
 

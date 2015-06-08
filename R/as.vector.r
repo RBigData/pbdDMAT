@@ -10,6 +10,8 @@
 #' 
 #' @param x 
 #' numeric distributed matrix
+#' @param ...
+#' Additional arguments.
 #' @param mode 
 #' A character string giving an atomic mode or "list", or (except
 #' for 'vector') "any".

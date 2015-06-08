@@ -25,9 +25,6 @@
 \alias{svd}
 \alias{svd,ddmatrix-method}
 \alias{svd-method}
-\alias{t}
-\alias{t,ddmatrix-method}
-\alias{t-method}
 \title{Linear Algebra Functions}
 \usage{
 \S4method{solve}{ddmatrix,ANY}(a)

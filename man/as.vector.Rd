@@ -16,6 +16,8 @@ as.vector(x, ...)
 \arguments{
 \item{x}{numeric distributed matrix}
 
+\item{...}{Additional arguments.}
+
 \item{mode}{A character string giving an atomic mode or "list", or (except
 for 'vector') "any".}
 
