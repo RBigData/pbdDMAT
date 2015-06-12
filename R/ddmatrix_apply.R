@@ -60,11 +60,12 @@
 #' 
 #' @keywords Methods Extraction
 #' @name ddmatrix-apply
+#' @rdname ddmatrix-apply
 NULL
 
 setGeneric(name = "apply", useAsDefault = base::apply, package="pbdDMAT")
 
-#' @name ddmatrix-apply
+#' @rdname ddmatrix-apply
 #' @export
 setMethod("apply", signature(X="ddmatrix"),
   function(X, MARGIN, FUN, ..., reduce=FALSE, proc.dest="all")
@@ -84,7 +85,7 @@ setMethod("apply", signature(X="ddmatrix"),
       resultOK <- FALSE
       if(ownany(X)){
         olddim <- dim(X@Data)
-        X@Data <- apply(X=X@Data, MARGIN=MARGIN, FUN=FUN, ...)
+        X@Data <- base::apply(X=X@Data, MARGIN=MARGIN, FUN=FUN, ...)
         # check whether or not dimesion matches
         # currently it only supports one-to-one mapping function
         resultOK <- all(dim(X@Data) == olddim)
@@ -106,7 +107,7 @@ setMethod("apply", signature(X="ddmatrix"),
       }
       
       if(ownany(X))
-        tmp <- apply(X@Data, MARGIN=1, FUN=FUN, ...)
+        tmp <- base::apply(X@Data, MARGIN=1, FUN=FUN, ...)
       else
         # it is unsafe to apply on X@Data if X does not hold any submatrix.
         tmp <- NULL
@@ -160,7 +161,7 @@ setMethod("apply", signature(X="ddmatrix"),
       
       if(ownany(X))
       {
-        tmp <- apply(X@Data, MARGIN=2, FUN=FUN, ...)
+        tmp <- base::apply(X@Data, MARGIN=2, FUN=FUN, ...)
       } 
       else 
       {

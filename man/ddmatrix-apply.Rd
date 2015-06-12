@@ -2,6 +2,7 @@
 % Please edit documentation in R/ddmatrix_apply.R
 \docType{methods}
 \name{ddmatrix-apply}
+\alias{apply,ddmatrix-method}
 \alias{ddmatrix-apply}
 \title{Apply Family of Functions}
 \usage{
@@ -48,8 +49,8 @@ init.grid()
 
 x <- ddmatrix(1:9, 3)
 
-y <- as.matrix(apply(x, 1, mean))
-print(y)
+y <- as.vector(apply(x, 1, mean))
+comm.print(y)
 
 finalize()
 }
