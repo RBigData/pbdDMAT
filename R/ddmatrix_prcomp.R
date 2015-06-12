@@ -8,8 +8,7 @@
 #' \code{prcomp()} performs the principal components analysis on the data
 #' matrix by taking the SVD. Sometimes core R and pbdDMAT will disagree
 #' slightly in what the rotated variables are because of how the SVD is
-#' caluclated. See the details section of \code{La.svd()} under
-#' \code{\link{LinAlg}} for details.  more details.
+#' caluclated.
 #' 
 #' @param x 
 #' numeric distributed matrix.

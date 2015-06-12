@@ -4,30 +4,15 @@
 \name{qr}
 \alias{qr}
 \alias{qr,ddmatrix-method}
-\alias{qr.Q}
 \alias{qr.Q,ANY-method}
-\alias{qr.R}
 \alias{qr.R,ANY-method}
-\alias{qr.qty}
 \alias{qr.qty,ANY-method}
-\alias{qr.qy}
 \alias{qr.qy,ANY-method}
 \title{QR Decomposition Methods}
 \usage{
-qr(x, ...)
-
-qr.Q(x, ...)
-
-qr.R(x, ...)
-
-qr.qy(x, ...)
-
-qr.qty(x, ...)
-
 \S4method{qr}{ddmatrix}(x, tol = 1e-07)
 
-\S4method{qr.Q}{ANY}(x, complete = FALSE, Dvec = rep.int(if (cmplx) 1 + (0 +
-  (0+0i)) else 1, if (complete) dqr[1] else min(dqr)))
+\S4method{qr.Q}{ANY}(x, complete = FALSE, Dvec)
 
 \S4method{qr.R}{ANY}(x, complete = FALSE)
 

@@ -3,12 +3,9 @@
 \docType{methods}
 \name{Norm}
 \alias{Norm}
-\alias{norm}
 \alias{norm,ddmatrix,ANY-method}
-\title{Compute the Norm of a Distributed Matrix}
+\title{Norm}
 \usage{
-norm(x, type, ...)
-
 \S4method{norm}{ddmatrix,ANY}(x, type = c("O", "I", "F", "M", "2"))
 }
 \arguments{
@@ -20,7 +17,7 @@ norm(x, type, ...)
 Returns a number.
 }
 \description{
-Computes the norm.
+Computes the norm of a distributed matrix.
 }
 \examples{
 \dontrun{

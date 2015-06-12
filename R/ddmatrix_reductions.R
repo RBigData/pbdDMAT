@@ -63,22 +63,6 @@ NULL
 
 #' @rdname reductions
 #' @export
-setGeneric(name = "rowSums", useAsDefault = base::rowSums, package="pbdDMAT")
-
-#' @rdname reductions
-#' @export
-setGeneric(name = "colSums", useAsDefault = base::colSums, package="pbdDMAT")
-
-#' @rdname reductions
-#' @export
-setGeneric(name = "rowMeans", useAsDefault = base::rowMeans, package="pbdDMAT")
-
-#' @rdname reductions
-#' @export
-setGeneric(name = "colMeans", useAsDefault = base::colMeans, package="pbdDMAT")
-
-#' @rdname reductions
-#' @export
 setGeneric(name="rowMin", 
   function(x, ...)
     standardGeneric("rowMin"),
@@ -473,46 +457,5 @@ setMethod("colMax", signature(x="ddmatrix"),
 setMethod("colMin", signature(x="matrix"), 
   function(x, na.rm=FALSE)
     apply(X=x, MARGIN=2L, FUN=max, na.rm=na.rm)
-)
-
-
-
-#' @rdname reductions
-#' @export
-setGeneric(name="sd", 
-  function(x, ...)
-    standardGeneric("sd"),
-  package="pbdDMAT"
-)
-
-#' @rdname reductions
-#' @export
-setMethod("sd", signature(x="ddmatrix"),
-function (x, na.rm = FALSE, reduce = FALSE, proc.dest="all") 
-  {
-    if (na.rm)
-      x <- na.exclude(x)
-    
-    descx <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
-    sdv <- base.pdclvar(x=x@Data, descx=descx)
-    
-    sdv <- sqrt(sdv)
-    dim(sdv) <- c(1L, base::length(sdv))
-#    sdv <- matrix(sqrt(sdv), nrow=1)
-    
-    ret <- new("ddmatrix", Data=sdv, dim=c(1, x@dim[2]), ldim=dim(sdv), bldim=x@bldim, ICTXT=x@ICTXT)
-    
-    if (reduce)
-      ret <- as.vector(x=ret, proc.dest=proc.dest)
-    
-    return( ret )
-  }
-)
-
-#' @rdname reductions
-#' @export
-setMethod("sd", signature(x="ANY"), 
-  function(x, na.rm = FALSE) 
-    stats::sd(x=x, na.rm=na.rm)
 )
 

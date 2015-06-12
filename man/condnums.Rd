@@ -4,12 +4,9 @@
 \name{condnums}
 \alias{condnums}
 \alias{kappa.ddmatrix}
-\alias{rcond}
 \alias{rcond,ddmatrix-method}
 \title{Compute or estimate the Condition Number of a Distributed Matrix}
 \usage{
-rcond(x, norm, ...)
-
 \method{kappa}{ddmatrix}(z, exact = FALSE, norm = NULL, method = c("qr",
   "direct"), ...)
 
@@ -17,17 +14,17 @@ rcond(x, norm, ...)
   ...)
 }
 \arguments{
-\item{x,z}{numeric distributed matrices.}
-
-\item{norm}{character. Determines which matrix norm is to be used.}
-
-\item{...}{Extra arguments.}
-
 \item{exact}{logical. Determines whether exact condition number or
 approximation should be computed.}
 
+\item{norm}{character. Determines which matrix norm is to be used.}
+
 \item{method}{character. Determines the method use in computing condition
 number.}
+
+\item{...}{Extra arguments.}
+
+\item{x,z}{numeric distributed matrices.}
 
 \item{triangular}{logical. If true, only the lower triangle is used.}
 }

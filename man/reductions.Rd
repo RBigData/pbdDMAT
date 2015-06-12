@@ -4,37 +4,22 @@
 \name{reductions}
 \alias{colMax}
 \alias{colMax,ddmatrix-method}
-\alias{colMeans}
 \alias{colMeans,ddmatrix-method}
 \alias{colMin}
 \alias{colMin,ddmatrix-method}
 \alias{colMin,matrix-method}
-\alias{colSums}
 \alias{colSums,ddmatrix-method}
 \alias{reductions}
 \alias{rowMax}
 \alias{rowMax,ddmatrix-method}
 \alias{rowMax,matrix-method}
-\alias{rowMeans}
 \alias{rowMeans,ddmatrix-method}
 \alias{rowMin}
 \alias{rowMin,ddmatrix-method}
 \alias{rowMin,matrix-method}
-\alias{rowSums}
 \alias{rowSums,ddmatrix-method}
-\alias{sd}
-\alias{sd,ANY-method}
-\alias{sd,ddmatrix-method}
 \title{Arithmetic Reductions: Sums, Means, and Prods}
 \usage{
-rowSums(x, na.rm = FALSE, dims = 1, ...)
-
-colSums(x, na.rm = FALSE, dims = 1, ...)
-
-rowMeans(x, na.rm = FALSE, dims = 1, ...)
-
-colMeans(x, na.rm = FALSE, dims = 1, ...)
-
 rowMin(x, ...)
 
 rowMax(x, ...)
@@ -66,20 +51,13 @@ colMax(x, ...)
 \S4method{colMax}{ddmatrix}(x, na.rm = FALSE)
 
 \S4method{colMin}{matrix}(x, na.rm = FALSE)
-
-sd(x, ...)
-
-\S4method{sd}{ddmatrix}(x, na.rm = FALSE, reduce = FALSE,
-  proc.dest = "all")
-
-\S4method{sd}{ANY}(x, na.rm = FALSE)
 }
 \arguments{
 \item{x}{numeric distributed matrix}
 
-\item{na.rm}{logical. Should missing (including \code{NaN}) be removed?}
-
 \item{...}{additional arguments}
+
+\item{na.rm}{logical. Should missing (including \code{NaN}) be removed?}
 
 \item{reduce}{logical or string. See details}
 

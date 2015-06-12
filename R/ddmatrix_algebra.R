@@ -5,14 +5,7 @@
 #' 
 #' Extensions of R linear algebra functions.
 #' 
-#' @aliases LinAlg isSymmetric-method
-#' isSymmetric,ddmatrix-method isSymmetric solve-method
-#' solve,ddmatrix,ddmatrix-method solve,ddmatrix,ANY-method solve La.svd-method
-#' La.svd,ddmatrix-method La.svd svd-method svd,ddmatrix-method svd
-#' eigen-method eigen,ddmatrix-method eigen chol-method chol,ddmatrix-method
-#' chol lu-method lu,ddmatrix-method lu
-#' 
-#' @param object,x,a,b 
+#' @param object,x,a,b
 #' numeric distributed matrices.  If applicable, \code{a}
 #' and \code{b} must be on the same BLACS context and have the same blocking
 #' dimension.
@@ -89,6 +82,8 @@ NULL
 
 
 # inversion
+#' @rdname linalg
+#' @export
 setMethod("solve", signature(a="ddmatrix"), 
   function(a)
   {
@@ -108,6 +103,8 @@ setMethod("solve", signature(a="ddmatrix"),
 )
 
 # Solving systems
+#' @rdname linalg
+#' @export
 setMethod("solve", signature(a="ddmatrix", b="ddmatrix"), 
   function(a, b)
   {
@@ -130,192 +127,18 @@ setMethod("solve", signature(a="ddmatrix", b="ddmatrix"),
 
 
 
-#' Inverse from Choleski (or QR) Decomposition
-#' 
-#' \code{qr()} takes the QR decomposition.
-#' 
-#' The function returns the inverse of a choleski factored matrix, or the
-#' inverse of \code{crossprod(x)} if \code{qr.R(qr(x))} is passed.
-#' 
-#' @aliases chol2inv chol2inv-method chol2inv,ddmatrix-method chol2inv
-#' @docType methods
-#' @param x numeric distributed matrices for
-#' @param size number of columns of \code{x} containing the Choleski
-#' factorization.
-#' @return A numeric distributed matrix.
-#' @section Methods: \describe{ \item{list("signature(x = \"ddmatrix\")")}{}
-#' \item{list("signature(x = \"ANY\")")}{} }
-#' @keywords Methods Linear Algebra
-#' @examples
-#' 
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
-#' 
-#' library(pbdDMAT, quiet = TRUE)
-#' init.grid()
-#' 
-#' comm.set.seed(diff=T)
-#' x <- ddmatrix("rnorm", 3, 3)
-#' 
-#' R <- qr.R(qr(x))
-#' xtx.inv <- chol2inv(R)
-#' 
-#' id <- xtx.inv %*% crossprod(x)
-#' 
-#' print(id)
-#' 
-#' finalize()
-#' }
-#' 
-#' @name chol2inv
-#' @rdname chol2inv
-NULL
-
-
-
-#' @rdname chol2inv
-#' @export
-setGeneric(name = "chol2inv", useAsDefault = base::chol2inv, package="pbdDMAT")
-
-# inversion via a cholesky, or inversion of crossprod(x) via qr
-#' @rdname chol2inv
-#' @export
-setMethod("chol2inv", signature(x="ddmatrix"), 
-  function(x, size = NCOL(x))
-  {
-    nr <- x@dim[1L]
-    nc <- x@dim[2L]
-    if (is.na(size) || size <= 0L || size > nr || size > nc) 
-      comm.stop("invalid 'size' argument in 'chol2inv'")
-    
-    if (size < nr || size < nc){
-      vec <- 1L:size
-      x <- x[vec, vec]
-    }
-    
-    descx <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
-    
-    cdim <- rep(size, 2)
-    cldim <- base.numroc(dim=cdim, bldim=x@bldim, ICTXT=x@ICTXT)
-    descc <- base.descinit(dim=cdim, bldim=x@bldim, cldim, ICTXT=x@ICTXT)
-    
-    out <- base.pdchtri(uplo='U', x=x@Data, descx=descx, descc=descc)
-    
-    c <- new("ddmatrix", Data=out, dim=cdim, ldim=cldim, bldim=x@bldim, ICTXT=x@ICTXT)
-    
-    return( c )
-  }
-)
-
-
-
-
-
-
 # ################################################
 # ------------------------------------------------
 # Matrix Factorizations
 # ------------------------------------------------
 # ################################################
 
-dmat.svd <- function(x, nu, nv, inplace=FALSE)
-{
-  ICTXT <- x@ICTXT
-  
-  # Matrix descriptors
-  m <- x@dim[1L]
-  n <- x@dim[2L]
-  size <- min(m, n)
-  bldim <- x@bldim
-  
-  desca <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=ICTXT)
-  
-  # U
-  if (nu==0){
-    jobu <- 'N'
-    udim <- c(1L, 1L)
-  }
-  else {
-    jobu <- 'V'
-    udim <- c(m, size)
-  }
-  
-  uldim <- base.numroc(dim=udim, bldim=bldim, ICTXT=ICTXT)
-  descu <- base.descinit(dim=udim, bldim=bldim, ldim=uldim, ICTXT=ICTXT)
-  
-  
-  # V^T
-  if (nv==0){
-    jobvt <- 'N'
-    vtdim <- c(1L, 1L)
-  }
-  else {
-    jobvt <- 'V'
-    vtdim <- c(size, n)
-  }
-  
-  vtldim <- base.numroc(dim=vtdim, bldim=bldim, ICTXT=ICTXT)
-  descvt <- base.descinit(dim=vtdim, bldim=bldim, ldim=vtldim, ICTXT=ICTXT)
-  
-  # Compute 
-  out <- base.rpdgesvd(jobu=jobu, jobvt=jobvt, m=m, n=n, a=x@Data, desca=desca, descu=descu, descvt=descvt, inplace=inplace)
-  
-  if (nu==0)
-    u <- NULL
-  else {
-    u <- new("ddmatrix", Data=out$u, dim=udim, ldim=uldim, bldim=bldim, ICTXT=ICTXT)
-    if (nu < u@dim[2L])
-      u <- u[, 1L:nu]
-  }
-  
-  if (nv==0)
-    vt <- NULL
-  else {
-    vt <- new("ddmatrix", Data=out$vt, dim=vtdim, ldim=vtldim, bldim=bldim, ICTXT=ICTXT)
-    if (nv < vt@dim[1L])
-      vt <- vt[1L:nv, ]
-  }
-  
-  ret <- list( d=out$d, u=u, vt=vt )
-  
-  return( ret )
-}
 
 
 
-setMethod("La.svd", signature(x="ddmatrix"), 
-  function(x, nu=min(n, p), nv=min(n, p)) #, ..., inplace=FALSE)
-  {
-    n <- nrow(x)
-    p <- ncol(x)
-    
-    ret <- dmat.svd(x=x, nu=nu, nv=nv, inplace=FALSE)
-    
-    return( ret )
-  }
-)
 
-
-
-setMethod("svd", signature(x="ddmatrix"), 
-  function(x, nu=min(n, p), nv=min(n, p)) #, ..., inplace=FALSE)
-  {
-    n <- nrow(x)
-    p <- ncol(x)
-    
-    ret <- dmat.svd(x=x, nu=nu, nv=nv, inplace=FALSE)
-    
-    if (is.ddmatrix(ret$vt))
-      ret$vt <- t(ret$vt)
-    names(ret)[3] <- "v"
-    
-    return( ret )
-  }
-)
-
-
-
+#' @rdname linalg
+#' @export
 setMethod("chol", signature(x="ddmatrix"), 
   function(x)
   {
@@ -340,6 +163,12 @@ setMethod("chol", signature(x="ddmatrix"),
 
 
 
+
+
+setGeneric(name="lu", function(x, ...) standardGeneric("lu"), package="pbdDMAT")
+
+#' @rdname linalg
+#' @export
 setMethod("lu", signature(x="ddmatrix"), 
   function(x)
   {
@@ -355,6 +184,8 @@ setMethod("lu", signature(x="ddmatrix"),
 
 
 
+#' @rdname linalg
+#' @export
 setMethod("eigen", signature(x="ddmatrix"), 
   function(x, symmetric, only.values=FALSE)
   {

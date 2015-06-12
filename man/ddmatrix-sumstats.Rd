@@ -4,19 +4,13 @@
 \name{ddmatrix-sumstats}
 \alias{ddmatrix-sumstats}
 \alias{max,ddmatrix-method}
-\alias{mean}
 \alias{mean,ddmatrix-method}
-\alias{median}
 \alias{median,ddmatrix-method}
 \alias{min,ddmatrix-method}
 \alias{prod,ddmatrix-method}
 \alias{sum,ddmatrix-method}
 \title{Basic Summary Statistics}
 \usage{
-mean(x, ...)
-
-median(x, na.rm = FALSE)
-
 \S4method{sum}{ddmatrix}(x, ..., na.rm = FALSE)
 
 \S4method{mean}{ddmatrix}(x, na.rm = FALSE)

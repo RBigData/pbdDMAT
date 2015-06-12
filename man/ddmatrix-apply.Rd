@@ -2,13 +2,9 @@
 % Please edit documentation in R/ddmatrix_apply.R
 \docType{methods}
 \name{ddmatrix-apply}
-\alias{apply}
-\alias{apply,ddmatrix-method}
 \alias{ddmatrix-apply}
 \title{Apply Family of Functions}
 \usage{
-apply(X, MARGIN, FUN, ...)
-
 \S4method{apply}{ddmatrix}(X, MARGIN, FUN, ..., reduce = FALSE,
   proc.dest = "all")
 }

@@ -37,13 +37,6 @@
 NULL
 
 
-#' @rdname ddmatrix-sumstats
-#' @export
-setGeneric(name = "mean", useAsDefault = base::mean, package="pbdDMAT")
-
-#' @rdname ddmatrix-sumstats
-#' @export
-setGeneric(name = "median", useAsDefault = stats::median, package="pbdDMAT")
 
 #' @rdname ddmatrix-sumstats
 #' @export

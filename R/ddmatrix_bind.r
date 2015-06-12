@@ -49,26 +49,6 @@ NULL
 
 
 
-#' @rdname binds
-#' @export
-setGeneric(name="rbind", 
-  function(..., ICTXT=.ICTXT, deparse.level=1)
-    standardGeneric("rbind"),
-  package="pbdDMAT"
-)
-
-
-
-#' @rdname binds
-#' @export
-setGeneric(name="cbind", 
-  function(..., ICTXT=.ICTXT, deparse.level=1)
-    standardGeneric("cbind"),
-  package="pbdDMAT"
-)
-
-
-
 ### Bind 2 ddmatrix's
 dmat.rbind2 <- function(args, ICTXT=.ICTXT)
 { 

@@ -1,11 +1,9 @@
 #' Covariance and Correlation
 #' 
-#' \code{sd()} forms the vector of column standard deviations.  \code{cov()}
+#' \code{cov()}
 #' and \code{var()} form the variance-covariance matrix.  \code{cor()} forms
 #' the correlation matrix.  \code{cov2cor()} scales a covariance matrix into a
 #' correlation matrix.
-#' 
-
 #' 
 #' \code{cov()} forms the variance-covariance matrix. Only
 #' \code{method="pearson"} is implemented at this time.
@@ -52,23 +50,6 @@
 #' @name covariance
 #' @rdname covariance
 NULL
-
-
-#' @rdname covariance
-#' @export
-setGeneric(name = "var", useAsDefault = stats::var, package="pbdDMAT")
-
-#' @rdname covariance
-#' @export
-setGeneric(name = "cov", useAsDefault = stats::cov, package="pbdDMAT")
-
-#' @rdname covariance
-#' @export
-setGeneric(name = "cor", useAsDefault = stats::cor, package="pbdDMAT")
-
-#' @rdname covariance
-#' @export
-setGeneric(name = "cov2cor", useAsDefault = stats::cov2cor, package="pbdDMAT")
 
 
 

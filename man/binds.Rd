@@ -3,16 +3,10 @@
 \docType{methods}
 \name{binds}
 \alias{binds}
-\alias{cbind}
 \alias{cbind,ANY-method}
-\alias{rbind}
 \alias{rbind,ANY-method}
 \title{Row and Column binds for Distributed Matrices}
 \usage{
-rbind(..., ICTXT = .ICTXT, deparse.level = 1)
-
-cbind(..., ICTXT = .ICTXT, deparse.level = 1)
-
 \S4method{rbind}{ANY}(..., ICTXT = .ICTXT, deparse.level = 1)
 
 \S4method{cbind}{ANY}(..., ICTXT = .ICTXT, deparse.level = 1)

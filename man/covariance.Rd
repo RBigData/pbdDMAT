@@ -2,27 +2,13 @@
 % Please edit documentation in R/ddmatrix_cov.R
 \docType{methods}
 \name{covariance}
-\alias{cor}
 \alias{cor,ddmatrix-method}
-\alias{cov}
 \alias{cov,ddmatrix-method}
-\alias{cov2cor}
 \alias{cov2cor,ddmatrix-method}
 \alias{covariance}
-\alias{var}
 \alias{var,ddmatrix-method}
 \title{Covariance and Correlation}
 \usage{
-var(x, y = NULL, na.rm = FALSE, use)
-
-cov(x, y = NULL, use = "everything", method = c("pearson", "kendall",
-  "spearman"))
-
-cor(x, y = NULL, use = "everything", method = c("pearson", "kendall",
-  "spearman"))
-
-cov2cor(V)
-
 \S4method{cov}{ddmatrix}(x, y = NULL, use = "everything",
   method = "pearson")
 
@@ -36,9 +22,6 @@ cov2cor(V)
 \arguments{
 \item{x,y,V}{numeric distributed matrices.}
 
-\item{na.rm}{logical, determines whether or not \code{NA}'s should be dealth
-with.}
-
 \item{use}{character indicating how missing values should be treated.
 Acceptable values are the same as \code{R}'s, namely "everything",
 "all.obs", "complete.obs", "na.or.complete", or "pairwise.complete.obs".}
@@ -46,12 +29,15 @@ Acceptable values are the same as \code{R}'s, namely "everything",
 \item{method}{character argument indicating which method should be used to
 calculate covariances. Currently only "spearman" is available for
 \code{ddmatrix}.}
+
+\item{na.rm}{logical, determines whether or not \code{NA}'s should be dealth
+with.}
 }
 \value{
 Returns a distributed matrix.
 }
 \description{
-\code{sd()} forms the vector of column standard deviations.  \code{cov()}
+\code{cov()}
 and \code{var()} form the variance-covariance matrix.  \code{cor()} forms
 the correlation matrix.  \code{cov2cor()} scales a covariance matrix into a
 correlation matrix.

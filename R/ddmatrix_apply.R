@@ -1,3 +1,16 @@
+# This apply() operates on a MARGIN/ICTXT agreement, converting
+# between data distributions as necessary.  This data movement
+# is inarguably an inefficiency, but at present, it is the 
+# best solution I can think of to preserve high level syntax
+# on these data structures.
+
+# Agreement occurs for ICTXT=1/MARGIN=2 and ICTXT=2/MARGIN=1
+
+# For MARGIN=c(1,2), it is assumed that FUN is a one-to-one mapping 
+# function which will not change the dimension of ddmatrix.
+
+
+
 #' Apply Family of Functions
 #' 
 #' Apply a function to the margins of a distributed matrix.
@@ -50,30 +63,6 @@
 #' 
 #' @keywords Methods Extraction
 #' @name ddmatrix-apply
-#' @rdname ddmatrix-apply
-NULL
-
-
-#' @rdname ddmatrix-apply
-#' @export
-setGeneric(name = "apply", useAsDefault = base::apply, package="pbdDMAT")
-
-
-
-# This apply() operates on a MARGIN/ICTXT agreement, converting
-# between data distributions as necessary.  This data movement
-# is inarguably an inefficiency, but at present, it is the 
-# best solution I can think of to preserve high level syntax
-# on these data structures.
-
-# Agreement occurs for ICTXT=1/MARGIN=2 and ICTXT=2/MARGIN=1
-
-# For MARGIN=c(1,2), it is assumed that FUN is a one-to-one mapping 
-# function which will not change the dimension of ddmatrix.
-
-
-
-#' @rdname ddmatrix-apply
 #' @export
 setMethod("apply", signature(X="ddmatrix"),
   function(X, MARGIN, FUN, ..., reduce=FALSE, proc.dest="all")

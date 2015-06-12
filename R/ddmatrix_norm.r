@@ -1,7 +1,6 @@
-#' Compute the Norm of a Distributed Matrix
+#' Norm
 #' 
-#' Computes the norm.
-#' 
+#' Computes the norm of a distributed matrix.
 #' 
 #' @param x 
 #' numeric distributed matrices.
@@ -33,13 +32,7 @@
 #' @rdname Norm
 NULL
 
-
-
-#' @rdname Norm
-#' @export
 setGeneric(name = "norm", useAsDefault = base::norm, package="pbdDMAT")
-
-
 
 #' @rdname Norm
 #' @export

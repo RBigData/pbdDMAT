@@ -2,7 +2,6 @@
 #' 
 #' Computes or estimates the condition number.
 #' 
-#' 
 #' @param x,z 
 #' numeric distributed matrices.
 #' @param exact 
@@ -43,13 +42,6 @@
 #' @name condnums
 #' @rdname condnums
 NULL
-
-
-
-#' @rdname condnums
-#' @export
-setGeneric(name = "rcond", useAsDefault = base::rcond, package="pbdDMAT")
-
 
 
 

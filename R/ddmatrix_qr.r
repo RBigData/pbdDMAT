@@ -60,40 +60,30 @@ NULL
 
 
 
-#' @rdname qr
-#' @export
 setGeneric(name="qr", 
   function(x, ...)
     standardGeneric("qr"),
   package="pbdDMAT"
 )
 
-#' @rdname qr
-#' @export
 setGeneric(name="qr.Q", 
   function(x, ...)
     standardGeneric("qr.Q"),
   package="pbdDMAT"
 )
 
-#' @rdname qr
-#' @export
 setGeneric(name="qr.R", 
   function(x, ...)
     standardGeneric("qr.R"),
   package="pbdDMAT"
 )
 
-#' @rdname qr
-#' @export
 setGeneric(name="qr.qy", 
   function(x, ...)
     standardGeneric("qr.qy"),
   package="pbdDMAT"
 )
 
-#' @rdname qr
-#' @export
 setGeneric(name="qr.qty", 
   function(x, ...)
     standardGeneric("qr.qty"),
@@ -143,7 +133,7 @@ setMethod("qr", signature(x="ddmatrix"),
 #' @rdname qr
 #' @export
 setMethod("qr.Q", signature(x="ANY"), 
-  function(x, complete = FALSE,  Dvec = rep.int(if (cmplx) 1 + (0+0i) else 1, if (complete) dqr[1] else min(dqr))) 
+  function(x, complete = FALSE,  Dvec)
     {
       # x is of class qr
       
