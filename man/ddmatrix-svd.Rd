@@ -25,6 +25,8 @@ singular values.}
 
 \item{nv}{number of right singular vectors to return when calculating
 singular values.}
+
+\item{LINPACK}{Ignored.}
 }
 \value{
 \code{La.svd()} performs singular value decomposition, and returns the

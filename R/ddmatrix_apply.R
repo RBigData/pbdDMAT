@@ -43,7 +43,6 @@
 #' global matrix/vector is returned.
 #' 
 #' @examples
-#' 
 #' \dontrun{
 #' # Save code in a file "demo.r" and run with 2 processors by
 #' # > mpiexec -np 2 Rscript demo.r
@@ -51,17 +50,22 @@
 #' library(pbdDMAT, quiet = TRUE)
 #' init.grid()
 #' 
-#' # don't do this in production code
-#' x <- matrix(1:9, 3)
-#' x <- as.ddmatrix(x)
+#' x <- ddmatrix(1:9, 3)
 #' 
-#' y <- head(x[, -1], 2)
+#' y <- as.matrix(apply(x, 1, mean))
 #' print(y)
 #' 
 #' finalize()
 #' }
 #' 
 #' @keywords Methods Extraction
+#' @name ddmatrix-apply
+NULL
+
+#' @name ddmatrix-apply
+#' @export
+setGeneric(name = "apply", useAsDefault = base::apply, package="pbdDMAT")
+
 #' @name ddmatrix-apply
 #' @export
 setMethod("apply", signature(X="ddmatrix"),

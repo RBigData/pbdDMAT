@@ -13,6 +13,8 @@
 #' @param nv 
 #' number of right singular vectors to return when calculating
 #' singular values.
+#' @param LINPACK
+#' Ignored.
 #' 
 #' @return 
 #' \code{La.svd()} performs singular value decomposition, and returns the

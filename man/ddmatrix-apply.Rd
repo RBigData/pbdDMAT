@@ -5,6 +5,8 @@
 \alias{ddmatrix-apply}
 \title{Apply Family of Functions}
 \usage{
+apply(X, MARGIN, FUN, ...)
+
 \S4method{apply}{ddmatrix}(X, MARGIN, FUN, ..., reduce = FALSE,
   proc.dest = "all")
 }
@@ -46,12 +48,10 @@ apply and then calling \code{as.vector()} or \code{as.matrix()}.
 library(pbdDMAT, quiet = TRUE)
 init.grid()
 
-# don't do this in production code
-x <- matrix(1:9, 3)
-x <- as.ddmatrix(x)
+x <- ddmatrix(1:9, 3)
 
-y <- head(x[, -1], 2)
-print(y)
+y <- as.vector(apply(x, 1, mean))
+comm.print(y)
 
 finalize()
 }

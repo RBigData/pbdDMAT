@@ -6,9 +6,6 @@
 \alias{lm.fit,ddmatrix,ddmatrix-method}
 \title{Fitter for Linear Models}
 \usage{
-lm.fit(x, y, offset = NULL, method = "qr", tol = 1e-07,
-  singular.ok = TRUE, ...)
-
 \S4method{lm.fit}{ddmatrix,ddmatrix}(x, y, tol = 1e-07, singular.ok = TRUE)
 }
 \arguments{

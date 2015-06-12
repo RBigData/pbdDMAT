@@ -21,6 +21,10 @@
 \S4method{eigen}{ddmatrix}(x, symmetric, only.values = FALSE)
 }
 \arguments{
+\item{x,a,b}{numeric distributed matrices.  If applicable, \code{a}
+and \code{b} must be on the same BLACS context and have the same blocking
+dimension.}
+
 \item{symmetric}{logical, if \code{TRUE} then the matrix is assumed to be
 symmetric and only the lower triangle is used.  Otherwise \code{x} is
 inspected for symmetry.}
@@ -28,19 +32,7 @@ inspected for symmetry.}
 \item{only.values}{logical, if \code{TRUE} then only the eigenvalues are
 returned.  Otherwise both eigenvalues and eigenvectors are returned.}
 
-\item{object,x,a,b}{numeric distributed matrices.  If applicable, \code{a}
-and \code{b} must be on the same BLACS context and have the same blocking
-dimension.}
-
-\item{tol}{precision tolerance.}
-
 \item{...}{additional arguments.}
-
-\item{nu}{number of left singular vectors to return when calculating
-singular values.}
-
-\item{nv}{number of right singular vectors to return when calculating
-singular values.}
 }
 \value{
 \code{t()} returns the transposed matrix.

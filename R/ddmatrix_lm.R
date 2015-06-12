@@ -69,8 +69,6 @@
 #' @export
 NULL
 
-#' @rdname lm.fit
-#' @export
 setGeneric(name = "lm.fit", useAsDefault = stats::lm.fit, package="pbdDMAT")
 
 #' @rdname lm.fit

@@ -5,20 +5,12 @@
 #' 
 #' Extensions of R linear algebra functions.
 #' 
-#' @param object,x,a,b
+#' @param x,a,b
 #' numeric distributed matrices.  If applicable, \code{a}
 #' and \code{b} must be on the same BLACS context and have the same blocking
 #' dimension.
-#' @param tol 
-#' precision tolerance.
 #' @param ... 
 #' additional arguments.
-#' @param nu 
-#' number of left singular vectors to return when calculating
-#' singular values.
-#' @param nv 
-#' number of right singular vectors to return when calculating
-#' singular values.
 #' @param symmetric 
 #' logical, if \code{TRUE} then the matrix is assumed to be
 #' symmetric and only the lower triangle is used.  Otherwise \code{x} is
