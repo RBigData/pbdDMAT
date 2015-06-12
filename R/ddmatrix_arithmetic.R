@@ -142,7 +142,7 @@ setMethod("-", signature(e1="ddmatrix", e2="ddmatrix"),
 #' @rdname arithmetic
 #' @export
 setMethod("-", signature(e1="ddmatrix", e2="missing"), 
-  function(e1){
+  function(e1, e2){
     e1@Data <- -e1@Data
     
     return(e1)

@@ -38,7 +38,7 @@
 
 \S4method{-}{ddmatrix,ddmatrix}(e1, e2)
 
-\S4method{-}{ddmatrix,missing}(e1)
+\S4method{-}{ddmatrix,missing}(e1, e2)
 
 \S4method{*}{ddmatrix,numeric}(e1, e2)
 
