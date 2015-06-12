@@ -22,6 +22,7 @@
 \alias{rowMin,matrix-method}
 \alias{rowSums}
 \alias{rowSums,ddmatrix-method}
+\alias{sd}
 \alias{sd,ANY-method}
 \alias{sd,ddmatrix-method}
 \title{Arithmetic Reductions: Sums, Means, and Prods}
@@ -65,6 +66,8 @@ colMax(x, ...)
 \S4method{colMax}{ddmatrix}(x, na.rm = FALSE)
 
 \S4method{colMin}{matrix}(x, na.rm = FALSE)
+
+sd(x, ...)
 
 \S4method{sd}{ddmatrix}(x, na.rm = FALSE, reduce = FALSE,
   proc.dest = "all")

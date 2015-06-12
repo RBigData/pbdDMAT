@@ -2,6 +2,7 @@
 % Please edit documentation in R/ddmatrix_apply.R
 \docType{methods}
 \name{ddmatrix-apply}
+\alias{apply}
 \alias{apply,ddmatrix-method}
 \alias{ddmatrix-apply}
 \title{Apply Family of Functions}

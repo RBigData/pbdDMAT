@@ -8,22 +8,12 @@ setGeneric(name = "isSymmetric", useAsDefault = base::isSymmetric, package="pbdD
 
 
 # Stats
-setGeneric(name = "scale", useAsDefault = base::scale, package="pbdDMAT")
-setGeneric(name = "prcomp", useAsDefault = stats::prcomp, package="pbdDMAT")
-setGeneric(name = "scale", useAsDefault = base::scale, package="pbdDMAT")
 setGeneric(name = "sweep", useAsDefault = base::sweep, package="pbdDMAT")
 
-setGeneric(name="sd", 
-  function(x, ...)
-    standardGeneric("sd"),
-  package="pbdDMAT"
-)
 
 
 
 # Algebra
-setGeneric(name = "crossprod", useAsDefault = base::crossprod, package="pbdDMAT")
-setGeneric(name = "tcrossprod", useAsDefault = base::tcrossprod, package="pbdDMAT")
 setGeneric(name = "solve", useAsDefault = base::solve, package="pbdDMAT")
 setGeneric(name = "chol", useAsDefault = base::chol, package="pbdDMAT")
 setGeneric(name = "chol2inv", useAsDefault = base::chol2inv, package="pbdDMAT")
@@ -64,13 +54,6 @@ setMethod("svd", signature(x="ANY"),
     base::svd(x=x, nu=nu, nv=nv, LINPACK=LINPACK)
   }
 )
-
-setGeneric(name="expm", 
-  function(x, y, ...) 
-    standardGeneric("expm"), 
-  package="pbdDMAT"
-)
-
 
 
 

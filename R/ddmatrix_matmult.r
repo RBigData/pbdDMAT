@@ -105,6 +105,15 @@ dmat.crossprod <- function(trans, x)
 
 
 
+
+
+
+#' @rdname matmult
+#' @export
+setGeneric(name = "crossprod", useAsDefault = base::crossprod, package="pbdDMAT")
+
+
+
 #' @rdname matmult
 #' @export
 setMethod("crossprod", signature(x="ddmatrix", y="ANY"), 
@@ -129,6 +138,12 @@ setMethod("crossprod", signature(x="ddmatrix", y="ANY"),
     }
   }
 )
+
+
+
+#' @rdname matmult
+#' @export
+setGeneric(name = "tcrossprod", useAsDefault = base::tcrossprod, package="pbdDMAT")
 
 
 

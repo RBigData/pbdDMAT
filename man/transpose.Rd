@@ -2,6 +2,7 @@
 % Please edit documentation in R/ddmatrix_transpose.r
 \docType{methods}
 \name{transpose}
+\alias{t}
 \alias{t,ddmatrix-method}
 \alias{transpose}
 \title{Distributed Matrix Transpose}

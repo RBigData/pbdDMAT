@@ -3,6 +3,7 @@
 \docType{methods}
 \name{ddmatrix-summary}
 \alias{ddmatrix-summary}
+\alias{summary}
 \alias{summary,ddmatrix-method}
 \title{Distributed Matrix Summary}
 \usage{

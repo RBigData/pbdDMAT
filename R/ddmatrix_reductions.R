@@ -476,6 +476,16 @@ setMethod("colMin", signature(x="matrix"),
     apply(X=x, MARGIN=2L, FUN=max, na.rm=na.rm)
 )
 
+
+
+#' @rdname reductions
+#' @export
+setGeneric(name="sd", 
+  function(x, ...)
+    standardGeneric("sd"),
+  package="pbdDMAT"
+)
+
 #' @rdname reductions
 #' @export
 setMethod("sd", signature(x="ddmatrix"),

@@ -52,6 +52,10 @@
 #' @keywords Methods Extraction
 #' @name ddmatrix-apply
 #' @rdname ddmatrix-apply
+NULL
+
+
+#' @rdname ddmatrix-apply
 #' @export
 setGeneric(name = "apply", useAsDefault = base::apply, package="pbdDMAT")
 

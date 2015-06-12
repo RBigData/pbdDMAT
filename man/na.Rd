@@ -3,6 +3,7 @@
 \docType{methods}
 \name{na}
 \alias{na}
+\alias{na.exclude}
 \alias{na.exclude,ddmatrix-method}
 \title{Handle Missing Values in Distributed Matrices}
 \usage{

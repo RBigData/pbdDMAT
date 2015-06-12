@@ -31,6 +31,11 @@
 #' @keywords Methods Linear Algebra
 #' @name transpose
 #' @rdname transpose
+NULL
+
+
+
+#' @rdname transpose
 #' @export
 setGeneric(name = "t", useAsDefault = base::t, package="pbdDMAT")
 

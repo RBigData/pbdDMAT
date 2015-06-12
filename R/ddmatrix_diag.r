@@ -58,6 +58,11 @@
 #' @keywords Methods Extraction
 #' @name diag-constructors
 #' @rdname diag-constructors
+NULL
+
+
+
+#' @rdname diag-constructors
 #' @export
 setGeneric(name="diag",
   function(x, ...)

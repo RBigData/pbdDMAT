@@ -5,29 +5,37 @@
 #' 
 #' Extensions of R linear algebra functions.
 #' 
-#' @name LinAlg
 #' @aliases LinAlg isSymmetric-method
 #' isSymmetric,ddmatrix-method isSymmetric solve-method
 #' solve,ddmatrix,ddmatrix-method solve,ddmatrix,ANY-method solve La.svd-method
 #' La.svd,ddmatrix-method La.svd svd-method svd,ddmatrix-method svd
 #' eigen-method eigen,ddmatrix-method eigen chol-method chol,ddmatrix-method
 #' chol lu-method lu,ddmatrix-method lu
-#' @docType methods
-#' @param object,x,a,b numeric distributed matrices.  If applicable, \code{a}
+#' 
+#' @param object,x,a,b 
+#' numeric distributed matrices.  If applicable, \code{a}
 #' and \code{b} must be on the same BLACS context and have the same blocking
 #' dimension.
-#' @param tol precision tolerance.
-#' @param ... additional arguments.
-#' @param nu number of left singular vectors to return when calculating
+#' @param tol 
+#' precision tolerance.
+#' @param ... 
+#' additional arguments.
+#' @param nu 
+#' number of left singular vectors to return when calculating
 #' singular values.
-#' @param nv number of right singular vectors to return when calculating
+#' @param nv 
+#' number of right singular vectors to return when calculating
 #' singular values.
-#' @param symmetric logical, if \code{TRUE} then the matrix is assumed to be
+#' @param symmetric 
+#' logical, if \code{TRUE} then the matrix is assumed to be
 #' symmetric and only the lower triangle is used.  Otherwise \code{x} is
 #' inspected for symmetry.
-#' @param only.values logical, if \code{TRUE} then only the eigenvalues are
+#' @param only.values 
+#' logical, if \code{TRUE} then only the eigenvalues are
 #' returned.  Otherwise both eigenvalues and eigenvectors are returned.
-#' @return \code{t()} returns the transposed matrix.
+#' 
+#' @return 
+#' \code{t()} returns the transposed matrix.
 #' 
 #' \code{solve()} solves systems and performs matrix inversion when argument
 #' \code{b=} is missing.
@@ -77,7 +85,9 @@
 #' finalize()
 #' }
 #' 
-
+#' @name linlalg
+#' @rdname linalg
+NULL
 
 
 # inversion
@@ -99,7 +109,70 @@ setMethod("solve", signature(a="ddmatrix"),
   }
 )
 
+# Solving systems
+setMethod("solve", signature(a="ddmatrix", b="ddmatrix"), 
+  function(a, b)
+  {
+    base.checkem(x=a, y=b, checks=2:3)
+    
+    # Matrix descriptors
+    desca <- base.descinit(dim=a@dim, bldim=a@bldim, ldim=a@ldim, ICTXT=a@ICTXT)
+    descb <- base.descinit(dim=b@dim, bldim=b@bldim, ldim=b@ldim, ICTXT=b@ICTXT)
+    
+    n <- desca[4L]
+    nrhs <- descb[4L]
+    
+    ret <- base.rpdgesv(n=n, nrhs=nrhs, a=a@Data, desca=desca, b=b@Data, descb=descb)
+    
+    b@Data <- ret
+    
+    return( b )
+  }
+)
 
+
+
+#' Inverse from Choleski (or QR) Decomposition
+#' 
+#' \code{qr()} takes the QR decomposition.
+#' 
+#' The function returns the inverse of a choleski factored matrix, or the
+#' inverse of \code{crossprod(x)} if \code{qr.R(qr(x))} is passed.
+#' 
+#' @name chol2inv
+#' @aliases chol2inv chol2inv-method chol2inv,ddmatrix-method chol2inv
+#' @docType methods
+#' @param x numeric distributed matrices for
+#' @param size number of columns of \code{x} containing the Choleski
+#' factorization.
+#' @return A numeric distributed matrix.
+#' @section Methods: \describe{ \item{list("signature(x = \"ddmatrix\")")}{}
+#' \item{list("signature(x = \"ANY\")")}{} }
+#' @seealso \code{\link{lm.fit}}
+#' @keywords Methods Linear Algebra
+#' @examples
+#' 
+#' \dontrun{
+#' # Save code in a file "demo.r" and run with 2 processors by
+#' # > mpiexec -np 2 Rscript demo.r
+#' 
+#' library(pbdDMAT, quiet = TRUE)
+#' init.grid()
+#' 
+#' comm.set.seed(diff=T)
+#' x <- ddmatrix("rnorm", 3, 3)
+#' 
+#' R <- qr.R(qr(x))
+#' xtx.inv <- chol2inv(R)
+#' 
+#' id <- xtx.inv %*% crossprod(x)
+#' 
+#' print(id)
+#' 
+#' finalize()
+#' }
+#' 
+NULL
 
 # inversion via a cholesky, or inversion of crossprod(x) via qr
 setMethod("chol2inv", signature(x="ddmatrix"), 
@@ -131,31 +204,6 @@ setMethod("chol2inv", signature(x="ddmatrix"),
 
 
 
-# ################################################
-# ------------------------------------------------
-# Solving systems
-# ------------------------------------------------
-# ################################################
-
-setMethod("solve", signature(a="ddmatrix", b="ddmatrix"), 
-  function(a, b)
-  {
-    base.checkem(x=a, y=b, checks=2:3)
-    
-    # Matrix descriptors
-    desca <- base.descinit(dim=a@dim, bldim=a@bldim, ldim=a@ldim, ICTXT=a@ICTXT)
-    descb <- base.descinit(dim=b@dim, bldim=b@bldim, ldim=b@ldim, ICTXT=b@ICTXT)
-    
-    n <- desca[4L]
-    nrhs <- descb[4L]
-    
-    ret <- base.rpdgesv(n=n, nrhs=nrhs, a=a@Data, desca=desca, b=b@Data, descb=descb)
-    
-    b@Data <- ret
-    
-    return( b )
-  }
-)
 
 
 
@@ -488,116 +536,6 @@ setMethod("isSymmetric", signature(object="ddmatrix"),
     test <- all.equal(object, t(object), tolerance = tol, ...)
     
     isTRUE(test)
-  }
-)
-
-
-
-setMethod("norm", signature(x="ddmatrix"), 
-  function (x, type = c("O", "I", "F", "M", "2")) 
-  {
-    if (identical("2", type))
-      ret <- svd(x, nu = 0L, nv = 0L)$d[1L]
-    else {
-      m <- x@dim[1L]
-      n <- x@dim[2L]
-      
-      desca <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
-      
-      ret <- base.rpdlange(norm=type, m=m, n=n, a=x@Data, desca=desca)
-    }
-    
-    return( ret )
-  }
-)
-
-
-
-# kappa* sources lifted heavily from R's kappa.default function
-
-.kappa_tri2 <- function (z, exact = FALSE, norm = NULL, ...) 
-{
-  if (exact) {
-    stopifnot(is.null(norm) || identical("2", norm))
-    kappa.default(z, exact = TRUE)
-  } else {
-    p <- as.integer(nrow(z))
-    if (is.na(p)) 
-        comm.stop("invalid nrow(x)")
-    if (p != ncol(z)) 
-        comm.stop("triangular matrix should be square")
-    if (is.null(norm)) 
-        norm <- "1"
-    else {
-      desca <- base.descinit(dim=z@dim, bldim=z@bldim, ldim=z@ldim, ICTXT=z@ICTXT)
-      n <- z@dim[2L]
-      
-      1/base.rpdtrcon(norm=norm, uplo='U', diag='N', n=n, a=z@Data, desca=desca)
-    }
-  }
-}
-
-
-
-kappa.qr2 <- function (z, ...) 
-{
-    R <- qr.R(z, complete=FALSE)
-    .kappa_tri2(R, ...)
-}
-
-
-
-kappa.ddmatrix <- function (z, exact = FALSE, norm = NULL, method = c("qr", "direct"), ...) 
-{
-  method <- match.arg(method)
-  norm <- if (!is.null(norm)) 
-            match.arg(norm, c("2", "1", "O", "I"))
-          else 
-            "2"
-  if (exact && norm == "2") {
-    s <- svd(z, nu = 0, nv = 0)$d
-    max(s)/min(s[s > 0])
-  } else {
-    if (exact) 
-      comm.warning(gettextf("norm '%s' currently always uses exact = FALSE", norm))
-    if (norm=="2")
-      norm <- "O"
-    d <- dim(z)
-    if (method == "qr" || d[1L] != d[2L]) 
-      kappa.qr2(qr(if (d[1L] < d[2L]) t(z) else z), exact = FALSE, norm = norm, ...)
-    else 
-      .kappa_tri2(z, exact = FALSE, norm = norm, ...)
-  }
-}
-
-
-
-setMethod("rcond", signature(x="ddmatrix"),
-  function (x, norm = c("O", "I", "1"), triangular = FALSE, ...) 
-  {
-    norm <- match.arg(norm)
-    d <- x@dim
-    
-    if (d[1L] != d[2L]){
-      x <- qr.R(qr(if (d[1L] < d[2L]) t(x) else x))
-      triangular <- TRUE
-    }
-    if (triangular) {
-      desca <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
-      n <- x@dim[2L]
-      
-      ret <- base.rpdtrcon(norm=norm, uplo='U', diag='N', n=n, a=x@Data, desca=desca)
-    }
-    else {
-      desca <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
-      
-      m <- x@dim[1L]
-      n <- x@dim[2L]
-      
-      ret <- base.rpdgecon(norm=norm, m=m, n=n, a=x@Data, desca=desca)
-    }
-    
-    return( ret )
   }
 )
 

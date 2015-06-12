@@ -201,6 +201,8 @@ dmat.scale.scale.ddmatrix <- function(x, scale)
 
 
 # Abandan hope all ye who enter in
+
+
 #' Scale
 #' 
 #' Centers and/or scales the columns of a distributed matrix.
@@ -237,6 +239,19 @@ dmat.scale.scale.ddmatrix <- function(x, scale)
 #' finalize()
 #' }
 #' 
+#' @name ddmatrix-scale
+#' @rdname ddmatrix-scale
+NULL
+
+
+
+#' @rdname ddmatrix-scale
+#' @export
+setGeneric(name = "scale", useAsDefault = base::scale, package="pbdDMAT")
+
+
+
+#' @rdname ddmatrix-scale
 #' @export
 setMethod("scale", signature(x="ddmatrix", center="ANY", scale="ANY"),
   function(x, center=TRUE, scale=TRUE)

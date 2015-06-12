@@ -1,6 +1,40 @@
-# Matrix exponentiation using Pade' approximations and scaling and squaring from:
-# "New Scaling and Squaring Algorithm for the Matrix Exponential"
-# Awad H. Al-Mohy and Nicholas J. Higham, August 2009
+#' Matrix Exponentiation
+#' 
+#' Routines for matrix exponentiation.
+#' 
+#' Formally, the exponential of a square matrix \code{X} is a power series:
+#' 
+#' \eqn{expm(X) = id + X/1! + X^2/2! + X^3/3! + \dots}
+#' 
+#' where the powers on the matrix correspond to matrix-matrix multiplications.
+#' 
+#' \code{expm()} directly computes the matrix exponential of a distributed,
+#' dense matrix.  The implementation uses Pade' approximations and a
+#' scaling-and-squaring technique (see references).
+#' 
+#' @references
+#' "New Scaling and Squaring Algorithm for the Matrix Exponential"
+#' Awad H. Al-Mohy and Nicholas J. Higham, August 2009
+#' 
+#' @param x 
+#' A numeric matrix or a numeric distributed matrix.
+#' 
+#' @return 
+#' Returns a distributed matrix.
+#' 
+#' @keywords Methods Linear Algebra
+#' @seealso \code{\link{Arithmetic}, \link{Reductions}, \link{MatMult},
+#' \link{LinAlg}}
+#' @name expm
+#' @rdname expm
+#' @export
+setGeneric(name="expm", 
+  function(x, y, ...) 
+    standardGeneric("expm"), 
+  package="pbdDMAT"
+)
+
+
 
 
 
@@ -58,6 +92,8 @@ p_matexp_pade <- function(A, p)
 
 
 
+#' @rdname expm
+#' @export
 setMethod("expm", signature(x="matrix", y="missing"), 
   function(x, t=1, p=6)
   {
@@ -75,6 +111,8 @@ setMethod("expm", signature(x="matrix", y="missing"),
 
 
 
+#' @rdname expm
+#' @export
 setMethod("expm", signature(x="ddmatrix", y="missing"), 
   function(x, t=1, p=6)
   {

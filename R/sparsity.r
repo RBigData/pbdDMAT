@@ -1,3 +1,34 @@
+#' Sparsity of Matrix Objects
+#' 
+#' Determine the sparsity of a matrix, distributed, dense, or otherwise.
+#' 
+#' The sparsity count of a matrix is returned.
+#' 
+#' @aliases sparsity-method sparsity,vector-method sparsity,matrix-method
+#' sparsity,dmat-method sparsity
+#' 
+#' @param x 
+#' numeric matrix
+#' @param count 
+#' character; options are "zero" and "other". The former counts
+#' the number of zeros, while the latter counts the number of non-zeros
+#' ('other' elements).
+#' @param out 
+#' character; options are "count", "proportion", and "percent". This
+#' determines whether a pure count, proportion of \code{count} elements in the
+#' matrix, or percentage of \code{count} elements in the matrix.
+#' @param tol 
+#' numeric; the tolerance for numerical zero. This is ignored if the
+#' input data is integer/logical.
+#' 
+#' @keywords Methods,Sparse
+#' 
+#' @name sparsity
+#' @rdname sparsity
+NULL
+
+
+
 sparse_count_zeros <- function(x, tol=.Machine$double.eps)
 {
   if (is.logical(x))
@@ -43,6 +74,8 @@ calc_sparsity_return <- function(n, dim, count, out)
 
 
 
+#' @rdname sparsity
+#' @export
 setMethod("sparsity", signature(x="matrix"), 
   function(x, count="zero", out="count", tol=.Machine$double.eps)
   {
@@ -58,6 +91,8 @@ setMethod("sparsity", signature(x="matrix"),
 
 
 
+#' @rdname sparsity
+#' @export
 setMethod("sparsity", signature(x="vector"), 
   function(x, count="zero", out="count", tol=.Machine$double.eps)
   {
@@ -73,6 +108,8 @@ setMethod("sparsity", signature(x="vector"),
 
 
 
+#' @rdname sparsity
+#' @export
 setMethod("sparsity", signature(x="dmat"), 
   function(x, count="zero", out="count", tol=.Machine$double.eps)
   {

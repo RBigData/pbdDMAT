@@ -46,6 +46,11 @@
 #' @seealso \code{\link{Type}}
 #' @name na
 #' @rdname na
+NULL
+
+
+
+#' @rdname na
 #' @export
 setGeneric(name = "na.exclude", useAsDefault = stats::na.exclude, package="pbdDMAT")
 

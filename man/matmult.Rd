@@ -3,14 +3,20 @@
 \docType{methods}
 \name{matmult}
 \alias{\%*\%,ddmatrix,ddmatrix-method}
+\alias{crossprod}
 \alias{crossprod,ddmatrix-method}
 \alias{matmult}
+\alias{tcrossprod}
 \alias{tcrossprod,ddmatrix-method}
 \title{Matrix Multiplication}
 \usage{
 \S4method{\%*\%}{ddmatrix,ddmatrix}(x, y)
 
+crossprod(x, y = NULL, ...)
+
 \S4method{crossprod}{ddmatrix}(x, y = NULL)
+
+tcrossprod(x, y = NULL, ...)
 
 \S4method{tcrossprod}{ddmatrix}(x, y = NULL)
 }

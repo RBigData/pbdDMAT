@@ -3,6 +3,7 @@
 \docType{methods}
 \name{ddmatrix-print}
 \alias{ddmatrix-print}
+\alias{print}
 \alias{print,ddmatrix-method}
 \alias{show,ddmatrix-method}
 \title{Printing a Distributed Matrix}

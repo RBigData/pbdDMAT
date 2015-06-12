@@ -32,6 +32,11 @@
 #' @keywords Methods
 #' @name ddmatrix-summary
 #' @rdname ddmatrix-summary
+NULL
+
+
+
+#' @rdname ddmatrix-summary
 #' @export
 setGeneric(name = "summary", useAsDefault = base::summary, package="pbdDMAT")
 

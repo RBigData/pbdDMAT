@@ -45,6 +45,11 @@
 #' @keywords Methods
 #' @name ddmatrix-print
 #' @rdname ddmatrix-print
+NULL
+
+
+
+#' @rdname ddmatrix-print
 #' @export
 setGeneric(name = "print", useAsDefault = base::print, package="pbdDMAT")
 

@@ -53,6 +53,19 @@
 #' finalize()
 #' }
 #' 
+#' @name ddmatrix-prcomp
+#' @rdname ddmatrix-prcomp
+NULL
+
+
+
+#' @rdname ddmatrix-prcomp
+#' @export
+setGeneric(name = "prcomp", useAsDefault = stats::prcomp, package="pbdDMAT")
+
+
+
+#' @rdname ddmatrix-prcomp
 #' @export
 setMethod("prcomp", signature(x="ddmatrix"),
   function(x, retx=TRUE, center=TRUE, scale.=FALSE, tol=NULL) 
