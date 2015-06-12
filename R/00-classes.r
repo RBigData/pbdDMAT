@@ -57,7 +57,6 @@ setClass(Class="dmat",
 #' Distributed matrix class.
 #' 
 #' @name ddmatrix-class
-#' @seealso \code{\link{SlotAccessors}}
 #' @keywords Classes
 setClass(
   Class="ddmatrix", 

@@ -13,28 +13,27 @@
 #' Functions for forming a QR decomposition and for using the outputs of these
 #' numerical QR routines.
 #' 
-#' @aliases QR qr-method qr,ddmatrix-method qr qr.Q-method qr.Q,ANY-method qr.Q
-#' qr.R-method qr.R,ANY-method qr.R qr.qy-method qr.qy,ANY-method qr.qy
-#' qr.qty-method qr.qty,ANY-method qr.qty
-#' @docType methods
-#' @param x,y numeric distributed matrices for \code{qr()}. Otherwise, \code{x}
+#' @param x,y 
+#' numeric distributed matrices for \code{qr()}. Otherwise, \code{x}
 #' is a list, namely the return from \code{qr()}.
-#' @param tol logical value, determines whether or not columns are zero
+#' @param tol 
+#' logical value, determines whether or not columns are zero
 #' centered.
-#' @param complete logical expression of length 1.  Indicates whether an
+#' @param complete 
+#' logical expression of length 1.  Indicates whether an
 #' arbitrary orthogonal completion of the Q or X matrices is to be made, or
 #' whether the R matrix is to be completed by binding zero-value rows beneath
 #' the square upper triangle.
-#' @param Dvec Not implemented for objects of class \code{ddmatrix}.  vector
+#' @param Dvec 
+#' Not implemented for objects of class \code{ddmatrix}.  vector
 #' (not matrix) of diagonal values.  Each column of the returned Q will be
 #' multiplied by the corresponding diagonal value.  Defaults to all 1's.
-#' @return \code{qr()} returns a list consisting of: \code{qr} - \code{rank} -
+#' 
+#' @return 
+#' \code{qr()} returns a list consisting of: \code{qr} - \code{rank} -
 #' calculated numerical rank, \code{tau} - \code{pivot} - \code{"class"} -
 #' attribute "qr".
-#' @section Methods: \describe{ \item{list("signature(x = \"ddmatrix\")")}{}
-#' \item{list("signature(x = \"ANY\")")}{} }
-#' @seealso \code{\link{lm.fit}}
-#' @keywords Methods Linear Algebra
+#' 
 #' @examples
 #' 
 #' \dontrun{
@@ -54,6 +53,7 @@
 #' finalize()
 #' }
 #' 
+#' @keywords Methods Linear Algebra
 #' @name qr
 #' @rdname qr
 NULL

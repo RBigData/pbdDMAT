@@ -74,9 +74,6 @@ print(dx)
 finalize()
 }
 }
-\seealso{
-\code{\link{Distribute}}
-}
 \keyword{Data}
 \keyword{Distributing}
 

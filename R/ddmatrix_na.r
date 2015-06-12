@@ -43,7 +43,6 @@
 #' }
 #' 
 #' @keywords Methods Extraction Type
-#' @seealso \code{\link{Type}}
 #' @name na
 #' @rdname na
 NULL

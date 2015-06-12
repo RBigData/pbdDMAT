@@ -75,9 +75,6 @@ print(fit)
 finalize()
 }
 }
-\seealso{
-\code{\link{QR}}
-}
 \keyword{Extraction}
 \keyword{Methods}
 

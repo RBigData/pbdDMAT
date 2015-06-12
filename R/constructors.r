@@ -70,7 +70,6 @@
 #' finalize()
 #' }
 #' 
-#' @seealso \code{\link{as.ddmatrix}}
 #' @keywords Data Generation
 #' @name ddmatrix-constructors
 #' @rdname ddmatrix-constructors

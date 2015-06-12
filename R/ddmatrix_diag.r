@@ -54,7 +54,6 @@
 #' finalize()
 #' }
 #' 
-#' @seealso \code{\link{Extract}}
 #' @keywords Methods Extraction
 #' @name diag-constructors
 #' @rdname diag-constructors

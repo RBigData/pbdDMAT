@@ -92,8 +92,7 @@ dmat.redistribute <- dmat.reblock
 #' 
 #' Very general redistributions can be done with \code{redistribute()}, but
 #' thinking in these terms is an acquired skill.  For this reason, several
-#' simple interfaces to this function have been written.  See
-#' \link{SimpleRedistributions} for details.
+#' simple interfaces to this function have been written.
 #' 
 #' @param x 
 #' a numeric matrix
@@ -110,8 +109,6 @@ dmat.redistribute <- dmat.reblock
 #' 
 #' @return 
 #' Returns a distributed matrix.
-#' 
-#' @seealso \code{\link{as.ddmatrix}}
 #' 
 #' @keywords BLACS Distributing Data
 #' 
@@ -158,7 +155,7 @@ redistribute <- dmat.reblock
 #' BLACS context, using a (possibly) new blocking dimension.
 #' 
 #' These functions are simple wrappers of the very general
-#' \code{redistribute()} funciton (see \link{Distribute}).  Different
+#' \code{redistribute()} funciton.  Different
 #' distributed matrix distributions of note can be classified into three
 #' categories: block, cyclic, and block-cyclic.
 #' 
@@ -205,8 +202,6 @@ redistribute <- dmat.reblock
 #' 
 #' @return 
 #' Returns a distributed matrix.
-#' 
-#' @seealso \code{\link{as.ddmatrix}, \link{Distribute}}
 #' 
 #' @keywords BLACS Distributing Data
 #' 

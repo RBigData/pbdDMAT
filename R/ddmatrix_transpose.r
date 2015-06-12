@@ -26,8 +26,6 @@
 #' finalize()
 #' }
 #' 
-#' @seealso \code{\link{Arithmetic}, \link{Reductions}, \link{MatMult},
-#' \link{MiscMath}}
 #' @keywords Methods Linear Algebra
 #' @name transpose
 #' @rdname transpose

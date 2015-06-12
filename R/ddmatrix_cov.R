@@ -48,7 +48,6 @@
 #' finalize()
 #' }
 #' 
-#' @seealso \code{\link{prcomp}}
 #' @keywords Methods
 #' @name covariance
 #' @rdname covariance

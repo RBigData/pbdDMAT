@@ -5,26 +5,15 @@
 #' 
 #' Performs the miscellaneous mathematical calculation on a distributed matrix.
 #' 
-#' @name MiscMath
-#' @aliases MiscMath abs-method abs,ddmatrix-method abs sqrt-method
-#' sqrt,ddmatrix-method sqrt exp-method exp,ddmatrix-method exp log-method
-#' log,ddmatrix-method log log2-method log2,ddmatrix-method log2 log10-method
-#' log10,ddmatrix-method log10 log1p-method log1p,ddmatrix-method log1p
-#' sin-method sin,ddmatrix-method sin cos-method cos,ddmatrix-method cos
-#' tan-method tan,ddmatrix-method tan asin-method asin,ddmatrix-method asin
-#' acos-method acos,ddmatrix-method acos atan-method atan,ddmatrix-method atan
-#' sinh-method sinh,ddmatrix-method sinh cosh-method cosh,ddmatrix-method cosh
-#' tanh-method tanh,ddmatrix-method tanh
-#' @docType methods
-#' @param x numeric distributed matrix
-#' @param base a positive number: the base with respect to which logarithms are
+#' @param x 
+#' numeric distributed matrix
+#' @param base 
+#' a positive number: the base with respect to which logarithms are
 #' computed. Defaults to e='exp(1)'.
-#' @return Returns a distributed matrix.
-#' @section Methods: \describe{ \item{list("signature(x = \"ddmatrix\")")}{} }
-#' @seealso \code{\link{Arithmetic}, \link{Reductions}}
-#' @keywords Methods
-#' @examples
 #' 
+#' @return Returns a distributed matrix.
+#' 
+#' @examples
 #' \dontrun{
 #' # Save code in a file "demo.r" and run with 2 processors by
 #' # > mpiexec -np 2 Rscript demo.r
@@ -42,6 +31,7 @@
 #' finalize()
 #' }
 #' 
+#' @keywords Methods
 #' @name math
 #' @rdname math
 NULL

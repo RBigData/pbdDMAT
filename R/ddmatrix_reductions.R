@@ -54,7 +54,6 @@
 #' finalize()
 #' }
 #' 
-#' @seealso \code{\link{Arithmetic}}
 #' @keywords Methods
 #' @name reductions
 #' @rdname reductions

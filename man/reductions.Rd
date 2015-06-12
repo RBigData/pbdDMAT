@@ -130,8 +130,5 @@ comm.print(y)
 finalize()
 }
 }
-\seealso{
-\code{\link{Arithmetic}}
-}
 \keyword{Methods}
 

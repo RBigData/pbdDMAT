@@ -3,25 +3,25 @@
 #' Computes or estimates the condition number.
 #' 
 #' 
-#' @name kappa
-#' @aliases ConditionNumbers kappa.ddmatrix kappa rcond-method
-#' rcond,ddmatrix-method rcond
-#' @docType methods
-#' @param x,z numeric distributed matrices.
-#' @param exact logical. Determines whether exact condition number or
+#' @param x,z 
+#' numeric distributed matrices.
+#' @param exact 
+#' logical. Determines whether exact condition number or
 #' approximation should be computed.
-#' @param norm character. Determines which matrix norm is to be used.
-#' @param method character. Determines the method use in computing condition
+#' @param norm 
+#' character. Determines which matrix norm is to be used.
+#' @param method 
+#' character. Determines the method use in computing condition
 #' number.
-#' @param triangular logical. If true, only the lower triangle is used.
-#' @param ... Extra arguments.
-#' @return Returns a number.
-#' @section Methods: \describe{ \item{list("signature(x = \"ddmatrix\")")}{}
-#' \item{list("signature(z = \"ddmatrix\")")}{} }
-#' @seealso \code{\link{Norm}}
-#' @keywords Methods Linear Algebra ConditionNumbers
-#' @examples
+#' @param triangular 
+#' logical. If true, only the lower triangle is used.
+#' @param ... 
+#' Extra arguments.
 #' 
+#' @return 
+#' Returns a number.
+#' 
+#' @examples
 #' \dontrun{
 #' # Save code in a file "demo.r" and run with 2 processors by
 #' # > mpiexec -np 2 Rscript demo.r
@@ -39,12 +39,21 @@
 #' finalize()
 #' }
 #' 
+#' @keywords Methods Linear Algebra ConditionNumbers
+#' @name condnums
+#' @rdname condnums
+NULL
+
+
+
+#' @rdname condnums
+#' @export
+setGeneric(name = "rcond", useAsDefault = base::rcond, package="pbdDMAT")
 
 
 
 
 # kappa* sources lifted heavily from R's kappa.default function
-
 .kappa_tri2 <- function (z, exact = FALSE, norm = NULL, ...) 
 {
   if (exact) {
@@ -77,6 +86,8 @@ kappa.qr2 <- function (z, ...)
 
 
 
+#' @rdname condnums
+#' @export
 kappa.ddmatrix <- function (z, exact = FALSE, norm = NULL, method = c("qr", "direct"), ...) 
 {
   method <- match.arg(method)
@@ -102,6 +113,8 @@ kappa.ddmatrix <- function (z, exact = FALSE, norm = NULL, method = c("qr", "dir
 
 
 
+#' @rdname condnums
+#' @export
 setMethod("rcond", signature(x="ddmatrix"),
   function (x, norm = c("O", "I", "1"), triangular = FALSE, ...) 
   {

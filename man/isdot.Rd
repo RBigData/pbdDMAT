@@ -33,9 +33,6 @@ Functions to check for various types.
 \details{
 Performs the appropriate type check.
 }
-\seealso{
-\code{\link{NAs}}
-}
 \keyword{Methods}
 \keyword{Type}
 

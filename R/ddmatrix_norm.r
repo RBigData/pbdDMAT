@@ -1,20 +1,16 @@
-
 #' Compute the Norm of a Distributed Matrix
 #' 
 #' Computes the norm.
 #' 
 #' 
-#' @name Norm
-#' @aliases Norm norm norm-method norm,ddmatrix-method norm
-#' @docType methods
-#' @param x numeric distributed matrices.
-#' @param type character. Determines which matrix norm is to be used.
-#' @return Returns a number.
-#' @section Methods: \describe{ \item{list("signature(x = \"ddmatrix\")")}{} }
-#' @seealso \code{\link{ConditionNumbers}}
-#' @keywords Methods Linear Algebra Norm
-#' @examples
+#' @param x 
+#' numeric distributed matrices.
+#' @param type 
+#' character. Determines which matrix norm is to be used.
 #' 
+#' @return Returns a number.
+#' 
+#' @examples
 #' \dontrun{
 #' # Save code in a file "demo.r" and run with 2 processors by
 #' # > mpiexec -np 2 Rscript demo.r
@@ -32,11 +28,21 @@
 #' finalize()
 #' }
 #' 
+#' @keywords Methods Linear Algebra Norm
+#' @name Norm
+#' @rdname Norm
 NULL
 
 
 
+#' @rdname Norm
+#' @export
+setGeneric(name = "norm", useAsDefault = base::norm, package="pbdDMAT")
 
+
+
+#' @rdname Norm
+#' @export
 setMethod("norm", signature(x="ddmatrix"), 
   function (x, type = c("O", "I", "F", "M", "2")) 
   {

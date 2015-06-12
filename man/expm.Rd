@@ -37,10 +37,6 @@ scaling-and-squaring technique (see references).
 "New Scaling and Squaring Algorithm for the Matrix Exponential"
 Awad H. Al-Mohy and Nicholas J. Higham, August 2009
 }
-\seealso{
-\code{\link{Arithmetic}, \link{Reductions}, \link{MatMult},
-\link{LinAlg}}
-}
 \keyword{Algebra}
 \keyword{Linear}
 \keyword{Methods}

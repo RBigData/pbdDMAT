@@ -7,6 +7,8 @@
 \alias{sweep,ddmatrix,ANY,vector-method}
 \title{Sweep}
 \usage{
+sweep(x, MARGIN, STATS, FUN = "-", check.margin = TRUE, ...)
+
 \S4method{sweep}{ddmatrix,ANY,vector}(x, MARGIN, STATS, FUN = "-")
 
 \S4method{sweep}{ddmatrix,ANY,ddmatrix}(x, MARGIN, STATS, FUN = "-")

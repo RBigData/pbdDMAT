@@ -60,8 +60,7 @@ process in common. Likewise for \code{redistribute()} with \code{xCTXT} and
 
 Very general redistributions can be done with \code{redistribute()}, but
 thinking in these terms is an acquired skill.  For this reason, several
-simple interfaces to this function have been written.  See
-\link{SimpleRedistributions} for details.
+simple interfaces to this function have been written.
 }
 \examples{
 \dontrun{
@@ -86,9 +85,6 @@ print(dx)
 
 finalize()
 }
-}
-\seealso{
-\code{\link{as.ddmatrix}}
 }
 \keyword{BLACS}
 \keyword{Data}

@@ -81,8 +81,5 @@ print(cv)
 finalize()
 }
 }
-\seealso{
-\code{\link{prcomp}}
-}
 \keyword{Methods}
 

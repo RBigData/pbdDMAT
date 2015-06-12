@@ -40,8 +40,6 @@
 #'   \code{df.residual} \tab (global numeric) degrees of freedom of residuals\cr
 #' }
 #' 
-#' @seealso \code{\link{QR}}
-#' 
 #' @keywords Methods Extraction
 #' 
 #' @examples

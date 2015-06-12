@@ -1,24 +1,14 @@
 ### S4 methods
 
 # Misc
-setGeneric(name = "all.equal", useAsDefault = base::all.equal, package="pbdDMAT")
 setGeneric(name = "isSymmetric", useAsDefault = base::isSymmetric, package="pbdDMAT")
 #setGeneric(name = "polyroot", useAsDefault = base::polyroot, package="pbdDMAT")
-
-
-
-# Stats
-setGeneric(name = "sweep", useAsDefault = base::sweep, package="pbdDMAT")
-
 
 
 
 # Algebra
 setGeneric(name = "solve", useAsDefault = base::solve, package="pbdDMAT")
 setGeneric(name = "chol", useAsDefault = base::chol, package="pbdDMAT")
-setGeneric(name = "chol2inv", useAsDefault = base::chol2inv, package="pbdDMAT")
-setGeneric(name = "norm", useAsDefault = base::norm, package="pbdDMAT")
-setGeneric(name = "rcond", useAsDefault = base::rcond, package="pbdDMAT")
 #setGeneric(name = "lu", useAsDefault = Matrix::lu, package="pbdDMAT")
 setGeneric(name="lu", function(x, ...) standardGeneric("lu"), package="pbdDMAT")
 setGeneric(name = "eigen", useAsDefault = base::eigen, package="pbdDMAT")

@@ -4,9 +4,13 @@
 \name{Norm}
 \alias{Norm}
 \alias{norm}
-\alias{norm,ddmatrix-method}
-\alias{norm-method}
+\alias{norm,ddmatrix,ANY-method}
 \title{Compute the Norm of a Distributed Matrix}
+\usage{
+norm(x, type, ...)
+
+\S4method{norm}{ddmatrix,ANY}(x, type = c("O", "I", "F", "M", "2"))
+}
 \arguments{
 \item{x}{numeric distributed matrices.}
 
@@ -17,9 +21,6 @@ Returns a number.
 }
 \description{
 Computes the norm.
-}
-\section{Methods}{
- \describe{ \item{list("signature(x = \"ddmatrix\")")}{} }
 }
 \examples{
 \dontrun{
@@ -38,9 +39,6 @@ comm.print(nrm)
 
 finalize()
 }
-}
-\seealso{
-\code{\link{ConditionNumbers}}
 }
 \keyword{Algebra}
 \keyword{Linear}

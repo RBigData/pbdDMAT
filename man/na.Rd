@@ -55,9 +55,6 @@ comm.print(y)
 finalize()
 }
 }
-\seealso{
-\code{\link{Type}}
-}
 \keyword{Extraction}
 \keyword{Methods}
 \keyword{Type}

@@ -33,7 +33,6 @@
 #' 
 #' @name arithmetic
 #' @rdname arithmetic
-#' @seealso \code{\link{Arithmetic}, \link{LinAlg}, \link{MatMult}}
 #' @keywords Methods
 NULL
 

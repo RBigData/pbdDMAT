@@ -120,9 +120,6 @@ print(dy)
 finalize()
 }
 }
-\seealso{
-\code{\link{as.ddmatrix}}
-}
 \keyword{Data}
 \keyword{Generation}
 

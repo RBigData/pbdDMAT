@@ -49,8 +49,5 @@ print(y)
 finalize()
 }
 }
-\seealso{
-\code{\link{MiscMath}, \link{NAs}}
-}
 \keyword{Methods}
 

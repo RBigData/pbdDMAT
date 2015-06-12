@@ -59,9 +59,6 @@ print(y)
 finalize()
 }
 }
-\seealso{
-\code{\link{Arithmetic}, \link{LinAlg}, \link{MatMult}}
-}
 \keyword{Algebra}
 \keyword{Linear}
 \keyword{Methods}

@@ -63,8 +63,6 @@
 #' @section Methods: \describe{ \item{list("signature(x = \"ddmatrix\")")}{}
 #' \item{list("signature(a = \"ddmatrix\")")}{} \item{list("signature(b =
 #' \"ddmatrix\")")}{} }
-#' @seealso \code{\link{Arithmetic}, \link{Reductions}, \link{MatMult},
-#' \link{MiscMath}}
 #' @keywords Methods Linear Algebra
 #' @examples
 #' 
@@ -139,7 +137,6 @@ setMethod("solve", signature(a="ddmatrix", b="ddmatrix"),
 #' The function returns the inverse of a choleski factored matrix, or the
 #' inverse of \code{crossprod(x)} if \code{qr.R(qr(x))} is passed.
 #' 
-#' @name chol2inv
 #' @aliases chol2inv chol2inv-method chol2inv,ddmatrix-method chol2inv
 #' @docType methods
 #' @param x numeric distributed matrices for
@@ -148,7 +145,6 @@ setMethod("solve", signature(a="ddmatrix", b="ddmatrix"),
 #' @return A numeric distributed matrix.
 #' @section Methods: \describe{ \item{list("signature(x = \"ddmatrix\")")}{}
 #' \item{list("signature(x = \"ANY\")")}{} }
-#' @seealso \code{\link{lm.fit}}
 #' @keywords Methods Linear Algebra
 #' @examples
 #' 
@@ -172,9 +168,19 @@ setMethod("solve", signature(a="ddmatrix", b="ddmatrix"),
 #' finalize()
 #' }
 #' 
+#' @name chol2inv
+#' @rdname chol2inv
 NULL
 
+
+
+#' @rdname chol2inv
+#' @export
+setGeneric(name = "chol2inv", useAsDefault = base::chol2inv, package="pbdDMAT")
+
 # inversion via a cholesky, or inversion of crossprod(x) via qr
+#' @rdname chol2inv
+#' @export
 setMethod("chol2inv", signature(x="ddmatrix"), 
   function(x, size = NCOL(x))
   {

@@ -40,7 +40,7 @@ BLACS context, using a (possibly) new blocking dimension.
 }
 \details{
 These functions are simple wrappers of the very general
-\code{redistribute()} funciton (see \link{Distribute}).  Different
+\code{redistribute()} funciton.  Different
 distributed matrix distributions of note can be classified into three
 categories: block, cyclic, and block-cyclic.
 
@@ -106,9 +106,6 @@ x
 
 finalize()
 }
-}
-\seealso{
-\code{\link{as.ddmatrix}, \link{Distribute}}
 }
 \keyword{BLACS}
 \keyword{Data}

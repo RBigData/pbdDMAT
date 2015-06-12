@@ -85,8 +85,6 @@ companion <- function(coef, type="matrix", ..., bldim=.BLDIM, ICTXT=.ICTXT)
 #' @return 
 #' Returns a matrix or a distributed matrix.
 #' 
-#' @seealso \code{\link{as.ddmatrix}}
-#' 
 #' @keywords Data Generation
 #' 
 #' @examples

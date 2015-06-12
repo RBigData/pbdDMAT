@@ -60,9 +60,6 @@ print(y)
 finalize()
 }
 }
-\seealso{
-\code{\link{prcomp}}
-}
 \keyword{Extraction}
 \keyword{Methods}
 

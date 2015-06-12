@@ -23,8 +23,6 @@
 #' Returns a distributed matrix.
 #' 
 #' @keywords Methods Linear Algebra
-#' @seealso \code{\link{Arithmetic}, \link{Reductions}, \link{MatMult},
-#' \link{LinAlg}}
 #' @name expm
 #' @rdname expm
 #' @export

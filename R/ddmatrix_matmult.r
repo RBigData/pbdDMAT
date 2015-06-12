@@ -35,7 +35,6 @@
 #' finalize()
 #' }
 #' 
-#' @seealso \code{\link{Arithmetic}, \link{LinAlg}, \link{MatMult}}
 #' @keywords Methods Linear Algebra
 #' @name matmult
 #' @rdname matmult

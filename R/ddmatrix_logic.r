@@ -38,7 +38,6 @@
 #' }
 #' 
 #' @keywords Methods Extraction Type
-#' @seealso \code{\link{Type}}
 #' @name Comparators
 #' @rdname Comparators
 NULL

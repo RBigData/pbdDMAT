@@ -7,8 +7,5 @@
 \description{
 Distributed matrix class.
 }
-\seealso{
-\code{\link{SlotAccessors}}
-}
 \keyword{Classes}
 

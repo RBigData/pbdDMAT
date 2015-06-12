@@ -2,22 +2,16 @@
 % Please edit documentation in R/ddmatrix_qr.r
 \docType{methods}
 \name{qr}
-\alias{QR}
 \alias{qr}
 \alias{qr,ddmatrix-method}
-\alias{qr-method}
 \alias{qr.Q}
 \alias{qr.Q,ANY-method}
-\alias{qr.Q-method}
 \alias{qr.R}
 \alias{qr.R,ANY-method}
-\alias{qr.R-method}
 \alias{qr.qty}
 \alias{qr.qty,ANY-method}
-\alias{qr.qty-method}
 \alias{qr.qy}
 \alias{qr.qy,ANY-method}
-\alias{qr.qy-method}
 \title{QR Decomposition Methods}
 \usage{
 qr(x, ...)
@@ -77,10 +71,6 @@ attribute "qr".
 Functions for forming a QR decomposition and for using the outputs of these
 numerical QR routines.
 }
-\section{Methods}{
- \describe{ \item{list("signature(x = \"ddmatrix\")")}{}
-\item{list("signature(x = \"ANY\")")}{} }
-}
 \examples{
 \dontrun{
 # Save code in a file "demo.r" and run with 2 processors by
@@ -98,9 +88,6 @@ print(Q)
 
 finalize()
 }
-}
-\seealso{
-\code{\link{lm.fit}}
 }
 \keyword{Algebra}
 \keyword{Linear}

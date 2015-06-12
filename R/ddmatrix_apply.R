@@ -48,7 +48,6 @@
 #' finalize()
 #' }
 #' 
-#' @seealso \code{\link{prcomp}}
 #' @keywords Methods Extraction
 #' @name ddmatrix-apply
 #' @rdname ddmatrix-apply

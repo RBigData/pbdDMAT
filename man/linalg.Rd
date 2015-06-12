@@ -105,10 +105,6 @@ print(y)
 finalize()
 }
 }
-\seealso{
-\code{\link{Arithmetic}, \link{Reductions}, \link{MatMult},
-\link{MiscMath}}
-}
 \keyword{Algebra}
 \keyword{Linear}
 \keyword{Methods}

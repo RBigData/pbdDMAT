@@ -19,8 +19,13 @@
 #' 
 #' @name sweep
 #' @rdname sweep
-#' @export
 NULL
+
+
+
+#' @rdname sweep
+#' @export
+setGeneric(name = "sweep", useAsDefault = base::sweep, package="pbdDMAT")
 
 #' @rdname sweep
 #' @export

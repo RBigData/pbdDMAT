@@ -53,7 +53,6 @@
 #' finalize()
 #' }
 #' 
-#' @seealso \code{\link{Distribute}}
 #' @keywords Distributing Data
 #' @name as.ddmatrix
 #' @rdname as.ddmatrix

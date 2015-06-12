@@ -11,7 +11,6 @@
 #' Returns boolean in the case of \code{is.numeric()} and
 #' \code{is.ddmatrix()}, otherwise a distributed matrix.
 #' 
-#' @seealso \code{\link{NAs}}
 #' @keywords Methods Type
 #' @name isdot
 #' @rdname isdot

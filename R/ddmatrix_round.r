@@ -33,7 +33,6 @@
 #' finalize()
 #' }
 #' 
-#' @seealso \code{\link{MiscMath}, \link{NAs}}
 #' @keywords Methods
 #' @name rounding
 #' @rdname rounding

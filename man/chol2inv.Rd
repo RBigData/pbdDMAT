@@ -6,6 +6,11 @@
 \alias{chol2inv,ddmatrix-method}
 \alias{chol2inv-method}
 \title{Inverse from Choleski (or QR) Decomposition}
+\usage{
+chol2inv(x, ...)
+
+\S4method{chol2inv}{ddmatrix}(x, size = NCOL(x))
+}
 \arguments{
 \item{x}{numeric distributed matrices for}
 
@@ -46,9 +51,6 @@ print(id)
 
 finalize()
 }
-}
-\seealso{
-\code{\link{lm.fit}}
 }
 \keyword{Algebra}
 \keyword{Linear}

@@ -79,9 +79,6 @@ comm.print(y)
 finalize()
 }
 }
-\seealso{
-\code{\link{Extract}}
-}
 \keyword{Extraction}
 \keyword{Methods}
 
