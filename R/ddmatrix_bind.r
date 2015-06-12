@@ -91,7 +91,7 @@ setMethod("rbind", "ANY",
     args <- list(...)
     
     if (is.ddmatrix(args[[1]]))
-      ret <- base.rbind2(args=args, ICTXT=ICTXT)
+      ret <- dmat.rbind2(args=args, ICTXT=ICTXT)
     else
       ret <- base::rbind(...=..., deparse.level=deparse.level)
     

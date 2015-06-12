@@ -121,7 +121,7 @@ setMethod("lm.fit", signature(x="ddmatrix", y="ddmatrix"),
       cdim <- c(n-y@dim[1L], y@dim[2L])
       cldim <- base.numroc(dim=cdim, bldim=y@bldim, ICTXT=y@ICTXT, fixme=TRUE)
       c <- new("ddmatrix", Data=matrix(as.double(NA), nrow=cldim[1L], ncol=cldim[2L]), dim=cdim, ldim=cldim, bldim=y@bldim, ICTXT=y@ICTXT)
-      y <- base.rbind(y, c, ICTXT=1L)
+      y <- dmat.rbind(y, c, ICTXT=1L)
     }
     
     # convert IPIV to global vector if it isn't already
