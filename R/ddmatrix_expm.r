@@ -18,6 +18,10 @@
 #' 
 #' @param x 
 #' A numeric matrix or a numeric distributed matrix.
+#' @param t
+#' Scaling parameter for x.
+#' @param p
+#' Order of the Pade' approximation.
 #' 
 #' @return 
 #' Returns a distributed matrix.
@@ -25,9 +29,8 @@
 #' @keywords Methods Linear Algebra
 #' @name expm
 #' @rdname expm
-#' @export
 setGeneric(name="expm", 
-  function(x, y, ...) 
+  function(x, t=1, p=6) 
     standardGeneric("expm"), 
   package="pbdDMAT"
 )
@@ -92,7 +95,7 @@ p_matexp_pade <- function(A, p)
 
 #' @rdname expm
 #' @export
-setMethod("expm", signature(x="matrix", y="missing"), 
+setMethod("expm", signature(x="matrix"), 
   function(x, t=1, p=6)
   {
     if (nrow(x) != ncol(x))
@@ -108,10 +111,34 @@ setMethod("expm", signature(x="matrix", y="missing"),
 )
 
 
+## TODO export this from base src/
+matexp_scale_factor <- function(x)
+{
+#  theta <- c(3.7e-8, 5.3e-4, 1.5e-2, 8.5e-2, 2.5e-1, 5.4e-1, 9.5e-1, 1.5e0, 2.1e0, 2.8e0, 3.6e0, 4.5e0, 5.4e0, 6.3e0, 7.3e0, 8.4e0, 9.4e0, 1.1e1, 1.2e1, 1.3e1)
+  theta <- c(1.5e-2, 2.5e-1, 9.5e-1, 2.1e0, 5.4e0)
+  
+  
+  # 1-norm
+  x_1 <- norm(x, type="O") # max(colSums(abs(x))) 
+  
+  for (th in theta)
+  {
+    if (x_1 <= th)
+      return( 0 )
+  }
+  
+  j <- ceiling(log2(x_1/theta[5]))
+  n <- 2^j
+  
+  return( n )
+}
+
+
+
 
 #' @rdname expm
 #' @export
-setMethod("expm", signature(x="ddmatrix", y="missing"), 
+setMethod("expm", signature(x="ddmatrix"), 
   function(x, t=1, p=6)
   {
     if (nrow(x) != ncol(x))

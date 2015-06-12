@@ -3,18 +3,22 @@
 \docType{methods}
 \name{expm}
 \alias{expm}
-\alias{expm,ddmatrix,missing-method}
-\alias{expm,matrix,missing-method}
+\alias{expm,ddmatrix-method}
+\alias{expm,matrix-method}
 \title{Matrix Exponentiation}
 \usage{
-expm(x, y, ...)
+expm(x, t = 1, p = 6)
 
-\S4method{expm}{matrix,missing}(x, t = 1, p = 6)
+\S4method{expm}{matrix}(x, t = 1, p = 6)
 
-\S4method{expm}{ddmatrix,missing}(x, t = 1, p = 6)
+\S4method{expm}{ddmatrix}(x, t = 1, p = 6)
 }
 \arguments{
 \item{x}{A numeric matrix or a numeric distributed matrix.}
+
+\item{t}{Scaling parameter for x.}
+
+\item{p}{Order of the Pade' approximation.}
 }
 \value{
 Returns a distributed matrix.
