@@ -16,11 +16,6 @@ redistribute(dx, bldim = dx@bldim, ICTXT = .ICTXT)
 matrix across the process grid.}
 
 \item{ICTXT}{BLACS context number for return.}
-
-\item{x}{a numeric matrix}
-
-\item{xCTXT}{the BLACS context number for initial distribution of the matrix
-\code{x}.}
 }
 \value{
 Returns a distributed matrix.

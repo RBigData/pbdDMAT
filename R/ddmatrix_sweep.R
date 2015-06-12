@@ -11,6 +11,8 @@
 #' @param FUN 
 #' function used in the sweep. Only \code{+}, \code{-}, \code{*},
 #' and \code{/} are accepted.  For more general operations, use \code{apply()}.
+#' @param check.margin,...
+#' Ignored.
 #' 
 #' @return 
 #' Returns a distributed matrix.

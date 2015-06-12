@@ -5,8 +5,6 @@
 \alias{ddmatrix-apply}
 \title{Apply Family of Functions}
 \usage{
-apply(X, MARGIN, FUN, ...)
-
 \S4method{apply}{ddmatrix}(X, MARGIN, FUN, ..., reduce = FALSE,
   proc.dest = "all")
 }
@@ -50,8 +48,8 @@ init.grid()
 
 x <- ddmatrix(1:9, 3)
 
-y <- as.vector(apply(x, 1, mean))
-comm.print(y)
+y <- as.matrix(apply(x, 1, mean))
+print(y)
 
 finalize()
 }

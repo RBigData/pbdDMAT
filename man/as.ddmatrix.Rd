@@ -27,7 +27,8 @@ distribute(x, bldim = .BLDIM, xCTXT = 0, ICTXT = .ICTXT)
 \item{bldim}{the blocking dimension for block-cyclically distributing the
 matrix across the process grid.}
 
-\item{xCTXT}{}
+\item{xCTXT}{the BLACS context number for initial distribution of the matrix
+\code{x}.}
 
 \item{ICTXT}{BLACS context number for return.}
 }

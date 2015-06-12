@@ -28,10 +28,6 @@
 #' logical. Should missing (including \code{NaN}) be removed?
 #' @param ... 
 #' additional arguments
-#' @param reduce 
-#' logical or string. See details
-#' @param proc.dest 
-#' Destination process (or 'all') if a reduction occurs
 #' 
 #' @return 
 #' Returns a global numeric vector.

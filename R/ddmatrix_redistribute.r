@@ -94,16 +94,11 @@ dmat.redistribute <- dmat.reblock
 #' thinking in these terms is an acquired skill.  For this reason, several
 #' simple interfaces to this function have been written.
 #' 
-#' @param x 
-#' a numeric matrix
 #' @param dx 
 #' numeric distributed matrix
 #' @param bldim 
 #' the blocking dimension for block-cyclically distributing the
 #' matrix across the process grid.
-#' @param xCTXT 
-#' the BLACS context number for initial distribution of the matrix
-#' \code{x}.
 #' @param ICTXT 
 #' BLACS context number for return.
 #' 

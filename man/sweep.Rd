@@ -22,6 +22,8 @@ sweep(x, MARGIN, STATS, FUN = "-", check.margin = TRUE, ...)
 
 \item{FUN}{function used in the sweep. Only \code{+}, \code{-}, \code{*},
 and \code{/} are accepted.  For more general operations, use \code{apply()}.}
+
+\item{check.margin,...}{Ignored.}
 }
 \value{
 Returns a distributed matrix.

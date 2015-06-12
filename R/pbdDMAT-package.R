@@ -17,7 +17,7 @@
 #'   R_int_sparse_count_zeros, R_sparse_count_zeros, 
 #'   R_convert_dense_to_csr, R_convert_csr_to_dense
 #' 
-#' @import methods pbdSLAP pbdBASE
+#' @import methods pbdBASE
 #' @importFrom pbdMPI comm.cat comm.rank comm.print comm.size 
 #'    comm.stop comm.warning allreduce barrier
 #' @importFrom utils head tail

@@ -17,9 +17,6 @@
 #' for 'vector') "any".
 #' @param proc.dest 
 #' destination process for storing the matrix
-#' @param attributes 
-#' logical, specifies whether or not the current attributes
-#' should be preserved.
 #' 
 #' @return Returns an ordinary R vector.
 #' 

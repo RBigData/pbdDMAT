@@ -58,10 +58,6 @@ colMax(x, ...)
 \item{...}{additional arguments}
 
 \item{na.rm}{logical. Should missing (including \code{NaN}) be removed?}
-
-\item{reduce}{logical or string. See details}
-
-\item{proc.dest}{Destination process (or 'all') if a reduction occurs}
 }
 \value{
 Returns a global numeric vector.

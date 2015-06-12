@@ -52,8 +52,8 @@
 #' 
 #' x <- ddmatrix(1:9, 3)
 #' 
-#' y <- as.matrix(apply(x, 1, mean))
-#' print(y)
+#' y <- as.vector(apply(x, 1, mean))
+#' comm.print(y)
 #' 
 #' finalize()
 #' }
@@ -62,8 +62,6 @@
 #' @name ddmatrix-apply
 NULL
 
-#' @name ddmatrix-apply
-#' @export
 setGeneric(name = "apply", useAsDefault = base::apply, package="pbdDMAT")
 
 #' @name ddmatrix-apply

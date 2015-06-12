@@ -15,6 +15,8 @@
 \arguments{
 \item{x}{numeric distributed matrices.}
 
+\item{na.rm}{Logical; if TRUE, then \code{na.exclude()} is called first.}
+
 \item{reduce}{logical or string. See details}
 
 \item{proc.dest}{Destination process (or 'all') if a reduction occurs}

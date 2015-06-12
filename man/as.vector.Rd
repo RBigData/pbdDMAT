@@ -22,9 +22,6 @@ as.vector(x, ...)
 for 'vector') "any".}
 
 \item{proc.dest}{destination process for storing the matrix}
-
-\item{attributes}{logical, specifies whether or not the current attributes
-should be preserved.}
 }
 \value{
 Returns an ordinary R vector.

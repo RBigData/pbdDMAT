@@ -200,6 +200,8 @@ setMethod("[", signature(x="ddmatrix"),
 #' numeric distributed matrix.
 #' @param i,j 
 #' global integer indices.
+#' @param ...
+#' Additional arguments.
 #' @param value 
 #' replacement value. Can be a global vector or a \code{ddmatrix}.
 #' 
@@ -207,7 +209,6 @@ setMethod("[", signature(x="ddmatrix"),
 #' Returns a distributed matrix.
 #' 
 #' @examples
-#' 
 #' \dontrun{
 #' # Save code in a file "demo.r" and run with 2 processors by
 #' # > mpiexec -np 2 Rscript demo.r

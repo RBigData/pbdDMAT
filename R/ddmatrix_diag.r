@@ -36,7 +36,6 @@
 #' \code{type='ddmatrix'}, then the return is a diagonal distributed matrix.
 #' 
 #' @examples
-#' 
 #' \dontrun{
 #' # Save code in a file "demo.r" and run with 2 processors by
 #' # > mpiexec -np 2 Rscript demo.r
@@ -61,8 +60,6 @@ NULL
 
 
 
-#' @rdname diag-constructors
-#' @export
 setGeneric(name="diag",
   function(x, ...)
     standardGeneric("diag"),

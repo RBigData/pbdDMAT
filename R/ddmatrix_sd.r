@@ -10,6 +10,8 @@
 #' 
 #' @param x
 #' numeric distributed matrices.
+#' @param na.rm
+#' Logical; if TRUE, then \code{na.exclude()} is called first.
 #' @param reduce 
 #' logical or string. See details
 #' @param proc.dest 

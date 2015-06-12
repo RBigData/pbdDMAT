@@ -25,8 +25,9 @@
 #' @param bldim 
 #' the blocking dimension for block-cyclically distributing the
 #' matrix across the process grid.
-#' @param xCTXT
-#' 
+#' @param xCTXT 
+#' the BLACS context number for initial distribution of the matrix
+#' \code{x}.
 #' @param ICTXT 
 #' BLACS context number for return.
 #' 

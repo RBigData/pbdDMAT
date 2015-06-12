@@ -16,6 +16,8 @@
 
 \item{i,j}{global integer indices.}
 
+\item{...}{Additional arguments.}
+
 \item{value}{replacement value. Can be a global vector or a \code{ddmatrix}.}
 }
 \value{

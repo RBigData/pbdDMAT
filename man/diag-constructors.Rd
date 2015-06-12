@@ -2,7 +2,6 @@
 % Please edit documentation in R/ddmatrix_diag.r
 \docType{methods}
 \name{diag-constructors}
-\alias{diag}
 \alias{diag,character-method}
 \alias{diag,ddmatrix-method}
 \alias{diag,matrix-method}
@@ -10,8 +9,6 @@
 \alias{diag-constructors}
 \title{Distributed Matrix Diagonals}
 \usage{
-diag(x, ...)
-
 \S4method{diag}{vector}(x, nrow, ncol, type = "matrix", ..., bldim = .BLDIM,
   ICTXT = .ICTXT)
 
@@ -26,13 +23,13 @@ diag(x, ...)
 \arguments{
 \item{x}{distributed matrix or a vector.}
 
-\item{...}{Extra arguments}
-
 \item{nrow,ncol}{in the case that \code{x} is a vector, these specify the
 global dimension of the diagonal distributed matrix to be created.}
 
 \item{type}{character. Options are 'matrix' or 'ddmatrix', with partial
 matching.  This specifies the return type.}
+
+\item{...}{Extra arguments}
 
 \item{bldim}{blocking dimension.}
 

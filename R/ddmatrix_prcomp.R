@@ -28,6 +28,8 @@
 #' With the default null setting, no components are omitted.  Other settings
 #' for tol could be \code{tol = 0} or \code{tol = sqrt(.Machine$double.eps)},
 #' which would omit essentially constant components
+#' @param ...
+#' Ignored.
 #' 
 #' @return 
 #' Returns a list.
@@ -67,7 +69,7 @@ setGeneric(name = "prcomp", useAsDefault = stats::prcomp, package="pbdDMAT")
 #' @rdname ddmatrix-prcomp
 #' @export
 setMethod("prcomp", signature(x="ddmatrix"),
-  function(x, retx=TRUE, center=TRUE, scale.=FALSE, tol=NULL) 
+  function(x, retx=TRUE, center=TRUE, scale.=FALSE, tol=NULL, ...) 
   {
       x <- scale(x, center = center, scale = scale.)
       cen <- attr(x@Data, "scaled:center")

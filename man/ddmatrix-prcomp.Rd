@@ -10,10 +10,12 @@
 prcomp(x, ...)
 
 \S4method{prcomp}{ddmatrix}(x, retx = TRUE, center = TRUE, scale. = FALSE,
-  tol = NULL)
+  tol = NULL, ...)
 }
 \arguments{
 \item{x}{numeric distributed matrix.}
+
+\item{...}{Ignored.}
 
 \item{retx}{logical, indicates whether the rotated variables should be
 returned}
