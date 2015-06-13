@@ -6,19 +6,17 @@
 \alias{as.matrix,ddmatrix-method}
 \title{Distributed object to Matrix Converters}
 \usage{
-as.matrix(x, ...)
-
 \S4method{as.matrix}{ddmatrix}(x, proc.dest = "all", attributes = TRUE)
 }
 \arguments{
 \item{x}{numeric distributed matrix}
 
-\item{...}{Additional arguments.}
-
 \item{proc.dest}{destination process for storing the matrix}
 
 \item{attributes}{logical, specifies whether or not the current attributes
 should be preserved.}
+
+\item{...}{Additional arguments.}
 }
 \value{
 Returns an ordinary R matrix.
