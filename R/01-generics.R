@@ -1,11 +1,5 @@
 ### S4 methods
 
-# Misc
-setGeneric(name = "isSymmetric", useAsDefault = base::isSymmetric, package="pbdDMAT")
-#setGeneric(name = "polyroot", useAsDefault = base::polyroot, package="pbdDMAT")
-
-
-
 ### S4 methods for new things
 setGeneric(name="dmat", 
   function(data, ...)
