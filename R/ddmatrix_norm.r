@@ -29,11 +29,10 @@
 #' 
 #' @keywords Methods Linear Algebra Norm
 #' @aliases norm
+#' @section Methods: \describe{ \item{list("signature(x = \"ddmatrix\")")}{} }
 #' @name ddmatrix-norm
 #' @rdname ddmatrix-norm
 NULL
-
-setGeneric(name = "norm", useAsDefault = base::norm, package="pbdDMAT")
 
 #' @rdname ddmatrix-norm
 #' @export
