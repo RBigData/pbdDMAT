@@ -121,15 +121,18 @@ comm.print(all.equal(out1, out2))
 
 comm.print("-------ScaLAPACK chol()-------")
 
-A <- matrix(rnorm(N*N, 10, 100), N, N)
+A <- crossprod(matrix(rnorm(N*N, 10, 100), N, N))
 dA <- as.ddmatrix(A, BL)
 
-out1 <- chol(t(A) %*% A)
-out2 <- as.matrix(chol(t(dA) %*% dA))
+cholA <- chol(A)
+choldA <- chol(dA)
+
+out1 <- chol(A)
+out2 <- as.matrix(chol(dA))
 comm.print(all.equal(out1, out2))
 
-out1 <- chol2inv(x=out1)
-out2 <- as.matrix(chol2inv(x=chol(t(dA %*% dA))))
+out1 <- chol2inv(x=cholA)
+out2 <- as.matrix(chol2inv(choldA))
 comm.print(all.equal(out1, out2))
 
 
