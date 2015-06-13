@@ -1,19 +1,19 @@
 #!/bin/sh
 
 
-mpirun -np $1 Rscript 1_extraction.R
-mpirun -np $1 Rscript 2_NAs.R
-mpirun -np $1 Rscript 3_rbind_cbind.R
-mpirun -np $1 Rscript 4_construction.R
-mpirun -np $1 Rscript 5_stress.r
-mpirun -np $1 Rscript 6_redist.r
+#mpirun -np $1 Rscript 1_extraction.R
+#mpirun -np $1 Rscript 2_NAs.R
+#mpirun -np $1 Rscript 3_rbind_cbind.R
+#mpirun -np $1 Rscript 4_construction.R
+#mpirun -np $1 Rscript 5_stress.r
+#mpirun -np $1 Rscript 6_redist.r
 
 
-mpirun -np $1 Rscript 10_reductions.R
-mpirun -np $1 Rscript 11_arithmetic.R
-mpirun -np $1 Rscript 12_pblas.R
-mpirun -np $1 Rscript 13_scalapack.R ### base.rpdpotrf bug
-mpirun -np $1 Rscript 14_stats.R
-mpirun -np $1 Rscript 15_qr.R
-mpirun -np $1 Rscript 16_lmfit.R
-mpirun -np $1 Rscript 17_norm.R ### bug
+#mpirun -np $1 Rscript 10_reductions.R
+#mpirun -np $1 Rscript 11_arithmetic.R
+#mpirun -np $1 Rscript 12_pblas.R
+#mpirun -np $1 Rscript 13_scalapack.R
+#mpirun -np $1 Rscript 14_stats.R
+#mpirun -np $1 Rscript 15_qr.R
+#mpirun -np $1 Rscript 16_lmfit.R
+#mpirun -np $1 Rscript 17_norm.R

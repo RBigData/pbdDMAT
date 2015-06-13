@@ -5,39 +5,22 @@
 \alias{Accessors}
 \alias{ICTXT}
 \alias{ICTXT,ddmatrix-method}
-\alias{ICTXT-method}
 \alias{NCOL}
 \alias{NCOL,ddmatrix-method}
-\alias{NCOL-method}
 \alias{NROW}
 \alias{NROW,ddmatrix-method}
-\alias{NROW-method}
-\alias{SlotAccessors}
 \alias{bldim}
 \alias{bldim,ddmatrix-method}
-\alias{bldim-method}
-\alias{dim}
 \alias{dim,ddmatrix-method}
-\alias{dim-method}
 \alias{ldim}
 \alias{ldim,ddmatrix-method}
-\alias{ldim-method}
-\alias{length}
 \alias{length,ddmatrix-method}
-\alias{length-method}
 \alias{ncol}
 \alias{ncol,ddmatrix-method}
-\alias{ncol-method}
 \alias{nrow}
 \alias{nrow,ddmatrix-method}
-\alias{nrow-method}
-\alias{ownany}
-\alias{ownany,ddmatrix-method}
-\alias{ownany,missing-method}
-\alias{ownany-method}
 \alias{submatrix}
 \alias{submatrix,ddmatrix-method}
-\alias{submatrix-method}
 \title{Accessor Functions for Distributed Matrix Slots}
 \usage{
 nrow(x)
@@ -136,8 +119,7 @@ object or the dim, bldim, and ICTXT of one.
 library(pbdDMAT, quiet = TRUE)
 init.grid()
 
-x <- ddmatrix(1:9, 3, 3)
-x <- as.ddmatrix(x)
+x <- ddmatrix(1:9, 3)
 
 y <- list(dim=dim(x), ldim=ldim(x), bldim=bldim(x))
 comm.print(y)

@@ -26,20 +26,19 @@
 #' "do I own any of the data?".  The user can either pass a distributed matrix
 #' object or the dim, bldim, and ICTXT of one.
 #' 
-#' @aliases SlotAccessors nrow-method nrow,ddmatrix-method nrow ncol-method
-#' ncol,ddmatrix-method ncol NROW-method NROW,ddmatrix-method NROW NCOL-method
-#' NCOL,ddmatrix-method NCOL length-method length,ddmatrix-method length
-#' dim-method dim,ddmatrix-method dim submatrix-method
-#' submatrix,ddmatrix-method submatrix ldim-method ldim,ddmatrix-method ldim
-#' bldim-method bldim,ddmatrix-method bldim ICTXT-method ICTXT,ddmatrix-method
-#' ICTXT ownany-method ownany,missing-method ownany,ddmatrix-method ownany
-#' @docType methods
-#' @param x numeric distributed matrix
-#' @param dim global dimension.
-#' @param bldim blocking dimension.
-#' @param ICTXT BLACS context.
-#' @param ... Extra arguments.
-#' @return Each of \code{dim()}, \code{ldim()}, \code{bldim()} return a length
+#' @param x 
+#' numeric distributed matrix
+#' @param dim 
+#' global dimension.
+#' @param bldim 
+#' blocking dimension.
+#' @param ICTXT 
+#' BLACS context.
+#' @param ... 
+#' Extra arguments.
+#' 
+#' @return 
+#' Each of \code{dim()}, \code{ldim()}, \code{bldim()} return a length
 #' 2 vector.
 #' 
 #' Each of \code{nrow()}, \code{ncol()}, and \code{length()} return a length 1
@@ -48,9 +47,8 @@
 #' \code{submatrix()} returns a matrix; namely, \code{submatrix(x)} returns a
 #' matrix of dimensions \code{ldim(x)}.
 #' @section Methods: \describe{ \item{list("signature(x = \"ddmatrix\")")}{} }
-#' @keywords Methods
-#' @examples
 #' 
+#' @examples
 #' \dontrun{
 #' # Save code in a file "demo.r" and run with 2 processors by
 #' # > mpiexec -np 2 Rscript demo.r
@@ -58,8 +56,7 @@
 #' library(pbdDMAT, quiet = TRUE)
 #' init.grid()
 #' 
-#' x <- ddmatrix(1:9, 3, 3)
-#' x <- as.ddmatrix(x)
+#' x <- ddmatrix(1:9, 3)
 #' 
 #' y <- list(dim=dim(x), ldim=ldim(x), bldim=bldim(x))
 #' comm.print(y)
@@ -67,6 +64,7 @@
 #' finalize()
 #' }
 #' 
+#' @keywords Methods
 #' @name Accessors
 #' @rdname accessors
 NULL
