@@ -14,6 +14,8 @@
 #' @param only.values 
 #' logical, if \code{TRUE} then only the eigenvalues are
 #' returned.  Otherwise both eigenvalues and eigenvectors are returned.
+#' @param EISPACK
+#' Ignored.
 #' 
 #' @return 
 #' \code{eigen()} computes the eigenvalues, and eigenvectors if requested.  As
@@ -30,7 +32,7 @@
 #' x <- matrix(1:9, 3)
 #' x <- as.ddmatrix(x)
 #' 
-#' y <- solve(t(A) %*% A)
+#' y <- eigen(t(A) %*% A)
 #' print(y)
 #' 
 #' finalize()
@@ -39,9 +41,14 @@
 #' @keywords Methods Linear Algebra
 #' @name ddmatrix-eigen
 #' @rdname ddmatrix-eigen
+NULL
+
+setGeneric(name = "eigen", useAsDefault = base::eigen, package="pbdDMAT")
+
+#' @rdname ddmatrix-eigen
 #' @export
 setMethod("eigen", signature(x="ddmatrix"), 
-  function(x, symmetric, only.values=FALSE)
+  function(x, symmetric, only.values=FALSE, EISPACK=FALSE)
   {
     if (x@dim[1L] != x@dim[2L])
       comm.stop("non-square matrix in 'eigen'")
@@ -62,7 +69,7 @@ setMethod("eigen", signature(x="ddmatrix"),
       if (!only.values) # FIXME
         comm.stop("Currently only possible to recover eigenvalues from a non-symmetric matrix")
       
-      out <- base.pdgeeig(dx@Data, descx=desca)
+#      out <- base.pdgeeig(dx@Data, descx=desca)
     }
     
     return( out )

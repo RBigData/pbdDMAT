@@ -7,6 +7,8 @@
 #' 
 #' @param x
 #' numeric distributed matrices.
+#' @param ...
+#' Ignored.
 #' 
 #' @return 
 #' \code{chol()} performs Cholesky factorization.
@@ -31,6 +33,11 @@
 #' 
 #' @keywords Methods Linear Algebra
 #' @name ddmatrix-chol
+#' @rdname ddmatrix-chol
+NULL
+
+setGeneric(name = "chol", useAsDefault = base::chol, package="pbdDMAT")
+
 #' @rdname ddmatrix-chol
 #' @export
 setMethod("chol", signature(x="ddmatrix"), 
