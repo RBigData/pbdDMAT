@@ -53,7 +53,6 @@
 #' Returns a distributed matrix.
 #' 
 #' @examples
-#' 
 #' \dontrun{
 #' # Save code in a file "demo.r" and run with 2 processors by
 #' # > mpiexec -np 2 Rscript demo.r
@@ -62,10 +61,10 @@
 #' init.grid()
 #' 
 #' dx <- ddmatrix(data="rnorm", nrow=5, ncol=6, mean=10, sd=100)
-#' dy <- ddmatrix(data=1:4, nrow=7, ncol=5)
+#' dx
 #' 
-#' print(dx)
-#' print(dy)
+#' dy <- ddmatrix(data=1:4, nrow=7, ncol=5)
+#' dy
 #' 
 #' finalize()
 #' }

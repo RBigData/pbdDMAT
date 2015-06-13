@@ -112,10 +112,10 @@ library(pbdDMAT, quiet = TRUE)
 init.grid()
 
 dx <- ddmatrix(data="rnorm", nrow=5, ncol=6, mean=10, sd=100)
-dy <- ddmatrix(data=1:4, nrow=7, ncol=5)
+dx
 
-print(dx)
-print(dy)
+dy <- ddmatrix(data=1:4, nrow=7, ncol=5)
+dy
 
 finalize()
 }
