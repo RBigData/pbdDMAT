@@ -40,8 +40,9 @@ library(pbdDMAT, quiet = TRUE)
 init.grid()
 
 dx <- ddmatrix(1:16, ncol=4)
-
 y <- as.matrix(dx, proc.dest=0)
+
+comm.print(y)
 
 finalize()
 }

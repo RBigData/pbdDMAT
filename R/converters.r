@@ -60,18 +60,6 @@ setMethod("as.dsvector", signature(x="dsmatrix"),
 
 
 
-setMethod("as.matrix", signature(x="dsmatrix"),
-  function(x)
-  {
-    y <- as.matrix(as.dmat(x))
-    
-    return( y )
-  }
-)
-
-
-
-
 # -----------------------------------------------------------
 # x = dmat
 # -----------------------------------------------------------
@@ -93,31 +81,6 @@ setMethod("as.dsmatrix", signature(x="dmat"),
   }
 )
 
-
-
-setMethod("as.matrix", signature(x="dmat"),
-  function(x)
-  {
-    mat <- matrix(0.0, x@dim[1L], x@dim[2L])
-    
-    dim <- x@dim
-    nrows <- dim[1L]
-    
-    nrows.local <- dmat_ldim(nrows)
-    ldim <- c(nrows.local, dim[2L])
-    
-    start <- dmat_index(nrows)
-    end <- start + nrows.local - 1L
-    
-    if (ldim[1L] > 0)
-      mat[start:end, ] <- x@Data
-    
-    # FIXME make this bcast later, too lazy atm
-    mat <- allreduce(mat)
-    
-    return( mat )
-  }
-)
 
 
 

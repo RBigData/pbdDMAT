@@ -18,10 +18,10 @@
 #' logical, specifies whether or not the current attributes
 #' should be preserved.
 #' 
-#' @return Returns an ordinary R matrix.
+#' @return 
+#' Returns an ordinary R matrix.
 #' 
 #' @examples
-#' 
 #' \dontrun{
 #' # Save code in a file "demo.r" and run with 2 processors by
 #' # > mpiexec -np 2 Rscript demo.r
@@ -30,8 +30,9 @@
 #' init.grid()
 #' 
 #' dx <- ddmatrix(1:16, ncol=4)
-#' 
 #' y <- as.matrix(dx, proc.dest=0)
+#' 
+#' comm.print(y)
 #' 
 #' finalize()
 #' }
@@ -152,4 +153,46 @@ setMethod("as.matrix", signature(x="ddmatrix"),
     return( ret )
   }
 )
+
+
+
+##' @rdname as.matrix
+##' @export
+#setMethod("as.matrix", signature(x="dmat"),
+#  function(x)
+#  {
+#    mat <- matrix(0.0, x@dim[1L], x@dim[2L])
+#    
+#    dim <- x@dim
+#    nrows <- dim[1L]
+#    
+#    nrows.local <- dmat_ldim(nrows)
+#    ldim <- c(nrows.local, dim[2L])
+#    
+#    start <- dmat_index(nrows)
+#    end <- start + nrows.local - 1L
+#    
+#    if (ldim[1L] > 0)
+#      mat[start:end, ] <- x@Data
+#    
+#    # FIXME make this bcast later, too lazy atm
+#    mat <- allreduce(mat)
+#    
+#    return( mat )
+#  }
+#)
+
+
+
+##' @rdname as.matrix
+##' @export
+#setMethod("as.matrix", signature(x="dsmatrix"),
+#  function(x)
+#  {
+#    y <- as.matrix(as.dmat(x))
+#    
+#    return( y )
+#  }
+#)
+
 
