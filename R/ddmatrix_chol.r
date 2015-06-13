@@ -32,6 +32,7 @@
 #' }
 #' 
 #' @keywords Methods Linear Algebra
+#' @aliases chol
 #' @name ddmatrix-chol
 #' @rdname ddmatrix-chol
 NULL

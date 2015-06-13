@@ -2,6 +2,7 @@
 % Please edit documentation in R/ddmatrix_chol.r
 \docType{methods}
 \name{ddmatrix-chol}
+\alias{chol}
 \alias{chol,ddmatrix-method}
 \alias{ddmatrix-chol}
 \title{Cholesky Factorization}

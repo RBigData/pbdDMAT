@@ -4,9 +4,13 @@
 \name{qr}
 \alias{qr}
 \alias{qr,ddmatrix-method}
+\alias{qr.Q}
 \alias{qr.Q,ANY-method}
+\alias{qr.R}
 \alias{qr.R,ANY-method}
+\alias{qr.qty}
 \alias{qr.qty,ANY-method}
+\alias{qr.qy}
 \alias{qr.qy,ANY-method}
 \title{QR Decomposition Methods}
 \usage{

@@ -3,6 +3,7 @@
 \docType{methods}
 \name{ddmatrix-lu}
 \alias{ddmatrix-lu}
+\alias{lu}
 \alias{lu,ddmatrix-method}
 \title{LU Factorization}
 \usage{

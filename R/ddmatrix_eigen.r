@@ -39,6 +39,7 @@
 #' }
 #' 
 #' @keywords Methods Linear Algebra
+#' @aliases eigen
 #' @name ddmatrix-eigen
 #' @rdname ddmatrix-eigen
 NULL

@@ -49,6 +49,7 @@
 #' finalize()
 #' }
 #' 
+#' @aliases svd La.svd
 #' @name ddmatrix-svd
 #' @rdname ddmatrix-svd
 NULL

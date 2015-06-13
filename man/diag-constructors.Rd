@@ -2,6 +2,7 @@
 % Please edit documentation in R/ddmatrix_diag.r
 \docType{methods}
 \name{diag-constructors}
+\alias{diag}
 \alias{diag,character-method}
 \alias{diag,ddmatrix-method}
 \alias{diag,matrix-method}

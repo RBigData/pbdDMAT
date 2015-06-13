@@ -2,9 +2,11 @@
 % Please edit documentation in R/ddmatrix_svd.r
 \docType{methods}
 \name{ddmatrix-svd}
+\alias{La.svd}
 \alias{La.svd,ANY-method}
 \alias{La.svd,ddmatrix-method}
 \alias{ddmatrix-svd}
+\alias{svd}
 \alias{svd,ANY-method}
 \alias{svd,ddmatrix-method}
 \title{Singular Value Decomposition}

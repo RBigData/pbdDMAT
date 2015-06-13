@@ -28,13 +28,14 @@
 #' }
 #' 
 #' @keywords Methods Linear Algebra Norm
-#' @name Norm
-#' @rdname Norm
+#' @aliases norm
+#' @name ddmatrix-norm
+#' @rdname ddmatrix-norm
 NULL
 
 setGeneric(name = "norm", useAsDefault = base::norm, package="pbdDMAT")
 
-#' @rdname Norm
+#' @rdname ddmatrix-norm
 #' @export
 setMethod("norm", signature(x="ddmatrix"), 
   function (x, type = c("O", "I", "F", "M", "2")) 

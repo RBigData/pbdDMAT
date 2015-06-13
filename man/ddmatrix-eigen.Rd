@@ -3,6 +3,7 @@
 \docType{methods}
 \name{ddmatrix-eigen}
 \alias{ddmatrix-eigen}
+\alias{eigen}
 \alias{eigen,ddmatrix-method}
 \title{eigen}
 \usage{

@@ -54,6 +54,7 @@
 #' }
 #' 
 #' @keywords Methods Linear Algebra
+#' @aliases qr.Q qr.R qr.qty qr.qy
 #' @name qr
 #' @rdname qr
 NULL

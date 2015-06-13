@@ -59,6 +59,7 @@
 #' }
 #' 
 #' @keywords Methods Extraction
+#' @aliases apply
 #' @name ddmatrix-apply
 #' @rdname ddmatrix-apply
 NULL

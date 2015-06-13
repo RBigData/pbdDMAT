@@ -30,6 +30,7 @@
 #' }
 #' 
 #' @keywords Methods Linear Algebra
+#' @aliases lu
 #' @name ddmatrix-lu
 #' @rdname ddmatrix-lu
 NULL

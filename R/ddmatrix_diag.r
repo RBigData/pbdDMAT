@@ -54,6 +54,7 @@
 #' }
 #' 
 #' @keywords Methods Extraction
+#' @aliases diag
 #' @name diag-constructors
 #' @rdname diag-constructors
 NULL
