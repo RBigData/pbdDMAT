@@ -31,14 +31,14 @@
 #' }
 #' 
 #' @keywords Methods Linear Algebra
-#' @name linlalg
-#' @rdname linalg
+#' @name ddmatrix-solve
+#' @rdname ddmatrix-solve
 NULL
 
 
 
 ### inversion
-#' @rdname linalg
+#' @rdname ddmatrix-solve
 #' @export
 setMethod("solve", signature(a="ddmatrix"), 
   function(a)
@@ -59,7 +59,7 @@ setMethod("solve", signature(a="ddmatrix"),
 )
 
 ### Solving systems
-#' @rdname linalg
+#' @rdname ddmatrix-solve
 #' @export
 setMethod("solve", signature(a="ddmatrix", b="ddmatrix"), 
   function(a, b)
@@ -80,19 +80,5 @@ setMethod("solve", signature(a="ddmatrix", b="ddmatrix"),
     return( b )
   }
 )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
