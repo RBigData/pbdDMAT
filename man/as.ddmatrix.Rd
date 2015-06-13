@@ -70,7 +70,12 @@ if (comm.rank()==0){
 }
 
 dx <- as.ddmatrix(x, bldim=c(4,4))
-print(dx)
+dx
+
+### Can also be common to all ranks
+y <- matrix(1:25, 5)
+dy <- as.ddmatrix(y)
+dy
 
 finalize()
 }
