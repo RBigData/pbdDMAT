@@ -1,6 +1,6 @@
 Package: pbdDMAT
 Title: Programming with Big Data -- Distributed Matrix Methods
-Version: 0.3-1
+Version: 0.3-2
 Depends: R (>= 3.0.0), 
     methods,
     pbdMPI (>= 0.2-6),
