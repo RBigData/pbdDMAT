@@ -39,6 +39,9 @@
 #' @keywords Methods
 #' @name as.matrix
 #' @rdname as.matrix
+NULL
+
+
 setGeneric(name = "as.matrix", useAsDefault = base::as.matrix, package="pbdDMAT")
 
 
