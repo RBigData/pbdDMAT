@@ -86,7 +86,8 @@ setMethod("diag", signature(x="vector"),
     else if (missing(ncol) && !missing(nrow))
       ncol <- nrow
     
-    if (type=="ddmatrix"){
+    if (type=="ddmatrix")
+    {
       if (length(bldim)==1)
         bldim <- rep(bldim, 2)
       
@@ -115,9 +116,17 @@ setMethod("diag", signature(x="character"),
     type <- match.arg(type, c("matrix", "ddmatrix"))
     data <- match.arg(x, c("runif", "uniform", "rnorm", "normal", "rexp", "exponential", "rweibull", "weibull"))
     
+    if (missing(nrow) && missing(ncol))
+      nrow <- ncol <- length(x)
+    else if (missing(nrow) && !missing(ncol))
+      nrow <- ncol
+    else if (missing(ncol) && !missing(nrow))
+      ncol <- nrow
+    
     dim <- c(nrow, ncol)
     
-    if (type=="ddmatrix"){
+    if (type=="ddmatrix")
+    {
       if (length(bldim)==1)
         bldim <- rep(bldim, 2)
       
@@ -125,7 +134,8 @@ setMethod("diag", signature(x="character"),
       
       if (!base.ownany(dim=dim, bldim=bldim, ICTXT=ICTXT))
         Data <- matrix(0.0, 1, 1)
-      else {
+      else
+      {
         if (data=="runif" || data=="uniform")
           Data <- runif(n=max(ldim), min=min, max=max)
         else if (data=="rnorm" || data=="normal")
@@ -134,8 +144,6 @@ setMethod("diag", signature(x="character"),
           Data <- rexp(n=max(ldim), rate=rate)
         else if (data=="rweibull" || data=="weibull")
           Data <- rweibull(n=max(ldim), shape=shape, scale=scale)
-        
-#        dim(Data) <- ldim
       }
       
       descx <- base.descinit(dim=dim, bldim=bldim, ldim=ldim, ICTXT=ICTXT)
@@ -143,7 +151,8 @@ setMethod("diag", signature(x="character"),
       out <- base.ddiagmk(diag=Data, descx=descx)
       ret <- new("ddmatrix", Data=out, dim=dim, ldim=ldim, bldim=bldim, ICTXT=ICTXT)
     }
-    else {
+    else
+    {
       if (data=="runif" || data=="uniform")
         Data <- runif(prod(dim), min=min, max=max)
       else if (data=="rnorm" || data=="normal")
@@ -152,8 +161,6 @@ setMethod("diag", signature(x="character"),
         Data <- rexp(prod(dim), rate=rate)
       else if (data=="rweibull" || data=="weibull")
         Data <- rnorm(prod(dim), min=min, max=max)
-      
-#      dim(Data) <- c(nrow, ncol)
       
       ret <- base::diag(x=Data, nrow=nrow, ncol=ncol)
     }
