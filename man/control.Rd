@@ -16,8 +16,8 @@
 This set of controls is used to provide default values in this package.
 }
 \details{
-The default blocking \code{.BLDIM} is \code{c(4,4)}, which results in a 4 by
-4 blocking dimension for distributed matrices.  Any time a function takes
+The default blocking \code{.BLDIM} is \code{c(16,16)}, which results in a 16 by
+16 blocking dimension for distributed matrices.  Any time a function takes
 the \code{bldim=} argument, it will default to this value unless the user
 specifies an alternative.
 
