@@ -44,11 +44,9 @@ object.} }
 library(pbdDMAT, quiet = TRUE)
 init.grid()
 
-# don't do this in production code
-x <- matrix(1:16, ncol=4)
-dx <- as.ddmatrix(x)
+x <- ddmatrix(1:16, ncol=4, bldim=2)
 
-y <- rbind(dx, dx)
+y <- rbind(x, x)
 
 print(y)
 
