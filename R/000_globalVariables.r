@@ -27,7 +27,7 @@ utils::globalVariables(c(".BLDIM", ".ICTXT", ".conflicts.OK"))
 NULL
 
 #' @rdname control
-.BLDIM <- c(4, 4)
+.BLDIM <- c(16, 16)
 
 #' @rdname control
 .ICTXT <- 0
