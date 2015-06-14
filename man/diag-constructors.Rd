@@ -67,12 +67,14 @@ owned by all processes.
 library(pbdDMAT, quiet = TRUE)
 init.grid()
 
-# don't do this in production code
-x <- matrix(1:16, 4)
-x <- as.ddmatrix(x)
-
+### Grab diagonal of a ddmatrix
+x <- ddmatrix(1:16, 4, bldim=2)
 y <- diag(x)
 comm.print(y)
+
+### Construct a diagonal ddmatrix
+eye <- diag(1, 10, type="ddmatrix", bldim=2)
+eye
 
 finalize()
 }
