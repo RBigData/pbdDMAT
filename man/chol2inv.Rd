@@ -38,14 +38,14 @@ library(pbdDMAT, quiet = TRUE)
 init.grid()
 
 comm.set.seed(diff=T)
-x <- ddmatrix("rnorm", 3, 3)
+x <- ddmatrix("rnorm", 3, 3, bldim=2)
 
 R <- qr.R(qr(x))
 xtx.inv <- chol2inv(R)
 
-id <- xtx.inv \%*\% crossprod(x)
+id <- as.matrix(xtx.inv \%*\% crossprod(x))
 
-print(id)
+comm.print(id)
 
 finalize()
 }
