@@ -1,5 +1,7 @@
 Release 0.3-2
-  * 
+  * Fixed any() bug.
+  * Added Examples to all functions.
+  * Improved readme significantly.
 
 Release 0.3-1
   * Numerous improvements to documentation.
