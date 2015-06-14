@@ -43,11 +43,11 @@ library(pbdDMAT, quiet = TRUE)
 init.grid()
 
 comm.set.seed(diff=T)
-x <- ddmatrix("rnorm", 10, 10)
+x <- ddmatrix("rnorm", 10, 10, bldim=2)
 
-cnm <- rcond(x)
+cn <- rcond(x)
 
-comm.print(cnm)
+comm.print(cn)
 
 finalize()
 }
