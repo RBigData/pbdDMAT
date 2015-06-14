@@ -95,7 +95,7 @@ setMethod("any", signature(x="ddmatrix"),
   function(x, na.rm=FALSE)
   {
     if (base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT))
-      ret <- base::all(x@Data)
+      ret <- base::any(x@Data)
     else
       ret <- 0
     
