@@ -48,7 +48,7 @@ apply and then calling \code{as.vector()} or \code{as.matrix()}.
 library(pbdDMAT, quiet = TRUE)
 init.grid()
 
-x <- ddmatrix(1:9, 3)
+x <- ddmatrix(1:9, 3, bldim=2)
 
 y <- as.vector(apply(x, 1, mean))
 comm.print(y)

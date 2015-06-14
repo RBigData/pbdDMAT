@@ -69,11 +69,11 @@ if (comm.rank()==0){
   x <- NULL
 }
 
-dx <- as.ddmatrix(x, bldim=c(4,4))
+dx <- as.ddmatrix(x, bldim=2)
 dx
 
 ### Can also be common to all ranks
-y <- matrix(1:25, 5)
+y <- matrix(1:25, 5, bldim=2)
 dy <- as.ddmatrix(y)
 dy
 

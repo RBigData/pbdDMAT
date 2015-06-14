@@ -119,7 +119,7 @@ object or the dim, bldim, and ICTXT of one.
 library(pbdDMAT, quiet = TRUE)
 init.grid()
 
-x <- ddmatrix(1:9, 3)
+x <- ddmatrix(1:9, 3, bldim=2)
 
 y <- list(dim=dim(x), ldim=ldim(x), bldim=bldim(x))
 comm.print(y)

@@ -30,7 +30,6 @@
 #' Returns a distributed matrix.
 #' 
 #' @examples
-#' 
 #' \dontrun{
 #' # Save code in a file "demo.r" and run with 2 processors by
 #' # > mpiexec -np 2 Rscript demo.r
@@ -38,13 +37,11 @@
 #' library(pbdDMAT, quiet = TRUE)
 #' init.grid()
 #' 
-#' # don't do this in production code
-#' x <- matrix(1:9, 3)
-#' x <- as.ddmatrix(x)
+#' x <- ddmatrix(1:9, 3, bldim=2)
 #' 
 #' y <- x[, -1]
 #' y <- head(y, 2)
-#' print(y)
+#' y
 #' 
 #' finalize()
 #' }
@@ -216,9 +213,7 @@ setMethod("[", signature(x="ddmatrix"),
 #' library(pbdDMAT, quiet = TRUE)
 #' init.grid()
 #' 
-#' # don't do this in production code
-#' x <- matrix(1:9, 3)
-#' x <- as.ddmatrix(x)
+#' x <- ddmatrix(1:9, 3, bldim=2)
 #' 
 #' x[1, ] <- 0
 #' comm.print(submatrix(x), all.rank=T)

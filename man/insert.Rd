@@ -51,9 +51,7 @@ behavior with the \code{submatrix()} function.
 library(pbdDMAT, quiet = TRUE)
 init.grid()
 
-# don't do this in production code
-x <- matrix(1:9, 3)
-x <- as.ddmatrix(x)
+x <- ddmatrix(1:9, 3, bldim=2)
 
 x[1, ] <- 0
 comm.print(submatrix(x), all.rank=T)

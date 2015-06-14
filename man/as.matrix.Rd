@@ -39,7 +39,7 @@ matrix, then all other processes store \code{NULL} for that object.
 library(pbdDMAT, quiet = TRUE)
 init.grid()
 
-dx <- ddmatrix(1:16, ncol=4)
+dx <- ddmatrix(1:16, ncol=4, bldim=2)
 y <- as.matrix(dx, proc.dest=0)
 
 comm.print(y)

@@ -60,10 +60,10 @@
 #' library(pbdDMAT, quiet = TRUE)
 #' init.grid()
 #' 
-#' dx <- ddmatrix(data="rnorm", nrow=5, ncol=6, mean=10, sd=100)
+#' dx <- ddmatrix(data="rnorm", nrow=5, ncol=6, mean=10, sd=100, bldim=2)
 #' dx
 #' 
-#' dy <- ddmatrix(data=1:4, nrow=7, ncol=5)
+#' dy <- ddmatrix(data=1:4, nrow=7, ncol=5, bldim=2)
 #' dy
 #' 
 #' finalize()
