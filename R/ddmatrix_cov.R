@@ -38,7 +38,7 @@
 #' library(pbdDMAT, quiet = TRUE)
 #' init.grid()
 #' 
-#' x <- ddmatrix("rnorm", nrow=3, ncol=3)
+#' x <- ddmatrix("rnorm", nrow=3, ncol=3), bldim=2
 #' 
 #' cv <- cov(x)
 #' print(cv)
