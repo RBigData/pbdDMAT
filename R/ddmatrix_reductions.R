@@ -258,7 +258,7 @@ dmat.rcsum <- function(x, na.rm=FALSE, SCOPE, MEAN=FALSE)
 
 dmat.rcminmax <- function(x, na.rm=FALSE, SCOPE, op)
 {
-  op <- match.arg(op, c("min", "max"))
+  op <- pbdMPI::comm.match.arg(op, c("min", "max"))
   Rop <- eval(parse(text=op))
   
   if (SCOPE == 'Row'){

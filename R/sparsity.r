@@ -48,16 +48,16 @@ sparse_count_zeros <- function(x, tol=.Machine$double.eps)
 
 check_sparsity_inputs <- function(count, out, tol)
 {
-  match.arg(tolower(count), c("zero", "other"))
-  match.arg(tolower(out), c("count", "proportion", "percent"))
+  pbdMPI::comm.match.arg(tolower(count), c("zero", "other"))
+  pbdMPI::comm.match.arg(tolower(out), c("count", "proportion", "percent"))
 }
 
 
 
 calc_sparsity_return <- function(n, dim, count, out)
 {
-  count <- match.arg(tolower(count), c("zero", "other"))
-  out <- match.arg(tolower(out), c("count", "proportion", "percent"))
+  count <- pbdMPI::comm.match.arg(tolower(count), c("zero", "other"))
+  out <- pbdMPI::comm.match.arg(tolower(out), c("count", "proportion", "percent"))
   
   if (count == "other")
     n <- dim - n

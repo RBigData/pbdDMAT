@@ -101,7 +101,7 @@ function (x, y = NULL, use = "everything", method = "pearson")
     else if (use!="everything")
       comm.stop("Error : invalid 'use' argument")
     
-    method <- match.arg(method)
+    method <- pbdMPI::comm.match.arg(method)
     if (method == "pearson") {
 #########################################################
       cntr <- dmat.clmn(x, na.rm=FALSE)

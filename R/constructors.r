@@ -215,7 +215,7 @@ setMethod("ddmatrix", signature(data="matrix"),
 setMethod("ddmatrix", signature(data="character"), 
   function(data, nrow=1, ncol=1, byrow=FALSE, ..., min=0, max=1, mean=0, sd=1, rate=1, shape, scale=1, bldim=.BLDIM, ICTXT=.ICTXT)
   {
-    data <- match.arg(data, c("runif", "uniform", "rnorm", "normal", "rexp", "exponential", "rweibull", "weibull"))
+    data <- pbdMPI::comm.match.arg(data, c("runif", "uniform", "rnorm", "normal", "rexp", "exponential", "rweibull", "weibull"))
     
     if (length(bldim)==1)
       bldim <- rep(bldim, 2)
@@ -353,7 +353,7 @@ setMethod("ddmatrix.local", signature(data="character"),
     if (length(bldim)==1)
       bldim <- rep(bldim, 2)
     
-    data <- match.arg(data, c("runif", "uniform", "rnorm", "normal", "rexp", "exponential", "rweibull", "weibull"))
+    data <- pbdMPI::comm.match.arg(data, c("runif", "uniform", "rnorm", "normal", "rexp", "exponential", "rweibull", "weibull"))
     
     ldim <- c(nrow, ncol)
     

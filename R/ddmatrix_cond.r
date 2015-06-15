@@ -82,9 +82,9 @@ kappa.qr2 <- function (z, ...)
 #' @export
 kappa.ddmatrix <- function (z, exact = FALSE, norm = NULL, method = c("qr", "direct"), ...) 
 {
-  method <- match.arg(method)
+  method <- pbdMPI::comm.match.arg(method)
   norm <- if (!is.null(norm)) 
-            match.arg(norm, c("2", "1", "O", "I"))
+            pbdMPI::comm.match.arg(norm, c("2", "1", "O", "I"))
           else 
             "2"
   if (exact && norm == "2") {
@@ -110,7 +110,7 @@ kappa.ddmatrix <- function (z, exact = FALSE, norm = NULL, method = c("qr", "dir
 setMethod("rcond", signature(x="ddmatrix"),
   function (x, norm = c("O", "I", "1"), triangular = FALSE, ...) 
   {
-    norm <- match.arg(norm)
+    norm <- pbdMPI::comm.match.arg(norm)
     d <- x@dim
     
     if (d[1L] != d[2L]){

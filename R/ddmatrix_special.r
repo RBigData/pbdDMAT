@@ -38,7 +38,7 @@
 #' @export
 companion <- function(coef, type="matrix", ..., bldim=.BLDIM, ICTXT=.ICTXT)
 {
-  type <- match.arg(type, c("matrix", "ddmatrix"))
+  type <- pbdMPI::comm.match.arg(type, c("matrix", "ddmatrix"))
   
   if (type=="ddmatrix"){
     if (length(bldim)==1)
@@ -105,7 +105,7 @@ companion <- function(coef, type="matrix", ..., bldim=.BLDIM, ICTXT=.ICTXT)
 #' @export
 Hilbert <- function(n, type="matrix", ..., bldim=.BLDIM, ICTXT=.ICTXT)
 {
-  type <- match.arg(type, c("matrix", "ddmatrix"))
+  type <- pbdMPI::comm.match.arg(type, c("matrix", "ddmatrix"))
   if (type == "ddmatrix")
   {
     dim <- c(n, n)

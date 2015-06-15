@@ -17,9 +17,10 @@
 #'   R_int_sparse_count_zeros, R_sparse_count_zeros, 
 #'   R_convert_dense_to_csr, R_convert_csr_to_dense
 #' 
-#' @import methods pbdBASE
+#' @import methods
 #' @importFrom pbdMPI comm.cat comm.rank comm.print comm.size 
-#'    comm.stop comm.warning allreduce barrier
+#'    comm.stop comm.warning allreduce barrier comm.match.arg
+#' @import pbdBASE
 #' @importFrom utils head tail
 #' 
 #' @name pbdDMAT-package
@@ -31,3 +32,5 @@
 #' @keywords Package
 NULL
 
+### NOTE: don't import all of pbdMPI or you'll generate a warning
+### with finalize()

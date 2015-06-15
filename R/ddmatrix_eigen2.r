@@ -74,7 +74,7 @@ eigen2 <- function(x, range=c(-Inf, Inf), range.type="interval", only.values=FAL
         jobz <- 'V'
     
     # Eigenvalue search
-    range.type <- match.arg(tolower(range.type), c("interval", "index"))
+    range.type <- pbdMPI::comm.match.arg(tolower(range.type), c("interval", "index"))
     
     if (range.type == "interval")
     {

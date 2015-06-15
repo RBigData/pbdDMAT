@@ -77,7 +77,7 @@ setGeneric(name="diag",
 setMethod("diag", signature(x="vector"), 
   function(x, nrow, ncol, type="matrix", ..., bldim=.BLDIM, ICTXT=.ICTXT)
   {
-    type <- match.arg(type, c("matrix", "ddmatrix"))
+    type <- pbdMPI::comm.match.arg(type, c("matrix", "ddmatrix"))
     
     if (missing(nrow) && missing(ncol))
       nrow <- ncol <- length(x)
@@ -113,8 +113,8 @@ setMethod("diag", signature(x="vector"),
 setMethod("diag", signature(x="character"), 
   function(x, nrow, ncol, type="matrix", ..., min=0, max=1, mean=0, sd=1, rate=1, shape, scale=1, bldim=.BLDIM, ICTXT=.ICTXT)
   {
-    type <- match.arg(type, c("matrix", "ddmatrix"))
-    data <- match.arg(x, c("runif", "uniform", "rnorm", "normal", "rexp", "exponential", "rweibull", "weibull"))
+    type <- pbdMPI::comm.match.arg(type, c("matrix", "ddmatrix"))
+    data <- pbdMPI::comm.match.arg(x, c("runif", "uniform", "rnorm", "normal", "rexp", "exponential", "rweibull", "weibull"))
     
     if (missing(nrow) && missing(ncol))
       nrow <- ncol <- length(x)
