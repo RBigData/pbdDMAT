@@ -8,6 +8,8 @@
 #ifndef __RNACI_H__
 #define __RNACI_H__
 
+#define RNACI_VERSION 0.2.0
+
 
 #include <R.h>
 #include <Rinternals.h>
