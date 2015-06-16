@@ -1,6 +1,6 @@
 # pbdDMAT
 
-* **Version:** 0.3-2
+* **Version:** 0.3-3
 * **License:** [![License](http://img.shields.io/badge/license-GPL%20%28%3E=%202%29-orange.svg?style=flat)](http://www.gnu.org/licenses/gpl-2.0.html)
 * **Author:** See section below.
 
