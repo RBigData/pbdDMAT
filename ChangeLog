@@ -1,5 +1,6 @@
 Release 0.3-3
   * Switched to comm.match.arg().
+  * Switched to header-only RNACI.
 
 Release 0.3-2
   * Fixed any() bug.

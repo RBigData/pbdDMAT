@@ -6,31 +6,30 @@ Depends: R (>= 3.0.0),
     pbdMPI (>= 0.2-6),
     pbdBASE (>= 0.4-0)
 Imports: utils
-LinkingTo: RNACI
 Enhances: pbdSBASE
 LazyLoad: yes
 LazyData: yes
 ByteCompile: yes
 NeedsCompilation: yes
 Authors@R: c(person("Drew", "Schmidt", role = c("aut", "cre"), email =
-        "schmidt@math.utk.edu"), 
-        person("Wei-Chen", "Chen", role = "aut"), 
-        person("George", "Ostrouchov", role = "aut"),
-        person("Pragneshkumar", "Patel", role = "aut"), 
-        person("R Core team", role = "ctb", comment = "some wrappers
-        taken from the base and stats packages"),
-        person("ZhaoKang", "Wang", role="ctb"))
+    "schmidt@math.utk.edu"), 
+    person("Wei-Chen", "Chen", role = "aut"), 
+    person("George", "Ostrouchov", role = "aut"),
+    person("Pragneshkumar", "Patel", role = "aut"), 
+    person("R Core team", role = "ctb", comment = "some wrappers
+    taken from the base and stats packages"),
+    person("ZhaoKang", "Wang", role="ctb"))
 Description: pbdDMAT contains high level S3 and S4 methods for creating,
-        modifying, and performing computations with dense, distributed 
-        matrices. This includes a new class, 'ddmatrix', for storing all 
-        of the distributed data details.  Computation is handled mostly 
-        by routines from the pbdBASE package.
+    modifying, and performing computations with dense, distributed 
+    matrices. This includes a new class, 'ddmatrix', for storing all 
+    of the distributed data details.  Computation is handled mostly 
+    by routines from the pbdBASE package.
 SystemRequirements: OpenMPI (>= 1.5.4) on Solaris, Linux, Mac, and
-        FreeBSD. MS-MPI (Microsoft HPC Pack 2012) or MPICH2 (>=
-        1.4.1p1) on Windows.
+    FreeBSD. MS-MPI (Microsoft HPC Pack 2012) or MPICH2 (>=
+    1.4.1p1) on Windows.
 License: GPL (>= 2)
 URL: http://r-pbd.org/
 BugReports: http://group.r-pbd.org/
 MailingList: Please send questions and comments regarding pbdR to
-        RBigData@gmail.com
+    RBigData@gmail.com
 Maintainer: Drew Schmidt <schmidt@math.utk.edu>

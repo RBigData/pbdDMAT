@@ -66,7 +66,7 @@ and its corresponding [vignette](https://github.com/wrathematics/pbdDEMO/blob/ma
 pbdDMAT requires
 * A system installation of MPI
 * R version 2.14.0 or higher
-* The RNACI, pbdMPI, and pbdBASE packages, as well as their dependencies.
+* The pbdMPI and pbdBASE packages, as well as their dependencies.
 
 The package can be installed from the CRAN via the usual
 `install.packages("pbdDMAT")`, or via the devtools package:

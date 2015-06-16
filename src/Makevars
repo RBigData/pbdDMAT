@@ -1,0 +1,21 @@
+PKG_CPPFLAGS = -I../inst/RNACI
+PKG_CFLAGS = -w
+
+
+R_OBJS = \
+    converters.o \
+    sparse_utils.o \
+    util.o
+
+
+
+OBJECTS = ${R_OBJS}
+
+### Start making here.
+all: $(SHLIB)
+
+$(SHLIB): $(OBJECTS)
+
+clean:
+	@rm -rf *.o *.d *.rc *.so* *.dylib *.dll *.a *.lib \
+            $(SHLIB) $(OBJECTS)
