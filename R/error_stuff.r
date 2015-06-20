@@ -4,7 +4,7 @@ must.be <- function(x, type)
     Rstuff <- c("character", "numeric", "integer", "double", "logical", "matrix", "data.frame", "vector")
     mystuff <- c("dmat", "ddmatrix", "ddvector")
     
-    type <- match.arg(type, c(Rstuff, mystuff))
+    type <- pbdMPI::comm.match.arg(type, c(Rstuff, mystuff))
     
     nm <- deparse(substitute(x))
     

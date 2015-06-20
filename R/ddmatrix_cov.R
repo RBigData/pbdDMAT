@@ -1,7 +1,60 @@
-# ------------------
-# cov
-# ------------------
+#' Covariance and Correlation
+#' 
+#' \code{cov()}
+#' and \code{var()} form the variance-covariance matrix.  \code{cor()} forms
+#' the correlation matrix.  \code{cov2cor()} scales a covariance matrix into a
+#' correlation matrix.
+#' 
+#' \code{cov()} forms the variance-covariance matrix. Only
+#' \code{method="pearson"} is implemented at this time.
+#' 
+#' \code{var()} is a shallow wrapper for \code{cov()} in the case of a
+#' distributed matrix.
+#' 
+#' \code{cov2cor()} scales a covariance matrix into a correlation matrix.
+#' 
+#' @param x,y,V 
+#' numeric distributed matrices.
+#' @param na.rm 
+#' logical, determines whether or not \code{NA}'s should be dealth
+#' with.
+#' @param use 
+#' character indicating how missing values should be treated.
+#' Acceptable values are the same as \code{R}'s, namely "everything",
+#' "all.obs", "complete.obs", "na.or.complete", or "pairwise.complete.obs".
+#' @param method 
+#' character argument indicating which method should be used to
+#' calculate covariances. Currently only "spearman" is available for
+#' \code{ddmatrix}.
+#' 
+#' @return 
+#' Returns a distributed matrix.
+#' 
+#' @examples
+#' \dontrun{
+#' # Save code in a file "demo.r" and run with 2 processors by
+#' # > mpiexec -np 2 Rscript demo.r
+#' 
+#' library(pbdDMAT, quiet = TRUE)
+#' init.grid()
+#' 
+#' x <- ddmatrix("rnorm", nrow=3, ncol=3), bldim=2
+#' 
+#' cv <- cov(x)
+#' print(cv)
+#' 
+#' finalize()
+#' }
+#' 
+#' @keywords Methods
+#' @name covariance
+#' @rdname covariance
+NULL
 
+
+
+#' @rdname covariance
+#' @export
 setMethod("cov", signature(x="ddmatrix"),
 function (x, y = NULL, use = "everything", method = "pearson") 
   {
@@ -48,7 +101,7 @@ function (x, y = NULL, use = "everything", method = "pearson")
     else if (use!="everything")
       comm.stop("Error : invalid 'use' argument")
     
-    method <- match.arg(method)
+    method <- pbdMPI::comm.match.arg(method)
     if (method == "pearson") {
 #########################################################
       cntr <- dmat.clmn(x, na.rm=FALSE)
@@ -74,7 +127,10 @@ function (x, y = NULL, use = "everything", method = "pearson")
 )
 
 
+
 # Much of this wrapper taken from core R's var function
+#' @rdname covariance
+#' @export
 setMethod("var", signature(x="ddmatrix"),
 function (x, y = NULL, na.rm = FALSE, use) 
   {
@@ -96,42 +152,10 @@ function (x, y = NULL, na.rm = FALSE, use)
 )
 
 
-# ------------------
-# sd
-# ------------------
-
-setMethod("sd", signature(x="ddmatrix"),
-function (x, na.rm = FALSE, reduce = FALSE, proc.dest="all") 
-  {
-    if (na.rm)
-      x <- na.exclude(x)
-    
-    descx <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
-    sdv <- base.pdclvar(x=x@Data, descx=descx)
-    
-    sdv <- sqrt(sdv)
-    dim(sdv) <- c(1L, base::length(sdv))
-#    sdv <- matrix(sqrt(sdv), nrow=1)
-    
-    ret <- new("ddmatrix", Data=sdv, dim=c(1, x@dim[2]), ldim=dim(sdv), bldim=x@bldim, ICTXT=x@ICTXT)
-    
-    if (reduce)
-      ret <- as.vector(x=ret, proc.dest=proc.dest)
-    
-    return( ret )
-  }
-)
-
-setMethod("sd", signature(x="ANY"), 
-  function(x, na.rm = FALSE) 
-    stats::sd(x=x, na.rm=na.rm)
-)
-
-# ------------------
-# cor
-# ------------------
 
 # experimental
+#' @rdname covariance
+#' @export
 setMethod("cor", signature(x="ddmatrix"),
 function (x, y = NULL, use = "everything", method = "pearson") 
   {
@@ -157,6 +181,8 @@ function (x, y = NULL, use = "everything", method = "pearson")
 
 
 
+#' @rdname covariance
+#' @export
 setMethod("cov2cor", signature(V="ddmatrix"),
 function(V)
   {

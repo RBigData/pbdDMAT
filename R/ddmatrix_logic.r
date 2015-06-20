@@ -1,7 +1,54 @@
+#' Logical Comparisons
+#' 
+#' Logical comparisons.
+#' 
+#' Performs the indicated logical comparison.
+#' 
+#' If \code{na.rm} is \code{TRUE} and only \code{NA}'s are present, then
+#' \code{TRUE} is returned.
+#' 
+#' @param e1,e2,x
+#' distributed matrix or numeric vector
+#' @param na.rm 
+#' logical, indicating whether or not \code{NA}'s should first be
+#' removed. If not and an NA is present, \code{NA} is returned.
+#' 
+#' @return 
+#' Returns a distributed matrix.
+#' 
+#' @examples
+#' 
+#' \dontrun{
+#' # Save code in a file "demo.r" and run with 2 processors by
+#' # > mpiexec -np 2 Rscript demo.r
+#' 
+#' library(pbdDMAT, quiet = TRUE)
+#' init.grid()
+#' 
+#' # don't do this in production code
+#' x <- matrix(sample(0, 1, 9, replace=T), 3)
+#' comm.print(x)
+#' 
+#' x <- as.ddmatrix(x, bldim=2)
+#' 
+#' y <- any(x)
+#' comm.print(y)
+#' 
+#' finalize()
+#' }
+#' 
+#' @keywords Methods Extraction Type
+#' @name Comparators
+#' @rdname Comparators
+NULL
+
+
 # -------------------
 # ddmatrix Comparators
 # -------------------
 
+#' @rdname Comparators
+#' @export
 setMethod("==", signature(e1="ddmatrix", e2="ddmatrix"),
   function(e1, e2)
   {
@@ -13,6 +60,8 @@ setMethod("==", signature(e1="ddmatrix", e2="ddmatrix"),
   }
 ) 
 
+#' @rdname Comparators
+#' @export
 setMethod("!=", signature(e1="ddmatrix", e2="ddmatrix"),
   function(e1, e2)
   {
@@ -24,6 +73,8 @@ setMethod("!=", signature(e1="ddmatrix", e2="ddmatrix"),
   }
 ) 
 
+#' @rdname Comparators
+#' @export
 setMethod("all", signature(x="ddmatrix"),
   function(x, na.rm=FALSE)
   {
@@ -38,11 +89,13 @@ setMethod("all", signature(x="ddmatrix"),
   }
 ) 
 
+#' @rdname Comparators
+#' @export
 setMethod("any", signature(x="ddmatrix"),
   function(x, na.rm=FALSE)
   {
     if (base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT))
-      ret <- base::all(x@Data)
+      ret <- base::any(x@Data)
     else
       ret <- 0
     
@@ -52,6 +105,8 @@ setMethod("any", signature(x="ddmatrix"),
   }
 ) 
 
+#' @rdname Comparators
+#' @export
 setMethod("<", signature(e1="ddmatrix", e2="ddmatrix"),
   function(e1, e2)
   {
@@ -63,6 +118,8 @@ setMethod("<", signature(e1="ddmatrix", e2="ddmatrix"),
   }
 ) 
 
+#' @rdname Comparators
+#' @export
 setMethod(">", signature(e1="ddmatrix", e2="ddmatrix"),
   function(e1, e2)
   {
@@ -74,6 +131,8 @@ setMethod(">", signature(e1="ddmatrix", e2="ddmatrix"),
   }
 ) 
 
+#' @rdname Comparators
+#' @export
 setMethod("<=", signature(e1="ddmatrix", e2="ddmatrix"),
   function(e1, e2)
   {
@@ -85,6 +144,8 @@ setMethod("<=", signature(e1="ddmatrix", e2="ddmatrix"),
   }
 ) 
 
+#' @rdname Comparators
+#' @export
 setMethod(">=", signature(e1="ddmatrix", e2="ddmatrix"),
   function(e1, e2)
   {
@@ -96,6 +157,8 @@ setMethod(">=", signature(e1="ddmatrix", e2="ddmatrix"),
   }
 ) 
 
+#' @rdname Comparators
+#' @export
 setMethod("|", signature(e1="ddmatrix", e2="ddmatrix"),
   function(e1, e2)
   {
@@ -107,6 +170,8 @@ setMethod("|", signature(e1="ddmatrix", e2="ddmatrix"),
   }
 ) 
 
+#' @rdname Comparators
+#' @export
 setMethod("&", signature(e1="ddmatrix", e2="ddmatrix"),
   function(e1, e2)
   {
@@ -123,6 +188,8 @@ setMethod("&", signature(e1="ddmatrix", e2="ddmatrix"),
 # ddmatrix-vector Comparators
 # -------------------
 
+#' @rdname Comparators
+#' @export
 setMethod("<", signature(e1="ddmatrix", e2="numeric"), 
   function(e1, e2){
     dim <- e1@dim
@@ -148,11 +215,15 @@ setMethod("<", signature(e1="ddmatrix", e2="numeric"),
   }
 )
 
+#' @rdname Comparators
+#' @export
 setMethod("<", signature(e1="numeric", e2="ddmatrix"), 
   function(e1, e2)
     e2>e1
 )
 
+#' @rdname Comparators
+#' @export
 setMethod(">", signature(e1="ddmatrix", e2="numeric"), 
   function(e1, e2){
     dim <- e1@dim
@@ -177,11 +248,15 @@ setMethod(">", signature(e1="ddmatrix", e2="numeric"),
   }
 )
 
+#' @rdname Comparators
+#' @export
 setMethod(">", signature(e1="numeric", e2="ddmatrix"), 
   function(e1, e2)
     e2<e1
 )
 
+#' @rdname Comparators
+#' @export
 setMethod("<=", signature(e1="ddmatrix", e2="numeric"), 
   function(e1, e2){
     dim <- e1@dim
@@ -209,11 +284,15 @@ setMethod("<=", signature(e1="ddmatrix", e2="numeric"),
   }
 )
 
+#' @rdname Comparators
+#' @export
 setMethod("<=", signature(e1="numeric", e2="ddmatrix"), 
   function(e1, e2)
     e2>=e1
 )
 
+#' @rdname Comparators
+#' @export
 setMethod(">=", signature(e1="ddmatrix", e2="numeric"), 
   function(e1, e2){
     dim <- e1@dim
@@ -238,11 +317,15 @@ setMethod(">=", signature(e1="ddmatrix", e2="numeric"),
   }
 )
 
+#' @rdname Comparators
+#' @export
 setMethod(">=", signature(e1="numeric", e2="ddmatrix"), 
   function(e1, e2)
     e2<=e1
 )
 
+#' @rdname Comparators
+#' @export
 setMethod("==", signature(e1="ddmatrix", e2="numeric"), 
   function(e1, e2){
     dim <- e1@dim
@@ -267,11 +350,15 @@ setMethod("==", signature(e1="ddmatrix", e2="numeric"),
   }
 )
 
+#' @rdname Comparators
+#' @export
 setMethod("==", signature(e1="numeric", e2="ddmatrix"), 
   function(e1, e2)
     e2==e1
 )
 
+#' @rdname Comparators
+#' @export
 setMethod("!=", signature(e1="ddmatrix", e2="numeric"), 
   function(e1, e2){
     dim <- e1@dim
@@ -298,11 +385,15 @@ setMethod("!=", signature(e1="ddmatrix", e2="numeric"),
   }
 )
 
+#' @rdname Comparators
+#' @export
 setMethod("!=", signature(e1="numeric", e2="ddmatrix"), 
   function(e1, e2)
     e2!=e1
 )
 
+#' @rdname Comparators
+#' @export
 setMethod("|", signature(e1="ddmatrix", e2="numeric"), 
   function(e1, e2){
     dim <- e1@dim
@@ -327,11 +418,15 @@ setMethod("|", signature(e1="ddmatrix", e2="numeric"),
   }
 )
 
+#' @rdname Comparators
+#' @export
 setMethod("|", signature(e1="numeric", e2="ddmatrix"), 
   function(e1, e2)
     e2 | e1
 )
 
+#' @rdname Comparators
+#' @export
 setMethod("&", signature(e1="ddmatrix", e2="numeric"), 
   function(e1, e2){
     dim <- e1@dim
@@ -356,123 +451,11 @@ setMethod("&", signature(e1="ddmatrix", e2="numeric"),
   }
 )
 
+#' @rdname Comparators
+#' @export
 setMethod("&", signature(e1="numeric", e2="ddmatrix"), 
   function(e1, e2)
     e2 & e1
 )
 
-# -------------------
-# NA's, NaN's, etc
-# -------------------
-
-setMethod("is.na", signature(x="ddmatrix"),
-  function(x)
-  {
-    x@Data <- base::is.na(x@Data)
-    return(x)
-  }
-)
-
-setMethod("na.exclude", signature(object="ddmatrix"),
-  function(object, ..., ICTXT)
-  {
-    # 1xn's have to be handled separately
-    if (object@dim[1] == 1){
-      anynas <- any(is.na(object@Data))
-      anynas <- as.logical(allreduce(anynas, op='max'))
-      if (anynas){
-        object@Data <- matrix(0)
-        object@dim[1] <- 0
-        object@ldim <- c(1,1)
-        if (!missing(ICTXT))
-          object@ICTXT <- ICTXT
-      } else if (object@ICTXT != ICTXT)
-        object <- dmat.reblock(dx=object, bldim=object@bldim, ICTXT=ICTXT)
-      
-      return(object)
-    }
-    
-    # General case
-    if (missing(ICTXT))
-      oldCTXT <- object@ICTXT
-    else
-      oldCTXT <- ICTXT
-    blacs_ <- base.blacs(1)
-
-    oldbldim <- object@bldim
-    bldim <- c(dim(object)[1], ceiling(oldbldim[2] / blacs_$NPCOL))
-
-    if (object@ICTXT != 1)
-      newObj <- dmat.reblock(dx=object, bldim=bldim, ICTXT=1)
-
-    iown <- ownany(dim=newObj@dim, bldim=newObj@bldim, ICTXT=1)
-
-#    if (blacs_$MYROW != -1 && blacs_$MYCOL != -1)   FIXME
-
-    if (iown)
-      tmp <- base::rowSums(newObj@Data)
-    else
-      tmp <- numeric(0)
-
-    tmplen <- pbdMPI::allreduce(length(tmp), op='max')
-    if (length(tmp) < tmplen)
-      tmp <- rep(0, tmplen)
-    tmp <- pbdMPI::allreduce(tmp)
-
-    narows <- which(is.na(tmp))
-    lnarows <- length(narows)
-    if (lnarows > 0 && iown){
-      if (lnarows < newObj@dim[1])
-        new <- newObj@Data[-narows, , drop=FALSE] 
-      else
-        new <- matrix(0.0, nrow=0, ncol=newObj@dim[2])
-#        if (!is.matrix(new))
-#          new <- matrix(new, nrow=1)
-      newObj@Data <- new
-      attr(narows, "class") <- "exclude"
-      attr(newObj@Data, "na.action") <- narows
-    }
-
-    newObj@ldim <- dim(newObj@Data)
-
-    # correction for 0xn ldims
-    if (newObj@ldim[1]==0){
-      newObj@Data <- matrix(0.0)
-      newObj@dim[1] <- 0
-      newObj@ldim <- c(1,1)
-      newObj@ICTXT <- oldCTXT
-    }
-
-    if (all(newObj@dim>0)){
-      newdim <- pbdMPI::allreduce(dim(newObj@Data)[1], op='max')
-      newObj@dim[1]  <- newdim
-    }
-
-    if (newObj@ICTXT != oldCTXT)
-      newObj <- dmat.reblock(dx=newObj, bldim=oldbldim, ICTXT=oldCTXT)
-
-    return(newObj)
-  }
-)
-
-setMethod("is.nan", signature(x="ddmatrix"),
-  function(x)
-  {
-    x@Data <- base::is.nan(x@Data)
-    return(x)
-  }
-)
-
-setMethod("is.numeric", signature(x="ddmatrix"),
-  function(x)
-    base::is.numeric(x@Data)
-)
-
-setMethod("is.infinite", signature(x="ddmatrix"),
-  function(x)
-  {
-    x@Data <- base::is.infinite(x@Data)
-    return(x)
-  }
-)
 

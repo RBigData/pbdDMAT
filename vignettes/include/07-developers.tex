@@ -37,6 +37,24 @@ This is more or less how things are done in \pkg{pbdDMAT}.
 \subsection{BLACS}
 \label{sec:ictxt}
 
-The most critical piece of information to impart is that no matter what, ``block-cyclicality'' can not be destroyed.  Most of the routines for distributed matrices (and almost all of the really complicated ones) assume this structure.  This is why 3 BLACS contexts are created by default when initializing the process grid; namely, context 0 is the optimal (unless otherwise specified) rectangular process grid, context 1 is the $PQ\times 1$ process grid (assuming $P$ process rows and $Q$ process columns), and context 2 is the $1\times PQ$ process grid.  As defined above, context 0 is optimal for many linear algebra routines, and not really any worse (aside from being cumbersome) for most other computations.  The other contexts are important because they are more natural for adding/removing columns and rows (respectively).
+The most critical piece of information to impart is that no matter what, 
+``block-cyclicality'' can not be destroyed.  Most of the routines for 
+distributed matrices (and almost all of the really complicated ones) assume this 
+structure.  This is why 3 BLACS contexts are created by default when 
+initializing the process grid; namely, context 0 is the optimal (unless 
+otherwise specified) rectangular process grid, context 1 is the $1\times PQ$ 
+process grid (assuming $P$ process rows and $Q$ process columns), and context 2 
+is the $PQ\times 1$ process grid.  As defined above, context 0 is optimal for 
+many linear algebra routines, and not really any worse (aside from being 
+cumbersome) for most other computations.  The other contexts are important 
+because they are more natural for adding/removing columns and rows 
+(respectively).
 
-Redistributing the data from a $P\times Q$ process grid to a $1\times PQ$ process grid can be very useful, despite the communication overhead involved.  When a matrix is distributed across this context, while it is not trivial to ``drop'' rows (certainly not as easy as it is in context 1), doing so, whichever rows we do indeed drop, results in a block-cyclically distributed matrix.  In general, the same cannot be said for other contexts.  The \code{ddmatrix} methods \code{[} and \code{na.exclude()} rely on such a redistribution (two redistributions in the case of the former).
+Redistributing the data from a $P\times Q$ process grid to a $1\times PQ$ 
+process grid can be very useful, despite the communication overhead involved.  
+When a matrix is distributed across this context, while it is not trivial to 
+``drop'' rows (certainly not as easy as it is in context 1), doing so, whichever 
+rows we do indeed drop, results in a block-cyclically distributed matrix.  In 
+general, the same cannot be said for other contexts.  The \code{ddmatrix} 
+methods \code{[} and \code{na.exclude()} rely on such a redistribution (two 
+redistributions in the case of the former).

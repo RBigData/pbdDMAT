@@ -50,7 +50,14 @@ setClass(Class="dmat",
     storage="llb") # locally load balanced
 )
 
-# Distributed Dense Matrix
+
+
+#' Class ddmatrix
+#' 
+#' Distributed matrix class.
+#' 
+#' @name ddmatrix-class
+#' @keywords Classes
 setClass(
   Class="ddmatrix", 
   representation=representation(
@@ -101,22 +108,22 @@ setClass(
 
 # Distributed Dense Vector
 setClass(
-          Class="ddvector", 
-          representation=representation(
-                         Data="vector",
-                         len="numeric",
-                         llen="numeric",
-                         bldim="numeric",
-                         ICTXT="numeric"
-          ),
-          
-          prototype=prototype(
-                         Data=0.0,
-                         len=1L,
-                         llen=1L,
-                         bldim=c(1L, 1L),
-                         ICTXT=0L
-          )
+  Class="ddvector", 
+  representation=representation(
+     Data="vector",
+     len="numeric",
+     llen="numeric",
+     bldim="numeric",
+     ICTXT="numeric"
+  ),
+  
+  prototype=prototype(
+    Data=0.0,
+    len=1L,
+    llen=1L,
+    bldim=c(1L, 1L),
+    ICTXT=0L
+  )
 )
 
 

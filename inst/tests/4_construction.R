@@ -1,42 +1,40 @@
-# ################################################
-# ------------------------------------------------
-# construction quicktest
-# ------------------------------------------------
-# ################################################
+library(pbdTEST)
+settings(mpi=TRUE)
 
-# For each test, script returns TRUE if the test was successful 
-# (produced the correct value), and returns FALSE if the test was
-# unsuccessful (produced the incorrect value).
+.BLDIM <- 2
+comm.set.seed(seed=1234, diff=FALSE)
 
 
-library(pbdDMAT, quiet=T)
-
-init.grid()
-
-comm.set.seed(seed=1234, diff=F) # uniform seed on all processors
-
+### --------------------------------------
+module("ddmatrix constructor")
 
 n <- 1e2
 p <- 25
 
+
+y <- matrix(rnorm(n*p, mean=100, sd=10), n, p)
+### Need to do y first, since otherwise the rng's separate...
 if (comm.rank()==0){
   x <- matrix(rnorm(n*p), n, p)
 } else {
   x <- NULL
 }
 
-comm.set.seed(seed=1234, diff=F)
-y <- matrix(rnorm(n*p, mean=100, sd=10), n, p)
+dx <- as.ddmatrix(x)
+dy <- as.ddmatrix(y)
 
-dx <- as.ddmatrix(x, 2)
-dy <- as.ddmatrix(y, 2)
+test("as.matrix --- all ranks", {
+  a <- x
+  b <- as.matrix(dx)
+})
 
+test("as.matrix --- proc.dest=0", {
+  a <- y
+  b <- as.matrix(dy, proc.dest=0)
+})
 
-nx <- as.matrix(dx)
-comm.print(all.equal(x, nx))
+collect()
 
-ny <- as.matrix(dy, proc.dest=0)
-comm.print(all.equal(y, ny))
 
 
 finalize()

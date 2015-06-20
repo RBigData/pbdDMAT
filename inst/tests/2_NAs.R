@@ -1,125 +1,89 @@
-# ################################################
-# ------------------------------------------------
-# NA's
-# ------------------------------------------------
-# ################################################
+library(pbdTEST)
+settings(mpi=TRUE)
 
-# For each test, script returns TRUE if the test was successful 
-# (produced the correct value), and returns FALSE if the test was
-# unsuccessful (produced the incorrect value).
-
-
-library(pbdDMAT, quietly=T)
-
-init.grid()
-
-# -------------------------- #
-# Read in distributed matrix #
-# -------------------------- #
-
-ff <- function(.)
-{
-  cf <- sample(1:2, size=1, prob=c(.1, .9))
-  if (cf==1)
-    return(NA)
-  else
-    return(rnorm(1))
-}
-
-f <- function(n)
-{
-  sapply(1:n, ff)
-}
-
-
+.BLDIM <- 2
 comm.set.seed(seed=1234, diff=FALSE)
 
 tol <- 1e-8
 
-comm.print("-------NA removal-------", quiet=T)
-comm.print("       SQUARE", quiet=T)
-
-A <- matrix(f(100), 10)
-dA <- as.ddmatrix(A, 2)
-out <- as.matrix(na.exclude(dA))
-comm.print( all(abs(out-na.exclude(A)) < tol ), quiet=TRUE)
-
-A <- matrix(f(100), 10)
-dA <- as.ddmatrix(A, 2)
-out <- as.matrix(na.exclude(dA))
-comm.print( all(abs(out-na.exclude(A)) < tol ), quiet=TRUE)
-
-A <- matrix(f(100), 10)
-dA <- as.ddmatrix(A, 2)
-out <- as.matrix(na.exclude(dA))
-comm.print( all(abs(out-na.exclude(A)) < tol ), quiet=TRUE)
-
-comm.print("       ROW", quiet=T)
-
-A <- matrix(f(100), 2)
-dA <- as.ddmatrix(A, 2)
-out <- as.matrix(na.exclude(dA))
-comm.print( all(abs(out-na.exclude(A)) < tol ), quiet=TRUE)
-
-A <- matrix(f(100), 2)
-dA <- as.ddmatrix(A, 2)
-out <- as.matrix(na.exclude(dA))
-comm.print( all(abs(out-na.exclude(A)) < tol ), quiet=TRUE)
-
-A <- matrix(f(100), 2)
-dA <- as.ddmatrix(A, 2)
-out <- as.matrix(na.exclude(dA))
-comm.print( all(abs(out-na.exclude(A)) < tol ), quiet=TRUE)
-
-A <- matrix(f(100), 2)
-dA <- as.ddmatrix(A, 2)
-out <- as.matrix(na.exclude(dA))
-comm.print( all(abs(out-na.exclude(A)) < tol ), quiet=TRUE)
-
-A <- matrix(f(100), 1)
-dA <- as.ddmatrix(A, 2)
-out <- as.matrix(na.exclude(dA))
-comm.print( all(abs(out-na.exclude(A)) < tol ), quiet=TRUE)
-
-A <- matrix(f(100), 1)
-dA <- as.ddmatrix(A, 2)
-out <- as.matrix(na.exclude(dA))
-comm.print( all(abs(out-na.exclude(A)) < tol ), quiet=TRUE)
-
-A <- matrix(f(50), 1)
-dA <- as.ddmatrix(A, 100)
-out <- as.matrix(na.exclude(dA))
-comm.print( all(abs(out-na.exclude(A)) < tol ), quiet=TRUE)
-
-A <- matrix(f(50), 1)
-dA <- as.ddmatrix(A, 100)
-out <- as.matrix(na.exclude(dA))
-comm.print( all(abs(out-na.exclude(A)) < tol ), quiet=TRUE)
+na_maker <- function(n)
+{
+  sapply(X=1:n, FUN=function(.) {
+    cf <- sample(1:2, size=1, prob=c(.1, .9))
+    if (cf==1) return(NA)
+    else return(rnorm(1))
+  })
+}
 
 
-comm.print("       COL", quiet=T)
+### --------------------------------------
+module("NA removal:  square")
+
+for (i in 1:3){
+  x <- matrix(na_maker(100), 10)
+  dx <- as.ddmatrix(x)
+  
+  test(paste0("Random test #", i), {
+    a <- na.exclude(x)
+    b <- as.matrix(na.exclude(dx))
+  }, check.attributes=FALSE)
+}
+
+collect()
 
 
-A <- matrix(f(100), 100)
-dA <- as.ddmatrix(A, 2)
-out <- as.matrix(na.exclude(dA))
-comm.print( all(abs(out-na.exclude(A)) < tol ), quiet=TRUE)
+### --------------------------------------
+module("NA removal:  row")
 
-A <- matrix(f(100), 100)
-dA <- as.ddmatrix(A, 2)
-out <- as.matrix(na.exclude(dA))
-comm.print( all(abs(out-na.exclude(A)) < tol ), quiet=TRUE)
+for (i in 1:3){
+  x <- matrix(na_maker(100), 1)
+  dx <- as.ddmatrix(x)
+  
+  test(paste0("Random test #", i), {
+    a <- na.exclude(x)
+    b <- as.matrix(na.exclude(dx))
+  }, check.attributes=FALSE)
+}
 
-A <- matrix(f(50), 50)
-dA <- as.ddmatrix(A, 100)
-out <- as.matrix(na.exclude(dA))
-comm.print( all(abs(out-na.exclude(A)) < tol ), quiet=TRUE)
+for (i in 1:3){
+  x <- matrix(na_maker(100), 1)
+  dx <- as.ddmatrix(x, bldim=100)
+  
+  test(paste0("Random test (big bldim) #", i), {
+    a <- na.exclude(x)
+    b <- as.matrix(na.exclude(dx))
+  }, check.attributes=FALSE)
+}
 
-A <- matrix(f(50), 50)
-dA <- as.ddmatrix(A, 100)
-out <- as.matrix(na.exclude(dA))
-comm.print( all(abs(out-na.exclude(A)) < tol ), quiet=TRUE)
+collect()
 
+
+
+
+### --------------------------------------
+module("NA removal:  column")
+
+for (i in 1:3){
+  x <- matrix(na_maker(100), 100)
+  dx <- as.ddmatrix(x)
+  
+  test(paste0("Random test #", i), {
+    a <- na.exclude(x)
+    b <- as.matrix(na.exclude(dx))
+  }, check.attributes=FALSE)
+}
+
+for (i in 1:3){
+  x <- matrix(na_maker(100), 100)
+  dx <- as.ddmatrix(x, bldim=100)
+  
+  test(paste0("Random test (big bldim) #", i), {
+    a <- na.exclude(x)
+    b <- as.matrix(na.exclude(dx))
+  }, check.attributes=FALSE)
+}
+
+collect()
 
 
 finalize()
