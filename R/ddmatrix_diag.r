@@ -137,13 +137,13 @@ setMethod("diag", signature(x="character"),
       else
       {
         if (data=="runif" || data=="uniform")
-          Data <- runif(n=max(ldim), min=min, max=max)
+          Data <- stats::runif(n=max(ldim), min=min, max=max)
         else if (data=="rnorm" || data=="normal")
-          Data <- rnorm(n=max(ldim), mean=mean, sd=sd)
+          Data <- stats::rnorm(n=max(ldim), mean=mean, sd=sd)
         else if (data=="rexp" || data=="exponential")
-          Data <- rexp(n=max(ldim), rate=rate)
+          Data <- stats::rexp(n=max(ldim), rate=rate)
         else if (data=="rweibull" || data=="weibull")
-          Data <- rweibull(n=max(ldim), shape=shape, scale=scale)
+          Data <- stats::rweibull(n=max(ldim), shape=shape, scale=scale)
       }
       
       descx <- base.descinit(dim=dim, bldim=bldim, ldim=ldim, ICTXT=ICTXT)
@@ -154,13 +154,13 @@ setMethod("diag", signature(x="character"),
     else
     {
       if (data=="runif" || data=="uniform")
-        Data <- runif(prod(dim), min=min, max=max)
+        Data <- stats::runif(prod(dim), min=min, max=max)
       else if (data=="rnorm" || data=="normal")
-        Data <- rnorm(prod(dim), mean=mean, sd=sd)
+        Data <- stats::rnorm(prod(dim), mean=mean, sd=sd)
       else if (data=="rexp" || data=="exponential")
-        Data <- rexp(prod(dim), rate=rate)
+        Data <- stats::rexp(prod(dim), rate=rate)
       else if (data=="rweibull" || data=="weibull")
-        Data <- rnorm(prod(dim), min=min, max=max)
+        Data <- stats::rnorm(prod(dim), min=min, max=max)
       
       ret <- base::diag(x=Data, nrow=nrow, ncol=ncol)
     }

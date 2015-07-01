@@ -18,6 +18,7 @@
 #'   R_convert_dense_to_csr, R_convert_csr_to_dense
 #' 
 #' @import methods
+#' @importFrom stats rnorm runif rweibull rexp
 #' @importFrom pbdMPI comm.cat comm.rank comm.print comm.size 
 #'    comm.stop comm.warning allreduce barrier comm.match.arg
 #' @import pbdBASE
