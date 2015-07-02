@@ -56,8 +56,18 @@ setClass(Class="dmat",
 #' 
 #' Distributed matrix class.
 #' 
+#' @slot DATA
+#' The local submatrix.
+#' @slot bldim
+#' Blocking factor.
+#' @slot ICTXT
+#' BLACS ICTXT value.  Should be one of 0, 1, or 2 (initialized from
+#' \code{pbdBASE::init.grid()}) or a custom value greater than 2 (created from
+#' \code{pbdBASE::blacs_gridinit()}).
+#' 
 #' @name ddmatrix-class
 #' @keywords Classes
+#' @docType class
 setClass(
   Class="ddmatrix", 
   representation=representation(
