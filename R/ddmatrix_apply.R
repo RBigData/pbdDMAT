@@ -121,7 +121,7 @@ setMethod("apply", signature(X="ddmatrix"),
         if (proc.dest=='all')
           return( pbdMPI::allgather(tmp) )
         else
-          return( gather(tmp, proc.dest=proc.dest) )
+          return( gather(tmp, rank.dest=proc.dest) )
       }
 
       else if (!is.null(tmp) && !is.matrix(tmp))
@@ -178,7 +178,7 @@ setMethod("apply", signature(X="ddmatrix"),
         if (proc.dest=='all')
           return( pbdMPI::allgather(tmp) )
         else
-          return( gather(tmp, proc.dest=proc.dest) )
+          return( gather(tmp, rank.dest=proc.dest) )
       }
       else if (!is.null(tmp) && !is.matrix(tmp))
         dim(tmp) <- c(1L, base::length(tmp))
