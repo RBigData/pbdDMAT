@@ -82,7 +82,7 @@ kappa.qr2 <- function (z, ...)
 #' @export
 kappa.ddmatrix <- function (z, exact = FALSE, norm = NULL, method = c("qr", "direct"), ...) 
 {
-  method <- pbdMPI::comm.match.arg(method)
+  method <- pbdMPI::comm.match.arg(method, c("qr", "direct"))
   norm <- if (!is.null(norm)) 
             pbdMPI::comm.match.arg(norm, c("2", "1", "O", "I"))
           else 
