@@ -93,7 +93,7 @@ setMethod("apply", signature(X="ddmatrix"),
       }else{
         resultOK <- TRUE
       }
-      resultOK <- comm.all(resultOK)
+      resultOK <- pbdMPI::comm.all(resultOK)
       if(!resultOK) {
         comm.stop('apply only supports one-to-one mapping funcion when margin=c(1,2)')
       }
@@ -119,7 +119,7 @@ setMethod("apply", signature(X="ddmatrix"),
         if (!all(sapply(tmp, is.numeric)))
           comm.stop("Error : list object contains non-numeric data")
         if (proc.dest=='all')
-          return( allgather(tmp) )
+          return( pbdMPI::allgather(tmp) )
         else
           return( gather(tmp, proc.dest=proc.dest) )
       }
@@ -176,7 +176,7 @@ setMethod("apply", signature(X="ddmatrix"),
         if (!all(sapply(tmp, is.numeric)))
           comm.stop("Error : list object contains non-numeric data")
         if (proc.dest=='all')
-          return( allgather(tmp) )
+          return( pbdMPI::allgather(tmp) )
         else
           return( gather(tmp, proc.dest=proc.dest) )
       }

@@ -19,10 +19,11 @@
 #' 
 #' @import methods
 #' @importFrom stats rnorm runif rweibull rexp
-#' @importFrom pbdMPI comm.cat comm.rank comm.print comm.size 
-#'    comm.stop comm.warning allreduce barrier comm.match.arg
-#' @import pbdBASE
 #' @importFrom utils head tail
+#' @importFrom pbdMPI comm.cat comm.rank comm.print comm.size
+#'    comm.stop comm.warning allreduce barrier comm.match.arg
+#'    comm.any comm.all reduce allgather gather comm.max
+#' @import pbdBASE
 #' 
 #' @name pbdDMAT-package
 #' @docType package
@@ -32,6 +33,3 @@
 #' @references Programming with Big Data in R Website: \url{http://r-pbd.org/}
 #' @keywords Package
 NULL
-
-### NOTE: don't import all of pbdMPI or you'll generate a warning
-### with finalize()
