@@ -227,13 +227,13 @@ setMethod("ddmatrix", signature(data="character"),
       Data <- matrix(0.0, 1, 1)
     else {
       if (data=="runif" || data=="uniform")
-        Data <- runif(n=prod(ldim), min=min, max=max)
+        Data <- stats::runif(n=prod(ldim), min=min, max=max)
       else if (data=="rnorm" || data=="normal")
-        Data <- rnorm(n=prod(ldim), mean=mean, sd=sd)
+        Data <- stats::rnorm(n=prod(ldim), mean=mean, sd=sd)
       else if (data=="rexp" || data=="exponential")
-        Data <- rexp(n=prod(ldim), rate=rate)
+        Data <- stats::rexp(n=prod(ldim), rate=rate)
       else if (data=="rweibull" || data=="weibull")
-        Data <- rweibull(n=prod(ldim), shape=shape, scale=scale)
+        Data <- stats::rweibull(n=prod(ldim), shape=shape, scale=scale)
       
       dim(Data) <- ldim
     }

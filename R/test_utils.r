@@ -12,13 +12,13 @@ matrix.rand <- function(nrows=1, ncols=1, fill="dense", storage="dense", ..., sp
         for (j in 1:nrows)
         {
           if (sample(ind, size=1, prob=c(sparsity, 1-sparsity)))
-            ret[i, j] <- rnorm(1)
+            ret[i, j] <- stats::rnorm(1)
         }
       }
     }
     else if (fill == "dense")
     {
-      ret <- matrix(rnorm(nrows*ncols), nrows, ncols)
+      ret <- matrix(stats::rnorm(nrows*ncols), nrows, ncols)
     }
   }
   

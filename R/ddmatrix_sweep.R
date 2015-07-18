@@ -90,7 +90,7 @@ setMethod("sweep", signature(x="ddmatrix", STATS="ddmatrix"),
 #        x@Data <- base::sweep(x=x@Data, STATS=STATS@Data, MARGIN=MARGIN, FUN=FUN)
         vec <- STATS@Data
         
-        len <- dmat.allrowreduce(x=base::length(vec), op='max', ICTXT=x@ICTXT, check.margin=FALSE)
+        len <- dmat.allrowreduce(x=base::length(vec), op='max', ICTXT=x@ICTXT)
         
         if (!base.ownany(dim=STATS@dim, bldim=STATS@bldim, ICTXT=STATS@ICTXT))
           vec <- numeric(len)
@@ -98,7 +98,7 @@ setMethod("sweep", signature(x="ddmatrix", STATS="ddmatrix"),
         vec <- dmat.allrowreduce(x=vec, op='sum', ICTXT=x@ICTXT)
         vec <- vec + 0.0
         
-        out <- base::sweep(x=x@Data, STATS=vec, MARGIN=MARGIN, FUN=FUN, check.margin=FALSE)
+        out <- base::sweep(x=x@Data, STATS=vec, MARGIN=MARGIN, FUN=FUN)
         
         x@Data <- out
         return( x )
@@ -108,7 +108,7 @@ setMethod("sweep", signature(x="ddmatrix", STATS="ddmatrix"),
         vec <- STATS@Data
         dim(vec) <- NULL
         
-        len <- dmat.allcolreduce(x=base::length(vec), op='max', ICTXT=x@ICTXT, check.margin=FALSE)
+        len <- dmat.allcolreduce(x=base::length(vec), op='max', ICTXT=x@ICTXT)
         
         if (!base.ownany(dim=STATS@dim, bldim=STATS@bldim, ICTXT=STATS@ICTXT))
           vec <- numeric(len)
@@ -116,7 +116,7 @@ setMethod("sweep", signature(x="ddmatrix", STATS="ddmatrix"),
         vec <- dmat.allcolreduce(x=vec, op='sum', ICTXT=x@ICTXT)
         vec <- vec + 0.0
         
-        out <- base::sweep(x=x@Data, STATS=vec, MARGIN=MARGIN, FUN=FUN, check.margin=FALSE)
+        out <- base::sweep(x=x@Data, STATS=vec, MARGIN=MARGIN, FUN=FUN)
         
         x@Data <- out
         return( x )
