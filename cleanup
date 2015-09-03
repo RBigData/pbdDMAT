@@ -8,3 +8,7 @@ rm -rf ./src/*.dll
 rm -rf ./src/*.a
 rm -rf ./src/*.rc
 rm -rf ./man/*.pdf
+
+### Windows needs this
+rm -rf ./src-*
+
