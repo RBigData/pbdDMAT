@@ -8,7 +8,7 @@
 
 \mytitle{Guide to the\\ \thispackage Package}
 \mysubtitle{Distributed Matrix Classes and Methods}
-\myversion{0.3-0}
+\myversion{0.3-3}
 \myauthor{
 \centering
 Drew Schmidt \\
@@ -17,8 +17,8 @@ University of Tennessee}
 \\[.4cm]
 %
 Wei-Chen Chen \\
-\textit{Department of Ecology and Evolutionary Biology \\
-University of Tennessee}
+\textit{Center for Biologics Evaluation and Research \\
+Food and Drug Administration}
 \\[.4cm]
 %
 George Ostrouchov \\
