@@ -1,7 +1,7 @@
 Package: pbdDMAT
 Title: Programming with Big Data -- Distributed Matrix Methods
 Version: 0.3-3
-Depends: R (>= 3.0.0), pbdMPI (>= 0.2-6), pbdBASE (>= 0.4-3)
+Depends: R (>= 3.0.0), pbdMPI (>= 0.3-0), pbdBASE (>= 0.4-3)
 Imports: utils, stats, methods
 LazyLoad: yes
 LazyData: yes
