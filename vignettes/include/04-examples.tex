@@ -115,7 +115,7 @@ init.grid()
 comm.set.seed(diff=TRUE) # independent RNG streams via rlecuyer
 
 nrows <- ncols <- 10 # generate a 10x10 matrix
-.BLDIM <- 2 # the blocking factor for distribution
+dmat_opts$BLDIM <- 2 # the blocking factor for distribution
 
 
 dx <- ddmatrix("rnorm", mean=10, sd=100, nrow=nrows, ncol=ncols)

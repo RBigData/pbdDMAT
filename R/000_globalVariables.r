@@ -6,14 +6,14 @@
 ### Suggested by Prof Brian Ripley
 ### ?globalVariables
 
-utils::globalVariables(c(".BLDIM", ".ICTXT", ".conflicts.OK"))
+utils::globalVariables(c(".conflicts.OK"))
 
 
 #' Some default parameters for pbdDMAT.
 #' 
 #' This set of controls is used to provide default values in this package.
 #' 
-#' The default blocking \code{.BLDIM} is \code{c(16,16)}, which results in a 16 by
+#' The default blocking \code{dmat_opts$BLDIM} is \code{c(16,16)}, which results in a 16 by
 #' 16 blocking dimension for distributed matrices.  Any time a function takes
 #' the \code{bldim=} argument, it will default to this value unless the user
 #' specifies an alternative.
@@ -24,12 +24,11 @@ utils::globalVariables(c(".BLDIM", ".ICTXT", ".conflicts.OK"))
 #' @rdname control
 #' @docType data
 #' @format Objects contain several parameters for communicators and methods.
-NULL
+#' @export
+dmat_opts <- .pbdMPIEnv
 
-#' @rdname control
-.BLDIM <- c(16, 16)
+dmat_opts$BLDIM <- c(16, 16)
 
-#' @rdname control
-.ICTXT <- 0
+dmat_opts$ICTXT <- 0
 
 .conflicts.OK <- TRUE

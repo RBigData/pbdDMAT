@@ -36,7 +36,7 @@
 #' @keywords Data Generation
 #' 
 #' @export
-companion <- function(coef, type="matrix", ..., bldim=.BLDIM, ICTXT=.ICTXT)
+companion <- function(coef, type="matrix", ..., bldim=dmat_opts$BLDIM, ICTXT=dmat_opts$ICTXT)
 {
   type <- pbdMPI::comm.match.arg(type, c("matrix", "ddmatrix"))
   
@@ -103,7 +103,7 @@ companion <- function(coef, type="matrix", ..., bldim=.BLDIM, ICTXT=.ICTXT)
 #' }
 #' 
 #' @export
-Hilbert <- function(n, type="matrix", ..., bldim=.BLDIM, ICTXT=.ICTXT)
+Hilbert <- function(n, type="matrix", ..., bldim=dmat_opts$BLDIM, ICTXT=dmat_opts$ICTXT)
 {
   type <- pbdMPI::comm.match.arg(type, c("matrix", "ddmatrix"))
   if (type == "ddmatrix")

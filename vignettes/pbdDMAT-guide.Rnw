@@ -8,7 +8,7 @@
 
 \mytitle{Guide to the\\ \thispackage Package}
 \mysubtitle{Distributed Matrix Classes and Methods}
-\myversion{0.3-0}
+\myversion{0.4-0}
 \myauthor{
 \centering
 Drew Schmidt \\

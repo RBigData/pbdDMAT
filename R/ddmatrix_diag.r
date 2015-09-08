@@ -75,7 +75,7 @@ setGeneric(name="diag",
 #' @rdname diag-constructors
 #' @export
 setMethod("diag", signature(x="vector"), 
-  function(x, nrow, ncol, type="matrix", ..., bldim=.BLDIM, ICTXT=.ICTXT)
+  function(x, nrow, ncol, type="matrix", ..., bldim=dmat_opts$BLDIM, ICTXT=dmat_opts$ICTXT)
   {
     type <- pbdMPI::comm.match.arg(type, c("matrix", "ddmatrix"))
     
@@ -111,7 +111,7 @@ setMethod("diag", signature(x="vector"),
 #' @rdname diag-constructors
 #' @export
 setMethod("diag", signature(x="character"), 
-  function(x, nrow, ncol, type="matrix", ..., min=0, max=1, mean=0, sd=1, rate=1, shape, scale=1, bldim=.BLDIM, ICTXT=.ICTXT)
+  function(x, nrow, ncol, type="matrix", ..., min=0, max=1, mean=0, sd=1, rate=1, shape, scale=1, bldim=dmat_opts$BLDIM, ICTXT=dmat_opts$ICTXT)
   {
     type <- pbdMPI::comm.match.arg(type, c("matrix", "ddmatrix"))
     data <- pbdMPI::comm.match.arg(x, c("runif", "uniform", "rnorm", "normal", "rexp", "exponential", "rweibull", "weibull"))
