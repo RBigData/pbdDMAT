@@ -29,11 +29,3 @@ BugReports: http://group.r-pbd.org/
 MailingList: Please send questions and comments regarding pbdR to
         RBigData@gmail.com
 Maintainer: Drew Schmidt <schmidt@math.utk.edu>
-Packaged: 2015-09-03 00:02:11 UTC; snoweye
-Author: Drew Schmidt [aut, cre],
-  Wei-Chen Chen [aut],
-  George Ostrouchov [aut],
-  Pragneshkumar Patel [aut],
-  ZhaoKang Wang [ctb],
-  R Core team [ctb] (some wrappers taken from the base and stats
-    packages)
