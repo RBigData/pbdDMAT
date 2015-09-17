@@ -17,8 +17,7 @@ University of Tennessee}
 \\[.4cm]
 %
 Wei-Chen Chen \\
-\textit{Department of Ecology and Evolutionary Biology \\
-University of Tennessee}
+\textit{pbdR Core Team}
 \\[.4cm]
 %
 George Ostrouchov \\
