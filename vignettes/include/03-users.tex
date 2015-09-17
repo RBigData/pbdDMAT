@@ -62,12 +62,17 @@ Some functions which are useful in this regard are \code{as.ddmatrix()}, \code{d
 
 \subsection{Controlling Defaults}
 
-The internal default blocking factor can be modified very simply by modifying the object \code{.BLDIM}.  So for example, if the user wishes to have a default data blocking of $16\times 16$ then it is sufficient to enter the command:
+The internal default blocking factor can be modified very simply by modifying 
+the object \code{dmat_opts$BLDIM}.  So for example, if the user wishes to have a 
+default data blocking of $16\times 16$ then it is sufficient to enter the 
+command:
 \begin{lstlisting}[language=rr]
-.BLDIM <- c(16, 16)
+dmat_opts$BLDIM <- c(16, 16)
 \end{lstlisting}
 
-Similarly, the internal default BLACS context is 0, but it can be controlled by changing the value of the object \code{.ICTXT}.  So if the user wishes to have BLACS context 2 as the default, then he/she need only enter the command:
+Similarly, the internal default BLACS context is 0, but it can be controlled by 
+changing the value of the object \code{dmat_opts$ICTXT}.  So if the user wishes 
+to have BLACS context 2 as the default, then he/she need only enter the command:
 \begin{lstlisting}[language=rr]
-.ICTXT <- 2
+dmat_opts$ICTXT <- 2
 \end{lstlisting}

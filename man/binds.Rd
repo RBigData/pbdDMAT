@@ -7,9 +7,9 @@
 \alias{rbind,ANY-method}
 \title{Row and Column binds for Distributed Matrices}
 \usage{
-\S4method{rbind}{ANY}(..., ICTXT = .ICTXT, deparse.level = 1)
+\S4method{rbind}{ANY}(..., ICTXT = dmat_opts$ICTXT, deparse.level = 1)
 
-\S4method{cbind}{ANY}(..., ICTXT = .ICTXT, deparse.level = 1)
+\S4method{cbind}{ANY}(..., ICTXT = dmat_opts$ICTXT, deparse.level = 1)
 }
 \arguments{
 \item{...}{vectors, matrices, or distributed matrices.}

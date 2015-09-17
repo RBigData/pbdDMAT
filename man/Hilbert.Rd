@@ -4,7 +4,8 @@
 \alias{Hilbert}
 \title{Generate Hilbert Matrices}
 \usage{
-Hilbert(n, type = "matrix", ..., bldim = .BLDIM, ICTXT = .ICTXT)
+Hilbert(n, type = "matrix", ..., bldim = dmat_opts$BLDIM,
+  ICTXT = dmat_opts$ICTXT)
 }
 \arguments{
 \item{n}{number of rows and columns.}

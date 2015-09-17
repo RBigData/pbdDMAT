@@ -19,35 +19,35 @@
 ddmatrix(data, ...)
 
 \S4method{ddmatrix}{ddmatrix}(data, nrow = 1, ncol = 1, byrow = FALSE,
-  ..., bldim = .BLDIM, ICTXT = .ICTXT)
+  ..., bldim = dmat_opts$BLDIM, ICTXT = dmat_opts$ICTXT)
 
 \S4method{ddmatrix}{missing}(data, nrow = 1, ncol = 1, byrow = FALSE, ...,
-  bldim = .BLDIM, ICTXT = .ICTXT)
+  bldim = dmat_opts$BLDIM, ICTXT = dmat_opts$ICTXT)
 
 \S4method{ddmatrix}{vector}(data, nrow = 1, ncol = 1, byrow = FALSE, ...,
-  bldim = .BLDIM, ICTXT = .ICTXT)
+  bldim = dmat_opts$BLDIM, ICTXT = dmat_opts$ICTXT)
 
 \S4method{ddmatrix}{matrix}(data, nrow = 1, ncol = 1, byrow = FALSE, ...,
-  bldim = .BLDIM, ICTXT = .ICTXT)
+  bldim = dmat_opts$BLDIM, ICTXT = dmat_opts$ICTXT)
 
 \S4method{ddmatrix}{character}(data, nrow = 1, ncol = 1, byrow = FALSE,
   ..., min = 0, max = 1, mean = 0, sd = 1, rate = 1, shape,
-  scale = 1, bldim = .BLDIM, ICTXT = .ICTXT)
+  scale = 1, bldim = dmat_opts$BLDIM, ICTXT = dmat_opts$ICTXT)
 
 ddmatrix.local(data, ...)
 
 \S4method{ddmatrix.local}{missing}(data, nrow = 1, ncol = 1,
-  byrow = FALSE, ..., bldim = .BLDIM, ICTXT = .ICTXT)
+  byrow = FALSE, ..., bldim = dmat_opts$BLDIM, ICTXT = dmat_opts$BLDIM)
 
 \S4method{ddmatrix.local}{vector}(data, nrow = 1, ncol = 1, byrow = FALSE,
-  ..., bldim = .BLDIM, ICTXT = .ICTXT)
+  ..., bldim = dmat_opts$BLDIM, ICTXT = dmat_opts$ICTXT)
 
 \S4method{ddmatrix.local}{matrix}(data, nrow = 1, ncol = 1, byrow = FALSE,
-  ..., bldim = .BLDIM, ICTXT = .ICTXT)
+  ..., bldim = dmat_opts$BLDIM, ICTXT = dmat_opts$ICTXT)
 
 \S4method{ddmatrix.local}{character}(data, nrow = 1, ncol = 1,
   byrow = FALSE, ..., min = 0, max = 1, mean = 0, sd = 1, rate = 1,
-  shape, scale = 1, bldim = .BLDIM, ICTXT = .ICTXT)
+  shape, scale = 1, bldim = dmat_opts$BLDIM, ICTXT = dmat_opts$ICTXT)
 }
 \arguments{
 \item{data}{optional data vector.}

@@ -4,7 +4,8 @@
 \alias{companion}
 \title{Generate Companion Matrices}
 \usage{
-companion(coef, type = "matrix", ..., bldim = .BLDIM, ICTXT = .ICTXT)
+companion(coef, type = "matrix", ..., bldim = dmat_opts$BLDIM,
+  ICTXT = dmat_opts$ICTXT)
 }
 \arguments{
 \item{coef}{Vector of polynomial coefficients, listed in increasing order
