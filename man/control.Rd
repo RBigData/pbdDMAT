@@ -2,21 +2,18 @@
 % Please edit documentation in R/000_globalVariables.r
 \docType{data}
 \name{pbdDMAT Control}
-\alias{.BLDIM}
-\alias{.ICTXT}
+\alias{dmat_opts}
 \alias{pbdDMAT Control}
 \title{Some default parameters for pbdDMAT.}
 \format{Objects contain several parameters for communicators and methods.}
 \usage{
-.BLDIM
-
-.ICTXT
+dmat_opts
 }
 \description{
 This set of controls is used to provide default values in this package.
 }
 \details{
-The default blocking \code{.BLDIM} is \code{c(16,16)}, which results in a 16 by
+The default blocking \code{dmat_opts$BLDIM} is \code{c(16,16)}, which results in a 16 by
 16 blocking dimension for distributed matrices.  Any time a function takes
 the \code{bldim=} argument, it will default to this value unless the user
 specifies an alternative.

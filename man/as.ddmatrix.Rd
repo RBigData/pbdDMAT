@@ -11,13 +11,16 @@
 \usage{
 as.ddmatrix(x, ...)
 
-distribute(x, bldim = .BLDIM, xCTXT = 0, ICTXT = .ICTXT)
+distribute(x, bldim = dmat_opts$BLDIM, xCTXT = 0, ICTXT = dmat_opts$ICTXT)
 
-\S4method{as.ddmatrix}{matrix}(x, bldim = .BLDIM, ICTXT = .ICTXT)
+\S4method{as.ddmatrix}{matrix}(x, bldim = dmat_opts$BLDIM,
+  ICTXT = dmat_opts$ICTXT)
 
-\S4method{as.ddmatrix}{`NULL`}(x, bldim = .BLDIM, ICTXT = .ICTXT)
+\S4method{as.ddmatrix}{`NULL`}(x, bldim = dmat_opts$BLDIM,
+  ICTXT = dmat_opts$ICTXT)
 
-\S4method{as.ddmatrix}{vector}(x, bldim = .BLDIM, ICTXT = .ICTXT)
+\S4method{as.ddmatrix}{vector}(x, bldim = dmat_opts$BLDIM,
+  ICTXT = dmat_opts$ICTXT)
 }
 \arguments{
 \item{x}{a numeric matrix}

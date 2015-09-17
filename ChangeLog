@@ -1,3 +1,6 @@
+Release 0.4-0
+  * Fixed BLDIM and ICTXT options.
+
 Release 0.3-3
   * Switched to comm.match.arg().
   * Switched to header-only RNACI.

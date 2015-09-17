@@ -90,7 +90,7 @@ setGeneric(name="ddmatrix",
 ##' @rdname ddmatrix-constructors
 ##' @export
 #setMethod("dmat", signature(data="missing"), 
-#  function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=.BLDIM, ICTXT=.ICTXT)
+#  function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=dmat_opts$BLDIM, ICTXT=dmat_opts$ICTXT)
 #  {
 #    data <- NA
 #    ret <- ddmatrix(data=data, nrow=nrow, ncol=ncol, byrow=byrow, bldim=bldim, ICTXT=ICTXT)
@@ -104,7 +104,7 @@ setGeneric(name="ddmatrix",
 #' @rdname ddmatrix-constructors
 #' @export
 setMethod("ddmatrix", signature(data="ddmatrix"), 
-  function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=.BLDIM, ICTXT=.ICTXT)
+  function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=dmat_opts$BLDIM, ICTXT=dmat_opts$ICTXT)
   {
     if (length(bldim)==1)
       bldim <- rep(bldim, 2)
@@ -123,7 +123,7 @@ setMethod("ddmatrix", signature(data="ddmatrix"),
 #' @rdname ddmatrix-constructors
 #' @export
 setMethod("ddmatrix", signature(data="missing"), 
-  function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=.BLDIM, ICTXT=.ICTXT)
+  function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=dmat_opts$BLDIM, ICTXT=dmat_opts$ICTXT)
   {
     data <- NA
     ret <- ddmatrix(data=data, nrow=nrow, ncol=ncol, byrow=byrow, bldim=bldim, ICTXT=ICTXT)
@@ -137,7 +137,7 @@ setMethod("ddmatrix", signature(data="missing"),
 #' @rdname ddmatrix-constructors
 #' @export
 setMethod("ddmatrix", signature(data="vector"), 
-  function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=.BLDIM, ICTXT=.ICTXT)
+  function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=dmat_opts$BLDIM, ICTXT=dmat_opts$ICTXT)
   {
     if (nrow < 1)
       comm.stop("invalid 'nrow'")
@@ -199,7 +199,7 @@ setMethod("ddmatrix", signature(data="vector"),
 #' @rdname ddmatrix-constructors
 #' @export
 setMethod("ddmatrix", signature(data="matrix"), 
-  function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=.BLDIM, ICTXT=.ICTXT)
+  function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=dmat_opts$BLDIM, ICTXT=dmat_opts$ICTXT)
   {
     dim(data) <- NULL
     ret <- ddmatrix(data=data, nrow=nrow, ncol=ncol, byrow=byrow, bldim=bldim, ICTXT=ICTXT)
@@ -213,7 +213,7 @@ setMethod("ddmatrix", signature(data="matrix"),
 #' @rdname ddmatrix-constructors
 #' @export
 setMethod("ddmatrix", signature(data="character"), 
-  function(data, nrow=1, ncol=1, byrow=FALSE, ..., min=0, max=1, mean=0, sd=1, rate=1, shape, scale=1, bldim=.BLDIM, ICTXT=.ICTXT)
+  function(data, nrow=1, ncol=1, byrow=FALSE, ..., min=0, max=1, mean=0, sd=1, rate=1, shape, scale=1, bldim=dmat_opts$BLDIM, ICTXT=dmat_opts$ICTXT)
   {
     data <- pbdMPI::comm.match.arg(data, c("runif", "uniform", "rnorm", "normal", "rexp", "exponential", "rweibull", "weibull"))
     
@@ -260,7 +260,7 @@ setGeneric(name="ddmatrix.local",
 #' @rdname ddmatrix-constructors
 #' @export
 setMethod("ddmatrix.local", signature(data="missing"), 
-  function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=.BLDIM, ICTXT=.ICTXT)
+  function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=dmat_opts$BLDIM, ICTXT=dmat_opts$BLDIM)
   {
     data <- NA
     ret <- ddmatrix.local(data=data, nrow=nrow, ncol=ncol, byrow=byrow, bldim=bldim, ICTXT=ICTXT)
@@ -274,7 +274,7 @@ setMethod("ddmatrix.local", signature(data="missing"),
 #' @rdname ddmatrix-constructors
 #' @export
 setMethod("ddmatrix.local", signature(data="vector"), 
-  function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=.BLDIM, ICTXT=.ICTXT)
+  function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=dmat_opts$BLDIM, ICTXT=dmat_opts$ICTXT)
   {
     if (nrow < 1)
       comm.stop("invalid 'nrow'")
@@ -329,7 +329,7 @@ setMethod("ddmatrix.local", signature(data="vector"),
 #' @rdname ddmatrix-constructors
 #' @export
 setMethod("ddmatrix.local", signature(data="matrix"), 
-  function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=.BLDIM, ICTXT=.ICTXT)
+  function(data, nrow=1, ncol=1, byrow=FALSE, ..., bldim=dmat_opts$BLDIM, ICTXT=dmat_opts$ICTXT)
   {
     dim(data) <- NULL
     ret <- ddmatrix.local(data=data, nrow=nrow, ncol=ncol, byrow=byrow, bldim=bldim, ICTXT=ICTXT)
@@ -343,7 +343,7 @@ setMethod("ddmatrix.local", signature(data="matrix"),
 #' @rdname ddmatrix-constructors
 #' @export
 setMethod("ddmatrix.local", signature(data="character"), 
-  function(data, nrow=1, ncol=1, byrow=FALSE, ..., min=0, max=1, mean=0, sd=1, rate=1, shape, scale=1, bldim=.BLDIM, ICTXT=.ICTXT)
+  function(data, nrow=1, ncol=1, byrow=FALSE, ..., min=0, max=1, mean=0, sd=1, rate=1, shape, scale=1, bldim=dmat_opts$BLDIM, ICTXT=dmat_opts$ICTXT)
   {
     if (nrow < 1)
       comm.stop("invalid 'nrow'")
