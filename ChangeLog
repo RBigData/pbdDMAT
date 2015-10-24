@@ -1,5 +1,6 @@
 Release 0.4-0
   * Fixed BLDIM and ICTXT options.
+  * Added getLocal().
 
 Release 0.3-3
   * Switched to comm.match.arg().

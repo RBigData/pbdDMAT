@@ -1,5 +1,8 @@
 #!/bin/sh
 
+mpirun -np $2 Rscript $1
+
+
 
 #mpirun -np $1 Rscript 1_extraction.R
 #mpirun -np $1 Rscript 2_NAs.R

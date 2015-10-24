@@ -12,7 +12,7 @@
 \myauthor{
 \centering
 Drew Schmidt \\
-\textit{National Institute for Computational Sciences \\
+\textit{Business Analytics and Statistics \\
 University of Tennessee}
 \\[.4cm]
 %
