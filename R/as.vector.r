@@ -43,7 +43,8 @@
 setGeneric(name="as.vector", 
   function(x, ...)
     standardGeneric("as.vector"),
-  package="pbdDMAT"
+  useAsDefault=function(x, ...) 
+    base::as.vector(x, ...)
 )
 
 
@@ -60,14 +61,3 @@ setMethod("as.vector", signature(x="ddmatrix"),
     return( ret )
   }
 )
-
-
-
-#' @rdname as.vector
-#' @export
-setMethod("as.vector", signature(x="ANY"), 
-  function(x, mode="any") 
-    base::as.vector(x=x, mode=mode)
-)
-
-
