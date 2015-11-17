@@ -25,7 +25,7 @@ utils::globalVariables(c(".conflicts.OK"))
 #' @docType data
 #' @format Objects contain several parameters for communicators and methods.
 #' @export
-dmat_opts <- .pbdMPIEnv
+dmat_opts <- .pbdEnv
 
 dmat_opts$BLDIM <- c(16, 16)
 
