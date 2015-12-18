@@ -187,7 +187,7 @@ dmat.blacsreduction <- function(x, SCOPE, op, ICTXT, proc.dest=-1, check=TRUE)
 
 
 
-dmat.allcolreduce <- function(x, op='sum', ICTXT=.ICTXT)
+dmat.allcolreduce <- function(x, op='sum', ICTXT=.pbd_env$ICTXT)
 {
   dmat.blacsreduction(x=x, SCOPE='Col', op=op, ICTXT=ICTXT, proc.dest=-1)
 }
@@ -195,7 +195,7 @@ dmat.allcolreduce <- function(x, op='sum', ICTXT=.ICTXT)
 allcolreduce <- dmat.allcolreduce
 
 
-dmat.allrowreduce <- function(x, op='sum', ICTXT=.ICTXT)
+dmat.allrowreduce <- function(x, op='sum', ICTXT=.pbd_env$ICTXT)
 {
   dmat.blacsreduction(x=x, SCOPE='Row', op=op, ICTXT=ICTXT, proc.dest=-1)
 }
@@ -203,7 +203,7 @@ dmat.allrowreduce <- function(x, op='sum', ICTXT=.ICTXT)
 allrowreduce <- dmat.allrowreduce
 
 
-dmat.colreduce <- function(x, op='sum', proc.dest=0, ICTXT=.ICTXT)
+dmat.colreduce <- function(x, op='sum', proc.dest=0, ICTXT=.pbd_env$ICTXT)
 {
   dmat.blacsreduction(x=x, SCOPE='Col', op=op, ICTXT=ICTXT, proc.dest=proc.dest)
 }
@@ -211,7 +211,7 @@ dmat.colreduce <- function(x, op='sum', proc.dest=0, ICTXT=.ICTXT)
 colreduce <- dmat.colreduce
 
 
-dmat.rowreduce <- function(x, op='sum', proc.dest=0, ICTXT=.ICTXT)
+dmat.rowreduce <- function(x, op='sum', proc.dest=0, ICTXT=.pbd_env$ICTXT)
 {
   dmat.blacsreduction(x=x, SCOPE='Row', op=op, ICTXT=ICTXT, proc.dest=proc.dest)
 }
@@ -454,4 +454,3 @@ setMethod("colMin", signature(x="matrix"),
   function(x, na.rm=FALSE)
     apply(X=x, MARGIN=2L, FUN=max, na.rm=na.rm)
 )
-
