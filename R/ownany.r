@@ -18,7 +18,7 @@ setMethod("ownany", signature(x="ddmatrix"),
 
 
 setMethod("ownany", signature(x="missing"), 
-  function(dim, bldim=dmat_opts$BLDIM, ICTXT=dmat_opts$ICTXT, x)
+  function(dim, bldim=.pbd_env$BLDIM, ICTXT=.pbd_env$ICTXT, x)
   {
     if (length(bldim)==1)
       bldim <- rep(bldim, 2L)

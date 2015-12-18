@@ -24,11 +24,10 @@ utils::globalVariables(c(".conflicts.OK"))
 #' @rdname control
 #' @docType data
 #' @format Objects contain several parameters for communicators and methods.
-#' @export
-dmat_opts <- .pbdEnv
+NULL
 
-dmat_opts$BLDIM <- c(16, 16)
+.pbd_env$BLDIM <- c(16, 16)
 
-dmat_opts$ICTXT <- 0
+.pbd_env$ICTXT <- 0
 
 .conflicts.OK <- TRUE

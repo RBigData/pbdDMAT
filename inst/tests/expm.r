@@ -3,7 +3,7 @@ library(pbdDMAT, quietly=TRUE)
 init.grid()
 
 
-.SPMD.CT$print.quiet <- TRUE
+.pbd_env$SPMD.CT$print.quiet <- TRUE
 
 
 n <- 6e2

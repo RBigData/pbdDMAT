@@ -69,7 +69,7 @@ setGeneric(name="as.ddmatrix",
 
 
 
-base.mat.to.ddmat <- function(x, bldim=dmat_opts$BLDIM, ICTXT=dmat_opts$ICTXT)
+base.mat.to.ddmat <- function(x, bldim=.pbd_env$BLDIM, ICTXT=.pbd_env$ICTXT)
 {
   if (!is.matrix(x))
     comm.stop("input 'x' must be a matrix") 
@@ -94,7 +94,7 @@ base.mat.to.ddmat <- function(x, bldim=dmat_opts$BLDIM, ICTXT=dmat_opts$ICTXT)
 # distribute a matrix from process (0,0) to the full ICTXT grid
 #' @rdname as.ddmatrix
 #' @export
-distribute <- function(x, bldim=dmat_opts$BLDIM, xCTXT=0, ICTXT=dmat_opts$ICTXT)
+distribute <- function(x, bldim=.pbd_env$BLDIM, xCTXT=0, ICTXT=.pbd_env$ICTXT)
 {
   if (length(bldim)==1)
     bldim <- rep(bldim, 2L)
@@ -143,7 +143,7 @@ distribute <- function(x, bldim=dmat_opts$BLDIM, xCTXT=0, ICTXT=dmat_opts$ICTXT)
 
 
 # Distribute dense, in-core matrices
-dmat.as.ddmatrix <- function(x, bldim=dmat_opts$BLDIM, ICTXT=dmat_opts$ICTXT)
+dmat.as.ddmatrix <- function(x, bldim=.pbd_env$BLDIM, ICTXT=.pbd_env$ICTXT)
 {
   nprocs <- pbdMPI::comm.size()
   owns <- pbdMPI::allreduce(is.matrix(x), op='sum')
@@ -188,9 +188,6 @@ setMethod("as.ddmatrix", signature(x="NULL"),
 #' @rdname as.ddmatrix
 #' @export
 setMethod("as.ddmatrix", signature(x="vector"), 
-  function(x, bldim=dmat_opts$BLDIM, ICTXT=dmat_opts$ICTXT)
+  function(x, bldim=.pbd_env$BLDIM, ICTXT=.pbd_env$ICTXT)
     dmat.as.ddmatrix(matrix(x), bldim=bldim, ICTXT=ICTXT)
 )
-
-
-

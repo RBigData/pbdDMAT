@@ -11,11 +11,11 @@
 \title{Distributed Matrix Diagonals}
 \usage{
 \S4method{diag}{vector}(x, nrow, ncol, type = "matrix", ...,
-  bldim = dmat_opts$BLDIM, ICTXT = dmat_opts$ICTXT)
+  bldim = .pbd_env$BLDIM, ICTXT = .pbd_env$ICTXT)
 
 \S4method{diag}{character}(x, nrow, ncol, type = "matrix", ..., min = 0,
   max = 1, mean = 0, sd = 1, rate = 1, shape, scale = 1,
-  bldim = dmat_opts$BLDIM, ICTXT = dmat_opts$ICTXT)
+  bldim = .pbd_env$BLDIM, ICTXT = .pbd_env$ICTXT)
 
 \S4method{diag}{ddmatrix}(x)
 

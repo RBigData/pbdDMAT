@@ -2,13 +2,9 @@
 % Please edit documentation in R/000_globalVariables.r
 \docType{data}
 \name{pbdDMAT Control}
-\alias{dmat_opts}
 \alias{pbdDMAT Control}
 \title{Some default parameters for pbdDMAT.}
 \format{Objects contain several parameters for communicators and methods.}
-\usage{
-dmat_opts
-}
 \description{
 This set of controls is used to provide default values in this package.
 }
@@ -20,5 +16,4 @@ specifies an alternative.
 
 The default ICTXT is 0.  This is the full 2-dimensional processor grid.
 }
-\keyword{datasets}
 
