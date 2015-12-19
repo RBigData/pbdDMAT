@@ -1,6 +1,6 @@
 ### General redistribution
 # redistribute data from one context and/or blocking factor to another
-dmat.reblock <- function(dx, bldim=dx@bldim, ICTXT=dmat_opts$ICTXT)
+dmat.reblock <- function(dx, bldim=dx@bldim, ICTXT=.pbd_env$ICTXT)
 {
   if (!is.ddmatrix(dx))
     stop("function only applies to objects of class 'ddmatrix'")
@@ -234,7 +234,7 @@ redistribute <- dmat.reblock
 #' @name as.rowcyclic
 #' @rdname as.rowcyclic
 #' @export
-as.rowcyclic <- function(dx, bldim=dmat_opts$BLDIM)
+as.rowcyclic <- function(dx, bldim=.pbd_env$BLDIM)
 {
   if (!is.ddmatrix(dx))
     stop("function only applies to objects of class 'ddmatrix'")
@@ -251,7 +251,7 @@ as.rowcyclic <- function(dx, bldim=dmat_opts$BLDIM)
 
 #' @rdname as.rowcyclic
 #' @export
-as.colcyclic <- function(dx, bldim=dmat_opts$BLDIM)
+as.colcyclic <- function(dx, bldim=.pbd_env$BLDIM)
 {
   if (!is.ddmatrix(dx))
     stop("function only applies to objects of class 'ddmatrix'")
@@ -268,7 +268,7 @@ as.colcyclic <- function(dx, bldim=dmat_opts$BLDIM)
 
 #' @rdname as.rowcyclic
 #' @export
-as.blockcyclic <- function(dx, bldim=dmat_opts$BLDIM)
+as.blockcyclic <- function(dx, bldim=.pbd_env$BLDIM)
 {
   if (!is.ddmatrix(dx))
     stop("function only applies to objects of class 'ddmatrix'")
@@ -335,5 +335,3 @@ as.colblock <- function(dx)
   else
     ret <- dmat.reblock(dx=dx, bldim=new.bldim, ICTXT=1L)
 }
-
-

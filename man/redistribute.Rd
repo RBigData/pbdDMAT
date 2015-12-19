@@ -5,9 +5,9 @@
 \alias{redistribute}
 \title{Distribute/Redistribute matrices across the process grid}
 \usage{
-reblock(dx, bldim = dx@bldim, ICTXT = dmat_opts$ICTXT)
+reblock(dx, bldim = dx@bldim, ICTXT = .pbd_env$ICTXT)
 
-redistribute(dx, bldim = dx@bldim, ICTXT = dmat_opts$ICTXT)
+redistribute(dx, bldim = dx@bldim, ICTXT = .pbd_env$ICTXT)
 }
 \arguments{
 \item{dx}{numeric distributed matrix}

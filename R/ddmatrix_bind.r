@@ -47,7 +47,7 @@ NULL
 
 
 ### Bind 2 ddmatrix's
-dmat.rbind2 <- function(args, ICTXT=dmat_opts$ICTXT)
+dmat.rbind2 <- function(args, ICTXT=.pbd_env$ICTXT)
 { 
   oldctxt <- args[[1]]@ICTXT
   
@@ -71,7 +71,7 @@ dmat.rbind2 <- function(args, ICTXT=dmat_opts$ICTXT)
 
 
 
-dmat.rbind <- function(..., ICTXT=dmat_opts$ICTXT)
+dmat.rbind <- function(..., ICTXT=.pbd_env$ICTXT)
 {
   args <- list(...)
   
@@ -83,7 +83,7 @@ dmat.rbind <- function(..., ICTXT=dmat_opts$ICTXT)
 #' @rdname binds
 #' @export
 setMethod("rbind", "ANY", 
-  function(..., ICTXT=dmat_opts$ICTXT, deparse.level=1)
+  function(..., ICTXT=.pbd_env$ICTXT, deparse.level=1)
   {
     args <- list(...)
     
@@ -98,7 +98,7 @@ setMethod("rbind", "ANY",
 
 
 
-dmat.cbind <- function(..., ICTXT=dmat_opts$ICTXT)
+dmat.cbind <- function(..., ICTXT=.pbd_env$ICTXT)
 {
   args <- list(...)
   
@@ -127,7 +127,7 @@ dmat.cbind <- function(..., ICTXT=dmat_opts$ICTXT)
 #' @rdname binds
 #' @export
 setMethod("cbind", "ANY", 
-  function(..., ICTXT=dmat_opts$ICTXT, deparse.level=1)
+  function(..., ICTXT=.pbd_env$ICTXT, deparse.level=1)
   {
     args <- list(...)
     
@@ -139,4 +139,3 @@ setMethod("cbind", "ANY",
     return( ret )
   }
 )
-

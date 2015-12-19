@@ -9,11 +9,11 @@
 \alias{as.rowcyclic}
 \title{Distribute/Redistribute matrices across the process grid}
 \usage{
-as.rowcyclic(dx, bldim = dmat_opts$BLDIM)
+as.rowcyclic(dx, bldim = .pbd_env$BLDIM)
 
-as.colcyclic(dx, bldim = dmat_opts$BLDIM)
+as.colcyclic(dx, bldim = .pbd_env$BLDIM)
 
-as.blockcyclic(dx, bldim = dmat_opts$BLDIM)
+as.blockcyclic(dx, bldim = .pbd_env$BLDIM)
 
 as.block(dx, square.bldim = TRUE)
 
