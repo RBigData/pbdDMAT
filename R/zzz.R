@@ -18,6 +18,9 @@
   if(! is.loaded("R_blacs_init")){
     library.dynam("pbdBASE", "pbdBASE", libname)
   }
+  
+  pbdMPI::.mpiopt_set(c(16, 16), "BLDIM")
+  pbdMPI::.mpiopt_set(0, "ICTXT")
 
   invisible()
 }
@@ -26,5 +29,3 @@
   library.dynam.unload("pbdDMAT", libpath)
   invisible()
 }
-
-
