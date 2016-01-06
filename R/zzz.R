@@ -19,8 +19,8 @@
     library.dynam("pbdBASE", "pbdBASE", libname)
   }
   
-  pbdMPI::.mpiopt_set(c(16, 16), "BLDIM")
-  pbdMPI::.mpiopt_set(0, "ICTXT")
+  pbdMPI::pbd_opt(BLDIM=c(16, 16))
+  pbdMPI::pbd_opt(ICTXT=0)
 
   invisible()
 }
