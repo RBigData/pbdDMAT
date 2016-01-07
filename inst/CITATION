@@ -2,7 +2,7 @@ citHeader("To cite pbdDMAT in a publication use:")
 
 citEntry(
   entry = "Misc",
-  title = "pbdDMAT: Programming with Big Data -- Distributed Matrix Algebra Computation",
+  title = "{pbdDMAT}: Programming with Big Data -- Distributed Matrix Algebra Computation",
   author = personList(as.person("Drew Schmidt"),
                       as.person("Wei-Chen Chen"),
                       as.person("George Ostrouchov"),
@@ -15,7 +15,7 @@ citEntry(
 
 citEntry(
   entry = "Manual",
-  title = "A Quick Guide for the pbdDMAT Package",
+  title = "A Quick Guide for the {pbdDMAT} Package",
   author = personList(as.person("Drew Schmidt"),
                       as.person("Wei-Chen Chen"),
                       as.person("George Ostrouchov"),
