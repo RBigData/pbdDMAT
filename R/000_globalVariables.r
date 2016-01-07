@@ -26,8 +26,8 @@ utils::globalVariables(c(".conflicts.OK"))
 #' @format Objects contain several parameters for communicators and methods.
 NULL
 
-.pbd_env$BLDIM <- c(16, 16)
-
-.pbd_env$ICTXT <- 0
+### See zzz.r
+# .pbd_env$BLDIM <- c(16, 16)
+# .pbd_env$ICTXT <- 0
 
 .conflicts.OK <- TRUE
