@@ -1,8 +1,14 @@
 Package: pbdDMAT
 Title: Programming with Big Data -- Distributed Matrix Methods
 Version: 0.4-0
-Depends: R (>= 3.0.0), pbdMPI (>= 0.3-1), pbdBASE (>= 0.4-3)
-Imports: utils, stats, methods
+Depends: 
+    R (>= 3.0.0), 
+    pbdMPI (>= 0.3-1), 
+    pbdBASE (>= 0.4-3)
+Imports: 
+    utils, 
+    stats, 
+    methods
 LazyLoad: yes
 LazyData: yes
 ByteCompile: yes
@@ -31,12 +37,3 @@ MailingList: Please send questions and comments regarding pbdR to
         RBigData@gmail.com
 Maintainer: Drew Schmidt <schmidt@math.utk.edu>
 RoxygenNote: 5.0.1
-Packaged: 2016-01-07 02:55:44 UTC; snoweye
-Author: Drew Schmidt [aut, cre],
-  Wei-Chen Chen [aut],
-  George Ostrouchov [aut],
-  Pragneshkumar Patel [aut],
-  ZhaoKang Wang [ctb],
-  Michael Lawrence [ctb],
-  R Core team [ctb] (some wrappers taken from the base and stats
-    packages)
