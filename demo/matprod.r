@@ -1,7 +1,7 @@
 ### SHELL> mpiexec -np 2 Rscript --vanilla [...].r
 
 # Initialize process grid
-library(pbdDMAT, quiet=T)
+suppressMessages(library(pbdDMAT, quietly = TRUE))
 
 if(comm.size() != 2)
   comm.stop("Exactly 2 processors are required for this demo.")
