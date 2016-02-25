@@ -21,6 +21,7 @@
 \alias{nrow,ddmatrix-method}
 \alias{submatrix}
 \alias{submatrix,ddmatrix-method}
+\alias{submatrix,matrix-method}
 \title{Accessor Functions for Distributed Matrix Slots}
 \usage{
 nrow(x)
@@ -42,6 +43,8 @@ NCOL(x)
 submatrix(x, ...)
 
 \S4method{submatrix}{ddmatrix}(x)
+
+\S4method{submatrix}{matrix}(x)
 
 ldim(x, ...)
 
