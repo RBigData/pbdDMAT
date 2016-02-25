@@ -132,7 +132,7 @@ setMethod("submatrix", signature(x="ddmatrix"),
 
 #' @rdname accessors
 #' @export
-setMethod("submatrix", signature(x="matrix"),
+setMethod("submatrix", signature(x="Linalg"),
   function(x)
   {
     x

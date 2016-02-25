@@ -20,8 +20,8 @@
 \alias{nrow}
 \alias{nrow,ddmatrix-method}
 \alias{submatrix}
+\alias{submatrix,Linalg-method}
 \alias{submatrix,ddmatrix-method}
-\alias{submatrix,matrix-method}
 \title{Accessor Functions for Distributed Matrix Slots}
 \usage{
 nrow(x)
@@ -44,7 +44,7 @@ submatrix(x, ...)
 
 \S4method{submatrix}{ddmatrix}(x)
 
-\S4method{submatrix}{matrix}(x)
+\S4method{submatrix}{Linalg}(x)
 
 ldim(x, ...)
 
