@@ -1,5 +1,7 @@
 #' getLocal
 #' 
+#' Get the value of the distributed matrix at global indices gi x gj.
+#' 
 #' @param x
 #' A distributed matrix.
 #' @param gi,gj
@@ -14,6 +16,9 @@
 #' yourself (and if you are making many function calls, this is
 #' preferable performance-wise), or the lookup will be performed
 #' for you.
+#' 
+#' @return 
+#' The value at global index gi x gj.
 #' 
 #' @examples
 #' \dontrun{
@@ -61,4 +66,3 @@ getLocal <- function(x, gi, gj, all.rank=TRUE, gridinfo)
   
   return(ret)
 }
-

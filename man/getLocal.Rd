@@ -21,8 +21,11 @@ yourself (and if you are making many function calls, this is
 preferable performance-wise), or the lookup will be performed
 for you.}
 }
+\value{
+The value at global index gi x gj.
+}
 \description{
-getLocal
+Get the value of the distributed matrix at global indices gi x gj.
 }
 \examples{
 \dontrun{
