@@ -1,8 +1,10 @@
+Release 0.4-1
+  * Add submatrix() method for matrices.
+
 Release 0.4-0
   * Ingegrate .BLDIM and .ICTXT within pbd_opt().
   * Added getLocal().
   * Fix to as.vector() (thanks Michael Lawrence)
-  * Add submatrix() method for matrices.
 
 Release 0.3-3
   * Switched to comm.match.arg().
