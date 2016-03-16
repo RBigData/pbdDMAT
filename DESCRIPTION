@@ -4,7 +4,7 @@ Version: 0.4-1
 Depends: 
     R (>= 3.0.0), 
     pbdMPI (>= 0.3-1), 
-    pbdBASE (>= 0.4-3)
+    pbdBASE (>= 0.4-4)
 Imports: 
     utils, 
     stats, 
