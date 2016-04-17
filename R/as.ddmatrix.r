@@ -157,7 +157,30 @@ dmat.as.ddmatrix <- function(x, bldim=.pbd_env$BLDIM, ICTXT=.pbd_env$ICTXT)
     else
       iown <- 0
     iown <- pbdMPI::allreduce(iown, op='max')
-    return( distribute(x=x, bldim=bldim, xCTXT=0, ICTXT=ICTXT) )
+    # return( distribute(x=x, bldim=bldim, xCTXT=0, ICTXT=ICTXT) )
+    
+    if (iown != 0)
+      comm.stop("matrix must be on rank 0")
+    
+    if (comm.rank() == 0)
+    {
+      dim <- dim(x)
+      ldim <- base.numroc(dim=dim, bldim=bldim, ICTXT=ICTXT)
+      desc <- base.descinit(dim=dim, bldim=bldim, ldim=ldim, ICTXT=ICTXT)
+    }
+    else
+    {
+      x <- matrix(0.0, 1, 1)
+      desc <- integer(9)
+    }
+    
+    desc <- allreduce(desc)
+    ## FIXME remove after pbdMPI fix
+    desc <- as.integer(desc)
+    
+    ret <- base.redist(desc, x)
+    dx <- new("ddmatrix", Data=ret, dim=desc[3:4], ldim=dim(ret), bldim=bldim, ICTXT=ICTXT)
+    return(dx)
   } 
   # global ownership is assumed --- this should only ever really happen in testing
   else if (owns==nprocs)

@@ -1,5 +1,9 @@
+Release 0.4-1
+  * Add submatrix() method for matrices.
+  * Switch as.ddmatrix() to use new distribution method.
+
 Release 0.4-0
-  * Fixed BLDIM and ICTXT options.
+  * Ingegrate .BLDIM and .ICTXT within pbd_opt().
   * Added getLocal().
   * Fix to as.vector() (thanks Michael Lawrence)
 

@@ -126,10 +126,16 @@ setGeneric(name="submatrix",
 setMethod("submatrix", signature(x="ddmatrix"),
   function(x)
   {
-    if (!is.ddmatrix(x))
-      comm.stop("Not a distributed matrix")
-    else
-      return(x@Data)
+    x@Data
+  }
+)
+
+#' @rdname accessors
+#' @export
+setMethod("submatrix", signature(x="Linalg"),
+  function(x)
+  {
+    x
   }
 )
 
