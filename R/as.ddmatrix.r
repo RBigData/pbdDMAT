@@ -146,7 +146,7 @@ distribute <- function(x, bldim=.pbd_env$BLDIM, xCTXT=0, ICTXT=.pbd_env$ICTXT)
 dmat.as.ddmatrix <- function(x, bldim=.pbd_env$BLDIM, ICTXT=.pbd_env$ICTXT)
 {
   nprocs <- pbdMPI::comm.size()
-  owns <- pbdMPI::allreduce(is.matrix(x), op='sum')
+  owns <- pbdMPI::allreduce(as.integer(is.matrix(x)), op='sum')
   
   # owned by one process 
   if (owns==1)
