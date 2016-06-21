@@ -42,7 +42,7 @@
 #' @export
 getLocal <- function(x, gi, gj, all.rank=TRUE, gridinfo)
 {
-  if (class(x) != "ddmatrix")
+  if (!is(x, "ddmatrix"))
     comm.stop("Argument 'x' must be of type 'ddmatrix'")
   
   if (missing(gridinfo))
