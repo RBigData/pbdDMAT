@@ -1,15 +1,4 @@
-# ################################################
-# ------------------------------------------------
-# Arithmetic
-# ------------------------------------------------
-# ################################################
-
-# For each test, script returns TRUE if the test was successful 
-# (produced the correct value), and returns FALSE if the test was
-# unsuccessful (produced the incorrect value).
-
-
-suppressPackageStartupMessages(library(pbdDMAT, quiet=T))
+suppressPackageStartupMessages(library(pbdDMAT))
 
 init.grid()
 

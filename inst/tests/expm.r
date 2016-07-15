@@ -1,5 +1,5 @@
 library(rexpokit, quietly=TRUE)
-library(pbdDMAT, quietly=TRUE)
+suppressPackageStartupMessages(library(pbdDMAT))
 init.grid()
 
 
@@ -39,7 +39,3 @@ comm.cat(all.equal(a, b))
 comm.cat("\n")
 
 finalize()
-
-
-
-

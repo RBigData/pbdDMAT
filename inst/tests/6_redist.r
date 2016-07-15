@@ -1,4 +1,4 @@
-library(pbdTEST)
+suppressPackageStartupMessages(library(pbdTEST))
 settings(mpi=TRUE)
 
 .BLDIM <- 2
@@ -25,4 +25,3 @@ collect()
 
 
 finalize()
-

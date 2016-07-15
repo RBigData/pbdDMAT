@@ -1,11 +1,4 @@
-# ################################################
-# ------------------------------------------------
-# Norm stuff
-# ------------------------------------------------
-# ################################################
-
-
-suppressPackageStartupMessages(library(pbdDMAT, quiet=T))
+suppressPackageStartupMessages(library(pbdDMAT))
 
 init.grid()
 
