@@ -116,7 +116,7 @@ kappa.ddmatrix <- function (z, exact = FALSE, norm = NULL, method = c("qr", "dir
 setMethod("rcond", signature(x="ddmatrix"),
   function (x, norm = c("O", "I", "1"), triangular = FALSE, ...) 
   {
-    norm <- pbdMPI::comm.match.arg(norm, c("O", "I", ""))
+    norm <- pbdMPI::comm.match.arg(norm, c("O", "I", "1"))
     d <- x@dim
     
     if (d[1L] != d[2L])
