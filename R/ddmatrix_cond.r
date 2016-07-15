@@ -48,10 +48,13 @@ NULL
 # kappa* sources lifted heavily from R's kappa.default function
 .kappa_tri2 <- function (z, exact = FALSE, norm = NULL, ...) 
 {
-  if (exact) {
+  if (exact)
+  {
     stopifnot(is.null(norm) || identical("2", norm))
     kappa.default(z, exact = TRUE)
-  } else {
+  }
+  else
+  {
     p <- as.integer(nrow(z))
     if (is.na(p)) 
         comm.stop("invalid nrow(x)")
@@ -87,10 +90,13 @@ kappa.ddmatrix <- function (z, exact = FALSE, norm = NULL, method = c("qr", "dir
             pbdMPI::comm.match.arg(norm, c("2", "1", "O", "I"))
           else 
             "2"
-  if (exact && norm == "2") {
+  if (exact && norm == "2")
+  {
     s <- svd(z, nu = 0, nv = 0)$d
     max(s)/min(s[s > 0])
-  } else {
+  }
+  else
+  {
     if (exact) 
       comm.warning(gettextf("norm '%s' currently always uses exact = FALSE", norm))
     if (norm=="2")
@@ -110,22 +116,24 @@ kappa.ddmatrix <- function (z, exact = FALSE, norm = NULL, method = c("qr", "dir
 setMethod("rcond", signature(x="ddmatrix"),
   function (x, norm = c("O", "I", "1"), triangular = FALSE, ...) 
   {
-    norm <- pbdMPI::comm.match.arg(norm)
+    norm <- pbdMPI::comm.match.arg(norm, c("O", "I", ""))
     d <- x@dim
     
-    if (d[1L] != d[2L]){
+    if (d[1L] != d[2L])
+    {
       x <- qr.R(qr(if (d[1L] < d[2L]) t(x) else x))
       triangular <- TRUE
     }
-    if (triangular) {
-      desca <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
+    
+    desca <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
+    
+    if (triangular)
+    {
       n <- x@dim[2L]
-      
       ret <- base.rpdtrcon(norm=norm, uplo='U', diag='N', n=n, a=x@Data, desca=desca)
     }
-    else {
-      desca <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
-      
+    else
+    {
       m <- x@dim[1L]
       n <- x@dim[2L]
       
@@ -135,5 +143,3 @@ setMethod("rcond", signature(x="ddmatrix"),
     return( ret )
   }
 )
-
-
