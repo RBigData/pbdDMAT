@@ -1,8 +1,9 @@
 Release 0.4-1
-  * Added submatrix() method for matrices.
+  * Extended submatrix() method to matrices.
   * Switched as.ddmatrix() to use new distribution method.
   * Fixed reductions (colSums, rowMeans, etc) storage bug.
   * Fixed ddmatrix class check from using class() to is() (thanks Sébastien).
+  * Fixed as.ddmatrix() bug when only single bldim value is supplied.
 
 Release 0.4-0
   * Ingegrate .BLDIM and .ICTXT within pbd_opt().
