@@ -1,15 +1,44 @@
-/* This Source Code Form is subject to the terms of the BSD 2-Clause
- * License. If a copy of the this license was not distributed with this
- * file, you can obtain one from http://opensource.org/licenses/BSD-2-Clause. */
+// Copyright (c) 2014-2016, Drew Schmidt
+// All rights reserved.
+// 
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+// 
+// 1. Redistributions of source code must retain the above copyright notice, this
+//    list of conditions and the following disclaimer.
+// 2. Redistributions in binary form must reproduce the above copyright notice,
+//    this list of conditions and the following disclaimer in the documentation
+//    and/or other materials provided with the distribution.
+// 
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+// ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+// WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+// DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+// ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+// (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+// LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-// Copyright 2014-2015, Schmidt
 
+/* Changelog:
+  Version 0.3-0:
+    * Fixed warnings visible with -Wall -pedantic.
+    * Use strnlen() over strlen(); shorten string checks in allocator.
+    * Simplify initializer in allocator using memset().
+  
+  Version 0.2-0:
+    * Converted to header only.
+  
+  Version 0.1-0:
+    * Initial release.
+*/
 
 #ifndef __RNACI_H__
 #define __RNACI_H__
 
-#define RNACI_VERSION 0.2.0
-
+#define RNACI_VERSION 0.3.0
 
 #include <R.h>
 #include <Rinternals.h>
@@ -17,28 +46,25 @@
 #include <stdarg.h>
 #include <string.h>
 #include <stdbool.h>
-
 #include <math.h>
 #include <float.h>
 
 
 #define RNACIMAX(m,n) m<n?n:m
-
-
 #define RNULL R_NilValue
 
-// Voodoo Args
-#define OPTIONALARG1(a,b,...) (a),(b)
 
 // R data accessors
+#define IGNORED -1
+
 #define __RNACI_INT(x,y,...) INTEGER(x)[y]
-#define INT(x,...) __RNACI_INT(x,##__VA_ARGS__,0)
+#define INT(...) __RNACI_INT(__VA_ARGS__,0,IGNORED)
 
 #define __RNACI_DBL(x,y,...) REAL(x)[y]
-#define DBL(x,...) __RNACI_DBL(x,##__VA_ARGS__,0)
+#define DBL(...) __RNACI_DBL(__VA_ARGS__,0,IGNORED)
 
 #define __RNACI_STR(x,y,...) ((char*)CHAR(STRING_ELT(x,y)))
-#define STR(x,...) __RNACI_STR(x,##__VA_ARGS__,0)
+#define STR(...) __RNACI_STR(__VA_ARGS__,0,IGNORED)
 
 
 #define MatINT(x,i,j) (INTEGER(x)[i+nrows(x)*j])
@@ -71,11 +97,13 @@ static void FNAME(SEXP ptr) \
 
 
 // Allocations
+#define OPTIONALARG1(a,b,c,...) (a),(b),(c)
+
 #define newRlist(x,n) PT(x=__Rvecalloc(n, "vec", false))
-//#define newRvec(x,n,type) PT(x=__Rvecalloc(n, type))
-#define newRvec(x,n,...) PT(x=__Rvecalloc(n,OPTIONALARG1(__VA_ARGS__,false)))
-//#define newRmat(x,m,n,type) PT(x=__Rmatalloc(m,n,type))
-#define newRmat(x,m,n,...) PT(x=__Rmatalloc(m,n,OPTIONALARG1(__VA_ARGS__,false)))
+// #define newRvec(x,n,type) PT(x=__Rvecalloc(n, type,false))
+#define newRvec(x,...) PT(x=__Rvecalloc(OPTIONALARG1(__VA_ARGS__,false,IGNORED)))
+// #define newRmat(x,m,n,type) PT(x=__Rmatalloc(m,n,type,false))
+#define newRmat(x,m,...) PT(x=__Rmatalloc(m,OPTIONALARG1(__VA_ARGS__,false,IGNORED)))
 
 
 /* Misc stuff */
@@ -99,42 +127,28 @@ static void FNAME(SEXP ptr) \
  ***************************************************/
 
 
-
 // alloc.c
 static inline SEXP __Rvecalloc(int n, char *type, int init)
 {
   SEXP RET;
-  int i;
   
-  if (strcmp(type, "vec") == 0)
+  if (strncmp(type, "vec", 1) == 0)
     PROTECT(RET = allocVector(VECSXP, n));
-  else if (strcmp(type, "int") == 0)
+  else if (strncmp(type, "int", 1) == 0)
   {
     PROTECT(RET = allocVector(INTSXP, n));
     
     if (init)
-    {
-      #if defined( _OPENMP_SUPPORT_SIMD)
-      #pragma omp for simd
-      #endif
-      for (i=0; i<n; i++)
-        INT(RET, i) = 0;
-    }
+      memset(INTP(RET), 0, n*sizeof(int));
   }
-  else if (strcmp(type, "double") == 0 || strcmp(type, "dbl") == 0)
+  else if (strncmp(type, "double", 1) == 0)
   {
     PROTECT(RET = allocVector(REALSXP, n));
     
     if (init)
-    {
-      #if defined( _OPENMP_SUPPORT_SIMD)
-      #pragma omp for simd
-      #endif
-      for (i=0; i<n; i++)
-        DBL(RET, i) = 0.0;
-    }
+      memset(DBLP(RET), 0, n*sizeof(double));
   }
-  else if (strcmp(type, "str") == 0 || strcmp(type, "char*") == 0)
+  else if (strncmp(type, "str", 1) == 0 || strncmp(type, "char*", 1) == 0)
     PROTECT(RET = allocVector(STRSXP, n));
   else
     return NULL;
@@ -146,43 +160,24 @@ static inline SEXP __Rvecalloc(int n, char *type, int init)
 static inline SEXP __Rmatalloc(int m, int n, char *type, int init)
 {
   SEXP RET;
-  int i, j;
   
-  if (strcmp(type, "vec") == 0)
+  if (strncmp(type, "vec", 1) == 0)
     PROTECT(RET = allocMatrix(VECSXP, m, n));
-  else if (strcmp(type, "int") == 0)
+  else if (strncmp(type, "int", 1) == 0)
   {
     PROTECT(RET = allocMatrix(INTSXP, m, n));
     
     if (init)
-    {
-      for (j=0; j<n; j++)
-      {
-        #if defined( _OPENMP_SUPPORT_SIMD)
-        #pragma omp for simd
-        #endif
-        for (i=0; i<m; i++)
-          MatINT(RET, i, j) = 0;
-      }
-    }
+      memset(INTP(RET), 0, m*n*sizeof(int));
   }
-  else if (strcmp(type, "double") == 0 || strcmp(type, "dbl") == 0)
+  else if (strncmp(type, "double", 1) == 0)
   {
     PROTECT(RET = allocMatrix(REALSXP, m, n));
     
     if (init)
-    {
-      for (j=0; j<n; j++)
-      {
-        #if defined( _OPENMP_SUPPORT_SIMD)
-        #pragma omp for simd
-        #endif
-        for (i=0; i<m; i++)
-          MatDBL(RET, i, j) = 0.0;
-      }
-    }
+      memset(DBLP(RET), 0, m*n*sizeof(double));
   }
-  else if (strcmp(type, "str") == 0 || strcmp(type, "char*") == 0)
+  else if (strncmp(type, "str", 1) == 0 || strncmp(type, "char*", 1) == 0)
     PROTECT(RET = allocMatrix(STRSXP, m, n));
   else
     return NULL;
@@ -215,7 +210,6 @@ static inline int fis_zero(double x)
 static inline int fequalsf(float x, float y)
 {
   const float abs_epsf = 1.1f * FLT_EPSILON;
-  const double abs_eps = 1.1 * DBL_EPSILON;
   const double diff = fabsf(x - y);
   
   if (x == y)
@@ -228,7 +222,6 @@ static inline int fequalsf(float x, float y)
 
 static inline int fequals(double x, double y)
 {
-  const float abs_epsf = 1.1f * FLT_EPSILON;
   const double abs_eps = 1.1 * DBL_EPSILON;
   const double diff = fabs(x - y);
   
