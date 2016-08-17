@@ -50,7 +50,8 @@ ddmatrix.local(data, ...)
   shape, scale = 1, bldim = .pbd_env$BLDIM, ICTXT = .pbd_env$ICTXT)
 }
 \arguments{
-\item{data}{optional data vector.}
+\item{data}{A global value: a string (for random generation) or an optional data vector.
+In the data vector case, the data should be the same across all processes.}
 
 \item{...}{Extra arguments}
 

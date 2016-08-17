@@ -2,6 +2,7 @@
 #' 
 #' Methods for simple construction of distributed matrices.
 #' 
+#' @details
 #' These methods are simplified methods of creating distributed matrices,
 #' including random ones.  These methods involve only local computations, i.e.,
 #' no communication is performed in the construction of a \code{ddmatrix} using
@@ -24,7 +25,8 @@
 #' uses the method of L'Ecuyer via the rlecuyer package.
 #' 
 #' @param data 
-#' optional data vector.
+#' A global value: a string (for random generation) or an optional data vector.
+#' In the data vector case, the data should be the same across all processes.
 #' @param nrow 
 #' number of rows.  Global rows for \code{ddmatrix()}. Local rows
 #' for \code{ddmatrix.local()}.  See details below.
