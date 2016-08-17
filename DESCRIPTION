@@ -1,6 +1,6 @@
 Package: pbdDMAT
-Title: Programming with Big Data -- Distributed Matrix Methods
-Version: 0.4-1
+Title: pbdR Distributed Matrix Methods
+Version: 0.4-2
 Description: A set of classes for managing distributed matrices, and
     a collection of methods for computing linear algebra and
     statistics.  Computation is handled mostly by routines from the
