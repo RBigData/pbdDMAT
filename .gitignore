@@ -6,6 +6,8 @@
 *~
 *.swp
 
+inst/doc/*
+
 *.aux
 *.bbl
 *.blg
