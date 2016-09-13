@@ -65,7 +65,7 @@ setMethod("eigen", signature(x="ddmatrix"),
         jobz <- 'V'
       
       n <- x@dim[1L]
-      out <- base.rpdsyev(jobz=jobz, uplo='L', n=n, a=x@Data, desca=desca, descz=desca)
+      out <- base.rpdsyevr(jobz=jobz, uplo='L', n=n, a=x@Data, desca=desca, descz=desca)
       
       vectors <- new("ddmatrix", Data=out$vectors, dim=x@dim, ldim=x@ldim, bldim=x@bldim, ICTXT=x@ICTXT)
       ret <- list(values=rev(out$values), vectors=vectors[, n:1])
