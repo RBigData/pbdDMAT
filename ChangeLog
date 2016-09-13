@@ -1,6 +1,7 @@
 Release 0.4-2
   * Remove -w and fix compiler warnings.
   * Update internal RNACI.
+  * Fix eigen() interface.
 
 Release 0.4-1
   * Extended submatrix() method to matrices.
