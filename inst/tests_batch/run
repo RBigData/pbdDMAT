@@ -1,0 +1,4 @@
+#!/bin/sh
+
+mpirun -np $1 Rscript $2
+
