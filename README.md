@@ -71,10 +71,7 @@ Save this program as `pbd_example.r` and run it via:
 mpirun -np 2 Rscript pbd_example.r
 ```
 
-Numerous other examples can be found in both the
-[pbdDMAT vignette](https://github.com/wrathematics/pbdDMAT/blob/master/inst/doc/pbdDMAT-guide.pdf)
-as well as the [pbdDEMO package](https://github.com/wrathematics/pbdDEMO)
-and its corresponding [vignette](https://github.com/wrathematics/pbdDEMO/blob/master/inst/doc/pbdDEMO-guide.pdf).
+Numerous other examples can be found in both the pbdDMAT vignette, as well as the pbdDEMO package and its corresponding vignette.
 
 
 
