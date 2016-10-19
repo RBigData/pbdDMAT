@@ -1,4 +1,5 @@
 Release 0.4-2
+  * Use S3 instead of S4 for rbind/cbind.
   * Remove -w and fix compiler warnings.
   * Update internal RNACI.
   * Fix eigen() interface.
