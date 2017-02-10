@@ -8,7 +8,7 @@ double get_machine_eps()
   SEXP dmatPackage;
   SEXP tmp;
   
-  PT(
+  hidefromGC(
     dmatPackage = eval( lang2( install("getNamespace"), ScalarString(mkChar("pbdDMAT")) ), R_GlobalEnv )
   );
   
