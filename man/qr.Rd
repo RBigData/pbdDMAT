@@ -2,6 +2,8 @@
 % Please edit documentation in R/ddmatrix_qr.r
 \docType{methods}
 \name{qr}
+\alias{lq}
+\alias{lq.Q}
 \alias{qr}
 \alias{qr,ddmatrix-method}
 \alias{qr.Q}
@@ -23,6 +25,10 @@
 \S4method{qr.qy}{ANY}(x, y)
 
 \S4method{qr.qty}{ANY}(x, y)
+
+lq(x)
+
+lq.Q(x, complete = FALSE)
 }
 \arguments{
 \item{x, y}{numeric distributed matrices for \code{qr()}. Otherwise, \code{x}
