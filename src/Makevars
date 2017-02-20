@@ -1,10 +1,7 @@
 PKG_CPPFLAGS = -I../inst/RNACI
 
 
-R_OBJS = \
-    converters.o \
-    sparse_utils.o \
-    util.o
+R_OBJS = converters.o sparse_utils.o util.o pbdDMAT_native.o
 
 
 
