@@ -2,6 +2,7 @@ Release 0.5-0:
   * Use RNACI v0.4.0.
   * Added lq() bindings.
   * Added lq.Q() bindings.
+  * Exported native routines.
 
 Release 0.4-2
   * Use S3 instead of S4 for rbind/cbind.
