@@ -322,7 +322,27 @@ dmat.rcminmax <- function(x, na.rm=FALSE, SCOPE, op)
   
   out <- dmat.blacsreduction(x=Data, SCOPE=SCOPE, op=op, ICTXT=x@ICTXT, proc.dest=-1)
   
+  
+  
   return( out )
+}
+
+
+
+reduction_ddmatrix_fixer <- function(x, Data, SCOPE)
+{
+  if (SCOPE == 'Row')
+    dim <- c(x@dim[1L], 1L)
+  else if (SCOPE == 'Col')
+    dim <- c(1, x@dim[2])
+  
+  bldim <- x@bldim
+  ICTXT <- x@ICTXT
+  
+  if (!base.ownany(dim, bldim, ICTXT))
+    Data <- matrix(0.0, 1L, 1L)
+  
+  new("ddmatrix", Data=Data, dim=dim, ldim=dim(Data), bldim=bldim) 
 }
 
 # -------------------
@@ -332,62 +352,60 @@ dmat.rcminmax <- function(x, na.rm=FALSE, SCOPE, op)
 #' @rdname reductions
 #' @export
 setMethod("rowSums", signature(x="ddmatrix"), 
-  function(x, na.rm=FALSE){
-    Data <- dmat.rcsum(x, na.rm=na.rm, SCOPE='Row', MEAN=FALSE)
-#    dim(Data) <- c(base::length(Data), 1L)
+  function(x, na.rm=FALSE)
+  {
+    SCOPE <- 'Row'
+    Data <- dmat.rcsum(x, na.rm=na.rm, SCOPE=SCOPE, MEAN=FALSE)
     
-    z <- new("ddmatrix", Data=Data, dim=c(x@dim[1L], 1L), ldim=c(length(x@Data), 1L), bldim=x@bldim) 
-    
-    return( z )
+    reduction_ddmatrix_fixer(x, Data, SCOPE)
   }
 )
 
 #' @rdname reductions
 #' @export
 setMethod("colSums", signature(x="ddmatrix"), 
-  function(x, na.rm=FALSE){
-    Data <- dmat.rcsum(x, na.rm=na.rm, SCOPE='Col', MEAN=FALSE)
+  function(x, na.rm=FALSE)
+  {
+    SCOPE <- 'Col'
+    Data <- dmat.rcsum(x, na.rm=na.rm, SCOPE=SCOPE, MEAN=FALSE)
     
-    z <- new("ddmatrix", Data=Data, dim=c(1L, x@dim[2L]), ldim=c(1L,length(x@Data)), bldim=x@bldim) 
-    
-    return( z )
+    reduction_ddmatrix_fixer(x, Data, SCOPE)
   }
 )
 
 #' @rdname reductions
 #' @export
 setMethod("rowMeans", signature(x="ddmatrix"), 
-  function(x, na.rm=FALSE){
-    Data <- dmat.rcsum(x, na.rm=na.rm, SCOPE='Row', MEAN=TRUE)
-#    dim(Data) <- c(base::length(Data), 1L)
+  function(x, na.rm=FALSE)
+  {
+    SCOPE <- 'Row'
+    Data <- dmat.rcsum(x, na.rm=na.rm, SCOPE=SCOPE, MEAN=TRUE)
     
-    z <- new("ddmatrix", Data=Data, dim=c(x@dim[1L], 1L), ldim=c(length(x@Data), 1L), bldim=x@bldim) 
-    
-    return( z )
+    reduction_ddmatrix_fixer(x, Data, SCOPE)
   }
 )
 
 #' @rdname reductions
 #' @export
 setMethod("colMeans", signature(x="ddmatrix"), 
-  function(x, na.rm=FALSE){
-    Data <- dmat.rcsum(x, na.rm=na.rm, SCOPE='Col', MEAN=TRUE)
+  function(x, na.rm=FALSE)
+  {
+    SCOPE <- 'Col'
+    Data <- dmat.rcsum(x, na.rm=na.rm, SCOPE=SCOPE, MEAN=TRUE)
     
-    z <- new("ddmatrix", Data=Data, dim=c(1, x@dim[2]), ldim=c(1,length(x@Data)), bldim=x@bldim) 
-    
-    return( z )
+    reduction_ddmatrix_fixer(x, Data, SCOPE)
   }
 )
 
 #' @rdname reductions
 #' @export
 setMethod("rowMin", signature(x="ddmatrix"), 
-  function(x, na.rm=FALSE){
-    Data <- dmat.rcminmax(x=x, na.rm=na.rm, SCOPE='Row', op='min')
+  function(x, na.rm=FALSE)
+  {
+    SCOPE <- 'Row'
+    Data <- dmat.rcminmax(x=x, na.rm=na.rm, SCOPE=SCOPE, op='min')
     
-    z <- new("ddmatrix", Data=Data, dim=c(x@dim[1L], 1L), ldim=c(length(x@Data), 1L), bldim=x@bldim) 
-    
-    return( z )
+    reduction_ddmatrix_fixer(x, Data, SCOPE)
   }
 )
 
@@ -401,12 +419,12 @@ setMethod("rowMin", signature(x="matrix"),
 #' @rdname reductions
 #' @export
 setMethod("colMin", signature(x="ddmatrix"), 
-  function(x, na.rm=FALSE){
-    Data <- dmat.rcminmax(x=x, na.rm=na.rm, SCOPE='Col', op='min')
+  function(x, na.rm=FALSE)
+  {
+    SCOPE <- 'Col'
+    Data <- dmat.rcminmax(x=x, na.rm=na.rm, SCOPE=SCOPE, op='min')
     
-    z <- new("ddmatrix", Data=Data, dim=c(1L, x@dim[2L]), ldim=c(1L,length(x@Data)), bldim=x@bldim) 
-    
-    return( z )
+    reduction_ddmatrix_fixer(x, Data, SCOPE)
   }
 )
 
@@ -420,12 +438,12 @@ setMethod("colMin", signature(x="matrix"),
 #' @rdname reductions
 #' @export
 setMethod("rowMax", signature(x="ddmatrix"), 
-  function(x, na.rm=FALSE){
-    Data <- dmat.rcminmax(x=x, na.rm=na.rm, SCOPE='Row', op='max')
+  function(x, na.rm=FALSE)
+  {
+    SCOPE <- 'Row'
+    Data <- dmat.rcminmax(x=x, na.rm=na.rm, SCOPE=SCOPE, op='max')
     
-    z <- new("ddmatrix", Data=Data, dim=c(x@dim[1L], 1L), ldim=c(length(x@Data), 1L), bldim=x@bldim) 
-    
-    return( z )
+    reduction_ddmatrix_fixer(x, Data, SCOPE)
   }
 )
 
@@ -439,12 +457,12 @@ setMethod("rowMax", signature(x="matrix"),
 #' @rdname reductions
 #' @export
 setMethod("colMax", signature(x="ddmatrix"), 
-  function(x, na.rm=FALSE){
-    Data <- dmat.rcminmax(x=x, na.rm=na.rm, SCOPE='Col', op='max')
+  function(x, na.rm=FALSE)
+  {
+    SCOPE <- 'Col'
+    Data <- dmat.rcminmax(x=x, na.rm=na.rm, SCOPE=SCOPE, op='max')
     
-    z <- new("ddmatrix", Data=Data, dim=c(1L, x@dim[2L]), ldim=c(1L,length(x@Data)), bldim=x@bldim) 
-    
-    return( z )
+    reduction_ddmatrix_fixer(x, Data, SCOPE)
   }
 )
 

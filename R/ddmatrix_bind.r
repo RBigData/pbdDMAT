@@ -46,9 +46,10 @@ NULL
 
 
 
-### Bind 2 ddmatrix's
-dmat.rbind2 <- function(args, ICTXT=.pbd_env$ICTXT)
-{ 
+dmat.rbind <- function(..., ICTXT=.pbd_env$ICTXT)
+{
+  args <- list(...)
+  
   oldctxt <- args[[1]]@ICTXT
   
   args <- lapply(args, 
@@ -66,35 +67,15 @@ dmat.rbind2 <- function(args, ICTXT=.pbd_env$ICTXT)
   if (ICTXT!=1)
     ret <- dmat.redistribute(dx=ret, bldim=ret@bldim, ICTXT=ICTXT)
   
-  return( ret )
+  ret
 }
-
-
-
-dmat.rbind <- function(..., ICTXT=.pbd_env$ICTXT)
-{
-  args <- list(...)
-  
-  return( dmat.rbind2(args=args, ICTXT=ICTXT) )
-}
-
-
 
 #' @rdname binds
 #' @export
-setMethod("rbind", "ANY", 
-  function(..., ICTXT=.pbd_env$ICTXT, deparse.level=1)
-  {
-    args <- list(...)
-    
-    if (is.ddmatrix(args[[1]]))
-      ret <- dmat.rbind2(args=args, ICTXT=ICTXT)
-    else
-      ret <- base::rbind(...=..., deparse.level=deparse.level)
-    
-    return( ret )
-  }
-)
+rbind.ddmatrix <- function(..., ICTXT=.pbd_env$ICTXT, deparse.level=1)
+{
+  dmat.rbind(..., ICTXT=ICTXT)
+}
 
 
 
@@ -119,23 +100,12 @@ dmat.cbind <- function(..., ICTXT=.pbd_env$ICTXT)
   if (ICTXT!=2)
     ret <- dmat.redistribute(dx=ret, bldim=ret@bldim, ICTXT=ICTXT)
   
-  return( ret )
+  ret
 }
-
-
 
 #' @rdname binds
 #' @export
-setMethod("cbind", "ANY", 
-  function(..., ICTXT=.pbd_env$ICTXT, deparse.level=1)
-  {
-    args <- list(...)
-    
-    if (is.ddmatrix(args[[1]]))
-      ret <- dmat.cbind(...=..., ICTXT=ICTXT)
-    else
-      ret <- base::cbind(...=..., deparse.level=deparse.level)
-    
-    return( ret )
-  }
-)
+cbind.ddmatrix <- function(..., ICTXT=.pbd_env$ICTXT, deparse.level=1)
+{
+  dmat.cbind(..., ICTXT=ICTXT)
+}

@@ -5,6 +5,7 @@
 #' 
 #' Performs the principal components analysis.
 #' 
+#' @details
 #' \code{prcomp()} performs the principal components analysis on the data
 #' matrix by taking the SVD. Sometimes core R and pbdDMAT will disagree
 #' slightly in what the rotated variables are because of how the SVD is
@@ -95,5 +96,3 @@ setMethod("prcomp", signature(x="ddmatrix"),
       return(r)
   }
 )
-
-

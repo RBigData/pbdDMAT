@@ -57,21 +57,27 @@ setMethod("eigen", signature(x="ddmatrix"),
     
     desca <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
     
-    if (symmetric){
+    if (symmetric)
+    {
       if (only.values)
         jobz <- 'N'
       else
         jobz <- 'V'
       
-      out <- base.rpdsyev(jobz=jobz, uplo='L', n=x@dim[2L], a=x@Data, desca=desca, descz=desca)
-    } else {
+      n <- x@dim[1L]
+      out <- base.rpdsyevr(jobz=jobz, uplo='L', n=n, a=x@Data, desca=desca, descz=desca)
+      
+      vectors <- new("ddmatrix", Data=out$vectors, dim=x@dim, ldim=x@ldim, bldim=x@bldim, ICTXT=x@ICTXT)
+      ret <- list(values=rev(out$values), vectors=vectors[, n:1])
+    }
+    else
+    {
       if (!only.values) # FIXME
         comm.stop("Currently only possible to recover eigenvalues from a non-symmetric matrix")
       
 #      out <- base.pdgeeig(dx@Data, descx=desca)
     }
     
-    return( out )
+    ret
   }
 )
-

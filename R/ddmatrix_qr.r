@@ -289,5 +289,53 @@ setMethod("qr.qty", signature(x="ANY"),
 
 
 
+#' @rdname qr
+#' @export
+lq <- function (x)
+{
+  # Matrix descriptors
+  descx <- base.descinit(x@dim, x@bldim, x@ldim, ICTXT=x@ICTXT)
+  
+  m <- descx[3L]
+  n <- descx[4L]
+  
+  # qr
+  out <- base.rpdgelqf(m=m, n=n, x=x@Data, descx=descx)
+  
+  if (base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT))
+    x@Data <- out$lq
+  
+  ret <- list(lq=x, tau=out$tau)
+  
+  attr(ret, "class") <- "lq"
+  
+  ret
+}
 
 
+#' @rdname qr
+#' @export
+lq.Q <- function(x, complete = FALSE)
+{
+  if (!is(x, "lq"))
+    comm.stop("'x' must be an 'lq' object")
+  if (!is.ddmatrix(x$lq))
+    comm.stop("badly formed input; lq not a 'ddmatrix'")
+  
+  lq <- x$lq
+  
+  # Matrix descriptors
+  desc <- base.descinit(lq@dim, lq@bldim, lq@ldim, ICTXT=lq@ICTXT)
+  
+  m <- desc[3]
+  n <- desc[4]
+  
+  k <- min(m, n)
+  
+  ret <- base.rpdorglq(m=m, n=n, k=k, lq=lq@Data, desc=desc, tau=x$tau)
+  
+  if (base.ownany(dim=lq@dim, bldim=lq@bldim, ICTXT=lq@ICTXT))
+    lq@Data <- ret
+  
+  lq
+}

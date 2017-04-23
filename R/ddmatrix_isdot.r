@@ -44,7 +44,8 @@ NULL
 #' @export
 is.ddmatrix <- function(x)
 {
-  if (class(x)=="ddmatrix"){
+  if (is(x, "ddmatrix"))
+  {
     ldim <- base.numroc(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT)
     if (any(ldim != x@ldim))
       comm.warning("distributed matrix has bad slot 'ldim'")
@@ -91,4 +92,3 @@ setMethod("is.infinite", signature(x="ddmatrix"),
     return(x)
   }
 )
-

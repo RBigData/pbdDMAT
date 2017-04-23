@@ -1,6 +1,7 @@
 #dmat.is.ddvector <- function(x)
 #{
-#  if (class(x)=="ddvector"){
+#  if (is(x, "ddvector"))
+#  {
 #    len <- c(x@llen, 1L)
 #    ldim <- base.numroc(dim=len, bldim=x@bldim, ICTXT=x@ICTXT)
 #    if (any(ldim != len))
@@ -49,4 +50,3 @@
 #  function(x)
 #    return(x@llen)
 #)
-

@@ -1,5 +1,5 @@
 ### Parameter stress tests
-library(pbdDMAT, quietly=TRUE)
+suppressPackageStartupMessages(library(pbdDMAT))
 init.grid(quiet=TRUE)
 
 bldims <- c(2, 4, 5, 7, 12, 13, 16, 24, 64)

@@ -73,7 +73,8 @@ base.mat.to.ddmat <- function(x, bldim=.pbd_env$BLDIM, ICTXT=.pbd_env$ICTXT)
 {
   if (!is.matrix(x))
     comm.stop("input 'x' must be a matrix") 
-  else if (length(bldim) == 1) 
+  
+  if (length(bldim) == 1) 
     bldim <- rep(bldim, 2) 
   else if (diff(bldim) != 0)
     comm.warning("Most ScaLAPACK routines do not allow for non-square blocking.  This is highly non-advised.")
@@ -99,10 +100,12 @@ distribute <- function(x, bldim=.pbd_env$BLDIM, xCTXT=0, ICTXT=.pbd_env$ICTXT)
   if (length(bldim)==1)
     bldim <- rep(bldim, 2L)
   
-  if (!is.matrix(x) && is.null(x)){
+  if (!is.matrix(x) && is.null(x))
+  {
     x <- matrix(0)
     iown <- FALSE
-  } else
+  }
+  else
     iown <- TRUE
   
   if (iown)
@@ -145,8 +148,11 @@ distribute <- function(x, bldim=.pbd_env$BLDIM, xCTXT=0, ICTXT=.pbd_env$ICTXT)
 # Distribute dense, in-core matrices
 dmat.as.ddmatrix <- function(x, bldim=.pbd_env$BLDIM, ICTXT=.pbd_env$ICTXT)
 {
+  if (length(bldim)==1)
+    bldim <- rep(bldim, 2L)
+
   nprocs <- pbdMPI::comm.size()
-  owns <- pbdMPI::allreduce(is.matrix(x), op='sum')
+  owns <- pbdMPI::allreduce(as.integer(is.matrix(x)), op='sum')
   
   # owned by one process 
   if (owns==1)
