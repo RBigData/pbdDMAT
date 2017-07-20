@@ -19,13 +19,12 @@ BLACS library and pbdMPI.
 
 This package requires an MPI library (OpenMPI, MPICH2, or LAM/MPI).
 }
+\references{
+Programming with Big Data in R Website: \url{http://r-pbd.org/}
+}
 \author{
 Drew Schmidt \email{schmidt AT math.utk.edu}, Wei-Chen Chen, George
 Ostrouchov, and Pragneshkumar Patel, with contributions from R Core team
 (some wrappers taken from the base and stats packages).
 }
-\references{
-Programming with Big Data in R Website: \url{http://r-pbd.org/}
-}
 \keyword{Package}
-

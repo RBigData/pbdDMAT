@@ -2,9 +2,9 @@
 % Please edit documentation in R/ddmatrix_matmult.r
 \docType{methods}
 \name{matmult}
+\alias{matmult}
 \alias{\%*\%,ddmatrix,ddmatrix-method}
 \alias{crossprod,ddmatrix-method}
-\alias{matmult}
 \alias{tcrossprod,ddmatrix-method}
 \title{Matrix Multiplication}
 \usage{
@@ -57,4 +57,3 @@ finalize()
 \keyword{Algebra}
 \keyword{Linear}
 \keyword{Methods}
-

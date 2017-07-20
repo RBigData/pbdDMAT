@@ -2,8 +2,8 @@
 % Please edit documentation in R/ddmatrix_[.r
 \docType{methods}
 \name{extract}
-\alias{[,ddmatrix-method}
 \alias{extract}
+\alias{[,ddmatrix-method}
 \title{Extract or Replace Parts of a Distributed Matrix}
 \usage{
 \S4method{[}{ddmatrix}(x, i, j, ICTXT)
@@ -59,4 +59,3 @@ finalize()
 }
 \keyword{Extraction}
 \keyword{Methods}
-

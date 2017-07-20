@@ -32,4 +32,4 @@ Authors@R: c(person("Drew", "Schmidt", role=c("aut", "cre"), email="schmidt@math
     person("Michael", "Lawrence", role="ctb"),
     person("R Core team", role="ctb", comment="some wrappers taken from the base and stats packages"))
 Maintainer: Drew Schmidt <schmidt@math.utk.edu>
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

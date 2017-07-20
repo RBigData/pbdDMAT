@@ -3,10 +3,13 @@
 \docType{methods}
 \name{sparsity}
 \alias{sparsity}
+\alias{sparsity-method}
+\alias{sparsity,vector-method}
+\alias{sparsity,matrix-method}
 \alias{sparsity,dmat-method}
 \alias{sparsity,matrix-method}
 \alias{sparsity,vector-method}
-\alias{sparsity-method}
+\alias{sparsity,dmat-method}
 \title{Sparsity of Matrix Objects}
 \usage{
 \S4method{sparsity}{matrix}(x, count = "zero", out = "count",
@@ -39,4 +42,3 @@ Determine the sparsity of a matrix, distributed, dense, or otherwise.
 The sparsity count of a matrix is returned.
 }
 \keyword{Methods,Sparse}
-

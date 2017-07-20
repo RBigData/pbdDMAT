@@ -57,4 +57,3 @@ finalize()
 \keyword{ConditionNumbers}
 \keyword{Linear}
 \keyword{Methods}
-
