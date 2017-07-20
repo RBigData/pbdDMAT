@@ -42,6 +42,9 @@ setGeneric(name="lu", function(x) standardGeneric("lu"), package="pbdDMAT")
 setMethod("lu", signature(x="ddmatrix"), 
   function(x)
   {
+    if (x@bldim[1L] != x@bldim[2L])
+      comm.stop(paste0("lu() requires a square blocking factor; have ", x@bldim[1L], "x", x@bldim[2L]))
+    
     desca <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
     
     out <- base.rpdgetrf(a=x@Data, desca=desca)
@@ -51,6 +54,3 @@ setMethod("lu", signature(x="ddmatrix"),
     return( x )
   }
 )
-
-
-

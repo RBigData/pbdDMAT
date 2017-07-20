@@ -67,6 +67,9 @@ dmat.svd <- function(x, nu, nv, inplace=FALSE)
   size <- min(m, n)
   bldim <- x@bldim
   
+  if (bldim[1L] != bldim[2L])
+    comm.stop(paste0("svd() and La.svd() require a square blocking factor; have ", x@bldim[1L], "x", x@bldim[2L]))
+  
   desca <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=ICTXT)
   
   # U
@@ -198,4 +201,3 @@ setMethod("svd", signature(x="ddmatrix"),
     return( ret )
   }
 )
-

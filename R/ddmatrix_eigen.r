@@ -52,6 +52,9 @@ setMethod("eigen", signature(x="ddmatrix"),
     if (x@dim[1L] != x@dim[2L])
       comm.stop("non-square matrix in 'eigen'")
     
+    if (x@bldim[1L] != x@bldim[2L])
+      comm.stop(paste0("eigen() requires a square blocking factor; have ", x@bldim[1L], "x", x@bldim[2L]))
+    
     if (missing(symmetric)) 
       symmetric <- isSymmetric(x)
     

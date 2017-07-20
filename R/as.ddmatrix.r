@@ -76,8 +76,8 @@ base.mat.to.ddmat <- function(x, bldim=.pbd_env$BLDIM, ICTXT=.pbd_env$ICTXT)
   
   if (length(bldim) == 1) 
     bldim <- rep(bldim, 2) 
-  else if (diff(bldim) != 0)
-    comm.warning("Most ScaLAPACK routines do not allow for non-square blocking.  This is highly non-advised.")
+  ### NOTE non-square blocking checks deprecated in favor of checking explicitly
+  ### for the few affected routines.
   
   dim <- dim(x)
   ldim <- base.numroc(dim=dim, bldim=bldim, ICTXT=ICTXT, fixme=TRUE)
