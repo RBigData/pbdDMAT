@@ -3,6 +3,7 @@ Release 0.5-0:
   * Added lq() bindings.
   * Added lq.Q() bindings.
   * Exported native routines.
+  * Dropped non-square blocking warning; error on the specific routines that don't support it.
 
 Release 0.4-2
   * Use S3 instead of S4 for rbind/cbind.
