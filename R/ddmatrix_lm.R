@@ -167,7 +167,7 @@ setMethod("lm.fit", signature(x="ddmatrix", y="ddmatrix"),
     
     # rownames
   #  if (base.ownany(dim=y@dim, bldim=y@bldim, ICTXT=y@CTXT)){
-  #    coords <- sapply(temp, function(i) base.g2l_coord(ind=i, dim=y@dim, bldim=y@bldim, ICTXT=y@CTXT)[5])
+  #    coords <- sapply(temp, function(i) base.g2l_coord(ind=i, bldim=y@bldim, ICTXT=y@CTXT)[5])
   #    mycoords <- coords[which(!is.na(coords))]
   #    
   #    rownames(y@Data) <- paste("x", mycoords, sep="")

@@ -59,7 +59,7 @@ setMethod("summary", signature(object="ddmatrix"),
       
       ret_names <- sapply(X=1:object@ldim[2], FUN=
         function(i) 
-          base.l2g_coord(ind=c(1, i), dim=object@dim, bldim=object@bldim, ICTXT=1)[2]
+          base.l2g_coord(ind=c(1, i), bldim=object@bldim, ICTXT=1)[2]
       )
     } 
     else 

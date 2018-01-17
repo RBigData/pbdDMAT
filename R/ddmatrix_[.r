@@ -110,7 +110,7 @@ setMethod("[", signature(x="ddmatrix"),
     if (!imiss && !jmiss){
       # user wants exactly 1 value
       if (ilng==1 && i>0 && jlng==1 && j>0){
-        coords <- base.g2l_coord(ind=c(i, j), dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT)
+        coords <- base.g2l_coord(ind=c(i, j), bldim=x@bldim, ICTXT=x@ICTXT)
         if (all(!is.na(coords[c(3,4)])))
           out <- x@Data[coords[5], coords[6]]
         else
