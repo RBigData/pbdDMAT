@@ -1,6 +1,6 @@
 // NOTE: file generated automatically from RNACI source; do not edit by hand
 
-// Copyright (c) 2014-2016, Drew Schmidt
+// Copyright (c) 2014-2017, Drew Schmidt
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without
@@ -21,6 +21,13 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 // Changelog:
+// Version 0.5.0:
+//   * Fixed several rchk warnings.
+//   * Add boolean/logical allocators.
+//   * Make is_Rnull() a simple macro.
+//   * Rewrote allocator internals.
+//   * Changed API for make_list/dataframe and friends.
+// 
 // Version 0.4.0:
 //   * Clean up internals; better internal guarding.
 //   * Deprecate non-double float functions.
@@ -58,50 +65,64 @@
 #include <float.h>
 
 
-// Internals, please excuse the mess
-#define RNACI_VERSION 0.4.0
+// -----------------------------------------------------------------------------
+// Internals
+// -----------------------------------------------------------------------------
 
-#define RNACI_MAX(m,n) m<n?n:m
+#define RNACI_VERSION 0.5.0
+
+#define RNACI_MAX(m,n) ((m)<(n) ? (n) : (m))
 
 #define RNACI_IGNORED -1
 
-static unsigned int __RNACI_SEXP_protect_counter = 0;
+#define __RNACI_INT(x, y, ...) INTEGER(x)[y]
+#define __RNACI_DBL(x, y, ...) REAL(x)[y]
+#define __RNACI_STR(x, y, ...) ((char*)CHAR(STRING_ELT(x, y)))
 
-#define __RNACI_INT(x,y,...) INTEGER(x)[y]
-#define __RNACI_DBL(x,y,...) REAL(x)[y]
-#define __RNACI_STR(x,y,...) ((char*)CHAR(STRING_ELT(x,y)))
+#define RNACI_PT(x) {PROTECT((x)); RNACI_ptct++;}
 
-#define RNACI_PT(x) PROTECT((x)); (__RNACI_SEXP_protect_counter)++
+#define OPTIONALARG1(a, b, c, ...) (a),(b),(c)
 
-#define OPTIONALARG1(a,b,c,...) (a),(b),(c)
+static unsigned int RNACI_ptct = 0;
 
 
+static inline SEXP _make_list_names(int n, ...);
+static inline SEXP _make_list(SEXP R_list_names, const int n, ...);
 
-// defs
+static inline void set_list_names(SEXP R_list, SEXP R_names);
+static inline void set_df_rownames(SEXP R_df, SEXP R_rownames);
+static inline void set_df_colnames(SEXP R_df, SEXP R_colnames);
+static inline void set_list_as_df(SEXP R_list);
+
+
+
+// -----------------------------------------------------------------------------
+// Public Interface
+// -----------------------------------------------------------------------------
+
+// --------- Defs ---------
 #define RNULL R_NilValue
 
-// Access SEXP by value
-#define INT(...) __RNACI_INT(__VA_ARGS__,0,RNACI_IGNORED)
-#define DBL(...) __RNACI_DBL(__VA_ARGS__,0,RNACI_IGNORED)
-#define STR(...) __RNACI_STR(__VA_ARGS__,0,RNACI_IGNORED)
 
-// SEXP data pointer
-#define MatINT(x,i,j) (INTEGER(x)[i+nrows(x)*j])
-#define MatDBL(x,i,j) (REAL(x)[i+nrows(x)*j])
+// --------- Accessors ---------
+#define INT(...) __RNACI_INT(__VA_ARGS__, 0, RNACI_IGNORED)
+#define DBL(...) __RNACI_DBL(__VA_ARGS__, 0, RNACI_IGNORED)
+#define STR(...) __RNACI_STR(__VA_ARGS__, 0, RNACI_IGNORED)
+
+#define MatINT(x,i,j) (INTEGER(x)[i + nrows(x)*j])
+#define MatDBL(x,i,j) (REAL(x)[i + nrows(x)*j])
 
 #define INTP(x) (INTEGER(x))
 #define DBLP(x) (REAL(x))
 
-// gc guards
-#define R_INIT 
 
-#define R_END UNPROTECT(__RNACI_SEXP_protect_counter); __RNACI_SEXP_protect_counter=0;
+// --------- gc stuff ---------
+#define hidefromGC(x) RNACI_PT(x);
+#define unhideGC() {UNPROTECT(RNACI_ptct); RNACI_ptct = 0;};
 
-#define hidefromGC(x) RNACI_PT(x)
-#define unhideGC() R_END
 
-// External pointers
-#define newRptr(ptr,Rptr,fin) PROTECT(Rptr = R_MakeExternalPtr(ptr, R_NilValue, R_NilValue));R_RegisterCFinalizerEx(Rptr, fin, TRUE);__RNACI_SEXP_protect_counter++;
+// --------- External pointers ---------
+#define newRptr(ptr,Rptr,fin) {RNACI_PT(Rptr = R_MakeExternalPtr(ptr, R_NilValue, R_NilValue)); R_RegisterCFinalizerEx(Rptr, fin, TRUE);}
 #define getRptr(ptr) R_ExternalPtrAddr(ptr);
 
 #define newRptrfreefun(FNAME,TYPE,FREEFUN) \
@@ -114,46 +135,39 @@ static inline void FNAME(SEXP ptr) \
 } \
 void __ignore_me_just_here_for_semicolons();
 
-// allocators
-#define newRlist(x,n) (x=__Rvecalloc(n, "vec", false))
-// #define newRvec(x,n,type) RNACI_PT(x=__Rvecalloc(n, type,false))
-#define newRvec(x,...) (x=__Rvecalloc(OPTIONALARG1(__VA_ARGS__,false,RNACI_IGNORED)))
-// #define newRmat(x,m,n,type) RNACI_PT(x=__Rmatalloc(m,n,type,false))
-#define newRmat(x,m,...) (x=__Rmatalloc(m,OPTIONALARG1(__VA_ARGS__,false,RNACI_IGNORED)))
+
+// --------- Allocators ---------
+#define newRlist(x, n) {RNACI_PT((x) = __Rvecalloc(n, "vec", false));}
+#define newRvec(x, ...) {RNACI_PT((x) = __Rvecalloc(OPTIONALARG1(__VA_ARGS__, false, RNACI_IGNORED)));}
+#define newRmat(x, m, ...) {RNACI_PT((x) = __Rmatalloc(m, OPTIONALARG1(__VA_ARGS__, false, RNACI_IGNORED)));}
 
 #define setRclass(x,name) __Rsetclass(x, name);
 
-// misc
+
+// --------- Dataframes and Lists ---------
+#define make_list_names(x, n, ...) {RNACI_PT((x) = _make_list_names(n, __VA_ARGS__));}
+#define make_list(x, list_names, n, ...) {RNACI_PT((x) = _make_list(list_names, n, __VA_ARGS__));}
+#define make_dataframe(x, rownames, colnames, n, ...) {RNACI_PT((x) = _make_dataframe(rownames, colnames, n, __VA_ARGS__));}
+
+
+// --------- Printing ---------
 #define Rputchar(c) Rprintf("%c", c)
-
-
-
-// floats.c
-static inline int fis_zero(double x);
-static inline int fequals(double x, double y);
-
-// misc.c
-static inline int is_Rnull(SEXP x);
-static inline int is_Rnan(SEXP x);
-static inline int is_Rna(SEXP x);
-static inline int is_double(SEXP x);
-static inline int is_integer(SEXP x);
-
-// printinc.c
 static inline void PRINT(SEXP x);
 
-// structures_dataframes.c
-static inline SEXP make_dataframe(SEXP R_rownames, SEXP R_colnames, int n, ...);
 
-// structures_lists.c
-static inline SEXP make_list_names(int n, ...);
-static inline SEXP make_list(SEXP R_list_names, const int n, ...);
+// --------- is_ checkers ---------
+#define is_Rnull(x) ((x) == R_NilValue)
+#define is_double(x) (TYPEOF(x) == REALSXP)
+#define is_integer(x) (TYPEOF(x) == INTSXP)
 
-// structures_misc.c
-static inline void set_list_names(SEXP R_list, SEXP R_names);
-static inline void set_df_rownames(SEXP R_df, SEXP R_rownames);
-static inline void set_df_colnames(SEXP R_df, SEXP R_colnames);
-static inline void set_list_as_df(SEXP R_list);
+
+
+// -----------------------------------------------------------------------------
+// Deprecated
+// -----------------------------------------------------------------------------
+
+#define R_INIT
+#define R_END unhideGC()
 
 
 #endif
@@ -170,7 +184,9 @@ static inline SEXP __Rvecalloc(int n, char *type, int init)
   SEXP RET;
   
   if (strncmp(type, "vec", 1) == 0)
+  {
     PROTECT(RET = allocVector(VECSXP, n));
+  }
   else if (strncmp(type, "int", 1) == 0)
   {
     PROTECT(RET = allocVector(INTSXP, n));
@@ -185,12 +201,21 @@ static inline SEXP __Rvecalloc(int n, char *type, int init)
     if (init)
       memset(DBLP(RET), 0, n*sizeof(double));
   }
+  else if (strncmp(type, "boolean", 1) == 0 || strncmp(type, "logical", 1) == 0)
+  {
+    PROTECT(RET = allocVector(LGLSXP, n));
+    
+    if (init)
+      memset(INTP(RET), 0, n*sizeof(int));
+  }
   else if (strncmp(type, "str", 1) == 0 || strncmp(type, "char*", 1) == 0)
+  {
     PROTECT(RET = allocVector(STRSXP, n));
+  }
   else
     error("unknown allocation type\n");
   
-  __RNACI_SEXP_protect_counter++;
+  UNPROTECT(1);
   return RET;
 }
 
@@ -199,7 +224,9 @@ static inline SEXP __Rmatalloc(int m, int n, char *type, int init)
   SEXP RET;
   
   if (strncmp(type, "vec", 1) == 0)
+  {
     PROTECT(RET = allocMatrix(VECSXP, m, n));
+  }
   else if (strncmp(type, "int", 1) == 0)
   {
     PROTECT(RET = allocMatrix(INTSXP, m, n));
@@ -214,129 +241,64 @@ static inline SEXP __Rmatalloc(int m, int n, char *type, int init)
     if (init)
       memset(DBLP(RET), 0, m*n*sizeof(double));
   }
+  else if (strncmp(type, "boolean", 1) == 0 || strncmp(type, "logical", 1) == 0)
+  {
+    PROTECT(RET = allocMatrix(LGLSXP, m, n));
+    
+    if (init)
+      memset(INTP(RET), 0, m*n*sizeof(int));
+  }
   else if (strncmp(type, "str", 1) == 0 || strncmp(type, "char*", 1) == 0)
+  {
     PROTECT(RET = allocMatrix(STRSXP, m, n));
+  }
   else
     error("unknown allocation type\n");
   
-  __RNACI_SEXP_protect_counter++;
+  UNPROTECT(1);
   return RET;
 }
 
 static inline SEXP __Rsetclass(SEXP x, char *name)
 {
   SEXP class;
-  newRvec(class, 1, "str");
+  PROTECT(class = allocVector(STRSXP, 1));
   SET_STRING_ELT(class, 0, mkChar(name));
   classgets(x, class);
+  UNPROTECT(1);
   return class;
 }
 
 
 
-// ..//src/floats.c
-static inline int fis_zero(double x)
-{
-  const double abs_eps = 1.1 * DBL_EPSILON;
-  if (fabs(x) < abs_eps*DBL_MIN)
-    return true;
-  else
-    return false;
-}
-
-static inline int fequals(double x, double y)
-{
-  const double abs_eps = 1.1 * DBL_EPSILON;
-  const double diff = fabs(x - y);
-  
-  if (x == y)
-    return true;
-  else if (x == 0.0 || y == 0.0 || diff < DBL_MIN)
-    return diff < (abs_eps*DBL_MIN);
-  else
-    return diff/(fabs(x) + fabs(y)) < abs_eps;
-}
-
-
-
 // ..//src/misc.c
-static inline int is_Rnull(SEXP x)
+static inline SEXP evalfun_stringarg(const char *const restrict fun, const char *const restrict arg)
 {
-  SEXP basePackage;
-  SEXP tmp;
+  SEXP ret, expr, fun_install, arg_str;
+  PROTECT(fun_install = install(fun));
+  PROTECT(arg_str = ScalarString(mkChar(arg)));
+  PROTECT(expr = lang2(fun_install, arg_str));
+  PROTECT(ret = eval(expr, R_GlobalEnv));
   
-  RNACI_PT( basePackage = eval( lang2( install("getNamespace"), ScalarString(mkChar("base")) ), R_GlobalEnv ) );
-  
-  tmp = eval( lang2( install("is.null"), x), basePackage);
-  
-  UNPROTECT(1);
-  return INT(tmp);
-}
-
-static inline int is_Rnan(SEXP x)
-{
-  SEXP basePackage;
-  SEXP tmp;
-
-  RNACI_PT( basePackage = eval( lang2( install("getNamespace"), ScalarString(mkChar("base")) ), R_GlobalEnv ) );
-
-  tmp = eval( lang2( install("is.nan"), x), basePackage);
-
-  UNPROTECT(1);
-  return INT(tmp);
-}
-
-static inline int is_Rna(SEXP x)
-{
-  SEXP basePackage;
-  SEXP tmp;
-  
-  RNACI_PT( basePackage = eval( lang2( install("getNamespace"), ScalarString(mkChar("base")) ), R_GlobalEnv ) );
-  
-  tmp = eval( lang2( install("is.na"), x), basePackage);
-  
-  UNPROTECT(1);
-  return INT(tmp);
-}
-
-static inline int is_double(SEXP x)
-{
-  SEXP basePackage;
-  SEXP tmp;
-  
-  RNACI_PT( basePackage = eval( lang2( install("getNamespace"), ScalarString(mkChar("base")) ), R_GlobalEnv ) );
-  
-  tmp = eval( lang2( install("is.double"), x), basePackage);
-  
-  UNPROTECT(1);
-  return INT(tmp);
-}
-
-static inline int is_integer(SEXP x)
-{
-  SEXP basePackage;
-  SEXP tmp;
-  
-  RNACI_PT( basePackage = eval( lang2( install("getNamespace"), ScalarString(mkChar("base")) ), R_GlobalEnv ) );
-  
-  tmp = eval( lang2( install("is.integer"), x), basePackage);
-  
-  UNPROTECT(1);
-  return INT(tmp);
+  UNPROTECT(4);
+  return ret;
 }
 
 
 
-// ..//src/printing.c
 static inline void PRINT(SEXP x)
 {
   SEXP basePackage;
+  SEXP print_install;
+  SEXP expr;
   
-  PROTECT( basePackage = eval( lang2( install("getNamespace"), ScalarString(mkChar("base")) ), R_GlobalEnv ) );
+  PROTECT(basePackage = evalfun_stringarg("getNamespace", "base"));
   
-  eval( lang2( install("print"), x), basePackage);
+  PROTECT(print_install = install("print"));
+  PROTECT(expr = lang2(print_install, x));
+  eval(expr, basePackage);
   
-  UNPROTECT(1);
+  UNPROTECT(3);
 }
 
 
@@ -354,7 +316,7 @@ static inline SEXP make_dataframe_default_colnames(const int ncols)
   char *buf = (char*) R_alloc(buflen, sizeof(*buf));
   buf[0] = 'X';
   
-  newRlist(ret, ncols);
+  PROTECT(ret = allocVector(VECSXP, ncols));
   
   for (int i=0; i<ncols; i++)
   {
@@ -364,6 +326,7 @@ static inline SEXP make_dataframe_default_colnames(const int ncols)
     SET_VECTOR_ELT(ret, i, mkCharLen(buf, buflen));
   }
   
+  UNPROTECT(1);
   return ret;
 }
 
@@ -372,15 +335,16 @@ static inline SEXP make_dataframe_default_rownames(int nrows)
   int i;
   SEXP ret_names;
   
-  newRvec(ret_names, nrows, "int");
+  PROTECT(ret_names = allocVector(INTSXP, nrows));
   
   for (i=0; i<nrows; i++)
     INT(ret_names, i) = i + 1;
   
+  UNPROTECT(1);
   return ret_names;
 }
 
-static inline SEXP make_dataframe(SEXP R_rownames, SEXP R_colnames, int ncols, ...)
+static inline SEXP _make_dataframe(SEXP R_rownames, SEXP R_colnames, int ncols, ...)
 {
   int nrows = 0;
   SEXP R_df;
@@ -388,9 +352,10 @@ static inline SEXP make_dataframe(SEXP R_rownames, SEXP R_colnames, int ncols, .
   SEXP R_default_colnames;
   SEXP tmp;
   va_list listPointer;
+  int npt = 1;
   
   // Construct list
-  newRlist(R_df, ncols);
+  PROTECT(R_df = allocVector(VECSXP, ncols));
   
   va_start(listPointer, ncols);
   
@@ -412,65 +377,71 @@ static inline SEXP make_dataframe(SEXP R_rownames, SEXP R_colnames, int ncols, .
     if (ncols)
       nrows = LENGTH(VECTOR_ELT(R_df, 0));
     
-    R_default_rownames = make_dataframe_default_rownames(nrows);
+    PROTECT(R_default_rownames = make_dataframe_default_rownames(nrows));
     set_df_rownames(R_df, R_default_rownames);
+    npt++;
   }
   else
     set_df_rownames(R_df, R_rownames);
   
+  
   if (R_colnames == RNULL)
   {
     if (ncols == 0)
-      R_default_colnames = make_dataframe_default_rownames(0);
+    {
+      PROTECT(R_default_colnames = make_dataframe_default_rownames(0));
+      set_df_colnames(R_df, R_default_colnames);
+      npt++;
+    }
     else
+    {
       R_default_colnames = RNULL;
-    
-    set_df_colnames(R_df, R_default_colnames);
+      set_df_colnames(R_df, R_default_colnames);
+    }
   }
   else
     set_df_colnames(R_df, R_colnames);
   
-  
+  UNPROTECT(npt);
   return R_df;
 }
 
 
 
 // ..//src/structures_lists.c
-static inline SEXP make_list_names(int n, ...)
+static inline SEXP _make_list_names(int n, ...)
 {
-  int i;
   char *tmp;
   SEXP R_list_names;
   va_list listPointer;
   
-  newRvec(R_list_names, n, "str");
+  PROTECT(R_list_names = allocVector(STRSXP, n));
   
   va_start(listPointer, n);
   
-  for (i=0; i<n; i++)
+  for (int i=0; i<n; i++)
   {
-    tmp = va_arg(listPointer, char *);
+    tmp = va_arg(listPointer, char*);
   
     SET_STRING_ELT(R_list_names, i, mkChar(tmp));
   }
   
   va_end(listPointer);
   
+  UNPROTECT(1);
   return R_list_names;
 }
 
-static inline SEXP make_list(SEXP R_list_names, const int n, ...)
+static inline SEXP _make_list(SEXP R_list_names, const int n, ...)
 {
-  int i;
   SEXP tmp, R_list;
   va_list listPointer;
   
-  newRlist(R_list, n);
+  PROTECT(R_list = allocVector(VECSXP, n));
   
   va_start(listPointer, n);
   
-  for (i=0; i<n; i++)
+  for (int i=0; i<n; i++)
   {
     tmp = va_arg(listPointer, SEXP);
   
@@ -482,6 +453,7 @@ static inline SEXP make_list(SEXP R_list_names, const int n, ...)
   if (R_list_names != RNULL)
     set_list_names(R_list, R_list_names);
   
+  UNPROTECT(1);
   return R_list;
 }
 
@@ -505,7 +477,9 @@ static inline void set_df_colnames(SEXP R_df, SEXP R_colnames)
 
 static inline void set_list_as_df(SEXP R_list)
 {
+  PROTECT(R_list);
   setAttrib(R_list, R_ClassSymbol, mkString("data.frame"));
+  UNPROTECT(1);
 }
 
 

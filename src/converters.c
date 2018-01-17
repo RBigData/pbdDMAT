@@ -105,13 +105,9 @@ SEXP R_convert_dense_to_csr(SEXP x)
   
   INT(row_ptr, m) = ct+1;
   
-  R_list_names = make_list_names(3, "Data", "row_ptr", "col_ind");
-  R_list = make_list(R_list_names, 3, data, row_ptr, col_ind);
+  make_list_names(R_list_names, 3, "Data", "row_ptr", "col_ind");
+  make_list(R_list, R_list_names, 3, data, row_ptr, col_ind);
   
   R_END;
   return R_list;
 }
-
-
-
-
