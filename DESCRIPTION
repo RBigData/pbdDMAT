@@ -24,7 +24,7 @@ NeedsCompilation: yes
 URL: http://r-pbd.org/
 BugReports: http://group.r-pbd.org/
 MailingList: Please send questions and comments regarding pbdR to RBigData@gmail.com
-Authors@R: c(person("Drew", "Schmidt", role=c("aut", "cre"), email="schmidt@math.utk.edu"), 
+Authors@R: c(person("Drew", "Schmidt", role=c("aut", "cre"), email="wrathematics@gmail.com"), 
     person("Wei-Chen", "Chen", role="aut"), 
     person("George", "Ostrouchov", role="aut"),
     person("Pragneshkumar", "Patel", role="aut"), 
