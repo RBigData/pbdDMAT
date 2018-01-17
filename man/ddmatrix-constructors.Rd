@@ -2,18 +2,18 @@
 % Please edit documentation in R/constructors.r
 \docType{methods}
 \name{ddmatrix-constructors}
-\alias{ddmatrix-constructors}
 \alias{ddmatrix}
+\alias{ddmatrix,character-method}
 \alias{ddmatrix,ddmatrix-method}
+\alias{ddmatrix,matrix-method}
 \alias{ddmatrix,missing-method}
 \alias{ddmatrix,vector-method}
-\alias{ddmatrix,matrix-method}
-\alias{ddmatrix,character-method}
+\alias{ddmatrix-constructors}
 \alias{ddmatrix.local}
+\alias{ddmatrix.local,character-method}
+\alias{ddmatrix.local,matrix-method}
 \alias{ddmatrix.local,missing-method}
 \alias{ddmatrix.local,vector-method}
-\alias{ddmatrix.local,matrix-method}
-\alias{ddmatrix.local,character-method}
 \title{Distributed Matrix Creation}
 \usage{
 ddmatrix(data, ...)
@@ -124,3 +124,4 @@ finalize()
 }
 \keyword{Data}
 \keyword{Generation}
+

@@ -21,3 +21,4 @@ Tests if a distributed matrix is symmetric.
 \details{
 The test is performed by comparing the object against its transpose.
 }
+

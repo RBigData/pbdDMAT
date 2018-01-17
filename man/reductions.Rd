@@ -2,23 +2,22 @@
 % Please edit documentation in R/ddmatrix_reductions.R
 \docType{methods}
 \name{reductions}
-\alias{reductions}
-\alias{rowMin}
-\alias{rowMax}
-\alias{colMin}
 \alias{colMax}
-\alias{rowSums,ddmatrix-method}
-\alias{colSums,ddmatrix-method}
-\alias{rowMeans,ddmatrix-method}
+\alias{colMax,ddmatrix-method}
 \alias{colMeans,ddmatrix-method}
-\alias{rowMin,ddmatrix-method}
-\alias{rowMin,matrix-method}
+\alias{colMin}
 \alias{colMin,ddmatrix-method}
 \alias{colMin,matrix-method}
+\alias{colSums,ddmatrix-method}
+\alias{reductions}
+\alias{rowMax}
 \alias{rowMax,ddmatrix-method}
 \alias{rowMax,matrix-method}
-\alias{colMax,ddmatrix-method}
-\alias{colMin,matrix-method}
+\alias{rowMeans,ddmatrix-method}
+\alias{rowMin}
+\alias{rowMin,ddmatrix-method}
+\alias{rowMin,matrix-method}
+\alias{rowSums,ddmatrix-method}
 \title{Arithmetic Reductions: Sums, Means, and Prods}
 \usage{
 rowMin(x, ...)
@@ -107,3 +106,4 @@ finalize()
 
 }
 \keyword{Methods}
+

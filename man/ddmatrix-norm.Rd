@@ -23,7 +23,6 @@ Computes the norm of a distributed matrix.
 \section{Methods}{
  \describe{ \item{list("signature(x = \"ddmatrix\")")}{} }
 }
-
 \examples{
 \dontrun{
 # Save code in a file "demo.r" and run with 2 processors by
@@ -47,3 +46,4 @@ finalize()
 \keyword{Linear}
 \keyword{Methods}
 \keyword{Norm}
+

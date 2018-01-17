@@ -3,8 +3,8 @@
 \docType{methods}
 \name{expm}
 \alias{expm}
-\alias{expm,matrix-method}
 \alias{expm,ddmatrix-method}
+\alias{expm,matrix-method}
 \title{Matrix Exponentiation}
 \usage{
 expm(x, t = 1, p = 6)
@@ -57,3 +57,4 @@ Awad H. Al-Mohy and Nicholas J. Higham, August 2009
 \keyword{Algebra}
 \keyword{Linear}
 \keyword{Methods}
+

@@ -3,8 +3,8 @@
 \docType{methods}
 \name{chol2inv}
 \alias{chol2inv}
-\alias{chol2inv-method}
 \alias{chol2inv,ddmatrix-method}
+\alias{chol2inv-method}
 \title{Inverse from Choleski (or QR) Decomposition}
 \usage{
 \S4method{chol2inv}{ddmatrix}(x, size = NCOL(x))
@@ -29,7 +29,6 @@ inverse of \code{crossprod(x)} if \code{qr.R(qr(x))} is passed.
  \describe{ \item{list("signature(x = \"ddmatrix\")")}{}
 \item{list("signature(x = \"ANY\")")}{} }
 }
-
 \examples{
 
 \dontrun{
@@ -56,3 +55,4 @@ finalize()
 \keyword{Algebra}
 \keyword{Linear}
 \keyword{Methods}
+

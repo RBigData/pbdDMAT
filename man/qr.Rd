@@ -2,18 +2,18 @@
 % Please edit documentation in R/ddmatrix_qr.r
 \docType{methods}
 \name{qr}
-\alias{qr}
-\alias{qr.Q}
-\alias{qr.R}
-\alias{qr.qty}
-\alias{qr.qy}
-\alias{qr,ddmatrix-method}
-\alias{qr.Q,ANY-method}
-\alias{qr.R,ANY-method}
-\alias{qr.qy,ANY-method}
-\alias{qr.qty,ANY-method}
 \alias{lq}
 \alias{lq.Q}
+\alias{qr}
+\alias{qr,ddmatrix-method}
+\alias{qr.Q}
+\alias{qr.Q,ANY-method}
+\alias{qr.R}
+\alias{qr.R,ANY-method}
+\alias{qr.qty}
+\alias{qr.qty,ANY-method}
+\alias{qr.qy}
+\alias{qr.qy,ANY-method}
 \title{QR Decomposition Methods}
 \usage{
 \S4method{qr}{ddmatrix}(x, tol = 1e-07)
@@ -89,3 +89,4 @@ finalize()
 \keyword{Algebra}
 \keyword{Linear}
 \keyword{Methods}
+

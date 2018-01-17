@@ -2,28 +2,28 @@
 % Please edit documentation in R/ddmatrix_arithmetic.R
 \docType{methods}
 \name{arithmetic}
-\alias{arithmetic}
-\alias{+,ddmatrix,numeric-method}
-\alias{+,numeric,ddmatrix-method}
-\alias{+,ddmatrix,ddmatrix-method}
-\alias{-,ddmatrix,numeric-method}
-\alias{-,numeric,ddmatrix-method}
-\alias{-,ddmatrix,ddmatrix-method}
-\alias{-,ddmatrix,missing-method}
+\alias{*,ddmatrix,ddmatrix-method}
 \alias{*,ddmatrix,numeric-method}
 \alias{*,numeric,ddmatrix-method}
-\alias{*,ddmatrix,ddmatrix-method}
+\alias{+,ddmatrix,ddmatrix-method}
+\alias{+,ddmatrix,numeric-method}
+\alias{+,numeric,ddmatrix-method}
+\alias{-,ddmatrix,ddmatrix-method}
+\alias{-,ddmatrix,missing-method}
+\alias{-,ddmatrix,numeric-method}
+\alias{-,numeric,ddmatrix-method}
+\alias{/,ddmatrix,ddmatrix-method}
 \alias{/,ddmatrix,numeric-method}
 \alias{/,numeric,ddmatrix-method}
-\alias{/,ddmatrix,ddmatrix-method}
-\alias{^,ddmatrix,numeric-method}
-\alias{^,ddmatrix,ddmatrix-method}
+\alias{\%/\%,ddmatrix,ddmatrix-method}
+\alias{\%/\%,ddmatrix,numeric-method}
+\alias{\%/\%,numeric,ddmatrix-method}
 \alias{\%\%,ddmatrix,ddmatrix-method}
 \alias{\%\%,ddmatrix,numeric-method}
 \alias{\%\%,numeric,ddmatrix-method}
-\alias{\%/\%,ddmatrix,ddmatrix-method}
-\alias{\%/\%,numeric,ddmatrix-method}
-\alias{\%/\%,ddmatrix,numeric-method}
+\alias{^,ddmatrix,ddmatrix-method}
+\alias{^,ddmatrix,numeric-method}
+\alias{arithmetic}
 \title{Arithmetic Operators}
 \usage{
 \S4method{+}{ddmatrix,numeric}(e1, e2)
@@ -101,3 +101,4 @@ finalize()
 
 }
 \keyword{Methods}
+

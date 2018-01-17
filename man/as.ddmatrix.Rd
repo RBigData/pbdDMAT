@@ -3,10 +3,10 @@
 \docType{methods}
 \name{as.ddmatrix}
 \alias{as.ddmatrix}
-\alias{distribute}
-\alias{as.ddmatrix,matrix-method}
 \alias{as.ddmatrix,NULL-method}
+\alias{as.ddmatrix,matrix-method}
 \alias{as.ddmatrix,vector-method}
+\alias{distribute}
 \title{Non-Distributed object to Distributed Object Converters}
 \usage{
 as.ddmatrix(x, ...)
@@ -86,3 +86,4 @@ finalize()
 }
 \keyword{Data}
 \keyword{Distributing}
+

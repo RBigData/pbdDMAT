@@ -2,13 +2,13 @@
 % Please edit documentation in R/ddmatrix_bind.r
 \name{binds}
 \alias{binds}
-\alias{rbind.ddmatrix}
 \alias{cbind.ddmatrix}
+\alias{rbind.ddmatrix}
 \title{Row and Column binds for Distributed Matrices}
 \usage{
-\method{rbind}{ddmatrix}(..., ICTXT = .pbd_env$ICTXT, deparse.level = 1)
+rbind.ddmatrix(..., ICTXT = .pbd_env$ICTXT, deparse.level = 1)
 
-\method{cbind}{ddmatrix}(..., ICTXT = .pbd_env$ICTXT, deparse.level = 1)
+cbind.ddmatrix(..., ICTXT = .pbd_env$ICTXT, deparse.level = 1)
 }
 \arguments{
 \item{...}{vectors, matrices, or distributed matrices.}
@@ -35,7 +35,6 @@ performance reasons (it is slow enough already).
  \describe{ \item{list("signature(... = \"ANY\")")}{an R
 object.} }
 }
-
 \examples{
 \dontrun{
 # Save code in a file "demo.r" and run with 2 processors by
@@ -55,3 +54,4 @@ finalize()
 
 }
 \keyword{Methods}
+

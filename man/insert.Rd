@@ -2,9 +2,9 @@
 % Please edit documentation in R/ddmatrix_[.r
 \docType{methods}
 \name{insert}
-\alias{insert}
 \alias{[<-,ddmatrix,ANY,ANY,ANY-method}
 \alias{[<-,ddmatrix,ANY,ANY,ddmatrix-method}
+\alias{insert}
 \title{Directly Insert Into Distributed Matrix Submatrix Slot}
 \usage{
 \S4method{[}{ddmatrix,ANY,ANY,ANY}(x, i, j, ...) <- value
@@ -62,3 +62,4 @@ finalize()
 }
 \keyword{Extraction}
 \keyword{Methods}
+

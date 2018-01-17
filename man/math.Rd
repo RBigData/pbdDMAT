@@ -2,22 +2,22 @@
 % Please edit documentation in R/ddmatrix_math.R
 \docType{methods}
 \name{math}
-\alias{math}
-\alias{sqrt,ddmatrix-method}
 \alias{abs,ddmatrix-method}
+\alias{acos,ddmatrix-method}
+\alias{asin,ddmatrix-method}
+\alias{atan,ddmatrix-method}
+\alias{cos,ddmatrix-method}
+\alias{cosh,ddmatrix-method}
 \alias{exp,ddmatrix-method}
 \alias{log,ddmatrix-method}
-\alias{log2,ddmatrix-method}
 \alias{log10,ddmatrix-method}
 \alias{log1p,ddmatrix-method}
+\alias{log2,ddmatrix-method}
+\alias{math}
 \alias{sin,ddmatrix-method}
-\alias{cos,ddmatrix-method}
-\alias{tan,ddmatrix-method}
-\alias{asin,ddmatrix-method}
-\alias{acos,ddmatrix-method}
-\alias{atan,ddmatrix-method}
 \alias{sinh,ddmatrix-method}
-\alias{cosh,ddmatrix-method}
+\alias{sqrt,ddmatrix-method}
+\alias{tan,ddmatrix-method}
 \alias{tanh,ddmatrix-method}
 \title{Miscellaneous Mathematical Functions}
 \usage{
@@ -89,3 +89,4 @@ finalize()
 
 }
 \keyword{Methods}
+

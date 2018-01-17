@@ -18,5 +18,5 @@ Distributed matrix class.
 \code{pbdBASE::init.grid()}) or a custom value greater than 2 (created from
 \code{pbdBASE::blacs_gridinit()}).}
 }}
-
 \keyword{Classes}
+

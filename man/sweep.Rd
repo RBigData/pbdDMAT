@@ -3,9 +3,8 @@
 \docType{methods}
 \name{sweep}
 \alias{sweep}
-\alias{sweep}
-\alias{sweep,ddmatrix,ANY,vector-method}
 \alias{sweep,ddmatrix,ANY,ddmatrix-method}
+\alias{sweep,ddmatrix,ANY,vector-method}
 \title{Sweep}
 \usage{
 sweep(x, MARGIN, STATS, FUN = "-", check.margin = TRUE, ...)
@@ -33,3 +32,4 @@ Returns a distributed matrix.
 Sweep vector or ddmatrix from a distributed matrix.
 }
 \keyword{Methods}
+

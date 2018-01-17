@@ -2,10 +2,10 @@
 % Please edit documentation in R/ddmatrix_round.r
 \docType{methods}
 \name{rounding}
-\alias{rounding}
-\alias{round,ddmatrix-method}
 \alias{ceiling,ddmatrix-method}
 \alias{floor,ddmatrix-method}
+\alias{round,ddmatrix-method}
+\alias{rounding}
 \title{Rounding of Numbers}
 \usage{
 \S4method{round}{ddmatrix}(x, digits = 0)
@@ -51,3 +51,4 @@ finalize()
 
 }
 \keyword{Methods}
+
