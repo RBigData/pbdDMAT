@@ -70,6 +70,7 @@ dmat.rbind <- function(..., ICTXT=.pbd_env$ICTXT)
   ret
 }
 
+#' @method rbind ddmatrix
 #' @rdname binds
 #' @export
 rbind.ddmatrix <- function(..., ICTXT=.pbd_env$ICTXT, deparse.level=1)
@@ -103,6 +104,7 @@ dmat.cbind <- function(..., ICTXT=.pbd_env$ICTXT)
   ret
 }
 
+#' @method cbind ddmatrix
 #' @rdname binds
 #' @export
 cbind.ddmatrix <- function(..., ICTXT=.pbd_env$ICTXT, deparse.level=1)
