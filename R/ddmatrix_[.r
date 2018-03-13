@@ -109,21 +109,15 @@ setMethod("[", signature(x="ddmatrix"),
     # special cases 
     if (!imiss && !jmiss){
       # user wants exactly 1 value
-        .pbd_env$SPMD.CT$print.all.rank <- TRUE
-        comm.cat("HIHIHI", ilng, i, jlng, j, x@bldim, x@ICTXT)
       if (ilng==1 && i>0 && jlng==1 && j>0){
-          comm.cat("HUHUHU")
-        coords <- base.g2l_coord(ind=c(i, j), bldim=x@bldim, ICTXT=x@ICTXT)
-        comm.cat("HOHOHI", coords)
+        coords <- base.g2l_coord(ind=c(i - 1L, j - 1L), bldim=x@bldim, ICTXT=x@ICTXT)
         if (all(!is.na(coords[c(3,4)])))
-          out <- x@Data[coords[3], coords[4]]
+          out <- x@Data[coords[5] + 1L, coords[6] + 1L]
         else
           out <- 0
-        comm.cat("HAHOHI", out)
         out <- reduce(out, op='sum')
         if (comm.rank() > 0)
           out <- 0
-        comm.cat(comm.rank(), "HOHOHO", all.rank = TRUE)
         out <- new("ddmatrix", Data=matrix(out), dim=c(1,1), ldim=c(1,1), bldim=x@bldim, ICTXT=x@ICTXT)
         return( out )
       }
