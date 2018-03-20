@@ -1,3 +1,4 @@
+.libPaths("lib")
 suppressPackageStartupMessages(library(pbdTEST))
 settings(mpi=TRUE)
 
@@ -134,5 +135,16 @@ test("[-1, 1:10]", {
 collect()
 
 
+module("16 16")
+
+x <- matrix(1:900, 30, 30)
+dx <- as.ddmatrix(x)
+
+test("[16, 16]", {
+    a <- x[16, 16, drop = FALSE]
+    b <- as.matrix(dx[16, 16])
+})
+
+collect()
 
 finalize()
