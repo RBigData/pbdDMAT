@@ -60,9 +60,9 @@ dmat.gmat <- function(dx, proc.dest="all")
   bldim <- dx@bldim
   
   descx <- base.descinit(dim=dim, bldim=bldim, ldim=ldim, ICTXT=ICTXT)
-  
+  comm <- get.comm.from.ICTXT(ICTXT)
   if (any(dim==0)){
-    if (proc.dest[1L] == "all" || proc.dest==comm.rank())
+    if (proc.dest[1L] == "all" || proc.dest==comm.rank(comm))
       out <- matrix(nrow=dim[1], ncol=dim[2])
     else
       out <- NULL
@@ -107,11 +107,12 @@ base.as.matrix <- function(x, proc.dest="all")
   else if (is.numeric(proc.dest)){
     if (base::length(proc.dest)==1){
       blacs_ <- base.blacs(x@ICTXT)
-      if (pbdMPI::comm.rank()==proc.dest)
+      comm <- get.comm.from.ICTXT(x@ICTXT)
+      if (pbdMPI::comm.rank(comm)==proc.dest)
         proc.dest <- c(blacs_$MYROW, blacs_$MYCOL)
       else
         proc.dest <- c(0, 0)
-      proc.dest <- pbdMPI::allreduce(proc.dest, op='max')
+      proc.dest <- pbdMPI::allreduce(proc.dest, op='max', comm = comm)
     } 
     else if (base::length(proc.dest)>2)
       comm.stop("Invalid destination process 'proc.dest'")

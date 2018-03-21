@@ -61,4 +61,3 @@ finalize()
 
 }
 \keyword{Methods}
-

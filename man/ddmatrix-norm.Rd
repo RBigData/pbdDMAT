@@ -4,10 +4,10 @@
 \name{ddmatrix-norm}
 \alias{ddmatrix-norm}
 \alias{norm}
-\alias{norm,ddmatrix,ANY-method}
+\alias{norm,ddmatrix-method}
 \title{Norm}
 \usage{
-\S4method{norm}{ddmatrix,ANY}(x, type = c("O", "I", "F", "M", "2"))
+\S4method{norm}{ddmatrix}(x, type = c("O", "I", "F", "M", "2"))
 }
 \arguments{
 \item{x}{numeric distributed matrices.}
@@ -23,6 +23,7 @@ Computes the norm of a distributed matrix.
 \section{Methods}{
  \describe{ \item{list("signature(x = \"ddmatrix\")")}{} }
 }
+
 \examples{
 \dontrun{
 # Save code in a file "demo.r" and run with 2 processors by
@@ -46,4 +47,3 @@ finalize()
 \keyword{Linear}
 \keyword{Methods}
 \keyword{Norm}
-

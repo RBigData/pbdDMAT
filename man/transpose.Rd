@@ -2,9 +2,9 @@
 % Please edit documentation in R/ddmatrix_transpose.r
 \docType{methods}
 \name{transpose}
+\alias{transpose}
 \alias{t}
 \alias{t,ddmatrix-method}
-\alias{transpose}
 \title{Distributed Matrix Transpose}
 \usage{
 t(x)
@@ -42,4 +42,3 @@ finalize()
 \keyword{Algebra}
 \keyword{Linear}
 \keyword{Methods}
-

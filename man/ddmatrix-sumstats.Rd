@@ -3,12 +3,12 @@
 \docType{methods}
 \name{ddmatrix-sumstats}
 \alias{ddmatrix-sumstats}
-\alias{max,ddmatrix-method}
-\alias{mean,ddmatrix-method}
-\alias{median,ddmatrix-method}
-\alias{min,ddmatrix-method}
-\alias{prod,ddmatrix-method}
 \alias{sum,ddmatrix-method}
+\alias{mean,ddmatrix-method}
+\alias{prod,ddmatrix-method}
+\alias{min,ddmatrix-method}
+\alias{max,ddmatrix-method}
+\alias{median,ddmatrix-method}
 \title{Basic Summary Statistics}
 \usage{
 \S4method{sum}{ddmatrix}(x, ..., na.rm = FALSE)
@@ -58,4 +58,3 @@ finalize()
 
 }
 \keyword{Methods}
-

@@ -2,12 +2,12 @@
 % Please edit documentation in R/ddmatrix_diag.r
 \docType{methods}
 \name{diag-constructors}
+\alias{diag-constructors}
 \alias{diag}
+\alias{diag,vector-method}
 \alias{diag,character-method}
 \alias{diag,ddmatrix-method}
 \alias{diag,matrix-method}
-\alias{diag,vector-method}
-\alias{diag-constructors}
 \title{Distributed Matrix Diagonals}
 \usage{
 \S4method{diag}{vector}(x, nrow, ncol, type = "matrix", ...,
@@ -82,4 +82,3 @@ finalize()
 }
 \keyword{Extraction}
 \keyword{Methods}
-

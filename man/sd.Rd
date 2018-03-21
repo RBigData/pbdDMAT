@@ -3,8 +3,8 @@
 \docType{methods}
 \name{sd}
 \alias{sd}
-\alias{sd,ANY-method}
 \alias{sd,ddmatrix-method}
+\alias{sd,ANY-method}
 \title{Covariance and Correlation}
 \usage{
 \S4method{sd}{ddmatrix}(x, na.rm = FALSE, reduce = FALSE,
@@ -51,4 +51,3 @@ finalize()
 
 }
 \keyword{Methods}
-

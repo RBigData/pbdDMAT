@@ -2,11 +2,11 @@
 % Please edit documentation in R/ddmatrix_[.r
 \docType{methods}
 \name{extract}
-\alias{[,ddmatrix-method}
 \alias{extract}
+\alias{[,ddmatrix,ANY,ANY,ANY-method}
 \title{Extract or Replace Parts of a Distributed Matrix}
 \usage{
-\S4method{[}{ddmatrix}(x, i, j, ICTXT)
+\S4method{[}{ddmatrix,ANY,ANY,ANY}(x, i, j, ICTXT)
 }
 \arguments{
 \item{x}{numeric distributed matrix.}
@@ -59,4 +59,3 @@ finalize()
 }
 \keyword{Extraction}
 \keyword{Methods}
-

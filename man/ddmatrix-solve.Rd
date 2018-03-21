@@ -47,4 +47,3 @@ finalize()
 \keyword{Algebra}
 \keyword{Linear}
 \keyword{Methods}
-

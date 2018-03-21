@@ -33,4 +33,4 @@ Authors@R: c(person("Drew", "Schmidt", role=c("aut", "cre"), email="wrathematics
     person("Michael", "Lawrence", role="ctb"),
     person("R Core team", role="ctb", comment="some wrappers taken from the base and stats packages"))
 Maintainer: Drew Schmidt <wrathematics@gmail.com>
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
