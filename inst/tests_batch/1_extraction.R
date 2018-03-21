@@ -1,4 +1,3 @@
-.libPaths("lib")
 suppressPackageStartupMessages(library(pbdTEST))
 settings(mpi=TRUE)
 
@@ -135,15 +134,25 @@ test("[-1, 1:10]", {
 collect()
 
 
-module("16 16")
+module("More general 1 by 1 subsets")
 
-x <- matrix(1:900, 30, 30)
+x <- matrix(1:10000, 100, 100)
 dx <- as.ddmatrix(x)
 
 test("[16, 16]", {
     a <- x[16, 16, drop = FALSE]
     b <- as.matrix(dx[16, 16])
+    if(a[1] != b[1])
+        comm.stop("Values don't match")
 })
+
+test("[87, 29]", {
+    a <- x[16, 16, drop = FALSE]
+    b <- as.matrix(dx[16, 16])
+    if(a[1] != b[1])
+        comm.stop("Values don't match")
+})
+
 
 collect()
 
