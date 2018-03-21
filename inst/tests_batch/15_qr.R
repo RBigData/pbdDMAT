@@ -5,6 +5,13 @@ init.grid()
 
 comm.set.seed(seed=1234, diff=F)
 
+## The simple test below fails when launched with np = 20 for example
+M <- bcast(matrix(rnorm(4), 4, 4))
+DM <- as.ddmatrix(M)
+pbdDMAT::qr(DM)
+##
+
+
 mean <- 10
 sd <- 100
 
