@@ -100,7 +100,7 @@ dmat.svd <- function(x, nu, nv, inplace=FALSE)
   descvt <- base.descinit(dim=vtdim, bldim=bldim, ldim=vtldim, ICTXT=ICTXT)
   
   # Compute 
-  out <- base.rpdgesvd(jobu=jobu, jobvt=jobvt, m=m, n=n, a=x@Data, desca=desca, descu=descu, descvt=descvt, inplace=inplace)
+  out <- base.rpdgesvd(jobu=jobu, jobvt=jobvt, m=m, n=n, a=x@Data, desca=desca, descu=descu, descvt=descvt, inplace=inplace, comm=pbdBASE::get.comm.from.ICTXT(ICTXT))
   
   if (nu==0)
     u <- NULL
