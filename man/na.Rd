@@ -59,4 +59,3 @@ finalize()
 \keyword{Extraction}
 \keyword{Methods}
 \keyword{Type}
-

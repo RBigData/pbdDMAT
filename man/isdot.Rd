@@ -2,12 +2,12 @@
 % Please edit documentation in R/ddmatrix_isdot.r
 \docType{methods}
 \name{isdot}
+\alias{isdot}
 \alias{is.ddmatrix}
-\alias{is.infinite,ddmatrix-method}
 \alias{is.na,ddmatrix-method}
 \alias{is.nan,ddmatrix-method}
 \alias{is.numeric,ddmatrix-method}
-\alias{isdot}
+\alias{is.infinite,ddmatrix-method}
 \title{Type Checks, Including NA, NaN, etc.}
 \usage{
 is.ddmatrix(x)
@@ -58,4 +58,3 @@ finalize()
 }
 \keyword{Methods}
 \keyword{Type}
-

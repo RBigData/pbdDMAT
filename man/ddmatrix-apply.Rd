@@ -2,9 +2,9 @@
 % Please edit documentation in R/ddmatrix_apply.R
 \docType{methods}
 \name{ddmatrix-apply}
+\alias{ddmatrix-apply}
 \alias{apply}
 \alias{apply,ddmatrix-method}
-\alias{ddmatrix-apply}
 \title{Apply Family of Functions}
 \usage{
 \S4method{apply}{ddmatrix}(X, MARGIN, FUN, ..., reduce = FALSE,
@@ -59,4 +59,3 @@ finalize()
 }
 \keyword{Extraction}
 \keyword{Methods}
-

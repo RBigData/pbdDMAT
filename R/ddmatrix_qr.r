@@ -105,7 +105,7 @@ setMethod("qr", signature(x="ddmatrix"),
     n <- descx[4L]
     
     # qr
-    out <- base.rpdgeqpf(tol=tol, m=m, n=n, x=x@Data, descx=descx)
+    out <- base.rpdgeqpf(tol=tol, m=m, n=n, x=x@Data, descx=descx, comm=pbdBASE::get.comm.from.ICTXT(x@ICTXT))
     
     # make sure processors who own nothing have a real value (not a null
     # pointer) for the numerical rank

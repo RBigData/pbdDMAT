@@ -2,11 +2,11 @@
 % Please edit documentation in R/ddmatrix_cov.R
 \docType{methods}
 \name{covariance}
-\alias{cor,ddmatrix-method}
-\alias{cov,ddmatrix-method}
-\alias{cov2cor,ddmatrix-method}
 \alias{covariance}
+\alias{cov,ddmatrix-method}
 \alias{var,ddmatrix-method}
+\alias{cor,ddmatrix-method}
+\alias{cov2cor,ddmatrix-method}
 \title{Covariance and Correlation}
 \usage{
 \S4method{cov}{ddmatrix}(x, y = NULL, use = "everything",
@@ -69,4 +69,3 @@ finalize()
 
 }
 \keyword{Methods}
-

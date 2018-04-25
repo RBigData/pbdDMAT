@@ -4,14 +4,14 @@
 \name{condnums}
 \alias{condnums}
 \alias{kappa.ddmatrix}
-\alias{rcond,ddmatrix-method}
+\alias{rcond,ddmatrix,ANY-method}
 \title{Compute or estimate the Condition Number of a Distributed Matrix}
 \usage{
 \method{kappa}{ddmatrix}(z, exact = FALSE, norm = NULL, method = c("qr",
   "direct"), ...)
 
-\S4method{rcond}{ddmatrix}(x, norm = c("O", "I", "1"), triangular = FALSE,
-  ...)
+\S4method{rcond}{ddmatrix,ANY}(x, norm = c("O", "I", "1"),
+  triangular = FALSE, ...)
 }
 \arguments{
 \item{exact}{logical. Determines whether exact condition number or
@@ -57,4 +57,3 @@ finalize()
 \keyword{ConditionNumbers}
 \keyword{Linear}
 \keyword{Methods}
-

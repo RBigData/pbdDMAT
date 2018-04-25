@@ -73,7 +73,8 @@ setClass(
   representation=representation(
     Data="matrix",
     bldim="numeric",
-    ICTXT="numeric"
+    ICTXT="numeric",
+    comm="integer"
   ),
   
   prototype=prototype(
@@ -82,6 +83,7 @@ setClass(
     ldim=c(1L, 1L),
     bldim=c(1L, 1L),
     ICTXT=0L,
+    comm=0L,
     storage="scalapack"
   ),
   contains="dmat"#,
