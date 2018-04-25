@@ -4,10 +4,10 @@
 \name{ddmatrix-norm}
 \alias{ddmatrix-norm}
 \alias{norm}
-\alias{norm,ddmatrix-method}
+\alias{norm,ddmatrix,ANY-method}
 \title{Norm}
 \usage{
-\S4method{norm}{ddmatrix}(x, type = c("O", "I", "F", "M", "2"))
+\S4method{norm}{ddmatrix,ANY}(x, type = c("O", "I", "F", "M", "2"))
 }
 \arguments{
 \item{x}{numeric distributed matrices.}

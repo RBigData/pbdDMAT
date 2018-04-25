@@ -4,15 +4,15 @@
 \name{matmult}
 \alias{matmult}
 \alias{\%*\%,ddmatrix,ddmatrix-method}
-\alias{crossprod,ddmatrix,ANY-method}
-\alias{tcrossprod,ddmatrix,ANY-method}
+\alias{crossprod,ddmatrix-method}
+\alias{tcrossprod,ddmatrix-method}
 \title{Matrix Multiplication}
 \usage{
 \S4method{\%*\%}{ddmatrix,ddmatrix}(x, y)
 
-\S4method{crossprod}{ddmatrix,ANY}(x, y = NULL)
+\S4method{crossprod}{ddmatrix}(x, y = NULL)
 
-\S4method{tcrossprod}{ddmatrix,ANY}(x, y = NULL)
+\S4method{tcrossprod}{ddmatrix}(x, y = NULL)
 }
 \arguments{
 \item{x, y}{numeric distributed matrices}

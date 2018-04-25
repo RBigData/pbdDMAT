@@ -143,11 +143,9 @@ distribute <- function(x, bldim=.pbd_env$BLDIM, xCTXT=0, ICTXT=.pbd_env$ICTXT)
 
 
 # Distribute dense, in-core matrices
-dmat.as.ddmatrix <- function(x,
-                             bldim=.pbd_env$BLDIM,
-                             ICTXT=.pbd_env$ICTXT)
+dmat.as.ddmatrix <- function(x, bldim=.pbd_env$BLDIM, ICTXT=.pbd_env$ICTXT)
 {
-  comm=pbdBASE::get.comm.from.ICTXT(ICTXT)
+  comm=get.comm.from.ICTXT(ICTXT)
   if (length(bldim)==1)
     bldim <- rep(bldim, 2L)
 
