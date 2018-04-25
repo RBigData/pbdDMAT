@@ -9,6 +9,7 @@ citEntry(
   title = "{pbdDMAT}: pbdR Distributed Matrix Methods",
   author = personList(as.person("Drew Schmidt"),
                       as.person("Wei-Chen Chen"),
+                      as.person("Sebastien Lamy de la Chapelle"),
                       as.person("George Ostrouchov"),
                       as.person("Pragneshkumar Patel")),
   year = year,
