@@ -8,6 +8,15 @@ comm.set.seed(seed=1234, diff=FALSE)
 ### --------------------------------------
 module("ddmatrix constructor")
 
+x = 1:6
+dx = ddmatrix(x, bldim=length(x)*2)
+y = as.vector(dx@Data)
+
+test("basic constructor", {
+  a <- x
+  b <- y
+})
+
 n <- 1e2
 p <- 25
 
