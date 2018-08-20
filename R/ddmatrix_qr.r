@@ -98,34 +98,23 @@ setGeneric(name="qr.qty",
 setMethod("qr", signature(x="ddmatrix"), 
   function (x, tol = 1e-07)
   {
-    # Matrix descriptors
     descx <- base.descinit(x@dim, x@bldim, x@ldim, ICTXT=x@ICTXT)
     
     m <- descx[3L]
     n <- descx[4L]
     
-    # qr
-    out <- base.rpdgeqpf(tol=tol, m=m, n=n, x=x@Data, descx=descx)
+    ICTXT = get.comm.from.ICTXT(x@ICTXT)
+    out <- base.rpdgeqpf(tol=tol, m=m, n=n, x=x@Data, descx=descx, comm=ICTXT)
     
-    # make sure processors who own nothing have a real value (not a null
-    # pointer) for the numerical rank
-#    if (comm.rank()!=0)
-#      rank <- 0
-#    else
-#      rank <- out$rank
-#    
-#    rank <- allreduce(rank)
-    
-    
-    if (base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT)){
+    if (base.ownany(dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT))
       x@Data <- out$qr
-    }
+    else
+      x@Data <- matrix(0)
     
     ret <- list(qr=x, rank=out$rank, tau=out$tau, pivot=out$pivot)
-    
     attr(ret, "class") <- "qr"
     
-    return( ret )
+    ret
   }
 )
 
@@ -138,7 +127,8 @@ setMethod("qr.Q", signature(x="ANY"),
     {
       # x is of class qr
       
-      if (is.ddmatrix(x$qr)){
+      if (is.ddmatrix(x$qr))
+      {
         # complete/Dvec options
         qr <- x$qr
         
@@ -161,13 +151,15 @@ setMethod("qr.Q", signature(x="ANY"),
         
         return( qr )
         
-      } else {
+      }
+      else
+      {
         dqr <- dim(x$qr)
         cmplx <- mode(x$qr) == "complex"
         ret <- base::qr.Q(qr=x, complete=complete, Dvec=Dvec)
       }
       
-      return( ret )
+      ret
   }
 )
 
@@ -199,7 +191,7 @@ dmat.qr.R <- function(qr, complete=FALSE)
         ret[i,i] <- 0
   }
   
-  return(ret)
+  ret
 }
 
 
@@ -217,7 +209,7 @@ setMethod("qr.R", signature(x="ANY"),
       ret <- base::qr.R(qr=qr, complete=complete)
     }
     
-    return( ret )
+    ret
   }
 )
 
@@ -250,7 +242,7 @@ setMethod("qr.qy", signature(x="ANY"),
       ret <- base::qr.qy(qr=x, y=y)
     }
     
-    return( ret )
+    ret
   }
 )
 
@@ -283,7 +275,7 @@ setMethod("qr.qty", signature(x="ANY"),
       ret <- base::qr.qty(qr=x, y=y)
     }
     
-    return( ret )
+    ret
   }
 )
 

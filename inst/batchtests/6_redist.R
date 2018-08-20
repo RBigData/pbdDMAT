@@ -8,7 +8,7 @@ comm.set.seed(seed=1234, diff=FALSE)
 ### --------------------------------------
 module("Redistribute")
 
-blacs_gridinit(ICTXT=3, NPROW=2, NPCOL=1L)
+pbdBASE:::blacs_init(ICTXT=3, NPROW=2, NPCOL=1L)
 
 dx <- ddmatrix(1:100, 10, 10, bldim=c(6, 10), ICTXT=3L)
 

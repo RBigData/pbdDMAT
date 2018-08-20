@@ -145,7 +145,7 @@ setMethod("tcrossprod", signature(x="ddmatrix", y="ANY"),
     else if (!is.ddmatrix(y))
       comm.stop("Error : 'y' must be of class 'ddmatrix'.")
     else {
-      if (x@dim[1L] != y@dim[1L])
+      if (x@dim[2L] != y@dim[2L])
         comm.stop("Error : non-conformable arguments.")
       
       base.checkem(x=x, y=y, checks=2)

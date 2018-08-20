@@ -82,11 +82,8 @@ base.mat.to.ddmat <- function(x, bldim=.pbd_env$BLDIM, ICTXT=.pbd_env$ICTXT)
   dim <- dim(x)
   ldim <- base.numroc(dim=dim, bldim=bldim, ICTXT=ICTXT, fixme=TRUE)
   descx <- base.descinit(dim=dim, bldim=bldim, ldim=ldim, ICTXT=ICTXT)
-  
   out <- base.mksubmat(x=x, descx=descx)
-  
   dx <- new("ddmatrix", Data=out, dim=dim, ldim=dim(out), bldim=bldim, ICTXT=ICTXT)
-  
   return(dx)
 }
 
@@ -148,27 +145,27 @@ distribute <- function(x, bldim=.pbd_env$BLDIM, xCTXT=0, ICTXT=.pbd_env$ICTXT)
 # Distribute dense, in-core matrices
 dmat.as.ddmatrix <- function(x, bldim=.pbd_env$BLDIM, ICTXT=.pbd_env$ICTXT)
 {
+  comm=get.comm.from.ICTXT(ICTXT)
   if (length(bldim)==1)
     bldim <- rep(bldim, 2L)
 
-  nprocs <- pbdMPI::comm.size()
-  owns <- pbdMPI::allreduce(as.integer(is.matrix(x)), op='sum')
-  
+  nprocs <- pbdMPI::comm.size(comm)
+  owns <- pbdMPI::allreduce(as.integer(is.matrix(x)), op='sum', comm=comm)
   # owned by one process 
   if (owns==1)
   { 
     iown <- is.matrix(x)
     if (iown)
-      iown <- pbdMPI::comm.rank()
+      iown <- pbdMPI::comm.rank(comm)
     else
       iown <- 0
-    iown <- pbdMPI::allreduce(iown, op='max')
+    iown <- pbdMPI::allreduce(iown, op='max', comm=comm)
     # return( distribute(x=x, bldim=bldim, xCTXT=0, ICTXT=ICTXT) )
     
     if (iown != 0)
       comm.stop("matrix must be on rank 0")
     
-    if (comm.rank() == 0)
+    if (comm.rank(comm) == 0)
     {
       dim <- dim(x)
       ldim <- base.numroc(dim=dim, bldim=bldim, ICTXT=ICTXT)
@@ -180,7 +177,7 @@ dmat.as.ddmatrix <- function(x, bldim=.pbd_env$BLDIM, ICTXT=.pbd_env$ICTXT)
       desc <- integer(9)
     }
     
-    desc <- allreduce(desc)
+    desc <- allreduce(desc, comm=comm)
     ## FIXME remove after pbdMPI fix
     desc <- as.integer(desc)
     
@@ -190,7 +187,9 @@ dmat.as.ddmatrix <- function(x, bldim=.pbd_env$BLDIM, ICTXT=.pbd_env$ICTXT)
   } 
   # global ownership is assumed --- this should only ever really happen in testing
   else if (owns==nprocs)
+  {
     return( base.mat.to.ddmat(x, bldim=bldim, ICTXT=ICTXT) )
+  }
   # neither of these two cases
   else 
     comm.stop("Matrix 'x' is defined on some, but not all processes. Consider using the redistribute() function.")

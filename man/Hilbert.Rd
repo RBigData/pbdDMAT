@@ -47,4 +47,3 @@ finalize()
 }
 \keyword{Data}
 \keyword{Generation}
-

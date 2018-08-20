@@ -5,7 +5,7 @@ init.grid()
 comm.print <- function(x) pbdMPI::comm.print(x, quiet=T)
 
 M <- 250
-N <- 250
+N <- 200
 BL <- 4
 
 comm.set.seed(seed=1234, diff=F)

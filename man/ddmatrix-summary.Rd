@@ -44,4 +44,3 @@ finalize()
 
 }
 \keyword{Methods}
-
