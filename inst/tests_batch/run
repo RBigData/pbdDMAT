@@ -1,4 +1,6 @@
 #!/bin/sh
 
+export OMP_NUM_THREADS=1
+
 mpirun -np $1 Rscript $2
 
