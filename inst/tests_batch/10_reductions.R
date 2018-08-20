@@ -1,5 +1,5 @@
-suppressPackageStartupMessages(library(pbdTEST))
-settings(mpi=TRUE)
+suppressMessages(library(pbdTEST))
+settings("dmat")
 
 .BLDIM <- 2
 comm.set.seed(seed=1234, diff=FALSE)
