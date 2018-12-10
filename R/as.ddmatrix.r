@@ -34,7 +34,7 @@
 #' @return Returns a distributed matrix.
 #' 
 #' @examples
-#' spm.code = "
+#' spmd.code = "
 #'   library(pbdDMAT, quiet = TRUE)
 #'   init.grid()
 #'   

@@ -60,7 +60,7 @@ As usual, the \code{ICTXT} number is the BLACS context corresponding to the
 process grid onto which the output distributed matrix will be distributed.
 }
 \examples{
-spm.code = "
+spmd.code = "
   library(pbdDMAT, quiet = TRUE)
   init.grid()
   
