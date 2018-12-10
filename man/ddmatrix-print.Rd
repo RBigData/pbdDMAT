@@ -39,25 +39,4 @@ routine PDLAPRNT is used to print the entire distributed matrix.  The matrix
 will be printed in column-major fashion, with one element of the matrix per
 line. If \code{all=FALSE} then the \code{name=} argument is ignored.
 }
-\examples{
-
-\dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
-
-library(pbdDMAT, quiet = TRUE)
-init.grid()
-
-# don't do this in production code
-x <- matrix(1:16, ncol=4)
-dx <- as.ddmatrix(x) 
-
-print(dx)
-
-print(dx, all=T)
-
-finalize()
-}
-
-}
 \keyword{Methods}

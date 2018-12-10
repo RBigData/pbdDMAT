@@ -37,24 +37,6 @@
 #' 
 #' @keywords Methods
 #' 
-#' @examples
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
-#' 
-#' library(pbdDMAT, quiet = TRUE)
-#' init.grid()
-#' 
-#' comm.set.seed(diff=T)
-#' 
-#' x <- ddmatrix("rnorm", 10, 10)
-#' 
-#' y <- prcomp(x)
-#' comm.print(y)
-#' 
-#' finalize()
-#' }
-#' 
 #' @name ddmatrix-prcomp
 #' @rdname ddmatrix-prcomp
 NULL

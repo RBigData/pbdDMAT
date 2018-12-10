@@ -13,22 +13,6 @@
 #' @return 
 #' Returns a distributed matrix.
 #' 
-#' @examples
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
-#' 
-#' library(pbdDMAT, quiet = TRUE)
-#' init.grid()
-#' 
-#' x <- ddmatrix(1:9, 3, bldim=2)
-#' 
-#' y <- (2*x) - x^(.5)
-#' print(y)
-#' 
-#' finalize()
-#' }
-#' 
 #' @name arithmetic
 #' @rdname arithmetic
 #' @keywords Methods

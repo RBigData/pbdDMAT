@@ -20,22 +20,6 @@
 #' @return 
 #' \code{eigen()} computes the eigenvalues, and eigenvectors if requested.  As
 #' 
-#' @examples
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
-#' 
-#' library(pbdDMAT, quiet = TRUE)
-#' init.grid()
-#' 
-#' x <- ddmatrix(1:9, 3, bldim=2)
-#' 
-#' y <- eigen(crossprod(x))
-#' y
-#' 
-#' finalize()
-#' }
-#' 
 #' @keywords Methods Linear Algebra
 #' @aliases eigen
 #' @name ddmatrix-eigen

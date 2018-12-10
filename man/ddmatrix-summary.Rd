@@ -25,22 +25,4 @@ Summarize a distributed matrix.  Gives min, max, mean, etc. by column.
 \details{
 The return is on process 0 only.
 }
-\examples{
-\dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
-
-library(pbdDMAT, quiet = TRUE)
-init.grid()
-
-# don't do this in production code
-x <- matrix(1:16, ncol=4)
-dx <- as.ddmatrix(x) 
-
-summary(dx)
-
-finalize()
-}
-
-}
 \keyword{Methods}

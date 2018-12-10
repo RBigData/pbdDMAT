@@ -83,21 +83,4 @@ If \code{e1} and \code{e2} are distributed matrices, then they must be
 conformable, on the same BLACS context, and have the same blocking
 dimension.
 }
-\examples{
-\dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
-
-library(pbdDMAT, quiet = TRUE)
-init.grid()
-
-x <- ddmatrix(1:9, 3, bldim=2)
-
-y <- (2*x) - x^(.5)
-print(y)
-
-finalize()
-}
-
-}
 \keyword{Methods}

@@ -13,22 +13,6 @@
 #' @return 
 #' \code{chol()} performs Cholesky factorization.
 #' 
-#' @examples
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
-#' 
-#' library(pbdDMAT, quiet = TRUE)
-#' init.grid()
-#' 
-#' x <- ddmatrix(1:9, 3, bldim=2)
-#' 
-#' y <- solve(crossprod(x))
-#' y
-#' 
-#' finalize()
-#' }
-#' 
 #' @keywords Methods Linear Algebra
 #' @aliases chol
 #' @name ddmatrix-chol

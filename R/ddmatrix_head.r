@@ -21,22 +21,6 @@
 #' @return 
 #' Returns a distributed matrix.
 #' 
-#' @examples
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
-#' 
-#' library(pbdDMAT, quiet = TRUE)
-#' init.grid()
-#' 
-#' x <- ddmatrix(1:9, 3, bldim=2)
-#' 
-#' y <- head(y, 2)
-#' print(y)
-#' 
-#' finalize()
-#' }
-#' 
 #' @keywords Methods Extraction
 #' @name headsortails
 #' @rdname headsortails
@@ -83,4 +67,3 @@ tail.ddmatrix <- function(x, n=6L, ...)
   index <- (dim-n+1L):n
   headsortails(x=x, n=n, index=index)
 }
-

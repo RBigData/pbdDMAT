@@ -107,30 +107,6 @@ dmat.redistribute <- dmat.reblock
 #' 
 #' @keywords BLACS Distributing Data
 #' 
-#' @examples
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
-#' 
-#' library(pbdDMAT, quiet = TRUE)
-#' init.grid()
-#' 
-#' if (comm.rank()==0){
-#'   x <- matrix(1:16, ncol=4)
-#' } else {
-#'   x <- NULL
-#' }
-#' 
-#' dx <- distribute(x, bldim=c(4,4))
-#' print(dx)
-#' 
-#' dx <- redistribute(dx, bldim=c(3,3))
-#' print(dx)
-#' 
-#' 
-#' finalize()
-#' }
-#' 
 #' @name redistribute
 #' @rdname redistribute
 #' @export
@@ -199,37 +175,6 @@ redistribute <- dmat.reblock
 #' Returns a distributed matrix.
 #' 
 #' @keywords BLACS Distributing Data
-#' 
-#' @examples
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
-#' 
-#' library(pbdDMAT, quiet = TRUE)
-#' init.grid()
-#' 
-#' dx <- ddmatrix(1:30, nrow=10)
-#' 
-#' x <- as.block(dx)
-#' x
-#' 
-#' x <- as.rowblock(dx)
-#' x
-#' 
-#' x <- as.colblock(dx)
-#' x
-#' 
-#' x <- as.rowcyclic(dx)
-#' x
-#' 
-#' x <- as.colcyclic(dx)
-#' x
-#' 
-#' x <- as.blockcyclic(dx)
-#' x
-#' 
-#' finalize()
-#' }
 #' 
 #' @name as.rowcyclic
 #' @rdname as.rowcyclic

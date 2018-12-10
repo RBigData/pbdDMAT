@@ -7,9 +7,6 @@
 \alias{sparsity,vector-method}
 \alias{sparsity,matrix-method}
 \alias{sparsity,dmat-method}
-\alias{sparsity,matrix-method}
-\alias{sparsity,vector-method}
-\alias{sparsity,dmat-method}
 \title{Sparsity of Matrix Objects}
 \usage{
 \S4method{sparsity}{matrix}(x, count = "zero", out = "count",

@@ -26,23 +26,4 @@ Returns a distributed matrix.
 \description{
 Centers and/or scales the columns of a distributed matrix.
 }
-\examples{
-\dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
-
-library(pbdDMAT, quiet = TRUE)
-init.grid()
-
-comm.set.seed(diff=T)
-
-x <- ddmatrix("rnorm", 10, 10)
-y <- scale(x)
-
-print(y)
-
-finalize()
-}
-
-}
 \keyword{Methods}

@@ -22,20 +22,19 @@
 #' Returns an ordinary R matrix.
 #' 
 #' @examples
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
+#' spmd.code = "
+#'   library(pbdDMAT, quiet = TRUE)
+#'   init.grid()
+#'   
+#'   dx <- ddmatrix(1:16, ncol=4, bldim=2)
+#'   y <- as.matrix(dx, proc.dest=0)
+#'   
+#'   comm.print(y)
+#'   
+#'   finalize()
+#' "
 #' 
-#' library(pbdDMAT, quiet = TRUE)
-#' init.grid()
-#' 
-#' dx <- ddmatrix(1:16, ncol=4, bldim=2)
-#' y <- as.matrix(dx, proc.dest=0)
-#' 
-#' comm.print(y)
-#' 
-#' finalize()
-#' }
+#' pbdMPI::execmpi(spmd.code = spmd.code, nranks = 2L)
 #' 
 #' @keywords Methods
 #' @name as.matrix
@@ -195,5 +194,3 @@ setMethod("as.matrix", signature(x="ddmatrix"),
 #    return( y )
 #  }
 #)
-
-

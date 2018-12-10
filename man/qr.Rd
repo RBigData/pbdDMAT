@@ -66,26 +66,6 @@ attribute "qr".
 Functions for forming a QR decomposition and for using the outputs of these
 numerical QR routines.
 }
-\examples{
-
-\dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
-
-library(pbdDMAT, quiet = TRUE)
-init.grid()
-
-# don't do this in production code
-x <- matrix(1:9, 3)
-x <- as.ddmatrix(x)
-
-Q <- qr.Q(qr(x))
-print(Q)
-
-finalize()
-}
-
-}
 \keyword{Algebra}
 \keyword{Linear}
 \keyword{Methods}

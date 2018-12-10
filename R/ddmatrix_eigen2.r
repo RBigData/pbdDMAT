@@ -30,29 +30,6 @@
 #' @return 
 #' Returns a distributed matrix.
 #' 
-#' @examples
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
-#' 
-#' library(pbdDMAT, quiet = TRUE)
-#' init.grid()
-#' init.grid()
-#' 
-#' comm.set.seed(seed=1234, diff=TRUE)
-#' 
-#' x <- crossprod(ddmatrix("rnorm", 10, 3, bldim=2))
-#' y <- as.matrix(x)
-#' 
-#' comm.print(eigen(y))
-#' 
-#' ### Look for eigenvalues in the range 0 to 10
-#' ev <- eigen2(x, range=c(0, 10), only.values=TRUE)
-#' comm.print(ev)
-#' 
-#' finalize()
-#' }
-#' 
 #' @keywords Methods Linear Algebra
 #' @name eigen2
 #' @export

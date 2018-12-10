@@ -27,23 +27,6 @@ calculations performed by the PBLAS and ScaLAPACK libraries.
 \details{
 Extensions of R linear algebra functions.
 }
-\examples{
-\dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
-
-library(pbdDMAT, quiet = TRUE)
-init.grid()
-
-x <- ddmatrix(1:9, 3)
-
-y <- solve(t(A) \%*\% A)
-print(y)
-
-finalize()
-}
-
-}
 \keyword{Algebra}
 \keyword{Linear}
 \keyword{Methods}

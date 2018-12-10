@@ -1,5 +1,3 @@
-# inversion via a cholesky, or inversion of crossprod(x) via qr
-
 #' Inverse from Choleski (or QR) Decomposition
 #' 
 #' \code{qr()} takes the QR decomposition.
@@ -7,37 +5,23 @@
 #' The function returns the inverse of a choleski factored matrix, or the
 #' inverse of \code{crossprod(x)} if \code{qr.R(qr(x))} is passed.
 #' 
+#' @param x
+#' numeric distributed matrices for
+#' @param size
+#' number of columns of \code{x} containing the Choleski factorization.
+#' 
+#' @return
+#' A numeric distributed matrix.
+#' 
+#' @section Methods:
+#'   \describe{
+#'     \item{list("signature(x = \"ddmatrix\")")}{}
+#'     \item{list("signature(x = \"ANY\")")}{}
+#'   }
+#' 
 #' @aliases chol2inv chol2inv-method chol2inv,ddmatrix-method chol2inv
-#' @docType methods
-#' @param x numeric distributed matrices for
-#' @param size number of columns of \code{x} containing the Choleski
-#' factorization.
-#' @return A numeric distributed matrix.
-#' @section Methods: \describe{ \item{list("signature(x = \"ddmatrix\")")}{}
-#' \item{list("signature(x = \"ANY\")")}{} }
 #' @keywords Methods Linear Algebra
-#' @examples
-#' 
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
-#' 
-#' library(pbdDMAT, quiet = TRUE)
-#' init.grid()
-#' 
-#' comm.set.seed(diff=T)
-#' x <- ddmatrix("rnorm", 3, 3, bldim=2)
-#' 
-#' R <- qr.R(qr(x))
-#' xtx.inv <- chol2inv(R)
-#' 
-#' id <- as.matrix(xtx.inv %*% crossprod(x))
-#' 
-#' comm.print(id)
-#' 
-#' finalize()
-#' }
-#' 
+#' @docType methods
 #' @name chol2inv
 #' @rdname chol2inv
 #' @export
@@ -67,4 +51,3 @@ setMethod("chol2inv", signature(x="ddmatrix"),
     return( c )
   }
 )
-

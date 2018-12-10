@@ -18,7 +18,6 @@
 \alias{rowMax,ddmatrix-method}
 \alias{rowMax,matrix-method}
 \alias{colMax,ddmatrix-method}
-\alias{colMin,matrix-method}
 \title{Arithmetic Reductions: Sums, Means, and Prods}
 \usage{
 rowMin(x, ...)
@@ -86,24 +85,5 @@ use less memory than \code{apply()}.  If \code{reduce=FALSE} then the return
 is a distributed matrix consisting of one (global) row; otherwise, an
 \code{R} vector is returned, with ownership of this vector determined by
 \code{proc.dest}.
-}
-\examples{
-\dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
-
-library(pbdDMAT, quiet = TRUE)
-init.grid()
-
-# don't do this in production code
-x <- matrix(1:9, 3)
-x <- as.ddmatrix(x)
-
-y <- sum(colMeans(x))
-comm.print(y)
-
-finalize()
-}
-
 }
 \keyword{Methods}

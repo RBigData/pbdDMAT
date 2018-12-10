@@ -3,7 +3,6 @@
 \docType{methods}
 \name{sweep}
 \alias{sweep}
-\alias{sweep}
 \alias{sweep,ddmatrix,ANY,vector-method}
 \alias{sweep,ddmatrix,ANY,ddmatrix-method}
 \title{Sweep}

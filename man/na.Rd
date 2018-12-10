@@ -36,26 +36,6 @@ The context of the return is dependent on the function arguments.  If the
 across its input context \code{object@ICTXT}.  Otherwise, the return will be
 redistributed across the supplied \code{ICTXT}.
 }
-\examples{
-\dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
-
-library(pbdDMAT, quiet = TRUE)
-init.grid()
-
-# don't do this in production code
-x <- matrix(1:9, 3)
-x[1, 1] <- NA
-x <- as.ddmatrix(x)
-
-y <- na.exclude(x)
-comm.print(y)
-
-finalize()
-}
-
-}
 \keyword{Extraction}
 \keyword{Methods}
 \keyword{Type}

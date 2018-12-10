@@ -221,24 +221,6 @@ dmat.scale.scale.ddmatrix <- function(x, scale)
 #' 
 #' @keywords Methods
 #' 
-#' @examples
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
-#' 
-#' library(pbdDMAT, quiet = TRUE)
-#' init.grid()
-#' 
-#' comm.set.seed(diff=T)
-#' 
-#' x <- ddmatrix("rnorm", 10, 10)
-#' y <- scale(x)
-#' 
-#' print(y)
-#' 
-#' finalize()
-#' }
-#' 
 #' @name ddmatrix-scale
 #' @rdname ddmatrix-scale
 NULL
@@ -292,6 +274,3 @@ setMethod("scale", signature(x="ddmatrix", center="ANY", scale="ANY"),
     return( x )
   }
 )
-
-
-

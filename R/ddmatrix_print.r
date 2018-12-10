@@ -22,26 +22,6 @@
 #' 
 #' @return The function silently returns 0.
 #' 
-#' @examples
-#' 
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
-#' 
-#' library(pbdDMAT, quiet = TRUE)
-#' init.grid()
-#' 
-#' # don't do this in production code
-#' x <- matrix(1:16, ncol=4)
-#' dx <- as.ddmatrix(x) 
-#' 
-#' print(dx)
-#' 
-#' print(dx, all=T)
-#' 
-#' finalize()
-#' }
-#' 
 #' @keywords Methods
 #' @name ddmatrix-print
 #' @rdname ddmatrix-print
@@ -107,4 +87,3 @@ setMethod("show", signature(object="ddmatrix"),
     return( invisible(0) )
   }
 )
-

@@ -18,36 +18,38 @@
 \usage{
 ddmatrix(data, ...)
 
-\S4method{ddmatrix}{ddmatrix}(data, nrow = 1, ncol = 1, byrow = FALSE,
+\S4method{ddmatrix}{ddmatrix}(data, nrow = 1, ncol = 1,
+  byrow = FALSE, ..., bldim = .pbd_env$BLDIM, ICTXT = .pbd_env$ICTXT)
+
+\S4method{ddmatrix}{missing}(data, nrow = 1, ncol = 1, byrow = FALSE,
   ..., bldim = .pbd_env$BLDIM, ICTXT = .pbd_env$ICTXT)
 
-\S4method{ddmatrix}{missing}(data, nrow = 1, ncol = 1, byrow = FALSE, ...,
-  bldim = .pbd_env$BLDIM, ICTXT = .pbd_env$ICTXT)
+\S4method{ddmatrix}{vector}(data, nrow = 1, ncol = 1, byrow = FALSE,
+  ..., bldim = .pbd_env$BLDIM, ICTXT = .pbd_env$ICTXT)
 
-\S4method{ddmatrix}{vector}(data, nrow = 1, ncol = 1, byrow = FALSE, ...,
-  bldim = .pbd_env$BLDIM, ICTXT = .pbd_env$ICTXT)
+\S4method{ddmatrix}{matrix}(data, nrow = 1, ncol = 1, byrow = FALSE,
+  ..., bldim = .pbd_env$BLDIM, ICTXT = .pbd_env$ICTXT)
 
-\S4method{ddmatrix}{matrix}(data, nrow = 1, ncol = 1, byrow = FALSE, ...,
-  bldim = .pbd_env$BLDIM, ICTXT = .pbd_env$ICTXT)
-
-\S4method{ddmatrix}{character}(data, nrow = 1, ncol = 1, byrow = FALSE,
-  ..., min = 0, max = 1, mean = 0, sd = 1, rate = 1, shape,
-  scale = 1, bldim = .pbd_env$BLDIM, ICTXT = .pbd_env$ICTXT)
+\S4method{ddmatrix}{character}(data, nrow = 1, ncol = 1,
+  byrow = FALSE, ..., min = 0, max = 1, mean = 0, sd = 1,
+  rate = 1, shape, scale = 1, bldim = .pbd_env$BLDIM,
+  ICTXT = .pbd_env$ICTXT)
 
 ddmatrix.local(data, ...)
 
 \S4method{ddmatrix.local}{missing}(data, nrow = 1, ncol = 1,
   byrow = FALSE, ..., bldim = .pbd_env$BLDIM, ICTXT = .pbd_env$BLDIM)
 
-\S4method{ddmatrix.local}{vector}(data, nrow = 1, ncol = 1, byrow = FALSE,
-  ..., bldim = .pbd_env$BLDIM, ICTXT = .pbd_env$ICTXT)
+\S4method{ddmatrix.local}{vector}(data, nrow = 1, ncol = 1,
+  byrow = FALSE, ..., bldim = .pbd_env$BLDIM, ICTXT = .pbd_env$ICTXT)
 
-\S4method{ddmatrix.local}{matrix}(data, nrow = 1, ncol = 1, byrow = FALSE,
-  ..., bldim = .pbd_env$BLDIM, ICTXT = .pbd_env$ICTXT)
+\S4method{ddmatrix.local}{matrix}(data, nrow = 1, ncol = 1,
+  byrow = FALSE, ..., bldim = .pbd_env$BLDIM, ICTXT = .pbd_env$ICTXT)
 
 \S4method{ddmatrix.local}{character}(data, nrow = 1, ncol = 1,
-  byrow = FALSE, ..., min = 0, max = 1, mean = 0, sd = 1, rate = 1,
-  shape, scale = 1, bldim = .pbd_env$BLDIM, ICTXT = .pbd_env$ICTXT)
+  byrow = FALSE, ..., min = 0, max = 1, mean = 0, sd = 1,
+  rate = 1, shape, scale = 1, bldim = .pbd_env$BLDIM,
+  ICTXT = .pbd_env$ICTXT)
 }
 \arguments{
 \item{data}{A global value: a string (for random generation) or an optional data vector.
@@ -103,24 +105,6 @@ processor may or may not have an identical amount of local data.
 To ensure good random number generation, you should only consider using the
 character methods with the \code{comm.set.seed()} function from pbdMPI which
 uses the method of L'Ecuyer via the rlecuyer package.
-}
-\examples{
-\dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
-
-library(pbdDMAT, quiet = TRUE)
-init.grid()
-
-dx <- ddmatrix(data="rnorm", nrow=5, ncol=6, mean=10, sd=100, bldim=2)
-dx
-
-dy <- ddmatrix(data=1:4, nrow=7, ncol=5, bldim=2)
-dy
-
-finalize()
-}
-
 }
 \keyword{Data}
 \keyword{Generation}

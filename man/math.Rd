@@ -69,23 +69,4 @@ matrix/vector operations.
 \details{
 Performs the miscellaneous mathematical calculation on a distributed matrix.
 }
-\examples{
-\dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
-
-library(pbdDMAT, quiet = TRUE)
-init.grid()
-
-# don't do this in production code
-x <- matrix(1:9, 3)
-x <- as.ddmatrix(x)
-
-y <- sqrt(abs(log(x/10)))
-comm.print(y)
-
-finalize()
-}
-
-}
 \keyword{Methods}

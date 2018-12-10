@@ -34,29 +34,28 @@
 #' @return Returns a distributed matrix.
 #' 
 #' @examples
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
+#' spm.code = "
+#'   library(pbdDMAT, quiet = TRUE)
+#'   init.grid()
+#'   
+#'   if (comm.rank()==0){
+#'     x <- matrix(1:16, ncol=4)
+#'   } else {
+#'     x <- NULL
+#'   }
+#'   
+#'   dx <- as.ddmatrix(x, bldim=2)
+#'   dx
+#'   
+#'   ### Can also be common to all ranks
+#'   y <- matrix(1:25, 5, bldim=2)
+#'   dy <- as.ddmatrix(y)
+#'   dy
 #' 
-#' library(pbdDMAT, quiet = TRUE)
-#' init.grid()
+#'   finalize()
+#' "
 #' 
-#' if (comm.rank()==0){
-#'   x <- matrix(1:16, ncol=4)
-#' } else {
-#'   x <- NULL
-#' }
-#' 
-#' dx <- as.ddmatrix(x, bldim=2)
-#' dx
-#' 
-#' ### Can also be common to all ranks
-#' y <- matrix(1:25, 5, bldim=2)
-#' dy <- as.ddmatrix(y)
-#' dy
-#' 
-#' finalize()
-#' }
+#' pbdMPI::execmpi(spmd.code = spmd.code, nranks = 2L)
 #' 
 #' @keywords Distributing Data
 #' @name as.ddmatrix

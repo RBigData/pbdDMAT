@@ -115,21 +115,4 @@ object or the dim, bldim, and ICTXT of one.
  \describe{ \item{list("signature(x = \"ddmatrix\")")}{} }
 }
 
-\examples{
-\dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
-
-library(pbdDMAT, quiet = TRUE)
-init.grid()
-
-x <- ddmatrix(1:9, 3, bldim=2)
-
-y <- list(dim=dim(x), ldim=ldim(x), bldim=bldim(x))
-comm.print(y)
-
-finalize()
-}
-
-}
 \keyword{Methods}

@@ -29,23 +29,6 @@
 #' @return 
 #' Returns a distributed matrix.
 #' 
-#' @examples
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
-#' 
-#' library(pbdDMAT, quiet = TRUE)
-#' init.grid()
-#' 
-#' x <- ddmatrix(1:9, 3, bldim=2)
-#' 
-#' y <- x[, -1]
-#' y <- head(y, 2)
-#' y
-#' 
-#' finalize()
-#' }
-#' 
 #' @keywords Methods Extraction
 #' @name extract
 #' @rdname extract
@@ -205,22 +188,6 @@ setMethod("[", signature(x="ddmatrix"),
 #' @return 
 #' Returns a distributed matrix.
 #' 
-#' @examples
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
-#' 
-#' library(pbdDMAT, quiet = TRUE)
-#' init.grid()
-#' 
-#' x <- ddmatrix(1:9, 3, bldim=2)
-#' 
-#' x[1, ] <- 0
-#' comm.print(submatrix(x), all.rank=T)
-#' 
-#' finalize()
-#' }
-#' 
 #' @keywords Methods Extraction
 #' @name insert
 #' @rdname insert
@@ -294,4 +261,3 @@ setReplaceMethod("[", signature(x ="ddmatrix", value="ddmatrix"),
     return( ret )
   }
 )
-

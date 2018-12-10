@@ -20,25 +20,6 @@ The transposed matrix.
 \description{
 Transposes a distributed dense matrix.
 }
-\examples{
-\dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
-
-library(pbdDMAT, quiet = TRUE)
-init.grid()
-
-# don't do this in production code
-x <- matrix(1:9, 3)
-x <- as.ddmatrix(x)
-
-y <- solve(t(A) \%*\% A)
-print(y)
-
-finalize()
-}
-
-}
 \keyword{Algebra}
 \keyword{Linear}
 \keyword{Methods}

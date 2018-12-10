@@ -6,9 +6,11 @@
 \alias{cbind.ddmatrix}
 \title{Row and Column binds for Distributed Matrices}
 \usage{
-\method{rbind}{ddmatrix}(..., ICTXT = .pbd_env$ICTXT, deparse.level = 1)
+\method{rbind}{ddmatrix}(..., ICTXT = .pbd_env$ICTXT,
+  deparse.level = 1)
 
-\method{cbind}{ddmatrix}(..., ICTXT = .pbd_env$ICTXT, deparse.level = 1)
+\method{cbind}{ddmatrix}(..., ICTXT = .pbd_env$ICTXT,
+  deparse.level = 1)
 }
 \arguments{
 \item{...}{vectors, matrices, or distributed matrices.}
@@ -36,22 +38,4 @@ performance reasons (it is slow enough already).
 object.} }
 }
 
-\examples{
-\dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
-
-library(pbdDMAT, quiet = TRUE)
-init.grid()
-
-x <- ddmatrix(1:16, ncol=4, bldim=2)
-
-y <- rbind(x, x)
-
-print(y)
-
-finalize()
-}
-
-}
 \keyword{Methods}

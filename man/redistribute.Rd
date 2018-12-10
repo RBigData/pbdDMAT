@@ -3,7 +3,6 @@
 \name{redistribute}
 \alias{redistribute}
 \alias{reblock}
-\alias{redistribute}
 \title{Distribute/Redistribute matrices across the process grid}
 \usage{
 reblock(dx, bldim = dx@bldim, ICTXT = .pbd_env$ICTXT)
@@ -57,31 +56,6 @@ process in common. Likewise for \code{redistribute()} with \code{xCTXT} and
 Very general redistributions can be done with \code{redistribute()}, but
 thinking in these terms is an acquired skill.  For this reason, several
 simple interfaces to this function have been written.
-}
-\examples{
-\dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
-
-library(pbdDMAT, quiet = TRUE)
-init.grid()
-
-if (comm.rank()==0){
-  x <- matrix(1:16, ncol=4)
-} else {
-  x <- NULL
-}
-
-dx <- distribute(x, bldim=c(4,4))
-print(dx)
-
-dx <- redistribute(dx, bldim=c(3,3))
-print(dx)
-
-
-finalize()
-}
-
 }
 \keyword{BLACS}
 \keyword{Data}

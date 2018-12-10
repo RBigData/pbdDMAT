@@ -32,22 +32,21 @@
 #' sign.
 #' 
 #' @examples
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
+#' spmd.code = "
+#'   library(pbdDMAT, quiet = TRUE)
+#'   init.grid()
+#'   
+#'   # don't do this in production code
+#'   x <- matrix(1:9, 3)
+#'   x <- as.ddmatrix(x)
+#'   
+#'   y <- svd(A)
+#'   y
+#'   
+#'   finalize()
+#' "
 #' 
-#' library(pbdDMAT, quiet = TRUE)
-#' init.grid()
-#' 
-#' # don't do this in production code
-#' x <- matrix(1:9, 3)
-#' x <- as.ddmatrix(x)
-#' 
-#' y <- svd(A)
-#' print(y)
-#' 
-#' finalize()
-#' }
+#' pbdMPI::execmpi(spmd.code = spmd.code, nranks = 2L)
 #' 
 #' @aliases svd La.svd
 #' @name ddmatrix-svd

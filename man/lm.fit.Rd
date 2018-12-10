@@ -6,7 +6,8 @@
 \alias{lm.fit,ddmatrix,ddmatrix-method}
 \title{Fitter for Linear Models}
 \usage{
-\S4method{lm.fit}{ddmatrix,ddmatrix}(x, y, tol = 1e-07, singular.ok = TRUE)
+\S4method{lm.fit}{ddmatrix,ddmatrix}(x, y, tol = 1e-07,
+  singular.ok = TRUE)
 }
 \arguments{
 \item{x, y}{numeric distributed matrices}
@@ -51,26 +52,24 @@ performance, especially at scale, due to all the data swapping that must
 occur to handle rank deficiency.
 }
 \examples{
-\dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
+spmd.code = "
+  library(pbdDMAT, quiet = TRUE)
+  init.grid()
+  
+  # don't do this in production code
+  x <- matrix(rnorm(9), 3)
+  y <- matrix(rnorm(3))
+  
+  dx <- as.ddmatrix(x)
+  dy <- as.ddmatrix(y)
+  
+  fit <- lm.fit(x=dx, y=dy)
+  fit
+  
+  finalize()
+"
 
-library(pbdDMAT, quiet = TRUE)
-init.grid()
-
-# don't do this in production code
-x <- matrix(rnorm(9), 3)
-y <- matrix(rnorm(3))
-
-dx <- as.ddmatrix(x)
-dy <- as.ddmatrix(y)
-
-fit <- lm.fit(x=dx, y=dy)
-
-print(fit)
-
-finalize()
-}
+pbdMPI::execmpi(spmd.code = spmd.code, nranks=2L)
 
 }
 \keyword{Extraction}

@@ -32,22 +32,5 @@ input distributed matrix will be redistributed along context 2. When
 extraction is complete, the matrix will be redistributed across its input
 context.
 }
-\examples{
-\dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
-
-library(pbdDMAT, quiet = TRUE)
-init.grid()
-
-x <- ddmatrix(1:9, 3, bldim=2)
-
-y <- head(y, 2)
-print(y)
-
-finalize()
-}
-
-}
 \keyword{Extraction}
 \keyword{Methods}

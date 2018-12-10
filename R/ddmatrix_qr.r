@@ -34,25 +34,6 @@
 #' calculated numerical rank, \code{tau} - \code{pivot} - \code{"class"} -
 #' attribute "qr".
 #' 
-#' @examples
-#' 
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
-#' 
-#' library(pbdDMAT, quiet = TRUE)
-#' init.grid()
-#' 
-#' # don't do this in production code
-#' x <- matrix(1:9, 3)
-#' x <- as.ddmatrix(x)
-#' 
-#' Q <- qr.Q(qr(x))
-#' print(Q)
-#' 
-#' finalize()
-#' }
-#' 
 #' @keywords Methods Linear Algebra
 #' @aliases qr.Q qr.R qr.qty qr.qy
 #' @name qr

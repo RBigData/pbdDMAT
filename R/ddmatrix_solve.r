@@ -14,22 +14,6 @@
 #' \code{solve()} solves systems and performs matrix inversion when argument
 #' \code{b=} is missing.
 #' 
-#' @examples
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
-#' 
-#' library(pbdDMAT, quiet = TRUE)
-#' init.grid()
-#' 
-#' x <- ddmatrix(1:9, 3)
-#' 
-#' y <- solve(t(A) %*% A)
-#' print(y)
-#' 
-#' finalize()
-#' }
-#' 
 #' @keywords Methods Linear Algebra
 #' @name ddmatrix-solve
 #' @rdname ddmatrix-solve
@@ -80,5 +64,3 @@ setMethod("solve", signature(a="ddmatrix", b="ddmatrix"),
     return( b )
   }
 )
-
-

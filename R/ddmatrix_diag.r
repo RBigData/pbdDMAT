@@ -36,26 +36,6 @@
 #' If a vector (numeric or character) is passed to \code{diag()} and
 #' \code{type='ddmatrix'}, then the return is a diagonal distributed matrix.
 #' 
-#' @examples
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
-#' 
-#' library(pbdDMAT, quiet = TRUE)
-#' init.grid()
-#' 
-#' ### Grab diagonal of a ddmatrix
-#' x <- ddmatrix(1:16, 4, bldim=2)
-#' y <- diag(x)
-#' comm.print(y)
-#' 
-#' ### Construct a diagonal ddmatrix
-#' eye <- diag(1, 10, type="ddmatrix", bldim=2)
-#' eye
-#' 
-#' finalize()
-#' }
-#' 
 #' @keywords Methods Extraction
 #' @aliases diag
 #' @name diag-constructors

@@ -76,38 +76,6 @@ the data across context 1.
 block-cyclic distribution across a 2-dimensional process grid.  In other
 words, it block-cyclically redistributes the data across context 0.
 }
-\examples{
-\dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
-
-library(pbdDMAT, quiet = TRUE)
-init.grid()
-
-dx <- ddmatrix(1:30, nrow=10)
-
-x <- as.block(dx)
-x
-
-x <- as.rowblock(dx)
-x
-
-x <- as.colblock(dx)
-x
-
-x <- as.rowcyclic(dx)
-x
-
-x <- as.colcyclic(dx)
-x
-
-x <- as.blockcyclic(dx)
-x
-
-finalize()
-}
-
-}
 \keyword{BLACS}
 \keyword{Data}
 \keyword{Distributing}
