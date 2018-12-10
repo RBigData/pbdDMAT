@@ -1,5 +1,4 @@
 suppressPackageStartupMessages(library(pbdDMAT))
-
 init.grid()
 
 comm.print <- function(x) pbdMPI::comm.print(x, quiet=T)

@@ -1,5 +1,4 @@
 suppressPackageStartupMessages(library(pbdDMAT))
-
 init.grid()
 
 

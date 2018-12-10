@@ -10,12 +10,11 @@ module("ddmatrix constructor")
 
 x = 1:6
 dx = ddmatrix(x, bldim=length(x)*2)
-y = as.vector(dx@Data)
 
-test("basic constructor", {
-  a <- x
-  b <- y
-})
+test(
+  x,
+  as.vector(dx@Data)
+)
 
 n <- 1e2
 p <- 25
@@ -32,15 +31,18 @@ if (comm.rank()==0){
 dx <- as.ddmatrix(x)
 dy <- as.ddmatrix(y)
 
-test("as.matrix --- all ranks", {
-  a <- x
-  b <- as.matrix(dx)
-})
 
-test("as.matrix --- proc.dest=0", {
-  a <- y
-  b <- as.matrix(dy, proc.dest=0)
-})
+test(
+  x,
+  as.matrix(dx)
+)
+
+
+test(
+  y,
+  as.matrix(dy, proc.dest=0)
+)
+
 
 collect()
 
