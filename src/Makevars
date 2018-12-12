@@ -1,8 +1,10 @@
 PKG_CPPFLAGS = -I../inst/RNACI
 
 
-R_OBJS = converters.o sparse_utils.o util.o pbdDMAT_native.o
-
+R_OBJS = \
+	converters.o \
+	pbdDMAT_native.o \
+	sparse_utils.o 
 
 
 OBJECTS = ${R_OBJS}
@@ -14,4 +16,4 @@ $(SHLIB): $(OBJECTS)
 
 clean:
 	@rm -rf *.o *.d *.rc *.so* *.dylib *.dll *.a *.lib \
-            $(SHLIB) $(OBJECTS)
+		$(SHLIB) $(OBJECTS)
