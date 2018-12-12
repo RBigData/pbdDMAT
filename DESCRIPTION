@@ -1,6 +1,6 @@
 Package: pbdDMAT
 Title: 'pbdR' Distributed Matrix Methods
-Version: 0.5-0
+Version: 0.5-1
 Description: A set of classes for managing distributed matrices, and
     a collection of methods for computing linear algebra and
     statistics.  Computation is handled mostly by routines from the
