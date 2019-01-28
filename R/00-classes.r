@@ -56,7 +56,7 @@ setClass(Class="dmat",
 #' 
 #' Distributed matrix class.
 #' 
-#' @slot DATA
+#' @slot Data
 #' The local submatrix.
 #' @slot bldim
 #' Blocking factor.

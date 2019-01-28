@@ -10,7 +10,7 @@ Distributed matrix class.
 \section{Slots}{
 
 \describe{
-\item{\code{DATA}}{The local submatrix.}
+\item{\code{Data}}{The local submatrix.}
 
 \item{\code{bldim}}{Blocking factor.}
 
