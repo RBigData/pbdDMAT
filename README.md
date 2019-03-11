@@ -1,7 +1,7 @@
 # pbdDMAT
 
 * **Version:** 0.5-1
-* **License:** [![License](http://img.shields.io/badge/license-GPL%20%28%3E=%202%29-orange.svg?style=flat)](http://www.gnu.org/licenses/gpl-2.0.html)
+* **License:** [GPL >= 2](https://www.gnu.org/licenses/gpl-2.0.html)
 * **Author:** See section below.
 
 
@@ -83,6 +83,7 @@ pbdDMAT is authored and maintained by the pbdR core team:
 
 With additional contributions from:
 
+* Lamy de la Chapelle Sebastien
 * The R Core team (some wrapper code taken from the base and stats packages)
 * ZhaoKang Wang (fixes/improvements to `apply()`)
 * Michael Lawrence (fix for `as.vector()`)
