@@ -33,7 +33,7 @@ Assuming you meet the system dependencies, you can install the stable version fr
 install.package("pbdDMAT")
 ```
 
-The development version is maintained on GitHub, and can easily be installed by any of the packages that offer installations from GitHub:
+The development version is maintained on GitHub:
 
 ```r
 remotes::install_github("RBigData/pbdDMAT")
