@@ -20,9 +20,8 @@ SystemRequirements: OpenMPI (>= 1.5.4) on Solaris, Linux, Mac, and FreeBSD.
 LazyLoad: yes
 LazyData: yes
 ByteCompile: yes
-NeedsCompilation: yes
-URL: http://r-pbd.org/
-BugReports: http://group.r-pbd.org/
+URL: https://pbdr.org/
+BugReports: http://group.pbdr.org/
 MailingList: Please send questions and comments regarding pbdR to
     RBigData@gmail.com
 Authors@R: c(person("Drew", "Schmidt", role=c("aut", "cre"), email="wrathematics@gmail.com"), 
