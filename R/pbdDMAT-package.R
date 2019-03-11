@@ -13,10 +13,6 @@
 #' 
 #' This package requires an MPI library (OpenMPI, MPICH2, or LAM/MPI).
 #' 
-#' @useDynLib pbdDMAT,
-#'   R_int_sparse_count_zeros, R_sparse_count_zeros, 
-#'   R_convert_dense_to_csr, R_convert_csr_to_dense
-#' 
 #' @import methods
 #' @importFrom stats rnorm runif rweibull rexp
 #' @importFrom utils head tail

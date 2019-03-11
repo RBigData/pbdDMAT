@@ -1,3 +1,4 @@
+#' @useDynLib pbdDMAT R_convert_dense_to_csr
 convert_dense_to_csr <- function(x)
 {
     if (!is.double(x))
@@ -8,6 +9,7 @@ convert_dense_to_csr <- function(x)
 
 
 
+#' @useDynLib pbdDMAT R_convert_csr_to_dense
 convert_csr_to_dense <- function(dim, Data, row_ptr, col_ind)
 {
     if (!is.double(Data))
