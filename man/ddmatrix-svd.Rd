@@ -2,11 +2,11 @@
 % Please edit documentation in R/ddmatrix_svd.r
 \docType{methods}
 \name{ddmatrix-svd}
+\alias{ddmatrix-svd}
+\alias{svd}
 \alias{La.svd}
 \alias{La.svd,ANY-method}
 \alias{La.svd,ddmatrix-method}
-\alias{ddmatrix-svd}
-\alias{svd}
 \alias{svd,ANY-method}
 \alias{svd,ddmatrix-method}
 \title{Singular Value Decomposition}
@@ -15,7 +15,8 @@
 
 \S4method{La.svd}{ddmatrix}(x, nu = min(n, p), nv = min(n, p))
 
-\S4method{svd}{ANY}(x, nu = min(n, p), nv = min(n, p), LINPACK = FALSE)
+\S4method{svd}{ANY}(x, nu = min(n, p), nv = min(n, p),
+  LINPACK = FALSE)
 
 \S4method{svd}{ddmatrix}(x, nu = min(n, p), nv = min(n, p))
 }
@@ -53,22 +54,20 @@ calculations performed by the PBLAS and ScaLAPACK libraries.
 Extensions of R linear algebra functions.
 }
 \examples{
-\dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
+spmd.code = "
+  library(pbdDMAT, quiet = TRUE)
+  init.grid()
+  
+  # don't do this in production code
+  x <- matrix(1:9, 3)
+  x <- as.ddmatrix(x)
+  
+  y <- svd(A)
+  y
+  
+  finalize()
+"
 
-library(pbdDMAT, quiet = TRUE)
-init.grid()
+pbdMPI::execmpi(spmd.code = spmd.code, nranks = 2L)
 
-# don't do this in production code
-x <- matrix(1:9, 3)
-x <- as.ddmatrix(x)
-
-y <- svd(A)
-print(y)
-
-finalize()
 }
-
-}
-

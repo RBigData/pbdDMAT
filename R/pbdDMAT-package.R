@@ -13,10 +13,6 @@
 #' 
 #' This package requires an MPI library (OpenMPI, MPICH2, or LAM/MPI).
 #' 
-#' @useDynLib pbdDMAT,
-#'   R_int_sparse_count_zeros, R_sparse_count_zeros, 
-#'   R_convert_dense_to_csr, R_convert_csr_to_dense
-#' 
 #' @import methods
 #' @importFrom stats rnorm runif rweibull rexp
 #' @importFrom utils head tail
@@ -27,9 +23,9 @@
 #' 
 #' @name pbdDMAT-package
 #' @docType package
-#' @author Drew Schmidt \email{schmidt AT math.utk.edu}, Wei-Chen Chen, George
+#' @author Drew Schmidt \email{wrathematics AT gmail.com}, Wei-Chen Chen, George
 #' Ostrouchov, and Pragneshkumar Patel, with contributions from R Core team
 #' (some wrappers taken from the base and stats packages).
-#' @references Programming with Big Data in R Website: \url{http://r-pbd.org/}
+#' @references Programming with Big Data in R Website: \url{https://pbdr.org/}
 #' @keywords Package
 NULL

@@ -20,24 +20,6 @@
 #' @return 
 #' Returns a number.
 #' 
-#' @examples
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
-#' 
-#' library(pbdDMAT, quiet = TRUE)
-#' init.grid()
-#' 
-#' comm.set.seed(diff=T)
-#' x <- ddmatrix("rnorm", 10, 10, bldim=2)
-#' 
-#' cn <- rcond(x)
-#' 
-#' comm.print(cn)
-#' 
-#' finalize()
-#' }
-#' 
 #' @keywords Methods Linear Algebra ConditionNumbers
 #' @name condnums
 #' @rdname condnums

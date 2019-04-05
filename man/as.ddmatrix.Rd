@@ -3,15 +3,16 @@
 \docType{methods}
 \name{as.ddmatrix}
 \alias{as.ddmatrix}
-\alias{as.ddmatrix,NULL-method}
-\alias{as.ddmatrix,matrix-method}
-\alias{as.ddmatrix,vector-method}
 \alias{distribute}
+\alias{as.ddmatrix,matrix-method}
+\alias{as.ddmatrix,NULL-method}
+\alias{as.ddmatrix,vector-method}
 \title{Non-Distributed object to Distributed Object Converters}
 \usage{
 as.ddmatrix(x, ...)
 
-distribute(x, bldim = .pbd_env$BLDIM, xCTXT = 0, ICTXT = .pbd_env$ICTXT)
+distribute(x, bldim = .pbd_env$BLDIM, xCTXT = 0,
+  ICTXT = .pbd_env$ICTXT)
 
 \S4method{as.ddmatrix}{matrix}(x, bldim = .pbd_env$BLDIM,
   ICTXT = .pbd_env$ICTXT)
@@ -59,31 +60,29 @@ As usual, the \code{ICTXT} number is the BLACS context corresponding to the
 process grid onto which the output distributed matrix will be distributed.
 }
 \examples{
-\dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
+spmd.code = "
+  library(pbdDMAT, quiet = TRUE)
+  init.grid()
+  
+  if (comm.rank()==0){
+    x <- matrix(1:16, ncol=4)
+  } else {
+    x <- NULL
+  }
+  
+  dx <- as.ddmatrix(x, bldim=2)
+  dx
+  
+  ### Can also be common to all ranks
+  y <- matrix(1:25, 5, bldim=2)
+  dy <- as.ddmatrix(y)
+  dy
 
-library(pbdDMAT, quiet = TRUE)
-init.grid()
+  finalize()
+"
 
-if (comm.rank()==0){
-  x <- matrix(1:16, ncol=4)
-} else {
-  x <- NULL
-}
-
-dx <- as.ddmatrix(x, bldim=2)
-dx
-
-### Can also be common to all ranks
-y <- matrix(1:25, 5, bldim=2)
-dy <- as.ddmatrix(y)
-dy
-
-finalize()
-}
+pbdMPI::execmpi(spmd.code = spmd.code, nranks = 2L)
 
 }
 \keyword{Data}
 \keyword{Distributing}
-

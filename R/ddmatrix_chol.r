@@ -13,22 +13,6 @@
 #' @return 
 #' \code{chol()} performs Cholesky factorization.
 #' 
-#' @examples
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
-#' 
-#' library(pbdDMAT, quiet = TRUE)
-#' init.grid()
-#' 
-#' x <- ddmatrix(1:9, 3, bldim=2)
-#' 
-#' y <- solve(crossprod(x))
-#' y
-#' 
-#' finalize()
-#' }
-#' 
 #' @keywords Methods Linear Algebra
 #' @aliases chol
 #' @name ddmatrix-chol
@@ -45,6 +29,9 @@ setMethod("chol", signature(x="ddmatrix"),
     if (diff(x@dim)!=0)
       comm.stop(paste("'x' (", x@dim[1L], " x ", x@dim[2L], ") must be square", sep=""))
     
+    if (x@bldim[1L] != x@bldim[2L])
+      comm.stop(paste0("chol() requires a square blocking factor; have ", x@bldim[1L], "x", x@bldim[2L]))
+  
     desca <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=x@ICTXT)
     
     n <- desca[4L]
@@ -60,5 +47,3 @@ setMethod("chol", signature(x="ddmatrix"),
     return( ret )
   }
 )
-
-

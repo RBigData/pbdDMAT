@@ -1,5 +1,5 @@
-suppressPackageStartupMessages(library(pbdTEST))
-settings(mpi=TRUE)
+suppressMessages(library(pbdTEST))
+settings("dmat")
 
 .BLDIM <- 2
 comm.set.seed(seed=1234, diff=FALSE)
@@ -20,26 +20,25 @@ dy <- as.ddmatrix(x, BL)
 
 submodule("any, all, ==")
 
-test("all(dx==dx)", {
-  a <- all(dx==dx)
-  b <- TRUE
-})
+test(
+  all(dx==dx),
+  TRUE
+)
 
-test("any(dx==dx)", {
-  a <- any(dx==dx)
-  b <- TRUE
-})
+test(
+  any(dx==dx),
+  TRUE
+)
 
-test("!all(dx==dB)", {
-  a <- !all(dx==dy)
-  b <- TRUE
-})
+test(
+  !all(dx==dy),
+  TRUE
+)
 
-test("any(dx==dB)", {
-  a <- any(dx==dy)
-  b <- TRUE
-})
-
+test(
+  any(dx==dy),
+  TRUE
+)
 
 collect()
 
@@ -107,19 +106,19 @@ tests <- function(.)
 comm.print("-------Reductions-------")
 comm.print("       Square")
 
-A <- matrix(rnorm(M*N, 10, 100), M, N)
+matrix(rnorm(M*N, 10, 100), M, N)
 dx <- as.ddmatrix(A, BL)
 tests()
 
 comm.print("       Column")
 
-A <- matrix(rnorm(M*1, 10, 100), M, 1)
+matrix(rnorm(M*1, 10, 100), M, 1)
 dx <- as.ddmatrix(A, BL)
 tests()
 
 comm.print("       Row")
 
-A <- matrix(rnorm(1*N, 10, 100), 1, N)
+matrix(rnorm(1*N, 10, 100), 1, N)
 dx <- as.ddmatrix(A, BL)
 tests()
 

@@ -23,27 +23,8 @@ Computes the norm of a distributed matrix.
 \section{Methods}{
  \describe{ \item{list("signature(x = \"ddmatrix\")")}{} }
 }
-\examples{
-\dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
 
-library(pbdDMAT, quiet = TRUE)
-init.grid()
-
-comm.set.seed(diff=T)
-x <- ddmatrix("rnorm", 10, 10)
-
-nrm <- norm(x)
-
-comm.print(nrm)
-
-finalize()
-}
-
-}
 \keyword{Algebra}
 \keyword{Linear}
 \keyword{Methods}
 \keyword{Norm}
-

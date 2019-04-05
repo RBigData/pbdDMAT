@@ -2,9 +2,9 @@
 % Please edit documentation in R/ddmatrix_apply.R
 \docType{methods}
 \name{ddmatrix-apply}
+\alias{ddmatrix-apply}
 \alias{apply}
 \alias{apply,ddmatrix-method}
-\alias{ddmatrix-apply}
 \title{Apply Family of Functions}
 \usage{
 \S4method{apply}{ddmatrix}(X, MARGIN, FUN, ..., reduce = FALSE,
@@ -40,23 +40,5 @@ Other acceptable arguments are \code{reduce="matrix"} and
 respectively. This should generally be slightly more efficient than running
 apply and then calling \code{as.vector()} or \code{as.matrix()}.
 }
-\examples{
-\dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
-
-library(pbdDMAT, quiet = TRUE)
-init.grid()
-
-x <- ddmatrix(1:9, 3, bldim=2)
-
-y <- as.vector(apply(x, 1, mean))
-comm.print(y)
-
-finalize()
-}
-
-}
 \keyword{Extraction}
 \keyword{Methods}
-

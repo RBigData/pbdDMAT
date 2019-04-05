@@ -3,25 +3,25 @@
 \docType{methods}
 \name{Accessors}
 \alias{Accessors}
-\alias{ICTXT}
-\alias{ICTXT,ddmatrix-method}
-\alias{NCOL}
-\alias{NCOL,ddmatrix-method}
-\alias{NROW}
-\alias{NROW,ddmatrix-method}
-\alias{bldim}
-\alias{bldim,ddmatrix-method}
-\alias{dim,ddmatrix-method}
-\alias{ldim}
-\alias{ldim,ddmatrix-method}
-\alias{length,ddmatrix-method}
-\alias{ncol}
-\alias{ncol,ddmatrix-method}
 \alias{nrow}
 \alias{nrow,ddmatrix-method}
+\alias{NROW}
+\alias{NROW,ddmatrix-method}
+\alias{ncol}
+\alias{ncol,ddmatrix-method}
+\alias{NCOL}
+\alias{NCOL,ddmatrix-method}
 \alias{submatrix}
-\alias{submatrix,Linalg-method}
 \alias{submatrix,ddmatrix-method}
+\alias{submatrix,Linalg-method}
+\alias{ldim}
+\alias{ldim,ddmatrix-method}
+\alias{bldim}
+\alias{bldim,ddmatrix-method}
+\alias{ICTXT}
+\alias{ICTXT,ddmatrix-method}
+\alias{dim,ddmatrix-method}
+\alias{length,ddmatrix-method}
 \title{Accessor Functions for Distributed Matrix Slots}
 \usage{
 nrow(x)
@@ -114,22 +114,5 @@ object or the dim, bldim, and ICTXT of one.
 \section{Methods}{
  \describe{ \item{list("signature(x = \"ddmatrix\")")}{} }
 }
-\examples{
-\dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
 
-library(pbdDMAT, quiet = TRUE)
-init.grid()
-
-x <- ddmatrix(1:9, 3, bldim=2)
-
-y <- list(dim=dim(x), ldim=ldim(x), bldim=bldim(x))
-comm.print(y)
-
-finalize()
-}
-
-}
 \keyword{Methods}
-

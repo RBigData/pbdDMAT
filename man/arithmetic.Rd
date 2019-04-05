@@ -2,28 +2,28 @@
 % Please edit documentation in R/ddmatrix_arithmetic.R
 \docType{methods}
 \name{arithmetic}
-\alias{*,ddmatrix,ddmatrix-method}
-\alias{*,ddmatrix,numeric-method}
-\alias{*,numeric,ddmatrix-method}
-\alias{+,ddmatrix,ddmatrix-method}
+\alias{arithmetic}
 \alias{+,ddmatrix,numeric-method}
 \alias{+,numeric,ddmatrix-method}
-\alias{-,ddmatrix,ddmatrix-method}
-\alias{-,ddmatrix,missing-method}
+\alias{+,ddmatrix,ddmatrix-method}
 \alias{-,ddmatrix,numeric-method}
 \alias{-,numeric,ddmatrix-method}
-\alias{/,ddmatrix,ddmatrix-method}
+\alias{-,ddmatrix,ddmatrix-method}
+\alias{-,ddmatrix,missing-method}
+\alias{*,ddmatrix,numeric-method}
+\alias{*,numeric,ddmatrix-method}
+\alias{*,ddmatrix,ddmatrix-method}
 \alias{/,ddmatrix,numeric-method}
 \alias{/,numeric,ddmatrix-method}
-\alias{\%/\%,ddmatrix,ddmatrix-method}
-\alias{\%/\%,ddmatrix,numeric-method}
-\alias{\%/\%,numeric,ddmatrix-method}
+\alias{/,ddmatrix,ddmatrix-method}
+\alias{^,ddmatrix,numeric-method}
+\alias{^,ddmatrix,ddmatrix-method}
 \alias{\%\%,ddmatrix,ddmatrix-method}
 \alias{\%\%,ddmatrix,numeric-method}
 \alias{\%\%,numeric,ddmatrix-method}
-\alias{^,ddmatrix,ddmatrix-method}
-\alias{^,ddmatrix,numeric-method}
-\alias{arithmetic}
+\alias{\%/\%,ddmatrix,ddmatrix-method}
+\alias{\%/\%,numeric,ddmatrix-method}
+\alias{\%/\%,ddmatrix,numeric-method}
 \title{Arithmetic Operators}
 \usage{
 \S4method{+}{ddmatrix,numeric}(e1, e2)
@@ -83,22 +83,4 @@ If \code{e1} and \code{e2} are distributed matrices, then they must be
 conformable, on the same BLACS context, and have the same blocking
 dimension.
 }
-\examples{
-\dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
-
-library(pbdDMAT, quiet = TRUE)
-init.grid()
-
-x <- ddmatrix(1:9, 3, bldim=2)
-
-y <- (2*x) - x^(.5)
-print(y)
-
-finalize()
-}
-
-}
 \keyword{Methods}
-

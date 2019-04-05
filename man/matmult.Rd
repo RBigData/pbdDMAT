@@ -2,9 +2,9 @@
 % Please edit documentation in R/ddmatrix_matmult.r
 \docType{methods}
 \name{matmult}
+\alias{matmult}
 \alias{\%*\%,ddmatrix,ddmatrix-method}
 \alias{crossprod,ddmatrix-method}
-\alias{matmult}
 \alias{tcrossprod,ddmatrix-method}
 \title{Matrix Multiplication}
 \usage{
@@ -35,26 +35,6 @@ then use the function \code{base.rpdgemm()}.
 The \code{crossprod()} and \code{tcrossprod()} functions behave exactly as
 their R counterparts.
 }
-\examples{
-\dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
-
-library(pbdDMAT, quiet = TRUE)
-init.grid()
-
-# don't do this in production code
-x <- matrix(1:9, 3)
-x <- as.ddmatrix(x)
-
-y <- x \%*\% x
-print(y)
-
-finalize()
-}
-
-}
 \keyword{Algebra}
 \keyword{Linear}
 \keyword{Methods}
-

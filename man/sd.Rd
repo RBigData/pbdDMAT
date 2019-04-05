@@ -3,8 +3,8 @@
 \docType{methods}
 \name{sd}
 \alias{sd}
-\alias{sd,ANY-method}
 \alias{sd,ddmatrix-method}
+\alias{sd,ANY-method}
 \title{Covariance and Correlation}
 \usage{
 \S4method{sd}{ddmatrix}(x, na.rm = FALSE, reduce = FALSE,
@@ -33,22 +33,4 @@ is a distributed matrix consisting of one (global) row; otherwise, an
 \code{R} vector is returned, with ownership of this vector determined by
 \code{proc.dest}.
 }
-\examples{
-\dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
-
-library(pbdDMAT, quiet = TRUE)
-init.grid()
-
-x <- ddmatrix("rnorm", nrow=3, ncol=3)
-
-cv <- cov(x)
-print(cv)
-
-finalize()
-}
-
-}
 \keyword{Methods}
-

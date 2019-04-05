@@ -29,22 +29,5 @@ This constructs the square Hilbert matrix of order \code{n}. The return is
 either a matrix or a distributed matrix depending on the argument
 \code{type=}.
 }
-\examples{
-\dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
-
-library(pbdDMAT, quiet = TRUE)
-init.grid()
-
-dx <- Hilbert(100, type="ddmatrix")
-
-print(dx)
-
-finalize()
-}
-
-}
 \keyword{Data}
 \keyword{Generation}
-

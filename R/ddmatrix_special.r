@@ -87,21 +87,6 @@ companion <- function(coef, type="matrix", ..., bldim=.pbd_env$BLDIM, ICTXT=.pbd
 #' 
 #' @keywords Data Generation
 #' 
-#' @examples
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
-#' 
-#' library(pbdDMAT, quiet = TRUE)
-#' init.grid()
-#' 
-#' dx <- Hilbert(100, type="ddmatrix")
-#' 
-#' print(dx)
-#' 
-#' finalize()
-#' }
-#' 
 #' @export
 Hilbert <- function(n, type="matrix", ..., bldim=.pbd_env$BLDIM, ICTXT=.pbd_env$ICTXT)
 {

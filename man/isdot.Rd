@@ -2,12 +2,12 @@
 % Please edit documentation in R/ddmatrix_isdot.r
 \docType{methods}
 \name{isdot}
+\alias{isdot}
 \alias{is.ddmatrix}
-\alias{is.infinite,ddmatrix-method}
 \alias{is.na,ddmatrix-method}
 \alias{is.nan,ddmatrix-method}
 \alias{is.numeric,ddmatrix-method}
-\alias{isdot}
+\alias{is.infinite,ddmatrix-method}
 \title{Type Checks, Including NA, NaN, etc.}
 \usage{
 is.ddmatrix(x)
@@ -33,29 +33,5 @@ Functions to check for various types.
 \details{
 Performs the appropriate type check.
 }
-\examples{
-\dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
-
-suppressPackageStartupMessages(library(pbdDMAT, quiet=T))
-
-init.grid()
-
-comm.set.seed(seed=1234, diff=TRUE)
-
-x <- ddmatrix("rnorm", 5, 5, bldim=2)
-test <- comm.any(is.na(x))
-comm.print(test)
-
-x[1,1] <- NA
-test <- comm.any(is.na(x))
-comm.print(test)
-
-finalize()
-}
-
-}
 \keyword{Methods}
 \keyword{Type}
-

@@ -42,22 +42,6 @@
 #' Returns a distributed matrix unless a reduction is requested, then a
 #' global matrix/vector is returned.
 #' 
-#' @examples
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
-#' 
-#' library(pbdDMAT, quiet = TRUE)
-#' init.grid()
-#' 
-#' x <- ddmatrix(1:9, 3, bldim=2)
-#' 
-#' y <- as.vector(apply(x, 1, mean))
-#' comm.print(y)
-#' 
-#' finalize()
-#' }
-#' 
 #' @keywords Methods Extraction
 #' @aliases apply
 #' @name ddmatrix-apply

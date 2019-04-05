@@ -26,18 +26,6 @@
 #' @return 
 #' Returns a distributed matrix.
 #' 
-#' @examples
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
-#' 
-#' library(pbdDMAT, quiet = TRUE)
-#' init.grid()
-#' 
-#' x <- matrix("rnorm", 5, 5, bldim=2)
-#' expm(x)
-#' 
-#' }
 #' @keywords Methods Linear Algebra
 #' @name expm
 #' @rdname expm
@@ -156,6 +144,10 @@ setMethod("expm", signature(x="ddmatrix"),
     if (nrow(x) != ncol(x))
       stop("Matrix exponentiation is only defined for square matrices.")
     
+      
+    if (x@bldim[1L] != x@bldim[2L])
+      comm.stop(paste0("expm() requires a square blocking factor; have ", x@bldim[1L], "x", x@bldim[2L]))
+    
     n <- matexp_scale_factor(x)
     
     if (n == 0)
@@ -169,5 +161,3 @@ setMethod("expm", signature(x="ddmatrix"),
     return( S )
   }
 )
-
-

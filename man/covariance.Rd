@@ -2,11 +2,11 @@
 % Please edit documentation in R/ddmatrix_cov.R
 \docType{methods}
 \name{covariance}
-\alias{cor,ddmatrix-method}
-\alias{cov,ddmatrix-method}
-\alias{cov2cor,ddmatrix-method}
 \alias{covariance}
+\alias{cov,ddmatrix-method}
 \alias{var,ddmatrix-method}
+\alias{cor,ddmatrix-method}
+\alias{cov2cor,ddmatrix-method}
 \title{Covariance and Correlation}
 \usage{
 \S4method{cov}{ddmatrix}(x, y = NULL, use = "everything",
@@ -52,21 +52,19 @@ distributed matrix.
 \code{cov2cor()} scales a covariance matrix into a correlation matrix.
 }
 \examples{
-\dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
-
+spmd.code = "
 library(pbdDMAT, quiet = TRUE)
 init.grid()
 
-x <- ddmatrix("rnorm", nrow=3, ncol=3), bldim=2
+x <- ddmatrix('rnorm', nrow=3, ncol=3), bldim=2
 
 cv <- cov(x)
-print(cv)
+cv
 
 finalize()
-}
+"
+
+pbdMPI::execmpi(spmd.code = spmd.code, nranks = 2L)
 
 }
 \keyword{Methods}
-

@@ -32,22 +32,21 @@
 #' sign.
 #' 
 #' @examples
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
+#' spmd.code = "
+#'   library(pbdDMAT, quiet = TRUE)
+#'   init.grid()
+#'   
+#'   # don't do this in production code
+#'   x <- matrix(1:9, 3)
+#'   x <- as.ddmatrix(x)
+#'   
+#'   y <- svd(A)
+#'   y
+#'   
+#'   finalize()
+#' "
 #' 
-#' library(pbdDMAT, quiet = TRUE)
-#' init.grid()
-#' 
-#' # don't do this in production code
-#' x <- matrix(1:9, 3)
-#' x <- as.ddmatrix(x)
-#' 
-#' y <- svd(A)
-#' print(y)
-#' 
-#' finalize()
-#' }
+#' pbdMPI::execmpi(spmd.code = spmd.code, nranks = 2L)
 #' 
 #' @aliases svd La.svd
 #' @name ddmatrix-svd
@@ -66,6 +65,9 @@ dmat.svd <- function(x, nu, nv, inplace=FALSE)
   n <- x@dim[2L]
   size <- min(m, n)
   bldim <- x@bldim
+  
+  if (bldim[1L] != bldim[2L])
+    comm.stop(paste0("svd() and La.svd() require a square blocking factor; have ", x@bldim[1L], "x", x@bldim[2L]))
   
   desca <- base.descinit(dim=x@dim, bldim=x@bldim, ldim=x@ldim, ICTXT=ICTXT)
   
@@ -97,7 +99,7 @@ dmat.svd <- function(x, nu, nv, inplace=FALSE)
   descvt <- base.descinit(dim=vtdim, bldim=bldim, ldim=vtldim, ICTXT=ICTXT)
   
   # Compute 
-  out <- base.rpdgesvd(jobu=jobu, jobvt=jobvt, m=m, n=n, a=x@Data, desca=desca, descu=descu, descvt=descvt, inplace=inplace)
+  out <- base.rpdgesvd(jobu=jobu, jobvt=jobvt, m=m, n=n, a=x@Data, desca=desca, descu=descu, descvt=descvt, inplace=inplace, comm=pbdBASE::get.comm.from.ICTXT(ICTXT))
   
   if (nu==0)
     u <- NULL
@@ -198,4 +200,3 @@ setMethod("svd", signature(x="ddmatrix"),
     return( ret )
   }
 )
-

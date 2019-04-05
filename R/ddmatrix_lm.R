@@ -43,26 +43,24 @@
 #' @keywords Methods Extraction
 #' 
 #' @examples
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
+#' spmd.code = "
+#'   library(pbdDMAT, quiet = TRUE)
+#'   init.grid()
+#'   
+#'   # don't do this in production code
+#'   x <- matrix(rnorm(9), 3)
+#'   y <- matrix(rnorm(3))
+#'   
+#'   dx <- as.ddmatrix(x)
+#'   dy <- as.ddmatrix(y)
+#'   
+#'   fit <- lm.fit(x=dx, y=dy)
+#'   fit
+#'   
+#'   finalize()
+#' "
 #' 
-#' library(pbdDMAT, quiet = TRUE)
-#' init.grid()
-#' 
-#' # don't do this in production code
-#' x <- matrix(rnorm(9), 3)
-#' y <- matrix(rnorm(3))
-#' 
-#' dx <- as.ddmatrix(x)
-#' dy <- as.ddmatrix(y)
-#' 
-#' fit <- lm.fit(x=dx, y=dy)
-#' 
-#' print(fit)
-#' 
-#' finalize()
-#' }
+#' pbdMPI::execmpi(spmd.code = spmd.code, nranks=2L)
 #' 
 #' @name lm.fit
 #' @rdname lm.fit
@@ -167,7 +165,7 @@ setMethod("lm.fit", signature(x="ddmatrix", y="ddmatrix"),
     
     # rownames
   #  if (base.ownany(dim=y@dim, bldim=y@bldim, ICTXT=y@CTXT)){
-  #    coords <- sapply(temp, function(i) base.g2l_coord(ind=i, dim=y@dim, bldim=y@bldim, ICTXT=y@CTXT)[5])
+  #    coords <- sapply(temp, function(i) base.g2l_coord(ind=i, bldim=y@bldim, ICTXT=y@CTXT)[5])
   #    mycoords <- coords[which(!is.na(coords))]
   #    
   #    rownames(y@Data) <- paste("x", mycoords, sep="")
@@ -184,5 +182,3 @@ setMethod("lm.fit", signature(x="ddmatrix", y="ddmatrix"),
     return( ret )
   }
 )
-
-

@@ -27,24 +27,3 @@ The value at global index gi x gj.
 \description{
 Get the value of the distributed matrix at global indices gi x gj.
 }
-\examples{
-\dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
-
-library(pbdDMAT)
-init.grid()
-
-x <- ddmatrix(1:100, 10, bldim=c(2, 2))
-
-val <- getLocal(x, 5, 1)
-comm.print(val, all.rank=TRUE)
-
-val <- getLocal(x, 5, 1, all.rank=FALSE)
-comm.print(val, all.rank=TRUE)
-
-finalize()
-}
-
-}
-

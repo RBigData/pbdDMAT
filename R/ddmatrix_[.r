@@ -29,23 +29,6 @@
 #' @return 
 #' Returns a distributed matrix.
 #' 
-#' @examples
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
-#' 
-#' library(pbdDMAT, quiet = TRUE)
-#' init.grid()
-#' 
-#' x <- ddmatrix(1:9, 3, bldim=2)
-#' 
-#' y <- x[, -1]
-#' y <- head(y, 2)
-#' y
-#' 
-#' finalize()
-#' }
-#' 
 #' @keywords Methods Extraction
 #' @name extract
 #' @rdname extract
@@ -110,9 +93,9 @@ setMethod("[", signature(x="ddmatrix"),
     if (!imiss && !jmiss){
       # user wants exactly 1 value
       if (ilng==1 && i>0 && jlng==1 && j>0){
-        coords <- base.g2l_coord(ind=c(i, j), dim=x@dim, bldim=x@bldim, ICTXT=x@ICTXT)
+        coords <- base.g2l_coord(ind=c(i - 1L, j - 1L), bldim=x@bldim, ICTXT=x@ICTXT)
         if (all(!is.na(coords[c(3,4)])))
-          out <- x@Data[coords[5], coords[6]]
+          out <- x@Data[coords[5] + 1L, coords[6] + 1L]
         else
           out <- 0
         out <- reduce(out, op='sum')
@@ -205,22 +188,6 @@ setMethod("[", signature(x="ddmatrix"),
 #' @return 
 #' Returns a distributed matrix.
 #' 
-#' @examples
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
-#' 
-#' library(pbdDMAT, quiet = TRUE)
-#' init.grid()
-#' 
-#' x <- ddmatrix(1:9, 3, bldim=2)
-#' 
-#' x[1, ] <- 0
-#' comm.print(submatrix(x), all.rank=T)
-#' 
-#' finalize()
-#' }
-#' 
 #' @keywords Methods Extraction
 #' @name insert
 #' @rdname insert
@@ -294,4 +261,3 @@ setReplaceMethod("[", signature(x ="ddmatrix", value="ddmatrix"),
     return( ret )
   }
 )
-

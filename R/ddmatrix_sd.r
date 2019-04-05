@@ -20,22 +20,6 @@
 #' @return 
 #' Returns a distributed matrix.
 #' 
-#' @examples
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
-#' 
-#' library(pbdDMAT, quiet = TRUE)
-#' init.grid()
-#' 
-#' x <- ddmatrix("rnorm", nrow=3, ncol=3)
-#' 
-#' cv <- cov(x)
-#' print(cv)
-#' 
-#' finalize()
-#' }
-#' 
 #' @keywords Methods
 #' @name sd
 #' @rdname sd
@@ -80,6 +64,3 @@ setMethod("sd", signature(x="ANY"),
   function(x, na.rm = FALSE) 
     stats::sd(x=x, na.rm=na.rm)
 )
-
-
-

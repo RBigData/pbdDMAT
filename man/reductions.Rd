@@ -2,22 +2,22 @@
 % Please edit documentation in R/ddmatrix_reductions.R
 \docType{methods}
 \name{reductions}
-\alias{colMax}
-\alias{colMax,ddmatrix-method}
-\alias{colMeans,ddmatrix-method}
-\alias{colMin}
-\alias{colMin,ddmatrix-method}
-\alias{colMin,matrix-method}
-\alias{colSums,ddmatrix-method}
 \alias{reductions}
-\alias{rowMax}
-\alias{rowMax,ddmatrix-method}
-\alias{rowMax,matrix-method}
-\alias{rowMeans,ddmatrix-method}
 \alias{rowMin}
+\alias{rowMax}
+\alias{colMin}
+\alias{colMax}
+\alias{rowSums,ddmatrix-method}
+\alias{colSums,ddmatrix-method}
+\alias{rowMeans,ddmatrix-method}
+\alias{colMeans,ddmatrix-method}
 \alias{rowMin,ddmatrix-method}
 \alias{rowMin,matrix-method}
-\alias{rowSums,ddmatrix-method}
+\alias{colMin,ddmatrix-method}
+\alias{colMin,matrix-method}
+\alias{rowMax,ddmatrix-method}
+\alias{rowMax,matrix-method}
+\alias{colMax,ddmatrix-method}
 \title{Arithmetic Reductions: Sums, Means, and Prods}
 \usage{
 rowMin(x, ...)
@@ -86,24 +86,4 @@ is a distributed matrix consisting of one (global) row; otherwise, an
 \code{R} vector is returned, with ownership of this vector determined by
 \code{proc.dest}.
 }
-\examples{
-\dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
-
-library(pbdDMAT, quiet = TRUE)
-init.grid()
-
-# don't do this in production code
-x <- matrix(1:9, 3)
-x <- as.ddmatrix(x)
-
-y <- sum(colMeans(x))
-comm.print(y)
-
-finalize()
-}
-
-}
 \keyword{Methods}
-

@@ -2,7 +2,11 @@
 #include "dmat.h"
 
 
-int int_sparse_count_zeros(int m, int n, int *x)
+#define IS_ZERO(x, tol) (fabs(x) < tol)
+#define TOL 1e-10
+
+
+static int int_sparse_count_zeros(int m, int n, int *x)
 {
   int count = 0;
   int i, j;
@@ -34,7 +38,7 @@ SEXP R_int_sparse_count_zeros(SEXP x)
 
 
 
-int sparse_count_zeros(int m, int n, double *x, double tol)
+static int sparse_count_zeros(int m, int n, double *x, double tol)
 {
   int count = 0;
   int i, j;
@@ -43,7 +47,7 @@ int sparse_count_zeros(int m, int n, double *x, double tol)
   {
     for (i=0; i<m; i++)
     {
-      if (fis_zero(x[i + m*j]))
+      if (IS_ZERO(x[i + m*j], tol))
         count++;
     }
   }
@@ -53,7 +57,7 @@ int sparse_count_zeros(int m, int n, double *x, double tol)
 
 
 
-int sparse_count_zeros_withrows(int m, int n, int *rows, double *x)
+int sparse_count_zeros_withrows(const int m, const int n, int *const restrict rows, const double *const restrict x)
 {
   int count = 0;
   int i, j;
@@ -66,7 +70,7 @@ int sparse_count_zeros_withrows(int m, int n, int *rows, double *x)
     first = true;
     for (j=0; j<n; j++)
     {
-      if (fis_zero(x[i + m*j]))
+      if (IS_ZERO(x[i + m*j], TOL))
       {
         count++;
       

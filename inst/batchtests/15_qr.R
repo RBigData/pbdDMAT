@@ -1,10 +1,18 @@
 suppressPackageStartupMessages(library(pbdDMAT))
-
 init.grid()
 
 
-comm.set.seed(seed=1234, diff=F)
+comm.set.seed(seed=1234, diff=T)
 
+### Quick rank 1 degeneracy test
+x.part <- bcast(matrix(rnorm(4), 4, 4))
+dx <- as.ddmatrix(x.part)
+
+test.qr <- qr(dx)
+
+
+
+### Other tests
 mean <- 10
 sd <- 100
 
@@ -19,7 +27,6 @@ y <- matrix(rnorm(n), nrow=n)
 
 dx <- as.ddmatrix(x)
 dy <- as.ddmatrix(y)
-
 
 # In general, the "QR" returns will be different because the algorithms
 # differ.  However, Q and R must agree, so they are tested below.

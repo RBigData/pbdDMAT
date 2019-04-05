@@ -1,13 +1,11 @@
-suppressPackageStartupMessages(library(pbdTEST))
-settings(mpi=TRUE)
+suppressMessages(library(pbdTEST))
+settings("dmat")
 
 .BLDIM <- 2
 comm.set.seed(seed=1234, diff=FALSE)
 
 
 ### --------------------------------------
-module("r/c-bind")
-
 n <- 1e2
 p <- 25
 
@@ -17,16 +15,18 @@ y <- matrix(rnorm(n*p, mean=100, sd=10), n, p)
 dx <- as.ddmatrix(x)
 dy <- as.ddmatrix(y)
 
-test("rbind()", {
-  a <- rbind(x, y)
-  b <- as.matrix(rbind(dx, dy))
-})
+module("binds")
+submodule("rbind")
+test(
+  rbind(x, y),
+  as.matrix(rbind(dx, dy))
+)
 
-test("cbind()", {
-  a <- cbind(x, y)
-  b <- as.matrix(cbind(dx, dy))
-})
-
+submodule("cbind")
+test(
+  cbind(x, y),
+  as.matrix(cbind(dx, dy))
+)
 collect()
 
 

@@ -9,24 +9,6 @@
 #' 
 #' @return Returns a number.
 #' 
-#' @examples
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
-#' 
-#' library(pbdDMAT, quiet = TRUE)
-#' init.grid()
-#' 
-#' comm.set.seed(diff=T)
-#' x <- ddmatrix("rnorm", 10, 10)
-#' 
-#' nrm <- norm(x)
-#' 
-#' comm.print(nrm)
-#' 
-#' finalize()
-#' }
-#' 
 #' @keywords Methods Linear Algebra Norm
 #' @aliases norm
 #' @section Methods: \describe{ \item{list("signature(x = \"ddmatrix\")")}{} }
@@ -53,5 +35,3 @@ setMethod("norm", signature(x="ddmatrix"),
     return( ret )
   }
 )
-
-

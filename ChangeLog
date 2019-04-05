@@ -1,8 +1,17 @@
+Release 0.5-1:
+  * Removed some vestigal components.
+  * Fixed rchk issue identified by CRAN.
+  * Cleaned up some documentation errors.
+  * Use https for all urls (when possible).
+
 Release 0.5-0:
-  * Use RNACI v0.4.0.
+  * Use RNACI v0.5.0.
   * Added lq() bindings.
   * Added lq.Q() bindings.
   * Exported native routines.
+  * Dropped non-square blocking warning; error on the specific routines that don't support it.
+  * Updated internals for updated pbdBASE 0.5-0 API.
+  * Initial support for BLACS contexts with multiple MPI communicators.
 
 Release 0.4-2
   * Use S3 instead of S4 for rbind/cbind.

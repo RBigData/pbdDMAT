@@ -3,8 +3,8 @@
 \docType{methods}
 \name{chol2inv}
 \alias{chol2inv}
-\alias{chol2inv,ddmatrix-method}
 \alias{chol2inv-method}
+\alias{chol2inv,ddmatrix-method}
 \title{Inverse from Choleski (or QR) Decomposition}
 \usage{
 \S4method{chol2inv}{ddmatrix}(x, size = NCOL(x))
@@ -12,8 +12,7 @@
 \arguments{
 \item{x}{numeric distributed matrices for}
 
-\item{size}{number of columns of \code{x} containing the Choleski
-factorization.}
+\item{size}{number of columns of \code{x} containing the Choleski factorization.}
 }
 \value{
 A numeric distributed matrix.
@@ -26,33 +25,13 @@ The function returns the inverse of a choleski factored matrix, or the
 inverse of \code{crossprod(x)} if \code{qr.R(qr(x))} is passed.
 }
 \section{Methods}{
- \describe{ \item{list("signature(x = \"ddmatrix\")")}{}
-\item{list("signature(x = \"ANY\")")}{} }
-}
-\examples{
 
-\dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
-
-library(pbdDMAT, quiet = TRUE)
-init.grid()
-
-comm.set.seed(diff=T)
-x <- ddmatrix("rnorm", 3, 3, bldim=2)
-
-R <- qr.R(qr(x))
-xtx.inv <- chol2inv(R)
-
-id <- as.matrix(xtx.inv \%*\% crossprod(x))
-
-comm.print(id)
-
-finalize()
+  \describe{
+    \item{list("signature(x = \"ddmatrix\")")}{}
+    \item{list("signature(x = \"ANY\")")}{}
+  }
 }
 
-}
 \keyword{Algebra}
 \keyword{Linear}
 \keyword{Methods}
-

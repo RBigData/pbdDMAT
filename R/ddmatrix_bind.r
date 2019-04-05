@@ -22,23 +22,6 @@
 #' @section Methods: \describe{ \item{list("signature(... = \"ANY\")")}{an R
 #' object.} }
 #' 
-#' @examples
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
-#' 
-#' library(pbdDMAT, quiet = TRUE)
-#' init.grid()
-#' 
-#' x <- ddmatrix(1:16, ncol=4, bldim=2)
-#' 
-#' y <- rbind(x, x)
-#' 
-#' print(y)
-#' 
-#' finalize()
-#' }
-#' 
 #' @keywords Methods
 #' @name binds
 #' @rdname binds
@@ -70,6 +53,7 @@ dmat.rbind <- function(..., ICTXT=.pbd_env$ICTXT)
   ret
 }
 
+#' @method rbind ddmatrix
 #' @rdname binds
 #' @export
 rbind.ddmatrix <- function(..., ICTXT=.pbd_env$ICTXT, deparse.level=1)
@@ -103,6 +87,7 @@ dmat.cbind <- function(..., ICTXT=.pbd_env$ICTXT)
   ret
 }
 
+#' @method cbind ddmatrix
 #' @rdname binds
 #' @export
 cbind.ddmatrix <- function(..., ICTXT=.pbd_env$ICTXT, deparse.level=1)

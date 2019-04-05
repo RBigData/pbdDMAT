@@ -7,11 +7,11 @@
 \alias{rcond,ddmatrix-method}
 \title{Compute or estimate the Condition Number of a Distributed Matrix}
 \usage{
-\method{kappa}{ddmatrix}(z, exact = FALSE, norm = NULL, method = c("qr",
-  "direct"), ...)
+\method{kappa}{ddmatrix}(z, exact = FALSE, norm = NULL,
+  method = c("qr", "direct"), ...)
 
-\S4method{rcond}{ddmatrix}(x, norm = c("O", "I", "1"), triangular = FALSE,
-  ...)
+\S4method{rcond}{ddmatrix}(x, norm = c("O", "I", "1"),
+  triangular = FALSE, ...)
 }
 \arguments{
 \item{exact}{logical. Determines whether exact condition number or
@@ -34,27 +34,7 @@ Returns a number.
 \description{
 Computes or estimates the condition number.
 }
-\examples{
-\dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
-
-library(pbdDMAT, quiet = TRUE)
-init.grid()
-
-comm.set.seed(diff=T)
-x <- ddmatrix("rnorm", 10, 10, bldim=2)
-
-cn <- rcond(x)
-
-comm.print(cn)
-
-finalize()
-}
-
-}
 \keyword{Algebra}
 \keyword{ConditionNumbers}
 \keyword{Linear}
 \keyword{Methods}
-

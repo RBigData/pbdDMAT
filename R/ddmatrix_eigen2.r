@@ -30,29 +30,6 @@
 #' @return 
 #' Returns a distributed matrix.
 #' 
-#' @examples
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
-#' 
-#' library(pbdDMAT, quiet = TRUE)
-#' init.grid()
-#' init.grid()
-#' 
-#' comm.set.seed(seed=1234, diff=TRUE)
-#' 
-#' x <- crossprod(ddmatrix("rnorm", 10, 3, bldim=2))
-#' y <- as.matrix(x)
-#' 
-#' comm.print(eigen(y))
-#' 
-#' ### Look for eigenvalues in the range 0 to 10
-#' ev <- eigen2(x, range=c(0, 10), only.values=TRUE)
-#' comm.print(ev)
-#' 
-#' finalize()
-#' }
-#' 
 #' @keywords Methods Linear Algebra
 #' @name eigen2
 #' @export
@@ -64,9 +41,10 @@ eigen2 <- function(x, range=c(-Inf, Inf), range.type="interval", only.values=FAL
     must.be(range.type, "character")
     must.be(only.values, "logical")
  
+    
     if (x@bldim[1L] != x@bldim[2L])
-        comm.stop("The blocking factor for argument 'x' must be square; consider using the redistribute() function")
-
+      comm.stop(paste0("eigen2() requires a square blocking factor; have ", x@bldim[1L], "x", x@bldim[2L]))
+    
     # Return eigenvectors or not
     if (only.values)
         jobz <- 'N'
@@ -120,5 +98,3 @@ eigen2 <- function(x, range=c(-Inf, Inf), range.type="interval", only.values=FAL
         return( ret )
     }
 }
-
-

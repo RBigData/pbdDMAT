@@ -10,7 +10,7 @@ Distributed matrix class.
 \section{Slots}{
 
 \describe{
-\item{\code{DATA}}{The local submatrix.}
+\item{\code{Data}}{The local submatrix.}
 
 \item{\code{bldim}}{Blocking factor.}
 
@@ -18,5 +18,5 @@ Distributed matrix class.
 \code{pbdBASE::init.grid()}) or a custom value greater than 2 (created from
 \code{pbdBASE::blacs_gridinit()}).}
 }}
-\keyword{Classes}
 
+\keyword{Classes}

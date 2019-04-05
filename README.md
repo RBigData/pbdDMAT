@@ -1,7 +1,9 @@
 # pbdDMAT
 
-* **Version:** 0.5-0
-* **License:** [![License](http://img.shields.io/badge/license-GPL%20%28%3E=%202%29-orange.svg?style=flat)](http://www.gnu.org/licenses/gpl-2.0.html)
+* **Version:** 0.5-1
+* **License:** [GPL >= 2](https://www.gnu.org/licenses/gpl-2.0.html)
+* **Project home**: https://github.com/RBigData/pbdDMAT
+* **Bug reports**: https://github.com/RBigData/pbdDMAT/issues
 * **Author:** See section below.
 
 
@@ -31,12 +33,9 @@ Assuming you meet the system dependencies, you can install the stable version fr
 install.package("pbdDMAT")
 ```
 
-The development version is maintained on GitHub, and can easily be installed by any of the packages that offer installations from GitHub:
+The development version is maintained on GitHub:
 
 ```r
-### Pick your preference
-devtools::install_github("RBigData/pbdDMAT")
-ghit::install_github("RBigData/pbdDMAT")
 remotes::install_github("RBigData/pbdDMAT")
 ```
 
@@ -86,6 +85,7 @@ pbdDMAT is authored and maintained by the pbdR core team:
 
 With additional contributions from:
 
+* Lamy de la Chapelle Sebastien
 * The R Core team (some wrapper code taken from the base and stats packages)
 * ZhaoKang Wang (fixes/improvements to `apply()`)
 * Michael Lawrence (fix for `as.vector()`)

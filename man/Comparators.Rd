@@ -2,33 +2,33 @@
 % Please edit documentation in R/ddmatrix_logic.r
 \docType{methods}
 \name{Comparators}
-\alias{!=,ddmatrix,ddmatrix-method}
-\alias{!=,ddmatrix,numeric-method}
-\alias{!=,numeric,ddmatrix-method}
-\alias{&,ddmatrix,ddmatrix-method}
-\alias{&,ddmatrix,numeric-method}
-\alias{&,numeric,ddmatrix-method}
-\alias{<,ddmatrix,ddmatrix-method}
-\alias{<,ddmatrix,numeric-method}
-\alias{<,numeric,ddmatrix-method}
-\alias{<=,ddmatrix,ddmatrix-method}
-\alias{<=,ddmatrix,numeric-method}
-\alias{<=,numeric,ddmatrix-method}
-\alias{==,ddmatrix,ddmatrix-method}
-\alias{==,ddmatrix,numeric-method}
-\alias{==,numeric,ddmatrix-method}
-\alias{>,ddmatrix,ddmatrix-method}
-\alias{>,ddmatrix,numeric-method}
-\alias{>,numeric,ddmatrix-method}
-\alias{>=,ddmatrix,ddmatrix-method}
-\alias{>=,ddmatrix,numeric-method}
-\alias{>=,numeric,ddmatrix-method}
 \alias{Comparators}
+\alias{==,ddmatrix,ddmatrix-method}
+\alias{!=,ddmatrix,ddmatrix-method}
 \alias{all,ddmatrix-method}
 \alias{any,ddmatrix-method}
+\alias{<,ddmatrix,ddmatrix-method}
+\alias{>,ddmatrix,ddmatrix-method}
+\alias{<=,ddmatrix,ddmatrix-method}
+\alias{>=,ddmatrix,ddmatrix-method}
 \alias{|,ddmatrix,ddmatrix-method}
+\alias{&,ddmatrix,ddmatrix-method}
+\alias{<,ddmatrix,numeric-method}
+\alias{<,numeric,ddmatrix-method}
+\alias{>,ddmatrix,numeric-method}
+\alias{>,numeric,ddmatrix-method}
+\alias{<=,ddmatrix,numeric-method}
+\alias{<=,numeric,ddmatrix-method}
+\alias{>=,ddmatrix,numeric-method}
+\alias{>=,numeric,ddmatrix-method}
+\alias{==,ddmatrix,numeric-method}
+\alias{==,numeric,ddmatrix-method}
+\alias{!=,ddmatrix,numeric-method}
+\alias{!=,numeric,ddmatrix-method}
 \alias{|,ddmatrix,numeric-method}
 \alias{|,numeric,ddmatrix-method}
+\alias{&,ddmatrix,numeric-method}
+\alias{&,numeric,ddmatrix-method}
 \title{Logical Comparisons}
 \usage{
 \S4method{==}{ddmatrix,ddmatrix}(e1, e2)
@@ -101,29 +101,6 @@ Performs the indicated logical comparison.
 If \code{na.rm} is \code{TRUE} and only \code{NA}'s are present, then
 \code{TRUE} is returned.
 }
-\examples{
-
-\dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
-
-library(pbdDMAT, quiet = TRUE)
-init.grid()
-
-# don't do this in production code
-x <- matrix(sample(0, 1, 9, replace=T), 3)
-comm.print(x)
-
-x <- as.ddmatrix(x, bldim=2)
-
-y <- any(x)
-comm.print(y)
-
-finalize()
-}
-
-}
 \keyword{Extraction}
 \keyword{Methods}
 \keyword{Type}
-

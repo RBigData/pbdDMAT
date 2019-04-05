@@ -3,12 +3,12 @@
 \docType{methods}
 \name{ddmatrix-sumstats}
 \alias{ddmatrix-sumstats}
-\alias{max,ddmatrix-method}
-\alias{mean,ddmatrix-method}
-\alias{median,ddmatrix-method}
-\alias{min,ddmatrix-method}
-\alias{prod,ddmatrix-method}
 \alias{sum,ddmatrix-method}
+\alias{mean,ddmatrix-method}
+\alias{prod,ddmatrix-method}
+\alias{min,ddmatrix-method}
+\alias{max,ddmatrix-method}
+\alias{median,ddmatrix-method}
 \title{Basic Summary Statistics}
 \usage{
 \S4method{sum}{ddmatrix}(x, ..., na.rm = FALSE)
@@ -39,23 +39,4 @@ Get basic summary statistics.
 \details{
 The return is on process 0 only.
 }
-\examples{
-\dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
-
-library(pbdDMAT, quiet = TRUE)
-init.grid()
-
-# don't do this in production code
-x <- matrix(1:16, ncol=4)
-dx <- as.ddmatrix(x) 
-
-summary(dx)
-
-finalize()
-}
-
-}
 \keyword{Methods}
-

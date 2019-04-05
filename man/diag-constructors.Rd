@@ -2,20 +2,20 @@
 % Please edit documentation in R/ddmatrix_diag.r
 \docType{methods}
 \name{diag-constructors}
+\alias{diag-constructors}
 \alias{diag}
+\alias{diag,vector-method}
 \alias{diag,character-method}
 \alias{diag,ddmatrix-method}
 \alias{diag,matrix-method}
-\alias{diag,vector-method}
-\alias{diag-constructors}
 \title{Distributed Matrix Diagonals}
 \usage{
 \S4method{diag}{vector}(x, nrow, ncol, type = "matrix", ...,
   bldim = .pbd_env$BLDIM, ICTXT = .pbd_env$ICTXT)
 
-\S4method{diag}{character}(x, nrow, ncol, type = "matrix", ..., min = 0,
-  max = 1, mean = 0, sd = 1, rate = 1, shape, scale = 1,
-  bldim = .pbd_env$BLDIM, ICTXT = .pbd_env$ICTXT)
+\S4method{diag}{character}(x, nrow, ncol, type = "matrix", ...,
+  min = 0, max = 1, mean = 0, sd = 1, rate = 1, shape,
+  scale = 1, bldim = .pbd_env$BLDIM, ICTXT = .pbd_env$ICTXT)
 
 \S4method{diag}{ddmatrix}(x)
 
@@ -59,27 +59,5 @@ which is diagonal.
 Gets the diagonal of a distributed matrix and stores it as a global R vector
 owned by all processes.
 }
-\examples{
-\dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
-
-library(pbdDMAT, quiet = TRUE)
-init.grid()
-
-### Grab diagonal of a ddmatrix
-x <- ddmatrix(1:16, 4, bldim=2)
-y <- diag(x)
-comm.print(y)
-
-### Construct a diagonal ddmatrix
-eye <- diag(1, 10, type="ddmatrix", bldim=2)
-eye
-
-finalize()
-}
-
-}
 \keyword{Extraction}
 \keyword{Methods}
-

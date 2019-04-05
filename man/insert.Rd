@@ -2,9 +2,9 @@
 % Please edit documentation in R/ddmatrix_[.r
 \docType{methods}
 \name{insert}
+\alias{insert}
 \alias{[<-,ddmatrix,ANY,ANY,ANY-method}
 \alias{[<-,ddmatrix,ANY,ANY,ddmatrix-method}
-\alias{insert}
 \title{Directly Insert Into Distributed Matrix Submatrix Slot}
 \usage{
 \S4method{[}{ddmatrix,ANY,ANY,ANY}(x, i, j, ...) <- value
@@ -43,23 +43,5 @@ It does not alter the distributed matrix \code{x}'s \code{dim} or
 using this can be dangerous. It is merely provided to give consistent
 behavior with the \code{submatrix()} function.
 }
-\examples{
-\dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
-
-library(pbdDMAT, quiet = TRUE)
-init.grid()
-
-x <- ddmatrix(1:9, 3, bldim=2)
-
-x[1, ] <- 0
-comm.print(submatrix(x), all.rank=T)
-
-finalize()
-}
-
-}
 \keyword{Extraction}
 \keyword{Methods}
-

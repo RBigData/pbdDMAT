@@ -16,27 +16,6 @@
 #' @return 
 #' Returns a distributed matrix.
 #' 
-#' @examples
-#' 
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
-#' 
-#' library(pbdDMAT, quiet = TRUE)
-#' init.grid()
-#' 
-#' # don't do this in production code
-#' x <- matrix(sample(0, 1, 9, replace=T), 3)
-#' comm.print(x)
-#' 
-#' x <- as.ddmatrix(x, bldim=2)
-#' 
-#' y <- any(x)
-#' comm.print(y)
-#' 
-#' finalize()
-#' }
-#' 
 #' @keywords Methods Extraction Type
 #' @name Comparators
 #' @rdname Comparators
@@ -457,5 +436,3 @@ setMethod("&", signature(e1="numeric", e2="ddmatrix"),
   function(e1, e2)
     e2 & e1
 )
-
-

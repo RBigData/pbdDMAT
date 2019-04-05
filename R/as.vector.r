@@ -20,23 +20,6 @@
 #' 
 #' @return Returns an ordinary R vector.
 #' 
-#' @examples
-#' 
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
-#' 
-#' library(pbdDMAT, quiet = TRUE)
-#' init.grid()
-#' 
-#' dx <- ddmatrix(1:16, ncol=4, bldim=2)
-#' y <- as.vector(dx, proc.dest=0)
-#' 
-#' comm.print(y)
-#' 
-#' finalize()
-#' }
-#' 
 #' @keywords Methods
 #' @name as.vector
 #' @rdname as.vector

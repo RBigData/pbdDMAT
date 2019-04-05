@@ -31,20 +31,19 @@
 #' Returns a distributed matrix.
 #' 
 #' @examples
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
-#' 
+#' spmd.code = "
 #' library(pbdDMAT, quiet = TRUE)
 #' init.grid()
 #' 
-#' x <- ddmatrix("rnorm", nrow=3, ncol=3), bldim=2
+#' x <- ddmatrix('rnorm', nrow=3, ncol=3), bldim=2
 #' 
 #' cv <- cov(x)
-#' print(cv)
+#' cv
 #' 
 #' finalize()
-#' }
+#' "
+#' 
+#' pbdMPI::execmpi(spmd.code = spmd.code, nranks = 2L)
 #' 
 #' @keywords Methods
 #' @name covariance
@@ -199,6 +198,3 @@ function(V)
     return( V )
   }
 )
-
-
-

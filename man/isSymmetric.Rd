@@ -6,7 +6,8 @@
 \alias{isSymmetric,ddmatrix-method}
 \title{isSymmetric}
 \usage{
-\S4method{isSymmetric}{ddmatrix}(object, tol = 100 * .Machine$double.eps, ...)
+\S4method{isSymmetric}{ddmatrix}(object, tol = 100 * .Machine$double.eps,
+  ...)
 }
 \arguments{
 \item{object}{Distributed matrix}
@@ -21,4 +22,3 @@ Tests if a distributed matrix is symmetric.
 \details{
 The test is performed by comparing the object against its transpose.
 }
-

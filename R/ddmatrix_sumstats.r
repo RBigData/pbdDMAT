@@ -14,23 +14,6 @@
 #' @return 
 #' A single value, owned by all ranks in the MPI communicator.
 #' 
-#' @examples
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
-#' 
-#' library(pbdDMAT, quiet = TRUE)
-#' init.grid()
-#' 
-#' # don't do this in production code
-#' x <- matrix(1:16, ncol=4)
-#' dx <- as.ddmatrix(x) 
-#' 
-#' summary(dx)
-#' 
-#' finalize()
-#' }
-#' 
 #' @keywords Methods
 #' @name ddmatrix-sumstats
 #' @rdname ddmatrix-sumstats
@@ -220,4 +203,3 @@ setMethod("median", signature(x="ddmatrix"),
     return( ret )
   }
 )
-

@@ -12,23 +12,6 @@
 #' @return 
 #' A table on processor 0, \code{NULL} on all other processors.
 #' 
-#' @examples
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
-#' 
-#' library(pbdDMAT, quiet = TRUE)
-#' init.grid()
-#' 
-#' # don't do this in production code
-#' x <- matrix(1:16, ncol=4)
-#' dx <- as.ddmatrix(x) 
-#' 
-#' summary(dx)
-#' 
-#' finalize()
-#' }
-#' 
 #' @keywords Methods
 #' @name ddmatrix-summary
 #' @rdname ddmatrix-summary
@@ -59,7 +42,7 @@ setMethod("summary", signature(object="ddmatrix"),
       
       ret_names <- sapply(X=1:object@ldim[2], FUN=
         function(i) 
-          base.l2g_coord(ind=c(1, i), dim=object@dim, bldim=object@bldim, ICTXT=1)[2]
+          base.l2g_coord(ind=c(1, i), bldim=object@bldim, ICTXT=1)[2]
       )
     } 
     else 

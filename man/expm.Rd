@@ -3,8 +3,8 @@
 \docType{methods}
 \name{expm}
 \alias{expm}
-\alias{expm,ddmatrix-method}
 \alias{expm,matrix-method}
+\alias{expm,ddmatrix-method}
 \title{Matrix Exponentiation}
 \usage{
 expm(x, t = 1, p = 6)
@@ -37,19 +37,6 @@ where the powers on the matrix correspond to matrix-matrix multiplications.
 dense matrix.  The implementation uses Pade' approximations and a
 scaling-and-squaring technique (see references).
 }
-\examples{
-\dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
-
-library(pbdDMAT, quiet = TRUE)
-init.grid()
-
-x <- matrix("rnorm", 5, 5, bldim=2)
-expm(x)
-
-}
-}
 \references{
 "New Scaling and Squaring Algorithm for the Matrix Exponential"
 Awad H. Al-Mohy and Nicholas J. Higham, August 2009
@@ -57,4 +44,3 @@ Awad H. Al-Mohy and Nicholas J. Higham, August 2009
 \keyword{Algebra}
 \keyword{Linear}
 \keyword{Methods}
-

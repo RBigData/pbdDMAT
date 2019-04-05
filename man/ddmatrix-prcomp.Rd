@@ -9,8 +9,8 @@
 \usage{
 prcomp(x, ...)
 
-\S4method{prcomp}{ddmatrix}(x, retx = TRUE, center = TRUE, scale. = FALSE,
-  tol = NULL, ...)
+\S4method{prcomp}{ddmatrix}(x, retx = TRUE, center = TRUE,
+  scale. = FALSE, tol = NULL, ...)
 }
 \arguments{
 \item{x}{numeric distributed matrix.}
@@ -45,24 +45,4 @@ matrix by taking the SVD. Sometimes core R and pbdDMAT will disagree
 slightly in what the rotated variables are because of how the SVD is
 caluclated.
 }
-\examples{
-\dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
-
-library(pbdDMAT, quiet = TRUE)
-init.grid()
-
-comm.set.seed(diff=T)
-
-x <- ddmatrix("rnorm", 10, 10)
-
-y <- prcomp(x)
-comm.print(y)
-
-finalize()
-}
-
-}
 \keyword{Methods}
-

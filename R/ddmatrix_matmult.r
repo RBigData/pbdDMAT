@@ -17,24 +17,6 @@
 #' @return 
 #' Returns a distributed matrix.
 #' 
-#' @examples
-#' \dontrun{
-#' # Save code in a file "demo.r" and run with 2 processors by
-#' # > mpiexec -np 2 Rscript demo.r
-#' 
-#' library(pbdDMAT, quiet = TRUE)
-#' init.grid()
-#' 
-#' # don't do this in production code
-#' x <- matrix(1:9, 3)
-#' x <- as.ddmatrix(x)
-#' 
-#' y <- x %*% x
-#' print(y)
-#' 
-#' finalize()
-#' }
-#' 
 #' @keywords Methods Linear Algebra
 #' @name matmult
 #' @rdname matmult
@@ -145,7 +127,7 @@ setMethod("tcrossprod", signature(x="ddmatrix", y="ANY"),
     else if (!is.ddmatrix(y))
       comm.stop("Error : 'y' must be of class 'ddmatrix'.")
     else {
-      if (x@dim[1L] != y@dim[1L])
+      if (x@dim[2L] != y@dim[2L])
         comm.stop("Error : non-conformable arguments.")
       
       base.checkem(x=x, y=y, checks=2)
@@ -156,4 +138,3 @@ setMethod("tcrossprod", signature(x="ddmatrix", y="ANY"),
     }
   }
 )
-

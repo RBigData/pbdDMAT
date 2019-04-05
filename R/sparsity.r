@@ -28,7 +28,7 @@
 NULL
 
 
-
+#' @useDynLib pbdDMAT R_int_sparse_count_zeros R_sparse_count_zeros
 sparse_count_zeros <- function(x, tol=.Machine$double.eps)
 {
   if (is.logical(x))
@@ -123,4 +123,3 @@ setMethod("sparsity", signature(x="dmat"),
     return( ret )
   }
 )
-
