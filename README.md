@@ -30,7 +30,7 @@ pbdDMAT requires
 Assuming you meet the system dependencies, you can install the stable version from CRAN using the usual `install.packages()`:
 
 ```r
-install.package("pbdDMAT")
+install.packages("pbdDMAT")
 ```
 
 The development version is maintained on GitHub:
