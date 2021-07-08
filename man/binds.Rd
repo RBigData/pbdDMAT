@@ -6,11 +6,9 @@
 \alias{cbind.ddmatrix}
 \title{Row and Column binds for Distributed Matrices}
 \usage{
-\method{rbind}{ddmatrix}(..., ICTXT = .pbd_env$ICTXT,
-  deparse.level = 1)
+\method{rbind}{ddmatrix}(..., ICTXT = .pbd_env$ICTXT, deparse.level = 1)
 
-\method{cbind}{ddmatrix}(..., ICTXT = .pbd_env$ICTXT,
-  deparse.level = 1)
+\method{cbind}{ddmatrix}(..., ICTXT = .pbd_env$ICTXT, deparse.level = 1)
 }
 \arguments{
 \item{...}{vectors, matrices, or distributed matrices.}

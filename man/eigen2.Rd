@@ -4,8 +4,14 @@
 \alias{eigen2}
 \title{eigen2}
 \usage{
-eigen2(x, range = c(-Inf, Inf), range.type = "interval",
-  only.values = FALSE, abstol = 1e-08, orfac = 0.001)
+eigen2(
+  x,
+  range = c(-Inf, Inf),
+  range.type = "interval",
+  only.values = FALSE,
+  abstol = 1e-08,
+  orfac = 0.001
+)
 }
 \arguments{
 \item{x}{symmetric, numeric ddmatrix.}

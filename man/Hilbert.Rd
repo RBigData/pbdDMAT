@@ -4,8 +4,13 @@
 \alias{Hilbert}
 \title{Generate Hilbert Matrices}
 \usage{
-Hilbert(n, type = "matrix", ..., bldim = .pbd_env$BLDIM,
-  ICTXT = .pbd_env$ICTXT)
+Hilbert(
+  n,
+  type = "matrix",
+  ...,
+  bldim = .pbd_env$BLDIM,
+  ICTXT = .pbd_env$ICTXT
+)
 }
 \arguments{
 \item{n}{number of rows and columns.}
