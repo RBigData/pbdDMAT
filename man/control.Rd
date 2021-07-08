@@ -4,7 +4,9 @@
 \name{pbdDMAT Control}
 \alias{pbdDMAT Control}
 \title{Some default parameters for pbdDMAT.}
-\format{Objects contain several parameters for communicators and methods.}
+\format{
+Objects contain several parameters for communicators and methods.
+}
 \description{
 This set of controls is used to provide default values in this package.
 }

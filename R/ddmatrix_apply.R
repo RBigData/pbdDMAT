@@ -37,6 +37,8 @@
 #' logical or string. See details
 #' @param proc.dest 
 #' Destination process (or 'all') if a reduction occurs
+#' @param simplify 
+#' as in the original \code{base::apply()}
 #' 
 #' @return 
 #' Returns a distributed matrix unless a reduction is requested, then a
@@ -53,7 +55,7 @@ setGeneric(name = "apply", useAsDefault = base::apply, package="pbdDMAT")
 #' @rdname ddmatrix-apply
 #' @export
 setMethod("apply", signature(X="ddmatrix"),
-  function(X, MARGIN, FUN, ..., reduce=FALSE, proc.dest="all")
+  function(X, MARGIN, FUN, ..., reduce=FALSE, proc.dest="all", simplify = TRUE)
   {
     # idiot proofing
     if (missing(MARGIN))
