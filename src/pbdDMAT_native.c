@@ -7,10 +7,12 @@
 
 extern SEXP R_convert_csr_to_dense(SEXP dim, SEXP data, SEXP row_ptr, SEXP col_ind);
 extern SEXP R_convert_dense_to_csr(SEXP x);
+extern SEXP R_diag_set(SEXP x_, SEXP val_, SEXP bldim, SEXP grid);
 extern SEXP R_int_sparse_count_zeros(SEXP x);
 extern SEXP R_sparse_count_zeros(SEXP x, SEXP tol);
 
 static const R_CallMethodDef CallEntries[] = {
+  {"R_diag_set", (DL_FUNC) &R_diag_set, 4},
   {"R_convert_csr_to_dense", (DL_FUNC) &R_convert_csr_to_dense, 4},
   {"R_convert_dense_to_csr", (DL_FUNC) &R_convert_dense_to_csr, 1},
   {"R_int_sparse_count_zeros", (DL_FUNC) &R_int_sparse_count_zeros, 1},

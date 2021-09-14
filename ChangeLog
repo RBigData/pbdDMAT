@@ -1,5 +1,6 @@
 Release 0.5-2:
   * Fixed only.values bug returning garbage data for the vectors instead of NULL.
+  * Added diag setter.
 
 Release 0.5-1:
   * Removed some vestigal components.

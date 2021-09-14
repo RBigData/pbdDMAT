@@ -173,3 +173,17 @@ setMethod("diag", signature(x="matrix"),
   function(x, nrow, ncol)
     base::diag(x=x)
 )
+
+
+
+#' @rdname diag-constructors
+#' @useDynLib pbdDMAT R_diag_set
+#' @export
+setReplaceMethod("diag", signature(x="ddmatrix", value="vector"),
+  function(x, value)
+  {
+    grid = as.integer(pbdBASE::blacs(ICTXT=x@ICTXT))
+    x@Data = .Call(R_diag_set, x@Data, as.double(value), as.integer(x@bldim), grid)
+    x
+  }
+)

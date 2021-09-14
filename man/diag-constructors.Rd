@@ -7,6 +7,7 @@
 \alias{diag,character-method}
 \alias{diag,ddmatrix-method}
 \alias{diag,matrix-method}
+\alias{diag<-,ddmatrix,vector-method}
 \title{Distributed Matrix Diagonals}
 \usage{
 \S4method{diag}{vector}(
@@ -39,6 +40,8 @@
 \S4method{diag}{ddmatrix}(x)
 
 \S4method{diag}{matrix}(x, nrow, ncol)
+
+\S4method{diag}{ddmatrix,vector}(x) <- value
 }
 \arguments{
 \item{x}{distributed matrix or a vector.}
