@@ -7,8 +7,14 @@ Description: A set of classes for managing distributed matrices, and
     'pbdBASE' package, which itself relies on the 'ScaLAPACK' and
     'PBLAS' numerical libraries for distributed computing.
 License: GPL (>= 2)
-Depends: R (>= 3.1.0), pbdMPI (>= 0.3-8), pbdBASE (>= 0.5-0), stats
-Imports: utils, methods
+Depends:
+    R (>= 3.1.0),
+    stats,
+    pbdMPI (>= 0.3-8),
+    pbdBASE (>= 0.5-3)
+Imports: 
+    utils,
+    methods
 SystemRequirements: OpenMPI (>= 1.5.4) on Solaris, Linux, Mac, and
         FreeBSD. MS-MPI (Microsoft HPC Pack 2012) or MPICH2 (>=
         1.4.1p1) on Windows.
