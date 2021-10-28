@@ -10,8 +10,6 @@
 }
 \arguments{
 \item{x}{numeric distributed matrices.}
-
-\item{...}{Ignored.}
 }
 \value{
 \code{chol()} performs Cholesky factorization.

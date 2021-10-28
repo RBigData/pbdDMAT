@@ -21,8 +21,6 @@
 #' number of elements for a vector (including lists), rows for a matrix or data
 #' frame or lines for a function. If negative, all but the \code{n} last/first
 #' number of elements of \code{x}.
-#' @param ... 
-#' additional arguments.
 #' @param ICTXT 
 #' optional BLACS context number for output
 #' 

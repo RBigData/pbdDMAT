@@ -14,8 +14,6 @@
 
 \item{attributes}{logical, specifies whether or not the current attributes
 should be preserved.}
-
-\item{...}{Additional arguments.}
 }
 \value{
 Returns an ordinary R matrix.

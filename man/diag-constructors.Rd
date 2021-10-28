@@ -65,6 +65,8 @@ matching.  This specifies the return type.}
 \item{rate}{Rate for random exponential generation.}
 
 \item{shape, scale}{Shape and scale parameters for random weibull generation.}
+
+\item{value}{Replacement value.}
 }
 \value{
 If a distributed matrix is passed to \code{diag()} then it returns a

@@ -28,6 +28,8 @@
 #' blocking dimension.
 #' @param ICTXT 
 #' BLACS context number.
+#' @param value
+#' Replacement value.
 #' 
 #' @return 
 #' If a distributed matrix is passed to \code{diag()} then it returns a

@@ -17,8 +17,6 @@ frame or lines for a function. If negative, all but the \code{n} last/first
 number of elements of \code{x}.}
 
 \item{ICTXT}{optional BLACS context number for output}
-
-\item{...}{additional arguments.}
 }
 \value{
 Returns a distributed matrix.

@@ -10,8 +10,6 @@
 #' 
 #' @param x 
 #' numeric distributed matrix
-#' @param ...
-#' Additional arguments.
 #' @param proc.dest 
 #' destination process for storing the matrix
 #' @param attributes 

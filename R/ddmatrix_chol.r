@@ -7,8 +7,6 @@
 #' 
 #' @param x
 #' numeric distributed matrices.
-#' @param ...
-#' Ignored.
 #' 
 #' @return 
 #' \code{chol()} performs Cholesky factorization.
