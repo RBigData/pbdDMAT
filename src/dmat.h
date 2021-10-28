@@ -6,6 +6,7 @@
 #include <Rinternals.h>
 #include <RNACI.h>
 
+
 int sparse_count_zeros_withrows(const int m, const int n, int *const restrict rows, const double *const restrict x);
 
 

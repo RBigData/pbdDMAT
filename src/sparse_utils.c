@@ -1,5 +1,8 @@
 #include <math.h>
-#include "dmat.h"
+#include <stdbool.h>
+
+#include <R.h>
+#include <Rinternals.h>
 
 
 #define IS_ZERO(x, tol) (fabs(x) < tol)
