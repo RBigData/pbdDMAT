@@ -23,6 +23,8 @@
 #' number of elements of \code{x}.
 #' @param ICTXT 
 #' optional BLACS context number for output
+#' @param drop
+#' Included for compatibility with the generic.  Ignored and used as \code{FALSE}.
 #' 
 #' @return 
 #' Returns a distributed matrix.
@@ -37,7 +39,7 @@ NULL
 #' @rdname extract
 #' @export
 setMethod("[", signature(x="ddmatrix"),
-  function(x, i, j, ICTXT)
+  function(x, i, j, ICTXT, drop = FALSE)
   {
     attributes(x@Data) <- attributes(x@Data)[which(names(attributes(x@Data))=='dim')]
     
@@ -180,6 +182,8 @@ setMethod("[", signature(x="ddmatrix"),
 #' global integer indices.
 #' @param ...
 #' Additional arguments.
+#' @param drop
+#' Included for compatibility with the generic.  Ignored and used as \code{FALSE}.
 #' @param value 
 #' replacement value. Can be a global vector or a \code{ddmatrix}.
 #' 
@@ -196,7 +200,7 @@ NULL
 #' @rdname insert
 #' @export
 setReplaceMethod("[", signature(x ="ddmatrix", value="ANY"),
-  function(x, i, j, ..., value) 
+  function(x, i, j, ..., drop = FALSE, value) 
   {
     if (missing(i))
       i <- 1L:x@dim[1L]
@@ -220,7 +224,7 @@ setReplaceMethod("[", signature(x ="ddmatrix", value="ANY"),
 #' @rdname insert
 #' @export
 setReplaceMethod("[", signature(x ="ddmatrix", value="ddmatrix"),
-  function(x, i, j, ..., value) 
+  function(x, i, j, ..., drop = FALSE, value) 
   {
     if (missing(i) && missing(j))
       return(x)
