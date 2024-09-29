@@ -1,6 +1,6 @@
 # pbdDMAT
 
-* **Version:** 0.5-2
+* **Version:** 0.5-3
 * **License:** [GPL >= 2](https://www.gnu.org/licenses/gpl-2.0.html)
 * **Project home**: https://github.com/RBigData/pbdDMAT
 * **Bug reports**: https://github.com/RBigData/pbdDMAT/issues
